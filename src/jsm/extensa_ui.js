@@ -523,6 +523,7 @@ const createUI = () => {
 
 
 
+	// TODO bring this function in svelte after the login is done
 	UI.p.popup_login_data.f.button_login_ok = function () {
 
 		UI.f.remove_menu_popups();

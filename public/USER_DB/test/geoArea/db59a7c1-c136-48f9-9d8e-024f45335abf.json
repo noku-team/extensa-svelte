@@ -1,1 +1,18 @@
-{"user":"test","geoAreaName":"db59a7c1-c136-48f9-9d8e-024f45335abf","sectorName":"Sect_10544_02465","myCoords":{"lng":9.798996264892812,"lat":45.620783780235946,"alt":0},"projectsList":[{"type":"---","name":"house","url":"objects/house.gltf","urlLowres":"puo' essere un path oppure un blob or una stringa , creata dal tool in automatico opera_fisica_preview.gltf","myPosition":{"x":0,"y":0.025,"z":0},"myOrientation":{"x":0,"y":0,"z":0},"mySize":{"x":1,"y":1,"z":1},"previewImage":""}]}
+{
+	"user": "grxnf-n4ku3-57tbl-guwle-6mih3-2oa6j-vcaml-shoju-nndzg-ctzsa-hae",
+	"geoAreaName": "db59a7c1-c136-48f9-9d8e-024f45335abf",
+	"sectorName": "Sect_10544_02465",
+	"myCoords": { "lng": 9.798996264892812, "lat": 45.620783780235946, "alt": 0 },
+	"projectsList": [
+		{
+			"type": "---",
+			"name": "house",
+			"url": "objects/house.gltf",
+			"urlLowres": "puo' essere un path oppure un blob or una stringa , creata dal tool in automatico opera_fisica_preview.gltf",
+			"myPosition": { "x": 0, "y": 0.025, "z": 0 },
+			"myOrientation": { "x": 0, "y": 0, "z": 0 },
+			"mySize": { "x": 1, "y": 1, "z": 1 },
+			"previewImage": ""
+		}
+	]
+}

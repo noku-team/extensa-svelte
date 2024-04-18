@@ -1,0 +1,32 @@
+{
+	"user": "grxnf-n4ku3-57tbl-guwle-6mih3-2oa6j-vcaml-shoju-nndzg-ctzsa-hae",
+	"geoAreaName": "8d743bf1-5b1b-46c3-b42c-f3c12785cb51",
+	"sectorName": "Sect_10545_02464",
+	"myCoords": { "lng": 9.817726187892196, "lat": 45.64481184394597, "alt": 0 },
+	"projectsList": [
+		{
+			"type": "---",
+			"name": "bouilding",
+			"url": "objects/bouilding.gltf",
+			"urlLowres": "puo' essere un path oppure un blob or una stringa , creata dal tool in automatico opera_fisica_preview.gltf",
+			"myPosition": { "x": 0, "y": 0.025, "z": 0 },
+			"myOrientation": { "x": 0, "y": 0, "z": 0 },
+			"mySize": { "x": 1, "y": 1, "z": 1 },
+			"previewImage": ""
+		},
+		{
+			"type": "---",
+			"name": "house",
+			"url": "objects/house.gltf",
+			"urlLowres": "puo' essere un path oppure un blob or una stringa , creata dal tool in automatico opera_fisica_preview.gltf",
+			"myPosition": {
+				"x": -5.256669446825981,
+				"y": 0.025,
+				"z": 34.826631393283606
+			},
+			"myOrientation": { "x": 0, "y": 0, "z": 0 },
+			"mySize": { "x": 1, "y": 1, "z": 1 },
+			"previewImage": ""
+		}
+	]
+}

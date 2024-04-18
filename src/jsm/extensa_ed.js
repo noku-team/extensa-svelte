@@ -7,6 +7,7 @@
 // UI MODULE
 import * as THREE from 'three';
 import { VARCO } from "../VARCO/helpers/VARCO.js";
+import { authStore } from '../store/AuthStore';
 import UISingleton from './extensa_ui.js';
 import { MAP, PLY } from "./index.js";
 
@@ -242,212 +243,196 @@ const createEditor = () => {
 
 
 	EDITOR.f.createGeoArea = function (prop, callback, callbackprop) {
+		authStore.subscribe((auth) => {
+			const principal = auth.identity?.getPrincipal()?.toString();
+			console.warn(1, principal);
+			let colorGeoArea = { r: 0.0, g: 0.0, b: 0.0 };
 
-		console.log("createGeoArea");
-
-
-		let colorGeoArea = { r: 0.0, g: 0.0, b: 0.0 };
-
-
-		if (UI.p.popup_login_data !== undefined) {
-
-			if (UI.p.popup_login_data.p.data !== undefined) {
-
-				if (prop.user == UI.p.popup_login_data.p.data.user) {
-
-					if (UI.p.popup_login_data.p.data !== undefined) {
-
-						colorGeoArea = { r: 1.0, g: 0.0, b: 0.0 };
-
-					}
-
-				}
-
+			if (principal) {
+				colorGeoArea = { r: 1.0, g: 0.0, b: 0.0 };
 			}
 
-		}
+			let myPosition = MAP.f.getMapPosition(MAP.p.width, MAP.p.height, prop.myCoords.lng, prop.myCoords.lat, prop.myCoords.alt);
 
+			VARCO.f.addComplex(
 
-		let myPosition = MAP.f.getMapPosition(MAP.p.width, MAP.p.height, prop.myCoords.lng, prop.myCoords.lat, prop.myCoords.alt);
+				PLY.p.scene3D.OBJECTS.geoArea,
 
-		VARCO.f.addComplex(
+				{
+					"name": prop.geoAreaName,
 
-			PLY.p.scene3D.OBJECTS.geoArea,
+					"userData": prop,
 
-			{
-				"name": prop.geoAreaName,
+					"parameters": {
 
-				"userData": prop,
+						"materialList": [
 
-				"parameters": {
-
-					"materialList": [
-
-						{
-							"type": "MeshBasicMaterial",
-							"name": "geoAreaKernel_mat",
-							"parameters": {
-								"color": { "r": 0.5, "g": 0.5, "b": 0.5 },
-								"transparent": true,
-								"opacity": 0.8,
-								"alphaTest": 0.5,
-								"visible": true
-							}
-						},
-
-						{
-							"type": "MeshBasicMaterial",
-							"name": "geoAreaIntensity_mat",
-							"parameters": {
-								"color": { "r": 1, "g": 1, "b": 1 },
-								"transparent": true,
-								"opacity": 0.55,
-								"alphaTest": 0.5,
-								"visible": false
-							}
-						},
-
-						{
-							"type": "MeshBasicMaterial",
-							"name": "circleBase",
-							"parameters": {
-								"color": { "r": 0.0, "g": 0.0, "b": 0.5 },
-								"transparent": true,
-								"opacity": 0.5
-							}
-						}
-
-					],
-
-					"elementList": [
-
-						{
-							"type": "addMesh",
-							"prop": {
-								"name": "geoAreaKernel_Mesh",
-								"type": "CircleGeometry",
+							{
+								"type": "MeshBasicMaterial",
+								"name": "geoAreaKernel_mat",
 								"parameters": {
-									"radius": 2.5
-								},
-								"materialList": ["geoAreaKernel_mat"],
-								"position": { "x": 0, "y": 0.1, "z": 0.0 },
-								"rotation": { "x": -90, "y": 0.0, "z": 0.0 },
+									"color": { "r": 0.5, "g": 0.5, "b": 0.5 },
+									"transparent": true,
+									"opacity": 0.8,
+									"alphaTest": 0.5,
+									"visible": true
+								}
+							},
 
-								"MM3D": {
-									"helper": {
-										"edges": {
-											"color": colorGeoArea
+							{
+								"type": "MeshBasicMaterial",
+								"name": "geoAreaIntensity_mat",
+								"parameters": {
+									"color": { "r": 1, "g": 1, "b": 1 },
+									"transparent": true,
+									"opacity": 0.55,
+									"alphaTest": 0.5,
+									"visible": false
+								}
+							},
+
+							{
+								"type": "MeshBasicMaterial",
+								"name": "circleBase",
+								"parameters": {
+									"color": { "r": 0.0, "g": 0.0, "b": 0.5 },
+									"transparent": true,
+									"opacity": 0.5
+								}
+							}
+
+						],
+
+						"elementList": [
+
+							{
+								"type": "addMesh",
+								"prop": {
+									"name": "geoAreaKernel_Mesh",
+									"type": "CircleGeometry",
+									"parameters": {
+										"radius": 2.5
+									},
+									"materialList": ["geoAreaKernel_mat"],
+									"position": { "x": 0, "y": 0.1, "z": 0.0 },
+									"rotation": { "x": -90, "y": 0.0, "z": 0.0 },
+
+									"MM3D": {
+										"helper": {
+											"edges": {
+												"color": colorGeoArea
+											}
+										},
+
+										"events": {
+											"mousedown": {
+												"scriptList": [
+													{
+														"functionName": "EDITOR.f.selectGeoArea",
+														"functionProp": {}
+													}
+												]
+											},
+											"touchstart": {
+												"scriptList": [
+													{
+														"functionName": "EDITOR.f.selectGeoArea",
+														"functionProp": {}
+													}
+												]
+											}
+										}
+
+									}
+								}
+							},
+
+							{
+								"type": "addMesh",
+								"prop": {
+									"name": "geoAreaIntensity_Mesh",
+									"type": "CircleGeometry",
+									"parameters": {
+										"radius": PLY.p.geoAreaSize
+									},
+									"materialList": ["geoAreaIntensity_mat"],
+									"position": { "x": 0, "y": 0.0, "z": 0.0 },
+									"rotation": { "x": -90, "y": 0.0, "z": 0.0 },
+
+									"MM3D": {
+										"helper": {
+											"edges": {
+												"color": colorGeoArea
+											}
 										}
 									},
 
-									"events": {
-										"mousedown": {
-											"scriptList": [
-												{
-													"functionName": "EDITOR.f.selectGeoArea",
-													"functionProp": {}
-												}
-											]
-										},
-										"touchstart": {
-											"scriptList": [
-												{
-													"functionName": "EDITOR.f.selectGeoArea",
-													"functionProp": {}
-												}
-											]
-										}
+									"scale": {
+										"x": 1,
+										"y": 1,
+										"z": 1
 									}
+								}
+							},
+
+							{
+								"type": "addComplex",
+								"prop": {
+									"name": "projects"
 
 								}
 							}
-						},
 
-						{
-							"type": "addMesh",
-							"prop": {
-								"name": "geoAreaIntensity_Mesh",
-								"type": "CircleGeometry",
-								"parameters": {
-									"radius": PLY.p.geoAreaSize
-								},
-								"materialList": ["geoAreaIntensity_mat"],
-								"position": { "x": 0, "y": 0.0, "z": 0.0 },
-								"rotation": { "x": -90, "y": 0.0, "z": 0.0 },
+						]
+					},
 
-								"MM3D": {
-									"helper": {
-										"edges": {
-											"color": colorGeoArea
-										}
-									}
-								},
+					"position": {
+						"x": myPosition.x,
+						"y": myPosition.y,
+						"z": myPosition.z
+					},
 
-								"scale": {
-									"x": 1,
-									"y": 1,
-									"z": 1
-								}
-							}
-						},
+					"rotation": {
+						"x": 0,
+						"y": 0,
+						"z": 0
+					},
 
-						{
-							"type": "addComplex",
-							"prop": {
-								"name": "projects"
+					"scale": {
+						"x": 1,
+						"y": 1,
+						"z": 1
+					}
+				},
 
-							}
+				function (p) {
+
+					// check name
+					let OBJ = p.obj;
+
+					// create MAP POI //
+
+					UI.f.createGeoArea_POI(OBJ);
+
+					if (callback !== undefined) {
+
+						if (callbackprop == undefined) {
+
+							callbackprop = {}
+
 						}
 
-					]
-				},
+						callbackprop.obj = p.obj;
 
-				"position": {
-					"x": myPosition.x,
-					"y": myPosition.y,
-					"z": myPosition.z
-				},
-
-				"rotation": {
-					"x": 0,
-					"y": 0,
-					"z": 0
-				},
-
-				"scale": {
-					"x": 1,
-					"y": 1,
-					"z": 1
-				}
-			},
-
-			function (p) {
-
-				// check name
-				let OBJ = p.obj;
-
-				// create MAP POI //
-
-				UI.f.createGeoArea_POI(OBJ);
-
-				if (callback !== undefined) {
-
-					if (callbackprop == undefined) {
-
-						callbackprop = {}
+						callback(callbackprop);
 
 					}
 
-					callbackprop.obj = p.obj;
-
-					callback(callbackprop);
-
-				}
-
-			},
-			{}
-		);
-
+				},
+				{}
+			);
+		});
+		console.log("createGeoArea");
 	};
 
 
@@ -463,15 +448,15 @@ const createEditor = () => {
 
 	EDITOR.f.selectProject = function (p) {
 
-		console.log('EDITOR.f.selectProject');
+		authStore.subscribe((auth) => {
+			const principal = auth.identity?.getPrincipal()?.toString();
+			console.warn(2, principal);
 
-		if (UI.p.popup_login_data.p.data !== undefined) {
-
-			if (UI.p.popup_login_data.p.data.user !== undefined) {
+			if (principal) {
 
 				// controlla se utente e' lo stesso proprietario dell'area e quindi del progetto //
 
-				if (UI.p.popup_login_data.p.data.user == p.obj.parent.userData.linkedGeoArea.userData.user) {
+				if (principal == p.obj.parent.userData.linkedGeoArea.userData.user) {
 
 					EDITOR.f.deselectProjects();
 
@@ -521,8 +506,9 @@ const createEditor = () => {
 				}
 
 			}
+		})
 
-		}
+		console.log('EDITOR.f.selectProject');
 
 	};
 
@@ -558,11 +544,12 @@ const createEditor = () => {
 
 	EDITOR.f.selectGeoArea = function (p) {
 
-		if (UI.p.popup_login_data.p.data !== undefined) {
+		authStore.subscribe((auth) => {
+			const principal = auth.identity?.getPrincipal()?.toString();
 
-			if (UI.p.popup_login_data.p.data.user !== undefined) {
-
-				if (UI.p.popup_login_data.p.data.user == p.obj.parent.userData.user) {
+			console.warn(3, principal);
+			if (principal) {
+				if (principal == p.obj.parent.userData.user) {
 
 					// diseleziona progetti in geoArea diversa da quella attuale
 					if (PLY.p.selectedProject !== undefined) {
@@ -599,7 +586,8 @@ const createEditor = () => {
 
 			}
 
-		}
+		});
+
 
 	};
 
@@ -1122,397 +1110,399 @@ const createEditor = () => {
 
 
 	EDITOR.f.DROP_FILE = function (p) {
+		authStore.subscribe((auth) => {
+			const principal = auth.identity?.getPrincipal()?.toString();
+			console.warn(4, principal);
+			const projectName = p.name.split('.')[0];
 
-		const projectName = p.name.split('.')[0];
+			const extension = p.name.split('.')[1];
 
-		const extension = p.name.split('.')[1];
+			const sectorName = EDITOR.f.findSector({ coords: { lng: MAP.p.actualCoords.lng, lat: MAP.p.actualCoords.lat } }).name;
 
-		const sectorName = EDITOR.f.findSector({ coords: { lng: MAP.p.actualCoords.lng, lat: MAP.p.actualCoords.lat } }).name;
+			// creazione nome geoarea //
 
-		// creazione nome geoarea //
-
-		const myPosition = MAP.f.getMapPosition(MAP.p.width, MAP.p.height, MAP.p.actualCoords.lng, MAP.p.actualCoords.lat, MAP.p.actualCoords.alt);
-
-
-		let type, stringByte64;
-
+			const myPosition = MAP.f.getMapPosition(MAP.p.width, MAP.p.height, MAP.p.actualCoords.lng, MAP.p.actualCoords.lat, MAP.p.actualCoords.alt);
 
 
-		if (EDITOR.p.dragAndDrop) {
-
-			switch (extension) {
-
-				case "gltf":
-
-					let PROJECTOBJ = p.obj;
-
-
-					stringByte64 = VARCO.f.arrayBufferToBase64(p.data);
-
-
-					if (PLY.p.scene3D.OBJECTS[name] !== undefined) {
-
-						name = name + '_due';
-
-					}
-
-
-					PROJECTOBJ.name = projectName;
-
-					VARCO.f.setPropAndParameters(PROJECTOBJ, { "MM3D": {} });
-
-					PROJECTOBJ.userData.type = 'gltf';
-
-					PROJECTOBJ.userData.fileName = projectName;
-
-					PROJECTOBJ.userData.extension = extension;
-
-					PROJECTOBJ.userData.data = p.data;
-
-					PROJECTOBJ.userData.stringByte64 = stringByte64;
-
-					PROJECTOBJ.userData.myCoords = { 'lng': MAP.p.actualCoords.lng, 'lat': MAP.p.actualCoords.lat, 'alt': MAP.p.actualCoords.alt };
+			let type, stringByte64;
 
 
 
-					// aggiungi ombre //
+			if (EDITOR.p.dragAndDrop) {
 
-					PROJECTOBJ.traverse(
+				switch (extension) {
 
-						function (child) {
+					case "gltf":
 
-							if (child.material !== undefined) {
+						let PROJECTOBJ = p.obj;
 
-								child.castShadow = true;
 
-							}
+						stringByte64 = VARCO.f.arrayBufferToBase64(p.data);
+
+
+						if (PLY.p.scene3D.OBJECTS[name] !== undefined) {
+
+							name = name + '_due';
 
 						}
 
-					);
+
+						PROJECTOBJ.name = projectName;
+
+						VARCO.f.setPropAndParameters(PROJECTOBJ, { "MM3D": {} });
+
+						PROJECTOBJ.userData.type = 'gltf';
+
+						PROJECTOBJ.userData.fileName = projectName;
+
+						PROJECTOBJ.userData.extension = extension;
+
+						PROJECTOBJ.userData.data = p.data;
+
+						PROJECTOBJ.userData.stringByte64 = stringByte64;
+
+						PROJECTOBJ.userData.myCoords = { 'lng': MAP.p.actualCoords.lng, 'lat': MAP.p.actualCoords.lat, 'alt': MAP.p.actualCoords.alt };
 
 
 
-					// start animation //
+						// aggiungi ombre //
 
-					setTimeout(
+						PROJECTOBJ.traverse(
 
-						function () {
+							function (child) {
 
-							if (PROJECTOBJ.animations !== undefined) {
+								if (child.material !== undefined) {
 
-								PROJECTOBJ.MM3D = {
-
-									threeJsAnimation: {
-
-										mixer: new THREE.AnimationMixer(PROJECTOBJ),
-
-										animations: PROJECTOBJ.animations
-
-									}
-
-								};
-
-								let idleAction;
-
-								for (var i = 0; i < PROJECTOBJ.animations.length; i++) {
-
-									idleAction = PROJECTOBJ.MM3D.threeJsAnimation.mixer.clipAction(p.obj.animations[i]);
-
-									idleAction.play();
+									child.castShadow = true;
 
 								}
 
 							}
 
-						},
-						2000
-
-					);
-
-
-
-					// DATI OGGETTO ORIGINALE DA SALVARE //
-
-					EDITOR.f.saveProjectData(UI.p.popup_login_data.p.data.user, PROJECTOBJ);
-
-					// ///////////////////////////////// //
-
-
-
-					// DATI OGGETTO ORIGINALE DA SALVARE //
-
-					EDITOR.f.deselectProjects();
-
-					// ///////////////////////////////// //
-
-
-
-					// inserisci nuovo progetto in area gia' esistente //
-					if (PLY.p.selectedArea !== undefined) {
-
-						EDITOR.f.createProject(
-
-							PLY.p.selectedArea,
-
-							{
-								"type": "---",
-								"name": projectName,
-								"url": "objects/" + projectName + ".gltf",
-								"urlLowres": "puo' essere un path oppure un blob or una stringa , creata dal tool in automatico opera_fisica_preview.gltf",
-								"myPosition": {
-									"x": myPosition.x - PLY.p.selectedArea.position.x,
-									"y": myPosition.y - PLY.p.selectedArea.position.y,
-									"z": myPosition.z - PLY.p.selectedArea.position.z
-								},
-								"myOrientation": {
-									"x": 0,
-									"y": 0,
-									"z": 0
-								},
-								"mySize": {
-									"x": 1,
-									"y": 1,
-									"z": 1
-								},
-								"previewImage": ""
-							},
-							function (w) {
-
-								// SHOW PROJECT //
-
-								PLY.p.selectedProject = w.obj;
-
-								if (PLY.p.selectedProject) {
-									w.obj.userData.isLoaded = true;
-									w.obj.OBJECTS.myProject.add(PROJECTOBJ);
-									w.obj.OBJECTS.myProject.OBJECTS[PROJECTOBJ.name];
-								}
-
-							},
-							{}
-
 						);
 
-					} else {
 
-						// crea nuova area ed inserisci nuovo progetto //
 
-						const geoAreaName = VARCO.f.generateUUID();
+						// start animation //
 
-						EDITOR.f.createGeoArea(
-							{
-								"user": UI.p.popup_login_data.p.data.user,
-								"geoAreaName": geoAreaName,
-								"sectorName": sectorName,
-								"myCoords": {
-									"lng": MAP.p.actualCoords.lng,
-									"lat": MAP.p.actualCoords.lat,
-									"alt": MAP.p.actualCoords.alt
-								}
-							},
-							function (q) {
+						setTimeout(
 
-								// insert area in sector:
+							function () {
 
-								PLY.p.selectedArea = q.obj;
+								if (PROJECTOBJ.animations !== undefined) {
 
-								EDITOR.f.createProject(
+									PROJECTOBJ.MM3D = {
 
-									PLY.p.selectedArea,
+										threeJsAnimation: {
 
-									{
-										"type": "---",
-										"name": projectName,
-										"url": "objects/" + projectName + ".gltf",
-										"urlLowres": "puo' essere un path oppure un blob or una stringa , creata dal tool in automatico opera_fisica_preview.gltf",
-										"myPosition": {
-											"x": myPosition.x - PLY.p.selectedArea.position.x,
-											"y": myPosition.y - PLY.p.selectedArea.position.y,
-											"z": myPosition.z - PLY.p.selectedArea.position.z
-										},
-										"myOrientation": {
-											"x": 0,
-											"y": 0,
-											"z": 0
-										},
-										"mySize": {
-											"x": 1,
-											"y": 1,
-											"z": 1
-										},
-										"previewImage": ""
-									},
-									function (w) {
+											mixer: new THREE.AnimationMixer(PROJECTOBJ),
 
-										// SHOW PROJECT //
+											animations: PROJECTOBJ.animations
 
-										PLY.p.selectedProject = w.obj;
-
-										if (PROJECTOBJ) {
-											w.obj.userData.isLoaded = true;
-											w.obj.OBJECTS.myProject.add(PROJECTOBJ);
-											w.obj.OBJECTS.myProject.OBJECTS[PROJECTOBJ.name];
 										}
 
-										// update user geoList //
+									};
 
-										UI.p.popup_login_data.p.data.geoareaList.push(
+									let idleAction;
 
-										);
+									for (var i = 0; i < PROJECTOBJ.animations.length; i++) {
 
-									},
-									{}
+										idleAction = PROJECTOBJ.MM3D.threeJsAnimation.mixer.clipAction(p.obj.animations[i]);
 
-								);
+										idleAction.play();
+
+									}
+
+								}
 
 							},
-							{}
+							2000
+
 						);
 
-					}
-
-					break;
 
 
-				case "png":
+						// DATI OGGETTO ORIGINALE DA SALVARE //
 
-					// // console.log( p );
+						EDITOR.f.saveProjectData(principal, PROJECTOBJ);
 
-					// console.log( p.data.width );
-
-					// VARCO.f.addComplex(
-					// PLY.p.scene3D,
-					// {
-					// "name" : name,
-					// "parameters" : {
-					// "textureList" : [
-					// {
-					// "name" : name,
-					// "type" : "base64",
-					// "url" : p.data
-					// }
-					// ],
-					// "materialList" : [
-					// {
-					// "name" : name,
-					// "type" : "MeshBasicMaterial",
-					// "parameters" : {
-					// "textures" : { "map" : name },
-					// "side" : "THREE.DoubleSide"
-					// }
-					// }
-					// ],
-					// "elementList" : [
-					// {
-					// "type" : "addMesh",
-					// "prop" : {
-					// "type" : "PlaneGeometry",
-					// "name" : name,
-					// "materialList" : [ name ],
-					// "castShadow" : true,
-					// "parameters" : {
-					// "width" : 1,
-					// "height" : 1
-					// }
-					// }
-					// }
-					// ]
-
-					// },
+						// ///////////////////////////////// //
 
 
-					// },
-					// function( p ){
 
-					// p.obj.name = name;
+						// DATI OGGETTO ORIGINALE DA SALVARE //
 
-					// let width = p.obj.TEXTURES[ name ].image.width * 0.001;
+						EDITOR.f.deselectProjects();
 
-					// let height = p.obj.TEXTURES[ name ].image.height * 0.001;
-
-					// p.obj.OBJECTS[ name ].scale.x = width;
-
-					// p.obj.OBJECTS[ name ].scale.y = height;
-
-					// p.obj.OBJECTS[ name ].position.y = ( height * 0.6 );
+						// ///////////////////////////////// //
 
 
-					// p.obj.userData.type = '3d';
 
-					// p.obj.userData.fileName = name;
+						// inserisci nuovo progetto in area gia' esistente //
+						if (PLY.p.selectedArea !== undefined) {
 
-					// p.obj.userData.extension = extension;
+							EDITOR.f.createProject(
 
-					// p.obj.userData.data = p.data;
+								PLY.p.selectedArea,
 
-					// p.obj.userData.myCoords = { 'lng': MAP.p.actualCoords.lng, 'lat': MAP.p.actualCoords.lat , 'alt': 0.0 };
+								{
+									"type": "---",
+									"name": projectName,
+									"url": "objects/" + projectName + ".gltf",
+									"urlLowres": "puo' essere un path oppure un blob or una stringa , creata dal tool in automatico opera_fisica_preview.gltf",
+									"myPosition": {
+										"x": myPosition.x - PLY.p.selectedArea.position.x,
+										"y": myPosition.y - PLY.p.selectedArea.position.y,
+										"z": myPosition.z - PLY.p.selectedArea.position.z
+									},
+									"myOrientation": {
+										"x": 0,
+										"y": 0,
+										"z": 0
+									},
+									"mySize": {
+										"x": 1,
+										"y": 1,
+										"z": 1
+									},
+									"previewImage": ""
+								},
+								function (w) {
+
+									// SHOW PROJECT //
+
+									PLY.p.selectedProject = w.obj;
+
+									if (PLY.p.selectedProject) {
+										w.obj.userData.isLoaded = true;
+										w.obj.OBJECTS.myProject.add(PROJECTOBJ);
+										w.obj.OBJECTS.myProject.OBJECTS[PROJECTOBJ.name];
+									}
+
+								},
+								{}
+
+							);
+
+						} else {
+
+							// crea nuova area ed inserisci nuovo progetto //
+
+							const geoAreaName = VARCO.f.generateUUID();
+
+							EDITOR.f.createGeoArea(
+								{
+									"user": principal,
+									"geoAreaName": geoAreaName,
+									"sectorName": sectorName,
+									"myCoords": {
+										"lng": MAP.p.actualCoords.lng,
+										"lat": MAP.p.actualCoords.lat,
+										"alt": MAP.p.actualCoords.alt
+									}
+								},
+								function (q) {
+
+									// insert area in sector:
+
+									PLY.p.selectedArea = q.obj;
+
+									EDITOR.f.createProject(
+
+										PLY.p.selectedArea,
+
+										{
+											"type": "---",
+											"name": projectName,
+											"url": "objects/" + projectName + ".gltf",
+											"urlLowres": "puo' essere un path oppure un blob or una stringa , creata dal tool in automatico opera_fisica_preview.gltf",
+											"myPosition": {
+												"x": myPosition.x - PLY.p.selectedArea.position.x,
+												"y": myPosition.y - PLY.p.selectedArea.position.y,
+												"z": myPosition.z - PLY.p.selectedArea.position.z
+											},
+											"myOrientation": {
+												"x": 0,
+												"y": 0,
+												"z": 0
+											},
+											"mySize": {
+												"x": 1,
+												"y": 1,
+												"z": 1
+											},
+											"previewImage": ""
+										},
+										function (w) {
+
+											// SHOW PROJECT //
+
+											PLY.p.selectedProject = w.obj;
+
+											if (PROJECTOBJ) {
+												w.obj.userData.isLoaded = true;
+												w.obj.OBJECTS.myProject.add(PROJECTOBJ);
+												w.obj.OBJECTS.myProject.OBJECTS[PROJECTOBJ.name];
+											}
+
+											// update user geoList //
+
+											UI.p.popup_login_data.p.data.geoareaList.push(
+
+											);
+
+										},
+										{}
+
+									);
+
+								},
+								{}
+							);
+
+						}
+
+						break;
 
 
-					// PLY.f.createGeoArea( 
+					case "png":
 
-					// MAP.p.actualCoords.lng,
+						// // console.log( p );
 
-					// MAP.p.actualCoords.lat,
+						// console.log( p.data.width );
 
-					// true, 
+						// VARCO.f.addComplex(
+						// PLY.p.scene3D,
+						// {
+						// "name" : name,
+						// "parameters" : {
+						// "textureList" : [
+						// {
+						// "name" : name,
+						// "type" : "base64",
+						// "url" : p.data
+						// }
+						// ],
+						// "materialList" : [
+						// {
+						// "name" : name,
+						// "type" : "MeshBasicMaterial",
+						// "parameters" : {
+						// "textures" : { "map" : name },
+						// "side" : "THREE.DoubleSide"
+						// }
+						// }
+						// ],
+						// "elementList" : [
+						// {
+						// "type" : "addMesh",
+						// "prop" : {
+						// "type" : "PlaneGeometry",
+						// "name" : name,
+						// "materialList" : [ name ],
+						// "castShadow" : true,
+						// "parameters" : {
+						// "width" : 1,
+						// "height" : 1
+						// }
+						// }
+						// }
+						// ]
 
-					// undefined,
-
-					// function( q ){
-
-					// // insert area in sector:
-
-					// PLY.p.selectedArea = q.obj;
-
-					// p.obj.position.x = PLY.p.selectedArea.position.x;
-
-					// p.obj.position.y = PLY.p.selectedArea.position.y;
-
-					// p.obj.position.z = PLY.p.selectedArea.position.z;
-
-					// p.obj.scale.x = 1.0;
-
-					// p.obj.scale.y = 1.0;
-
-					// p.obj.scale.z = 1.0;
-
-					// PLY.p.selectedArea.userData.projectsList.push( { name: p.obj.name , uuid: p.obj.uuid } );
-
-					// PLY.p.scene3D.add( p.obj );
-
-					// PLY.p.scene3D.OBJECTS[ p.obj.name ];
-
-
-					// if ( PLY.p.selectedArea.userData.locked ){
-
-					// PLY.p.selectedArea.attach( p.obj );
-
-					// };
-
-					// },
-					// {}
-
-					// );
-
-					// },
-					// {}
-
-					// );
-
-					break;
+						// },
 
 
-				case "jpg":
+						// },
+						// function( p ){
 
-					// console.log( p );
+						// p.obj.name = name;
 
-					break;
+						// let width = p.obj.TEXTURES[ name ].image.width * 0.001;
+
+						// let height = p.obj.TEXTURES[ name ].image.height * 0.001;
+
+						// p.obj.OBJECTS[ name ].scale.x = width;
+
+						// p.obj.OBJECTS[ name ].scale.y = height;
+
+						// p.obj.OBJECTS[ name ].position.y = ( height * 0.6 );
+
+
+						// p.obj.userData.type = '3d';
+
+						// p.obj.userData.fileName = name;
+
+						// p.obj.userData.extension = extension;
+
+						// p.obj.userData.data = p.data;
+
+						// p.obj.userData.myCoords = { 'lng': MAP.p.actualCoords.lng, 'lat': MAP.p.actualCoords.lat , 'alt': 0.0 };
+
+
+						// PLY.f.createGeoArea( 
+
+						// MAP.p.actualCoords.lng,
+
+						// MAP.p.actualCoords.lat,
+
+						// true, 
+
+						// undefined,
+
+						// function( q ){
+
+						// // insert area in sector:
+
+						// PLY.p.selectedArea = q.obj;
+
+						// p.obj.position.x = PLY.p.selectedArea.position.x;
+
+						// p.obj.position.y = PLY.p.selectedArea.position.y;
+
+						// p.obj.position.z = PLY.p.selectedArea.position.z;
+
+						// p.obj.scale.x = 1.0;
+
+						// p.obj.scale.y = 1.0;
+
+						// p.obj.scale.z = 1.0;
+
+						// PLY.p.selectedArea.userData.projectsList.push( { name: p.obj.name , uuid: p.obj.uuid } );
+
+						// PLY.p.scene3D.add( p.obj );
+
+						// PLY.p.scene3D.OBJECTS[ p.obj.name ];
+
+
+						// if ( PLY.p.selectedArea.userData.locked ){
+
+						// PLY.p.selectedArea.attach( p.obj );
+
+						// };
+
+						// },
+						// {}
+
+						// );
+
+						// },
+						// {}
+
+						// );
+
+						break;
+
+
+					case "jpg":
+
+						// console.log( p );
+
+						break;
+
+				}
 
 			}
-
-		}
-
+		});
 	};
 
 	return EDITOR;

@@ -62,10 +62,12 @@
 				tabindex="0"
 				class="menu menu-sm dropdown-content mt-3 z-[1] p-5 shadow bg-base-100 rounded-box w-80"
 			>
-				<div class="flex flex-col mb-5">
-					<span class="text-lg font-semibold">Your principal: </span>
-					<span>{$authStore.identity?.getPrincipal()?.toString()}</span>
-				</div>
+				{#if $authStore.identity}
+					<div class="flex flex-col mb-5">
+						<span class="text-lg font-semibold">Your principal: </span>
+						<span>{$authStore.identity?.getPrincipal()?.toString()}</span>
+					</div>
+				{/if}
 				<li>
 					{#if !$authStore.identity}
 						<button

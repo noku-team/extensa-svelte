@@ -2,7 +2,9 @@ import type { Identity } from "@dfinity/agent";
 import { AuthClient } from "@dfinity/auth-client";
 import type { Readable } from "svelte/store";
 import { writable } from "svelte/store";
+import { VARCO } from "../VARCO/helpers/VARCO";
 import { AUTH_SESSION_DURATION } from "../constants/ttl";
+import { PLY, UI } from "../jsm/index.js";
 import getIdentityProviderUrl from "../utils/getIdentityProvider";
 
 export interface AuthStoreData {
@@ -52,10 +54,31 @@ const initAuthStore = (): AuthStore => {
                 identityProvider: getIdentityProviderUrl(),
                 maxTimeToLive: AUTH_SESSION_DURATION,
                 onSuccess: () => {
-                    update((state: AuthStoreData) => ({
-                        ...state,
-                        identity: authClient?.getIdentity(),
-                    }));
+                    update((state: AuthStoreData) => {
+                        const principal = authClient?.getIdentity()?.getPrincipal()?.toString();
+                        if (principal) {
+                            const accountToLoad = `USER_DB/${principal}.json`;
+                            const _VARCO_F = VARCO.f as any;
+                            _VARCO_F.loadJSON(
+                                accountToLoad,
+                                (logInData: any) => {
+                                    if (UI.p.scene.OBJECTS.previewProject !== undefined) {
+                                        _VARCO_F.deleteElement(UI.p.scene, UI.p.scene.OBJECTS.previewProject);
+                                    }
+                                    UI.p.popup_login_data.p.data = logInData;
+                                    UI.p.menu_editor.f.open();
+                                    PLY.p.geoMapSectors.oldSectHV = [0, 0];
+                                },
+                                () => alert('the account not exist')
+                            );
+                        }
+
+
+                        return {
+                            ...state,
+                            identity: authClient?.getIdentity(),
+                        }
+                    });
                 },
                 onError,
             });

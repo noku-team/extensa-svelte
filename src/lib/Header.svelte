@@ -1,9 +1,11 @@
 <script>
 	import { Link } from "svelte-routing";
+	import { authStore } from "../store/AuthStore";
 	import ExtensaLogo from "/images/UI/Logo_Extensa_2.png";
 </script>
 
 <div class="navbar bg-base-100">
+	<span>{$authStore.identity?.getPrincipal()?.toString()}</span>
 	<div class="navbar-start">
 		<div class="dropdown" style="z-index: 11">
 			<div tabindex="0" role="button" class="btn btn-ghost btn-circle">

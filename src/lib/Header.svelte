@@ -1,6 +1,6 @@
 <script>
 	import { Link } from "svelte-routing";
-	import ExtensaLogo from "/public/images/UI/Logo_Extensa_2.png";
+	import ExtensaLogo from "/images/UI/Logo_Extensa_2.png";
 </script>
 
 <div class="navbar bg-base-100">

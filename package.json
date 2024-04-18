@@ -1,5 +1,7 @@
 {
 	"dependencies": {
+		"@dfinity/auth-client": "^1.2.0",
+		"@dfinity/utils": "^2.1.3",
 		"jquery": "^3.7.1",
 		"three": "^0.153.0"
 	},
@@ -10,6 +12,7 @@
 		"@types/three": "^0.163.0",
 		"autoprefixer": "^10.4.19",
 		"daisyui": "^4.10.2",
+		"dotenv": "^16.4.5",
 		"postcss": "^8.4.38",
 		"svelte": "^4.2.12",
 		"svelte-check": "^3.6.7",
@@ -17,15 +20,27 @@
 		"tailwindcss": "^3.4.3",
 		"tslib": "^2.6.2",
 		"typescript": "^5.2.2",
-		"vite": "^5.2.0"
+		"vite": "^5.2.0",
+		"vite-plugin-environment": "^1.1.3"
 	},
 	"name": "extensa-vanilla-svelte",
 	"private": true,
 	"scripts": {
+		"prestart": "dfx generate",
 		"build": "vite build",
+		"canister:delete:all": "dfx canister delete --all",
+		"canister:deploy": "dfx deploy",
+		"canister:status": "dfx canister status --all",
+		"canister:stop:all": "dfx canister stop --all",
+		"canister:uninstall:all": "dfx canister uninstall-code --all",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
+		"deploy:ic": "dfx deploy --network=ic",
+		"deploy:local": "dfx deploy --network=local",
+		"deploy:prod": "dfx canister --network ic create avrvm_frontend && dfx build --network=ic avrvm_frontend && dfx canister --network=ic install --mode reinstall avrvm_frontend",
 		"dev": "vite",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"start:ic": "dfx start --background --clean",
+		"update:install:frontend": "dfx build --network ic avrvm && dfx canister --network ic install avrvm --mode upgrade"
 	},
 	"type": "module",
 	"version": "0.0.0"

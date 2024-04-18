@@ -1,0 +1,456 @@
+{
+	"name" : "menu_bottom",
+	
+	"parameters" : {
+		
+		"textureList" : [
+		
+			{
+				"name" : "button_backline",
+				"url" : "images/grey.png"
+			},
+			
+			{
+				"name" : "button_gps",
+				"url" : "images/UI/button_gps_on_off.png"
+			},
+			{
+				"name" : "antenna",
+				"url" : "images/UI/antenna.png"
+			},
+			
+			{
+				"name" : "button_view_in_3d",
+				"url" : "images/UI/button_view_in_3d.png"
+			},
+			
+			
+			{
+				"name" : "button_AR",
+				"url" : "images/UI/button_AR.png"
+			}
+
+		],
+		
+		"materialList" : [
+			{
+				"name" : "button_backline",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"opacity" : 0.8,
+					"textures" : {
+						"map" : "button_backline"
+					}
+				}
+			},
+			
+			{
+				"name" : "button_gps",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_gps"
+					}
+				}
+			},
+			{
+				"name" : "antenna",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "antenna"
+					}
+				}
+			},
+			
+			
+			{
+				"name" : "button_view_in_3d",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_view_in_3d"
+					}
+				}
+			},
+			{
+				"name" : "button_AR",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_AR"
+					}
+				}
+			}
+			
+		],
+		
+		"elementList" : [
+			
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_backline",
+					"parameters" : {
+						"width" : 1,
+						"height" : 80
+					},
+					"materialList" : [
+						"button_backline"
+					],
+					"MM3D" : {
+								
+						"coordSystem" : "percent",
+						
+						"adaptive": {
+							
+							"posH" : {
+								"x" : 0.5,
+								"y" : 1,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 0.0,
+								"y" : 40.0,
+								"z" : -100.0
+							},
+							"posV" : {
+								"x" : 0.5,
+								"y" : 1,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 0.0,
+								"y" : 40.0,
+								"z" : -100.0
+							}
+			
+						},
+						
+						"scriptList" : [
+							{
+								"loop" : true,
+								"functionName" : "UI.p.menu_bottom.f.loop",
+								"functionProp" : {}
+							}
+						]
+						
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_gps",
+					"parameters" : {
+						"width" : 50,
+						"height" : 50
+					},
+					"materialList" : [
+						"button_gps"
+					],
+					"position" : {
+						"x" : 170,
+						"y" : 0,
+						"z" : 0
+					},
+					"MM3D" : {
+						
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_bottom.f.button_gps_popup_open",
+										"functionProp" : {}
+									}
+								]
+							},
+							
+							"touchend" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_bottom.f.button_gps_popup_open",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"coordSystem" : "percent",
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0,
+								"y" : 1,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 30.0,
+								"y" : 30.0,
+								"z" : 0.0
+							},
+							"posV" : {
+								"x" : 0,
+								"y" : 1,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 30.0,
+								"y" : 30.0,
+								"z" : 0.0
+							}
+			
+						}
+						
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "antenna",
+					"parameters" : {
+						"width" : 50,
+						"height" : 50
+					},
+					"materialList" : [
+						"antenna"
+					],
+					"position" : {
+						"x" : 170,
+						"y" : 0,
+						"z" : 0
+					},
+					"MM3D" : {
+						
+						"scriptList" : [
+							{
+								"loop" : true,
+								"functionName" : "UI.p.menu_bottom.f.checkAntennaStatusLoop",
+								"functionProp" : {}
+							}
+						],
+		
+						"coordSystem" : "percent",
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0,
+								"y" : 1,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 30.0,
+								"y" : 110.0,
+								"z" : 0.0
+							},
+							"posV" : {
+								"x" : 0,
+								"y" : 1,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 30.0,
+								"y" : 110.0,
+								"z" : 0.0
+							}
+			
+						}
+						
+					}
+				}
+			},
+			
+			
+			
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_AR",
+					"parameters" : {
+						"width" : 50,
+						"height" : 50
+					},
+					"materialList" : [
+						"button_AR"
+					],
+					"position" : {
+						"x" : 170,
+						"y" : 0,
+						"z" : 0
+					},
+					"visible" : false,
+					"MM3D" : {
+						
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_bottom.f.button_AR",
+										"functionProp" : {}
+									}
+								]
+							},
+							
+							"touchend" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_bottom.f.button_AR",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"coordSystem" : "percent",
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.5,
+								"y" : 1,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 0.0,
+								"y" : 30.0,
+								"z" : 0.0
+							},
+							"posV" : {
+								"x" : 0.5,
+								"y" : 1,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 0.0,
+								"y" : 30.0,
+								"z" : 0.0
+							}
+			
+						}
+						
+					}
+				}
+			},
+			
+			
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_view_in_3d",
+					"parameters" : {
+						"width" : 50,
+						"height" : 50
+					},
+					"materialList" : [
+						"button_view_in_3d"
+					],
+					"position" : {
+						"x" : 170,
+						"y" : 0,
+						"z" : 0
+					},
+					"MM3D" : {
+						
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_bottom.f.button_gpsView",
+										"functionProp" : {}
+									}
+								]
+							},
+							
+							"touchend" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_bottom.f.button_gpsView",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"coordSystem" : "percent",
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0,
+								"y" : 1,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 80.0,
+								"y" : 30.0,
+								"z" : 0.0
+							},
+							"posV" : {
+								"x" : 0,
+								"y" : 1,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 80.0,
+								"y" : 30.0,
+								"z" : 0.0
+							}
+			
+						}
+						
+					}
+				}
+			}
+			
+		]
+		
+	},
+
+	"MM3D" : {
+	
+		"scriptList" : [
+			{
+				"name" : "feedback_buttons",
+				"loop" : true,
+				"functionName" : "UI.p.menu_bottom.f.feedBack_menu_bottom",
+				"functionProp" : {}
+			}
+		]
+	}
+}

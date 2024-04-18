@@ -1,0 +1,322 @@
+{
+	"name" : "previewProject",
+	
+	"parameters" : {
+		
+		"textureList" : [
+			
+			{
+				"name" : "backdrop",
+				"url" : "images/UI/popup_titolo_progetto.png"
+			},
+			
+			{
+				"name" : "button_loadProject",
+				"url" : "images/UI/button_loadProject.png"
+			},
+			
+			{
+				"name" : "button_removeProject",
+				"url" : "images/UI/button_delete.png"
+			},
+			
+			{
+				"name" : "loadingProject",
+				"url" : "images/UI/loadingProject.png"
+			}
+			
+		],
+		
+		"materialList" : [
+			
+			{
+				"name" : "backdrop",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "backdrop"
+					}
+				}
+			},
+			
+			{
+				"name" : "button_loadProject",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_loadProject"
+					}
+				}
+			},
+			
+			{
+				"name" : "button_removeProject",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_removeProject"
+					}
+				}
+			},
+			
+			
+			{
+				"name" : "loadingProject",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "loadingProject"
+					}
+				}
+			}
+			
+		],
+
+		"elementList" : [
+			
+			{
+				"type" : "addMesh", 
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "backdrop",
+					"materialList" : [ "backdrop" ],
+					"parameters" : {
+						"width" : 400,
+						"height" : 100
+					},
+					"position" : {
+						"x" : 0.0,
+						"y" : 50.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh", 
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "loadingProject",
+					"materialList" : [ "loadingProject" ],
+					"visible" : false,
+					"parameters" : {
+						"width" : 512,
+						"height" : 256
+					},
+					"position" : {
+						"x" : 0.0,
+						"y" : -240.0,
+						"z" : 0.0
+					},
+					"scale" : {
+						"x" : 0.6,
+						"y" : 0.6,
+						"z" : 0.6
+					}
+				}
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "titolo_opera",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "...",
+						"edit" : true,
+						"isNumber" : false,
+						"transparent" : true,
+						"width" : 200,
+						"height" : 20,
+						"variable" : "PLY.p.selectedProjectName",
+						"textParameters" : {
+							"fontSize": "14pt",
+							"fontType": "Verdana",
+							"textAlign": "center",
+							"textBaseline": "middle",
+							"textPosition": { "x": 100, "y": 7 },
+							"color": { "r": 0, "g": 0, "b": 0 }
+						}
+					},
+					"position" : {
+						"x" : 0,
+						"y" : 50,
+						"z" : 0.1
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_loadProject",
+					"visible" : true,
+					"parameters" : {
+						"width" : 50,
+						"height" : 50
+					},
+					"materialList" : [
+						"button_loadProject"
+					],
+					"position" : {
+						"x" : 150,
+						"y" : 50,
+						"z" : 0
+					},
+					"MM3D" : {
+						"events" : {
+							
+							
+							"mousedown" : {
+								"scriptList" : [
+								
+									{
+										"functionName" : "UI.p.previewProject.f.button_loadProject",
+										"functionProp" : {}
+									}
+								]
+							},
+							
+							"touchstart" : {
+								"scriptList" : [
+									
+									{
+										"functionName" : "UI.p.previewProject.f.button_loadProject",
+										"functionProp" : {}
+									}
+								]
+							}
+							
+						}
+					}
+				}
+			},
+			
+			
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_removeProject",
+					"visible" : false,
+					"parameters" : {
+						"width" : 50,
+						"height" : 50
+					},
+					"materialList" : [
+						"button_removeProject"
+					],
+					"position" : {
+						"x" : 150,
+						"y" : 50,
+						"z" : 0
+					},
+					"MM3D" : {
+						"events" : {
+							
+							
+							"mousedown" : {
+								"scriptList" : [
+									
+									{
+										"functionName" : "UI.p.previewProject.f.button_removeProject",
+										"functionProp" : {}
+									}
+								]
+							},
+							
+							"touchstart" : {
+								"scriptList" : [
+									
+									{
+										"functionName" : "UI.p.previewProject.f.button_removeProject",
+										"functionProp" : {}
+									}
+								]
+							}
+							
+						}
+					}
+				}
+			}
+		]
+	},
+	
+	"MM3D" : {
+		
+		"scriptList" : [
+			{
+				"loop" : true,
+				"functionName" : "UI.f.previewProjectFeedBackLoop",
+				"functionProp" : {}
+			}
+		],
+		
+		"coordSystem" : "percent",
+		"adaptive": {
+			"posH" : {
+				"x" : 0.5,
+				"y" : 0.0,
+				"z" : 0
+			},
+			
+			"offsetH" : {
+				"x" : 0.0,
+				"y" : -180.0,
+				"z" : 0
+			},
+			
+			"sizH" : {
+				"x" : 1,
+				"y" : 1,
+				"z" : 1
+			},
+			
+			"posV" : {
+				"x" : 0.5,
+				"y" : 0.0,
+				"z" : 0
+			},
+			
+			"sizV" : {
+				"x" : 0.75,
+				"y" : 0.75,
+				"z" : 0.75
+			},
+			
+			"offsetV" : {
+				"x" : 0.0,
+				"y" : -150.0,
+				"z" : 0
+			}
+		}
+	}
+	
+}

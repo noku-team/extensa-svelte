@@ -1,0 +1,603 @@
+{
+	"name" : "menu_player_3d",
+	
+	"parameters" : {
+		
+		"textureList" : [
+		
+			{
+				"name" : "button_rotazione",
+				"url" : "images/UI/tasto_rotazione.png"
+			},
+			{
+				"name" : "button_posizione",
+				"url" : "images/UI/tasto_updown.png"
+			},
+			{
+				"name" : "button_drag",
+				"url" : "images/UI/tasto_drag.png"
+			},
+			
+			{
+				"name" : "compass",
+				"url" : "images/UI/compass_low.png"
+			},
+			{
+				"name" : "compass_arrow",
+				"url" : "images/UI/compass_arrow.png"
+			},
+			
+			{
+				"name" : "button_STV",
+				"url" : "images/UI/button_stv.png"
+			},
+			
+			{
+				"name" : "button_OSM",
+				"url" : "images/UI/button_OSM.png"
+			},
+			
+			{
+				"name" : "button_GM",
+				"url" : "images/UI/button_GM.png"
+			},
+			
+			{
+				"name" : "button_GIS",
+				"url" : "images/UI/button_GIS.png"
+			}
+		],
+		
+		"materialList" : [
+			
+			{
+				"name" : "button_rotazione",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_rotazione"
+					}
+				}
+			},
+			
+			{
+				"name" : "button_posizione",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_posizione"
+					}
+				}
+			},
+			
+			{
+				"name" : "button_drag",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_drag"
+					}
+				}
+			},
+			
+			{
+				"name" : "compass",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "compass"
+					}
+				}
+			},
+			{
+				"name" : "compass_arrow",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "compass_arrow"
+					}
+				}
+			},
+			{
+				"name" : "button_STV",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_STV"
+					}
+				}
+			},
+			{
+				"name" : "button_OSM",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_OSM"
+					}
+				}
+			},
+			{
+				"name" : "button_GM",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_GM"
+					}
+				}
+			},
+			{
+				"name" : "button_GIS",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_GIS"
+					}
+				}
+			}
+			
+			
+		],
+		
+		"elementList" : [
+			
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_posizione",
+					"parameters" : {
+						"width" : 64,
+						"height" : 128
+					},
+					"materialList" : [
+						"button_posizione"
+					],
+					"position" : {
+						"x" : -35.0,
+						"y" : 164.0,
+						"z" : 0.0
+					},
+					"MM3D" : {
+						
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_bottom.f.button_posizione",
+										"functionProp" : {}
+									}
+								]
+							},
+							
+							"touchend" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_bottom.f.button_posizione",
+										"functionProp" : {}
+									}
+								]
+							}
+						}
+					}
+				}
+			},
+			
+			
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_rotazione",
+					"parameters" : {
+						"width" : 64,
+						"height" : 128
+					},
+					"materialList" : [
+						"button_rotazione"
+					],
+					"position" : {
+						"x" : -100.0,
+						"y" : 164.0,
+						"z" : 0.0
+					},
+					"MM3D" : {
+						
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_bottom.f.button_rotazione",
+										"functionProp" : {}
+									}
+								]
+							},
+							
+							"touchend" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_bottom.f.button_rotazione",
+										"functionProp" : {}
+									}
+								]
+							}
+						}
+					}
+				}
+			},
+			
+			
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_drag",
+					"parameters" : {
+						"width" : 64,
+						"height" : 128
+					},
+					"materialList" : [
+						"button_drag"
+					],
+					"position" : {
+						"x" : -165.0,
+						"y" : 164.0,
+						"z" : 0.0
+					},
+					"MM3D" : {
+						
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_bottom.f.button_drag",
+										"functionProp" : {}
+									}
+								]
+							},
+							
+							"touchend" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_bottom.f.button_drag",
+										"functionProp" : {}
+									}
+								]
+							}
+						}
+					}
+				}
+			},
+
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "compass",
+					"parameters" : {
+						"width" : 128,
+						"height" : 128
+					},
+					"materialList" : [
+						"compass"
+					],
+					"position" : {
+						"x" : -70.0,
+						"y" : 300.0,
+						"z" : 0.0
+					},
+					"MM3D" : {
+					
+						"scriptList" : [
+							{
+								"loop" : true,
+								"functionSrc" : "p.obj.rotation.z = PLY.f.deg2rad( PLY.p.camera3DAxis.userData.angY )",
+								"functionProp" : {}
+							}
+						
+						]
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "compass_arrow",
+					"parameters" : {
+						"width" : 128,
+						"height" : 128
+					},
+					"materialList" : [
+						"compass_arrow"
+					],
+					"position" : {
+						"x" : -70.0,
+						"y" : 300.0,
+						"z" : 0
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_STV",
+					"parameters" : {
+						"width" : 60,
+						"height" : 60
+					},
+					"materialList" : [
+						"button_STV"
+					],
+					"position" : {
+						"x" : -30.0,
+						"y" : 400.0,
+						"z" : 0.0
+					},
+					"MM3D" : {
+						
+						"events" : {
+							"mousedown" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_bottom.f.button_STV_desktop",
+										"functionProp" : {}
+									}
+								]
+							},
+							
+							"touchstart" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_bottom.f.button_STV_touch",
+										"functionProp" : {}
+									}
+								]
+							}
+						}
+						
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_OSM",
+					"parameters" : {
+						"width" : 60,
+						"height" : 60
+					},
+					"materialList" : [
+						"button_OSM"
+					],
+					"position" : {
+						"x" : -30.0,
+						"y" : 462.0,
+						"z" : 0.0
+					},
+					"MM3D" : {
+						
+						"events" : {
+							"mousedown" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_bottom.f.button_OSM",
+										"functionProp" : {}
+									}
+								]
+							},
+							
+							"touchstart" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_bottom.f.button_OSM",
+										"functionProp" : {}
+									}
+								]
+							}
+						}
+						
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_GM",
+					"parameters" : {
+						"width" : 60,
+						"height" : 60
+					},
+					"materialList" : [
+						"button_GM"
+					],
+					"position" : {
+						"x" : -30.0,
+						"y" : 524.0,
+						"z" : 0.0
+					},
+					"MM3D" : {
+						
+						"events" : {
+							"mousedown" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_bottom.f.button_GM",
+										"functionProp" : {}
+									}
+								]
+							},
+							
+							"touchstart" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_bottom.f.button_GM",
+										"functionProp" : {}
+									}
+								]
+							}
+						}
+						
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_GIS",
+					"parameters" : {
+						"width" : 60,
+						"height" : 60
+					},
+					"materialList" : [
+						"button_GIS"
+					],
+					"position" : {
+						"x" : -30.0,
+						"y" : 586.0,
+						"z" : 0.0
+					},
+					"MM3D" : {
+						
+						"events" : {
+							"mousedown" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_bottom.f.button_GIS",
+										"functionProp" : {}
+									}
+								]
+							},
+							
+							"touchstart" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_bottom.f.button_GIS",
+										"functionProp" : {}
+									}
+								]
+							}
+						}
+						
+					}
+				}
+			}
+			
+		]
+		
+	},
+
+	"MM3D" : {
+		
+		"scriptList" : [
+			{
+				"name" : "feedback_buttons",
+				"loop" : true,
+				"functionName" : "UI.p.menu_bottom.f.feedBack_rot_pos_drag",
+				"functionProp" : {}
+			}
+		],
+		
+		"coordSystem" : "percent",
+		
+		"adaptive": {
+			"posH" : {
+				"x" : 1,
+				"y" : 1,
+				"z" : 0.1
+			},
+			
+			"offsetH" : {
+				"x" : -10,
+				"y" : -80,
+				"z" : 0
+			},
+			
+			"posV" : {
+				"x" : 1,
+				"y" : 1,
+				"z" : 0.1
+			},
+			
+			"offsetV" : {
+				"x" : -10,
+				"y" : -70,
+				"z" : 0
+			},
+			
+			"sizH" : {
+				"x" : 0.75,
+				"y" : 0.75,
+				"z" : 0.75
+			},
+			"sizV" : {
+				"x" : 0.6,
+				"y" : 0.6,
+				"z" : 0.6
+			}
+
+		}
+	}
+}

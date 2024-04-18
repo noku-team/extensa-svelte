@@ -1,0 +1,234 @@
+{
+	"name" : "popup_login",
+	
+	"parameters" : {
+		
+		"textureList" : [
+			{
+				"name" : "button_login",
+				"url" : "images/UI/button_login.png"
+			}
+		],
+		
+		"materialList" : [
+			{
+				"name" : "backdrop",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					}
+				}
+			},
+			{
+				"name" : "button_login",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_login"
+					}
+				}
+			}
+		],
+		
+		"elementList" : [
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "titolo_username",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "USER NAME:",
+						"edit" : false,
+						"isNumber" : false,
+						"transparent" : true,
+						"width" : 200,
+						"height" : 16,
+						"textParameters" : {
+							"fontSize": "12pt",
+							"fontType": "Verdana",
+							"textAlign": "left",
+							"textBaseline": "middle",
+							"textPosition": { "x": 5, "y": 8 },
+							"color": { "r": 0, "g": 0, "b": 10}
+						}
+					},
+					
+					"position" : {
+						"x" : 0.0,
+						"y" : 0.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "campo_username",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "...",
+						"edit" : true,
+						"isNumber" : false,
+						"transparent" : false,
+						"width" : 200,
+						"height" : 16,
+						"variable" : "UI.p.userName",
+						"textParameters" : {
+							"fontSize": "12pt",
+							"fontType": "Verdana",
+							"textAlign": "left",
+							"textBaseline": "middle",
+							"textPosition": { "x": 5, "y": 8 },
+							"color": { "r": 1, "g": 1, "b": 1 }
+						}
+					},
+					
+					"position" : {
+						"x" : 0.0,
+						"y" : -16.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "titolo_password",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "PASSWORD:",
+						"edit" : false,
+						"isNumber" : false,
+						"transparent" : true,
+						"width" : 200,
+						"height" : 16,
+						"textParameters" : {
+							"fontSize": "12pt",
+							"fontType": "Verdana",
+							"textAlign": "left",
+							"textBaseline": "middle",
+							"textPosition": { "x": 5, "y": 8 },
+							"color": { "r": 0, "g": 0, "b": 10}
+						}
+					},
+					
+					"position" : {
+						"x" : 0.0,
+						"y" : -40.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "campo_password",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "...",
+						"edit" : true,
+						"isNumber" : false,
+						"transparent" : false,
+						"width" : 200,
+						"height" : 16,
+						"variable" : "UI.p.password",
+						"textParameters" : {
+							"fontSize": "12pt",
+							"fontType": "Verdana",
+							"textAlign": "left",
+							"textBaseline": "middle",
+							"textPosition": { "x": 5, "y": 8 },
+							"color": { "r": 1, "g": 1, "b": 1 }
+						}
+					},
+					
+					"position" : {
+						"x" : 0.0,
+						"y" : -56.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh", 
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_login",
+					"visible" : true,
+					"materialList" : [ "button_login" ],
+					"parameters" : {
+						"width" : 128,
+						"height" : 64
+					},
+					"position" : {
+						"x" : 0.0,
+						"y" : -90.0,
+						"z" : 0.0
+					}
+				}
+			}
+		]
+		
+	},
+	
+	"MM3D" : {
+		
+		"coordSystem" : "percent",
+		
+		"adaptive": {
+			"posH" : {
+				"x" : 0.0,
+				"y" : 0.0,
+				"z" : 0
+			},
+			"sizH" : {
+				"x" : 0.75,
+				"y" : 0.75,
+				"z" : 0.75
+			},
+			"offsetH" : {
+				"x" : 200.0,
+				"y" : -80.0,
+				"z" : 0.0
+			},
+			"posV" : {
+				"x" : 0.0,
+				"y" : 0.0,
+				"z" : 0
+			},
+			"sizV" : {
+				"x" : 0.75,
+				"y" : 0.75,
+				"z" : 0.75
+			},
+			"offsetV" : {
+				"x" : 200.0,
+				"y" : -80.0,
+				"z" : 0.0
+			}
+		}
+		}
+	}
+}

@@ -1,0 +1,126 @@
+<!-- <!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + Svelte + TS</title>
+  </head>
+  <body>
+    <my-counter></my-counter>
+    <my-clock></my-clock>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="/global.css" />
+		<link rel="stylesheet" href="/style.css" />
+
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#000000" />
+		<meta
+			name="description"
+			content="Web site created using create-react-app"
+		/>
+		<title>MAPPA EXTENSA</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+		/>
+		<style>
+			body {
+				overflow: hidden; /* Hide scrollbars */
+			}
+			canvas {
+				display: block;
+			}
+		</style>
+	</head>
+
+	<video id="video" style="display: none" autoplay playsinline></video>
+	<script>
+		function initialize() {
+			// ####################################################
+			// ####################################################
+
+			// gmap
+
+			startMap = {
+				coords: { lat: 45.650907937236446, lng: 9.81967547515417 },
+				zoom: 18,
+				type: "satellite",
+				tilt: 0,
+				disableDefaultUI: true,
+			};
+
+			const map = new google.maps.Map(document.getElementById("map"), {
+				center: startMap.coords,
+				zoom: startMap.zoom,
+				mapTypeId: startMap.type, // 'satellite', //'hybrid',
+				tilt: startMap.tilt,
+				disableDefaultUI: startMap.disableDefaultUI,
+			});
+
+			const overlay = new google.maps.OverlayView();
+			overlay.draw = function () {};
+			overlay.setMap(map);
+
+			window.overlay = overlay;
+			window.map = map;
+
+			// ####################################################
+			// ####################################################
+
+			// ####################################################
+			// ####################################################
+
+			// street view
+
+			// Imposta la panoramica ed il viewer di Street View
+
+			const panorama = new google.maps.StreetViewPanorama(
+				document.getElementById("pano"),
+				{
+					position: startMap.coords,
+					pov: {
+						heading: 0,
+						pitch: 0,
+					},
+					linksControl: false,
+					panControl: false,
+					zoomControl: false,
+					fullscreenControl: false,
+					imageDateControl: true,
+					motionTracking: false,
+					motionTrackingControl: false,
+				}
+			);
+
+			map.setStreetView(panorama);
+
+			window.panorama = panorama;
+
+			// ####################################################
+			// ####################################################
+		}
+
+		window.initialize = initialize;
+	</script>
+	<body oncontextmenu="return false;">
+		<div id="map"></div>
+		<div id="pano"></div>
+		<div id="panobis"></div>
+		<div id="app"></div>
+		<script type="module" src="src/main.ts"></script>
+		<script
+			async
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu9v0flgS0mc-o0USfCy3rxTAEil5ykiE&callback=initialize&v=weekly&loading=async&callback=initialize"
+		></script>
+	</body>
+</html>

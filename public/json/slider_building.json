@@ -1,0 +1,131 @@
+{
+	"name" : "slider_building",
+	
+	"parameters" : {
+		
+		"textureList" : [
+			{
+				"name" : "button_searchGo",
+				"url" : "images/UI/button_search_go.png"
+			}
+		],
+		
+		"materialList" : [
+		
+			
+			{
+				"name" : "backdrop",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"textures" : {
+						"map" : "backdrop"
+					}
+				}
+			},
+			
+			
+			{
+				"name" : "button_searchGo",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_searchGo"
+					}
+				}
+			}
+		],
+		
+		"elementList" : [
+		
+			{
+				"type" : "addMesh", 
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "backdrop",
+					"materialList" : [ "backdrop" ],
+					"parameters" : {
+						"width" : 110,
+						"height" : 15
+					},
+					"position" : {
+						"x" : 0.0,
+						"y" : 0.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "field_altitude",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "...",
+						"edit" : true,
+						"isNumber" : true,
+						"transparent" : true,
+						"width" : 100,
+						"height" : 10,
+						"variable" : "MAP.p.actualCoords.altitude",
+						"textParameters" : {
+							"fontSize": "10pt",
+							"fontType": "Verdana",
+							"textAlign": "center",
+							"textBaseline": "middle",
+							"textPosition": { "x": 50, "y": 5 },
+							"color": { "r": 0, "g": 0, "b": 0 }
+						}
+					},
+					"position" : {
+						"x" : 0,
+						"y" : 0,
+						"z" : 0
+					}
+				}
+			}
+		]
+		
+	},
+	
+	"MM3D" : {
+		
+		"coordSystem" : "percent",
+		
+		"adaptive": {
+			"posH" : {
+				"x" : 0.5,
+				"y" : 1.0,
+				"z" : 0
+			},
+			"offsetH" : {
+				"x" : 0.0,
+				"y" : 150.0,
+				"z" : 0.0
+			},
+			"posV" : {
+				"x" : 0.5,
+				"y" : 1.0,
+				"z" : 0
+			},
+			"offsetV" : {
+				"x" : 0.0,
+				"y" : 150.0,
+				"z" : 0.0
+			}
+		}
+	}
+}

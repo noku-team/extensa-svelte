@@ -1,0 +1,256 @@
+{
+	"name" : "menu_area",
+	
+	"parameters" : {
+		
+		"textureList" : [
+			{
+				"name" : "button_area",
+				"url" : "images/grey.png"
+			},
+			{
+				"name" : "button_dragAndDrop",
+				"url" : "images/grey.png"
+			},
+			{
+				"name" : "dragAndDrop",
+				"url" : "images/UI/dragAndDrop.png"
+			}
+		],
+		
+		"materialList" : [
+			{
+				"name" : "button_area",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"opacity" : 0.5,
+					"textures" : {
+						"map" : "button_area"
+					}
+				}
+			},
+			{
+				"name" : "button_dragAndDrop",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"opacity" : 0.5,
+					"textures" : {
+						"map" : "button_dragAndDrop"
+					}
+				}
+			},
+			{
+				"name" : "dragAndDrop",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "dragAndDrop"
+					}
+				}
+			}
+		],
+		
+		"elementList" : [
+			
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "dragAndDrop",
+					
+					"visible" : false,
+					
+					"parameters" : {
+						"width" : 256,
+						"height" : 256
+					},
+					"materialList" : [
+						"dragAndDrop"
+					],
+					"MM3D" : {
+						
+						"coordSystem" : "percent",
+						
+						"adaptive": {
+							
+							"posH" : {
+								"x" : 0.5,
+								"y" : 0.5,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0.0
+							},
+							"posV" : {
+								"x" : 0.5,
+								"y" : 0.5,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0.0
+							}
+						}
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_area",
+					"parameters" : {
+						"width" : 50,
+						"height" : 50
+					},
+					"materialList" : [
+						"button_area"
+					],
+					"position" : {
+						"x" : 120,
+						"y" : 0,
+						"z" : 0
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_area_button_area",
+										"functionProp" : {}
+									}
+								]
+							},
+							
+							"touchend" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_area_button_area",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+									
+						"coordSystem" : "percent",
+						
+						"adaptive": {
+							
+							"posH" : {
+								"x" : 0.5,
+								"y" : 1,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : -110.0,
+								"y" : 120.0,
+								"z" : 0.0
+							},
+							"posV" : {
+								"x" : 0.5,
+								"y" : 1,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : -110.0,
+								"y" : 120.0,
+								"z" : 0.0
+							}
+						}
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_dragAndDrop",
+					"parameters" : {
+						"width" : 50,
+						"height" : 50
+					},
+					"materialList" : [
+						"button_dragAndDrop"
+					],
+					"position" : {
+						"x" : 120,
+						"y" : 0,
+						"z" : 0
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_area_button_dragAndDrop",
+										"functionProp" : {}
+									}
+								]
+							},
+							
+							"touchend" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_area_button_dragAndDrop",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+									
+						"coordSystem" : "percent",
+						
+						"adaptive": {
+							
+							"posH" : {
+								"x" : 0.5,
+								"y" : 1,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : -55.0,
+								"y" : 120.0,
+								"z" : 0.0
+							},
+							"posV" : {
+								"x" : 0.5,
+								"y" : 1,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : -55.0,
+								"y" : 120.0,
+								"z" : 0.0
+							}
+						}
+					}
+				}
+			}
+			
+		]
+		
+	}
+}

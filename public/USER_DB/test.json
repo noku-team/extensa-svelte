@@ -1,0 +1,23 @@
+{
+    "user": "test",
+    "name": "test",
+    "surname": "mytest",
+    "wallet": "112233445",
+    "email": "test@gmail.com",
+    "geoareaList": [{
+            "geoAreaName": "8d743bf1-5b1b-46c3-b42c-f3c12785cb51",
+            "myCoords": {
+                "lng": 9.817726187892196,
+                "lat": 45.64481184394597,
+                "alt": 0
+            }
+        }, {
+            "geoAreaName": "db59a7c1-c136-48f9-9d8e-024f45335abf",
+            "myCoords": {
+                "lng": 9.798996264892812,
+                "lat": 45.620783780235946,
+                "alt": 0
+            }
+        }
+    ]
+}

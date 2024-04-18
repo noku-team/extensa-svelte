@@ -1,0 +1,2455 @@
+{
+	"name" : "window_image_properties",
+	
+	"parameters" : {
+		
+		"materialList" : [
+			{
+				"type" : "MeshBasicMaterial",
+				"name" : "backdrop",
+				"parameters" : {
+					"color" : { "r": 0.25, "g": 0.25, "b": 0.25 }
+				}
+			}
+		],
+
+		"elementList" : [
+			
+			{
+				"type" : "addMesh", 
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "backdrop",
+					"materialList" : [ "backdrop" ],
+					"parameters" : {
+						"width" : 650,
+						"height" : 230
+					},
+					"position" : {
+						"x" : 320.0,
+						"y" : -110.0,
+						"z" : 0.0
+					}
+				}
+			},
+		
+			{
+				"type" : "addField",
+				"prop" : {
+					"name" : "obj_name",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "NAME:",
+						"edit" : false,
+						"isNumber" : false,
+						"transparent" : true,
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px",
+							"textAlign" : "left"
+						}
+					},
+					
+					"MM3D" : {
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 50,
+								"y" : -5.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 50.0,
+								"y" : -5.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					"name" : "input_name",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "",
+						"edit" : true,
+						"isNumber" : false,
+						"transparent" : false,
+						"variable" : "EDITOR.p.selectedElement.name",
+						"width" : 200,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px"
+						}
+					},
+					
+					"MM3D" : {
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 200,
+								"y" : -5.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 200.0,
+								"y" : -5.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					"name" : "img_name",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "IMAGE NAME:",
+						"edit" : false,
+						"isNumber" : false,
+						"transparent" : true,
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px",
+							"textAlign" : "left"
+						}
+					},
+					
+					"MM3D" : {
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 50,
+								"y" : -20.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 50.0,
+								"y" : -20.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					"name" : "input_image_name",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "",
+						"edit" : true,
+						"isNumber" : false,
+						"transparent" : false,
+						"variable" : "EDITOR.p.selectedElement.userData.fileName",
+						"width" : 200,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px"
+						}
+					},
+					
+					"MM3D" : {
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 200,
+								"y" : -20.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 200.0,
+								"y" : -20.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					"name" : "image_W",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "IMAGE W:",
+						"edit" : false,
+						"isNumber" : false,
+						"transparent" : true,
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px",
+							"textAlign" : "left"
+						}
+					},
+					
+					"MM3D" : {
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 50.0,
+								"y" : -35.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 50.0,
+								"y" : -35.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					"name" : "value_image_W",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "",
+						"edit" : false,
+						"isNumber" : true,
+						"transparent" : false,
+						"variable" : "EDITOR.p.selectedElement.userData.imageWidth",
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px"
+						}
+					},
+					
+					"MM3D" : {
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 150,
+								"y" : -35.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 150.0,
+								"y" : -35.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					"name" : "image_H",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "IMAGE H:",
+						"edit" : false,
+						"isNumber" : false,
+						"transparent" : true,
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px",
+							"textAlign" : "left"
+						}
+					},
+					
+					"MM3D" : {
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 50.0,
+								"y" : -50.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 50.0,
+								"y" : -50.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					"name" : "value_image_H",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "",
+						"edit" : false,
+						"isNumber" : true,
+						"transparent" : false,
+						"variable" : "EDITOR.p.selectedElement.userData.imageHeight",
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px"
+						}
+					},
+					
+					"MM3D" : {
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 150,
+								"y" : -50.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 150.0,
+								"y" : -50.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			
+			},
+			
+			
+			
+			{
+				"type" : "addButton",
+				"prop" : {
+					"name" : "flip_h",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "FLIP H",
+						"variable" : "EDITOR.p.selectedElement.OBJECTS.mesh.scale.x",
+						"value" : -1,
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px",
+							"textAlign" : "center"
+						}
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "EDITOR.p.window_image_properties.f.flip_H",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 250.0,
+								"y" : -35.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 250.0,
+								"y" : -35.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			},
+			
+			{
+				"type" : "addButton",
+				"prop" : {
+					"name" : "flip_v",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "FLIP V",
+						"variable" : "EDITOR.p.selectedElement.OBJECTS.mesh.scale.y",
+						"value" : -1,
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px",
+							"textAlign" : "center"
+						}
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "EDITOR.p.window_image_properties.f.flip_V",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 250.0,
+								"y" : -50.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 250.0,
+								"y" : -50.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+				
+			},
+			
+			{
+				"type" : "addButton",
+				"prop" : {
+					"name" : "horizontal",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "HORIZONTAL",
+						"variable" : "EDITOR.p.selectedElement.userData.horizontal",
+						"value" : true,
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px",
+							"textAlign" : "center"
+						}
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "EDITOR.p.window_image_properties.f.horizontal",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 50.0,
+								"y" : -65.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 50.0,
+								"y" : -65.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			},
+			
+			{
+				"type" : "addButton",
+				"prop" : {
+					"name" : "vertical",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "VERTICAL",
+						"variable" : "EDITOR.p.selectedElement.userData.horizontal",
+						"value" : false,
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px",
+							"textAlign" : "center"
+						}
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "EDITOR.p.window_image_properties.f.vertical",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 150.0,
+								"y" : -65.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 150.0,
+								"y" : -65.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			},
+			
+			{
+				"type" : "addButton",
+				"prop" : {
+					"name" : "pivotH",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "PIVOT H",
+						"variable" : "EDITOR.p.selectedElement.userData.pivotH",
+						"value" : true,
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px",
+							"textAlign" : "center"
+						}
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "EDITOR.p.window_image_properties.f.pivotH",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 250.0,
+								"y" : -65.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 250.0,
+								"y" : -65.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			},
+			
+			{
+				"type" : "addButton",
+				"prop" : {
+					"name" : "rotY",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "ROTY 90",
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px",
+							"textAlign" : "center"
+						}
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "EDITOR.p.window_image_properties.f.rotY",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 250.0,
+								"y" : -80.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 250.0,
+								"y" : -80.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			},
+			
+			{
+				"type" : "addButton",
+				"prop" : {
+					"name" : "alphaTest",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "ALPHATEST",
+						"width" : 100,
+						"height" : 10,
+						"variable" : "EDITOR.p.selectedElement.MATERIALS.mesh.alphaTest",
+						"value" : 0.5,
+						"textParameters" : {
+							"fontSize" : "10px",
+							"textAlign" : "center"
+						}
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "EDITOR.p.window_image_properties.f.alphaTest",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 50.0,
+								"y" : -80.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 50.0,
+								"y" : -80.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			},
+			
+			{
+				"type" : "addButton",
+				"prop" : {
+					"name" : "doubleSide",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "DOUBLE SIDE",
+						"variable" : "EDITOR.p.selectedElement.MATERIALS.mesh.side",
+						"value" : 2,
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px",
+							"textAlign" : "center"
+						}
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "EDITOR.p.window_image_properties.f.doubleSide",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 150.0,
+								"y" : -80.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 150.0,
+								"y" : -80.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			},
+
+			{
+				"type" : "addButton",
+				"prop" : {
+					"name" : "transparent",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "TRANSPARENT",
+						"variable" : "EDITOR.p.selectedElement.MATERIALS.mesh.transparent",
+						"value" : true,
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px",
+							"textAlign" : "center"
+						}
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "EDITOR.p.window_image_properties.f.transparent",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 50.0,
+								"y" : -95.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 50.0,
+								"y" : -95.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			},
+			
+			{ 
+				"type" : "addSlider",
+				"prop" : {
+					"name" : "slider_opacity",
+					"parameters" : {
+						"width" : 80,
+						"height" : 10,
+						"inverse" : false,
+						"min" : 0,
+						"trunc" : 2,
+						"max" : 1.0,
+						"value" : 1.0,
+						"variable" : "EDITOR.p.selectedElement.MATERIALS.mesh.opacity"
+					},
+					"MM3D" : {
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 150.0,
+								"y" : -95.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 150.0,
+								"y" : -95.0,
+								"z" : 0
+							}
+						}
+					}
+				}
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					"name" : "input_opacity",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "",
+						"edit" : true,
+						"isNumber" : true,
+						"transparent" : false,
+						"variable" : "EDITOR.p.selectedElement.MATERIALS.mesh.opacity",
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px"
+						}
+					},
+					
+					"MM3D" : {
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 250,
+								"y" : -95.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 250.0,
+								"y" : -95.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			
+			},
+			
+			{
+				"type" : "addButton",
+				"prop" : {
+					"name" : "castShadow",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "CAST SHADOW",
+						"variable" : "EDITOR.p.selectedElement.OBJECTS.mesh.castShadow",
+						"value" : true,
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px",
+							"textAlign" : "center"
+						}
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "EDITOR.p.window_image_properties.f.castShadow",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 50.0,
+								"y" : -110.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 50.0,
+								"y" : -110.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			},
+			
+			{
+				"type" : "addButton",
+				"prop" : {
+					"name" : "receiveShadow",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "RECEIVE SHADOW",
+						"variable" : "EDITOR.p.selectedElement.OBJECTS.shadowMesh.material.visible",
+						"value" : true,
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px",
+							"textAlign" : "center"
+						}
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "EDITOR.p.window_image_properties.f.receiveShadow",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 150.0,
+								"y" : -110.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 150.0,
+								"y" : -110.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			},
+			
+			{
+				"type" : "addButton",
+				"prop" : {
+					"name" : "visible",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "VISIBLE",
+						"variable" : "EDITOR.p.selectedElement.visible",
+						"value" : true,
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px",
+							"textAlign" : "center"
+						}
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "EDITOR.p.window_image_properties.f.visible",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 250.0,
+								"y" : -110.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 250.0,
+								"y" : -110.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			},
+			
+			
+			
+		
+			{
+				"type" : "addField",
+				"prop" : {
+					"name" : "position_field",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "POSITION:",
+						"edit" : false,
+						"isNumber" : false,
+						"transparent" : true,
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px"
+						}
+					},
+					
+					"MM3D" : {
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 375,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 375.0,
+								"y" : 0.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					"name" : "position_value_x",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "",
+						"edit" : true,
+						"isNumber" : true,
+						"trunc" : 4,
+						"transparent" : false,
+						"variable" : "EDITOR.p.selectedElement.position.x",
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px"
+						}
+					},
+					
+					"MM3D" : {
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 375,
+								"y" : -15.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 375.0,
+								"y" : -15.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					"name" : "position_value_y",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "",
+						"edit" : true,
+						"isNumber" : true,
+						"trunc" : 4,
+						"transparent" : false,
+						"variable" : "EDITOR.p.selectedElement.position.y",
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px"
+						}
+					},
+					
+					"MM3D" : {
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 375,
+								"y" : -30.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 375.0,
+								"y" : -30.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					"name" : "position_value_z",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "",
+						"edit" : true,
+						"trunc" : 4,
+						"isNumber" : true,
+						"transparent" : false,
+						"variable" : "EDITOR.p.selectedElement.position.z",
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px"
+						}
+					},
+					
+					"MM3D" : {
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 375,
+								"y" : -45.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 375.0,
+								"y" : -45.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			
+			},
+			
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					"name" : "rotation_field",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "ROTATION:",
+						"edit" : false,
+						"isNumber" : false,
+						"transparent" : true,
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px"
+						}
+					},
+					
+					"MM3D" : {
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 375,
+								"y" : -70.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 375.0,
+								"y" : -70.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					"name" : "rotation_value_x",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "",
+						"edit" : true,
+						"isNumber" : true,
+						"isDegree" : true,
+						"trunc" : 4,
+						"transparent" : false,
+						"variable" : "EDITOR.p.selectedElement.rotation.x",
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px"
+						}
+					},
+					
+					"MM3D" : {
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 375,
+								"y" : -85.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 375.0,
+								"y" : -85.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					"name" : "rotation_value_y",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "",
+						"edit" : true,
+						"isNumber" : true,
+						"isDegree" : true,
+						"trunc" : 4,
+						"transparent" : false,
+						"variable" : "EDITOR.p.selectedElement.rotation.y",
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px"
+						}
+					},
+					
+					"MM3D" : {
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 375,
+								"y" : -100.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 375.0,
+								"y" : -100.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					"name" : "rotation_value_z",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "",
+						"edit" : true,
+						"isNumber" : true,
+						"isDegree" : true,
+						"trunc" : 4,
+						"transparent" : false,
+						"variable" : "EDITOR.p.selectedElement.rotation.z",
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px"
+						}
+					},
+					
+					"MM3D" : {
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 375,
+								"y" : -115.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 375.0,
+								"y" : -115.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			
+			},
+			
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					"name" : "scale_field",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "SCALE:",
+						"edit" : false,
+						"isNumber" : false,
+						"transparent" : true,
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px"
+						}
+					},
+					
+					"MM3D" : {
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 375,
+								"y" : -140.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 375.0,
+								"y" : -140.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					"name" : "scale_value_x",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "",
+						"edit" : true,
+						"isNumber" : true,
+						"trunc" : 4,
+						"transparent" : false,
+						"variable" : "EDITOR.p.selectedElement.scale.x",
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px"
+						}
+					},
+					
+					"MM3D" : {
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 375,
+								"y" : -155.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 375.0,
+								"y" : -155.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					"name" : "scale_value_y",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "",
+						"edit" : true,
+						"isNumber" : true,
+						"trunc" : 4,
+						"transparent" : false,
+						"variable" : "EDITOR.p.selectedElement.scale.y",
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px"
+						}
+					},
+					
+					"MM3D" : {
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 375,
+								"y" : -170.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 375.0,
+								"y" : -170.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					"name" : "scale_value_z",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "",
+						"edit" : true,
+						"isNumber" : true,
+						"trunc" : 4,
+						"transparent" : false,
+						"variable" : "EDITOR.p.selectedElement.scale.z",
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px"
+						}
+					},
+					
+					"MM3D" : {
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 375,
+								"y" : -185.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 375.0,
+								"y" : -185.0,
+								"z" : 0
+							}
+						}
+					}
+				
+				}
+			
+			},
+			
+			{
+				"type" : "addButton",
+				"prop" : {
+					"name" : "adaptToGrid",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "ADAPT TO GRID",
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px",
+							"textAlign" : "center"
+						}
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "EDITOR.p.window_image_properties.f.adaptToGrid",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 10
+							},
+							"offsetH" : {
+								"x" : 50.0,
+								"y" : -150.0,
+								"z" : 10
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 10
+							},
+							"offsetH" : {
+								"x" : 50.0,
+								"y" : -150.0,
+								"z" : 10
+							}
+						}
+					}
+				
+				}
+			},
+			
+			{
+				"type" : "addButton",
+				"prop" : {
+					"name" : "adaptToImage",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "ADAPT TO IMAGE",
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px",
+							"textAlign" : "center"
+						}
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "EDITOR.p.window_image_properties.f.adaptToImageResolution",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 10
+							},
+							"offsetH" : {
+								"x" : 155.0,
+								"y" : -150.0,
+								"z" : 10
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 10
+							},
+							"offsetH" : {
+								"x" : 155.0,
+								"y" : -150.0,
+								"z" : 10
+							}
+						}
+					}
+				
+				}
+			},
+			
+			
+			
+			
+			
+	
+			
+			{
+				"type" : "addButton",
+				"prop" : {
+					"name" : "clone",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "CLONE",
+						"variable" : "EDITOR.p.ACTION",
+						"value" : "clone",
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px"
+						}
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "EDITOR.p.window_main_menu.f.clone",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 10
+							},
+							"offsetH" : {
+								"x" : 520.0,
+								"y" : -15.0,
+								"z" : 10
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 10
+							},
+							"offsetH" : {
+								"x" : 520.0,
+								"y" : -15.0,
+								"z" : 10
+							}
+						}
+					}
+				
+				}
+			},
+			
+			{
+				"type" : "addButton",
+				"prop" : {
+					"name" : "position",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "POSITION",
+						"variable" : "EDITOR.p.ACTION",
+						"value" : "position",
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"color" : { "r" : 0.0, "g" : 0.0, "b" : 0.0 },
+							"fontSize" : "10px"
+						}
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "EDITOR.p.window_main_menu.f.position",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 10
+							},
+							"offsetH" : {
+								"x" : 520.0,
+								"y" : -30.0,
+								"z" : 10
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 10
+							},
+							"offsetH" : {
+								"x" : 520.0,
+								"y" : -30.0,
+								"z" : 10
+							}
+						}
+					}
+				
+				}
+			},
+			
+			{
+				"type" : "addButton",
+				"prop" : {
+					"name" : "rotation",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "ROTATION",
+						"variable" : "EDITOR.p.ACTION",
+						"value" : "rotation",
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"color" : { "r" : 0.0, "g" : 0.0, "b" : 0.0 },
+							"fontSize" : "10px"
+						}
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "EDITOR.p.window_main_menu.f.rotation",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 10
+							},
+							"offsetH" : {
+								"x" : 520.0,
+								"y" : -45.0,
+								"z" : 10
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 10
+							},
+							"offsetH" : {
+								"x" : 520.0,
+								"y" : -45.0,
+								"z" : 10
+							}
+						}
+					}
+				}
+			},
+			
+			{
+				"type" : "addButton",
+				"prop" : {
+					"name" : "scale",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "SCALE",
+						"variable" : "EDITOR.p.ACTION",
+						"value" : "scale",
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"color" : { "r" : 0.0, "g" : 0.0, "b" : 0.0 },
+							"fontSize" : "10px"
+						}
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "EDITOR.p.window_main_menu.f.scale",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 10
+							},
+							"offsetH" : {
+								"x" : 520.0,
+								"y" : -60.0,
+								"z" : 10
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 10
+							},
+							"offsetH" : {
+								"x" : 520.0,
+								"y" : -60.0,
+								"z" : 10
+							}
+						}
+					}
+				}
+			},
+			
+			
+			{
+				"type" : "addButton",
+				"prop" : {
+					"name" : "snapToGrid",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "SNAP TO GRID",
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px",
+							"textAlign" : "center"
+						}
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "EDITOR.p.window_main_menu.f.snapToGrid",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 10
+							},
+							"offsetH" : {
+								"x" : 520.0,
+								"y" : -90.0,
+								"z" : 10
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 10
+							},
+							"offsetH" : {
+								"x" : 520.0,
+								"y" : -90.0,
+								"z" : 10
+							}
+						}
+					}
+				
+				}
+			},
+			
+			
+			{
+				"type" : "addButton",
+				"prop" : {
+					"name" : "groundLock",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "GROUND LOCK",
+						"width" : 100,
+						"height" : 10,
+						"variable" : "EDITOR.p.lockToGround",
+						"value" : true,
+						"textParameters" : {
+							"fontSize" : "10px",
+							"textAlign" : "center"
+						}
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "EDITOR.p.window_main_menu.f.lockToGround",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 10
+							},
+							"offsetH" : {
+								"x" : 520.0,
+								"y" : -105.0,
+								"z" : 10
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 10
+							},
+							"offsetH" : {
+								"x" : 520.0,
+								"y" : -105.0,
+								"z" : 10
+							}
+						}
+					}
+				}
+			},
+			
+			{
+				"type" : "addButton",
+				"prop" : {
+					"name" : "gridLock",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "GRID LOCK",
+						"width" : 100,
+						"height" : 10,
+						"variable" : "EDITOR.p.lockToGrid",
+						"value" : true,
+						"textParameters" : {
+							"fontSize" : "10px",
+							"textAlign" : "center"
+						}
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "EDITOR.p.window_main_menu.f.lockToGrid",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 10
+							},
+							"offsetH" : {
+								"x" : 520.0,
+								"y" : -120.0,
+								"z" : 10
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 10
+							},
+							"offsetH" : {
+								"x" : 520.0,
+								"y" : -120.0,
+								"z" : 10
+							}
+						}
+					}
+				
+				}
+			},
+			
+			{
+				"type" : "addButton",
+				"prop" : {
+					"name" : "delete",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "DELETE",
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px",
+							"color" : { "r" : 1.0, "g" : 0.0, "b" : 0.0 },
+							"textAlign" : "center"
+						}
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "EDITOR.p.window_main_menu.f.delete",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 10
+							},
+							"offsetH" : {
+								"x" : 520.0,
+								"y" : -150.0,
+								"z" : 10
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 10
+							},
+							"offsetH" : {
+								"x" : 520.0,
+								"y" : -150.0,
+								"z" : 10
+							}
+						}
+					}
+				
+				}
+			},
+			
+			
+			{
+				"type" : "addButton",
+				"prop" : {
+					"name" : "addCollisionBox",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "ADD COLLISION",
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px",
+							"textAlign" : "center"
+						}
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "EDITOR.p.window_image_properties.f.addCollisionBox",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 10
+							},
+							"offsetH" : {
+								"x" : 260.0,
+								"y" : -150.0,
+								"z" : 10
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 10
+							},
+							"offsetH" : {
+								"x" : 260.0,
+								"y" : -150.0,
+								"z" : 10
+							}
+						}
+					}
+				
+				}
+			},
+			
+
+			{
+				"type" : "addButton",
+				"prop" : {
+					"name" : "close",
+					"parameters" : {
+						"enabled" : true,
+						"string" : "CLOSE",
+						"width" : 100,
+						"height" : 10,
+						"textParameters" : {
+							"fontSize" : "10px",
+							"textAlign" : "center"
+						}
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "EDITOR.p.window_image_properties.f.close",
+										"functionProp" : {}
+									}
+								]
+							}
+						},
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 550.0,
+								"y" : -205.0,
+								"z" : 0
+							},
+							"posV" : {
+								"x" : 0.0,
+								"y" : 0.0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 550.0,
+								"y" : -205.0,
+								"z" : 0
+							}
+						}
+					}
+				}
+			}
+		
+		]
+	},
+	
+	"MM3D" : {
+		"coordSystem" : "percent",
+		"adaptive": {
+			"posH" : {
+				"x" : 0.0,
+				"y" : 1.0,
+				"z" : 0
+			},
+			"offsetH" : {
+				"x" : 140,
+				"y" : 220,
+				"z" : 0
+			},
+			"posV" : {
+				"x" : 0.0,
+				"y" : 1.0,
+				"z" : 0
+			},
+			"offsetV" : {
+				"x" : 140,
+				"y" : 220,
+				"z" : 0
+			}
+		}
+	}
+	
+}

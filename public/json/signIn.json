@@ -1,0 +1,328 @@
+{
+	"name" : "signIn",
+	
+	"parameters" : {
+		
+		"textureList" : [
+			
+			{
+				"name" : "backdrop",
+				"url" : "images/grey.png"
+			},
+			
+			{
+				"name" : "button_close",
+				"url" : "images/grey.png"
+			},
+			
+			{
+				"name" : "button_signIn",
+				"url" : "images/grey.png"
+			}
+			
+		],
+		
+		
+		"materialList" : [
+			
+			{
+				"name" : "backdrop",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 0.0,
+						"g" : 0.0,
+						"b" : 0.0
+					},
+					"textures" : {
+						"map" : "backdrop"
+					}
+				}
+			},
+			
+			{
+				"name" : "button_close",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"textures" : {
+						"map" : "button_close"
+					}
+				}
+			},
+			
+			{
+				"name" : "button_signIn",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"textures" : {
+						"map" : "button_signIn"
+					}
+				}
+			}
+		],
+		
+		"elementList" : [
+			
+			{
+				"type" : "addMesh", 
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "backdrop",
+					"materialList" : [ "backdrop" ],
+					"parameters" : {
+						"width" : 256,
+						"height" : 256
+					},
+					"position" : {
+						"x" : 0.0,
+						"y" : 0.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "titolo_username",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "USER NAME:",
+						"edit" : false,
+						"isNumber" : false,
+						"transparent" : true,
+						"width" : 250,
+						"height" : 32,
+						"textParameters" : {
+							"fontSize": "12pt",
+							"fontType": "Verdana",
+							"textAlign": "center",
+							"textBaseline": "middle",
+							"textPosition": { "x": 125, "y": 16 },
+							"color": { "r": 1, "g": 1, "b": 1 }
+						}
+					},
+					
+					"position" : {
+						"x" : 0.0,
+						"y" : 80.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "field_username",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "...",
+						"edit" : true,
+						"isNumber" : false,
+						"transparent" : false,
+						"width" : 250,
+						"height" : 32,
+						"variable" : "UI.p.username",
+						"textParameters" : {
+							"fontSize": "12pt",
+							"fontType": "Verdana",
+							"textAlign": "center",
+							"textBaseline": "middle",
+							"textPosition": { "x": 125, "y": 16 },
+							"color": { "r": 1, "g": 1, "b": 1 }
+						}
+					},
+					
+					"position" : {
+						"x" : 0.0,
+						"y" : 50.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "titolo_password",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "PASSWORD:",
+						"edit" : false,
+						"isNumber" : false,
+						"transparent" : true,
+						"width" : 250,
+						"height" : 32,
+						"textParameters" : {
+							"fontSize": "12pt",
+							"fontType": "Verdana",
+							"textAlign": "center",
+							"textBaseline": "middle",
+							"textPosition": { "x": 125, "y": 16 },
+							"color": { "r": 1, "g": 1, "b": 1 }
+						}
+					},
+					
+					"position" : {
+						"x" : 0.0,
+						"y" : -5.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "field_password",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "...",
+						"edit" : true,
+						"isNumber" : false,
+						"transparent" : false,
+						"width" : 250,
+						"height" : 32,
+						"variable" : "UI.p.password",
+						"textParameters" : {
+							"fontSize": "12pt",
+							"fontType": "Verdana",
+							"textAlign": "center",
+							"textBaseline": "middle",
+							"textPosition": { "x": 125, "y": 16 },
+							"color": { "r": 1, "g": 1, "b": 1 }
+						}
+					},
+					
+					"position" : {
+						"x" : 0.0,
+						"y" : -35.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_close",
+					"parameters" : {
+						"width" : 32,
+						"height" : 32
+					},
+					"materialList" : [
+						"button_close"
+					],
+					"position" : {
+						"x" : 112,
+						"y" : 112,
+						"z" : 1
+					},
+					"MM3D" : {
+						"events" : {
+							
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_top.f.closeSignIn",
+										"functionProp" : {}
+									}
+								]
+							},
+							
+							"touchend" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_top.f.closeSignIn",
+										"functionProp" : {}
+									}
+								]
+							}
+						}
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_signIn",
+					"parameters" : {
+						"width" : 128,
+						"height" : 64
+					},
+					"materialList" : [
+						"button_signIn"
+					],
+					"position" : {
+						"x" : 0,
+						"y" : -95,
+						"z" : 0
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.f.signIn_ok",
+										"functionProp" : {}
+									}
+								]
+							}
+						}
+					}
+				}
+			}
+		]
+		
+	},
+	
+	"MM3D" : {
+		
+		"coordSystem" : "percent",
+		
+		"adaptive": {
+			"posH" : {
+				"x" : 0.5,
+				"y" : 0.5,
+				"z" : 0
+			},
+			"offsetH" : {
+				"x" : 0.0,
+				"y" : 0.0,
+				"z" : 0.0
+			},
+			"posV" : {
+				"x" : 0.5,
+				"y" : 0.5,
+				"z" : 0
+			},
+			"offsetV" : {
+				"x" : 0.0,
+				"y" : 0.0,
+				"z" : 0.0
+			}
+		}
+	}
+}

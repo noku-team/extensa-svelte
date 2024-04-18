@@ -1,0 +1,409 @@
+{
+	"name" : "popup_account",
+	
+	"parameters" : {
+		
+		"textureList" : [
+			{
+				"name" : "button_altimeter",
+				"url" : "images/UI/button_altimeter.png"
+			},
+			{
+				"name" : "button_fullscreen",
+				"url" : "images/UI/button_fullscreen.png"
+			},
+			{
+				"name" : "button_gpspoints",
+				"url" : "images/UI/button_gpspoints.png"
+			},
+			{
+				"name" : "button_login",
+				"url" : "images/UI/button_login.png"
+			},
+			{
+				"name" : "button_register",
+				"url" : "images/UI/button_register.png"
+			},
+			{
+				"name" : "button_account",
+				"url" : "images/UI/button_account.png"
+			},
+			{
+				"name" : "button_logout",
+				"url" : "images/UI/button_logout.png"
+			}
+		],
+		
+		"materialList" : [
+		
+			
+			{
+				"name" : "backdrop",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					}
+				}
+			},
+			
+			{
+				"name" : "button_altimeter",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_altimeter"
+					}
+				}
+			},
+			{
+				"name" : "button_fullscreen",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_fullscreen"
+					}
+				}
+			},
+			{
+				"name" : "button_gpspoints",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_gpspoints"
+					}
+				}
+			},
+			{
+				"name" : "button_login",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_login"
+					}
+				}
+			},
+			{
+				"name" : "button_register",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_register"
+					}
+				}
+			},
+			{
+				"name" : "button_account",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_account"
+					}
+				}
+			},
+			{
+				"name" : "button_logout",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_logout"
+					}
+				}
+			}
+			
+		],
+		
+		"elementList" : [
+		
+			{
+				"type" : "addMesh", 
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "backdrop",
+					"visible" : false,
+					"materialList" : [ "backdrop" ],
+					"parameters" : {
+						"width" : 110,
+						"height" : 15
+					},
+					"position" : {
+						"x" : 0.0,
+						"y" : 0.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh", 
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_login",
+					"visible" : true,
+					"materialList" : [ "button_login" ],
+					"parameters" : {
+						"width" : 128,
+						"height" : 64
+					},
+					"position" : {
+						"x" : 0.0,
+						"y" : 0.0,
+						"z" : 0.0
+					},
+					"MM3D" : {
+						
+						"events" : {
+							"mousedown" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_top.f.button_logIn",
+										"functionProp" : {}
+									}
+								]
+							},
+							
+							"touchstart" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_top.f.button_logIn",
+										"functionProp" : {}
+									}
+								]
+							}
+						}
+						
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh", 
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_register",
+					"visible" : true,
+					"materialList" : [ "button_register" ],
+					"parameters" : {
+						"width" : 128,
+						"height" : 64
+					},
+					"position" : {
+						"x" : 0.0,
+						"y" : -64.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh", 
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_gpspoints",
+					"visible" : true,
+					"materialList" : [ "button_gpspoints" ],
+					"parameters" : {
+						"width" : 128,
+						"height" : 64
+					},
+					"position" : {
+						"x" : 0.0,
+						"y" : -150.0,
+						"z" : 0.0
+					},
+					"MM3D" : {
+						
+						"events" : {
+							"mousedown" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_top.f.button_gpsPoints",
+										"functionProp" : {}
+									}
+								]
+							},
+							
+							"touchstart" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_top.f.button_gpsPoints",
+										"functionProp" : {}
+									}
+								]
+							}
+						}
+						
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh", 
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_altimeter",
+					"visible" : true,
+					"materialList" : [ "button_altimeter" ],
+					"parameters" : {
+						"width" : 128,
+						"height" : 64
+					},
+					"position" : {
+						"x" : 0.0,
+						"y" : -214.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh", 
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_fullscreen",
+					"visible" : true,
+					"materialList" : [ "button_fullscreen" ],
+					"parameters" : {
+						"width" : 128,
+						"height" : 64
+					},
+					"position" : {
+						"x" : 0.0,
+						"y" : -278.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh", 
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_account",
+					"visible" : false,
+					"materialList" : [ "button_account" ],
+					"parameters" : {
+						"width" : 128,
+						"height" : 64
+					},
+					"position" : {
+						"x" : 0.0,
+						"y" : -214.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh", 
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_logout",
+					"visible" : false,
+					"materialList" : [ "button_logout" ],
+					"parameters" : {
+						"width" : 128,
+						"height" : 64
+					},
+					"position" : {
+						"x" : 0.0,
+						"y" : -278.0,
+						"z" : 0.0
+					}
+				}
+			}
+			
+		]
+		
+	},
+	
+	"MM3D" : {
+		
+		"scriptList" : [
+			{
+				"loop" : true,
+				"functionName" : "UI.p.menu_account.f.feedback",
+				"functionProp" : {}
+			}
+		],
+		
+		"coordSystem" : "percent",
+		
+		"adaptive": {
+			"posH" : {
+				"x" : 0.0,
+				"y" : 0.0,
+				"z" : 0
+			},
+			"sizH" : {
+				"x" : 0.75,
+				"y" : 0.75,
+				"z" : 0.75
+			},
+			"offsetH" : {
+				"x" : 120.0,
+				"y" : -80.0,
+				"z" : 0.0
+			},
+			"posV" : {
+				"x" : 0.0,
+				"y" : 0.0,
+				"z" : 0
+			},
+			"sizV" : {
+				"x" : 0.75,
+				"y" : 0.75,
+				"z" : 0.75
+			},
+			"offsetV" : {
+				"x" : 120.0,
+				"y" : -80.0,
+				"z" : 0.0
+			}
+		}
+	}
+}

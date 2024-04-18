@@ -1,0 +1,118 @@
+{
+	"name" : "register",
+	
+	"parameters" : {
+		
+		"textureList" : [
+			{
+				"name" : "testButton",
+				"url" : "images/grey.png"
+			}
+		],
+		
+		"materialList" : [
+			{
+				"name" : "testButton",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 0.0,
+						"b" : 0.0
+					}
+				}
+			}
+		],
+		
+		"elementList" : [
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "campo_indirizzo",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "...",
+						"edit" : true,
+						"isNumber" : false,
+						"transparent" : false,
+						"width" : 300,
+						"height" : 16,
+						"variable" : "UI.p.address",
+						"textParameters" : {
+							"fontSize": "12pt",
+							"fontType": "Verdana",
+							"textAlign": "center",
+							"textBaseline": "middle",
+							"textPosition": { "x": 150, "y": 8 },
+							"color": { "r": 1, "g": 1, "b": 1 }
+						}
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "testButton",
+					"parameters" : {
+						"width" : 20,
+						"height" : 20
+					},
+					"materialList" : [
+						"testButton"
+					],
+					"position" : {
+						"x" : 170,
+						"y" : 0,
+						"z" : 0
+					},
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.f.goToAddressCoords",
+										"functionProp" : {}
+									}
+								]
+							}
+						}
+					}
+				}
+			}
+		]
+		
+	},
+	
+	"MM3D" : {
+		
+		"coordSystem" : "percent",
+		
+		"adaptive": {
+			"posH" : {
+				"x" : 0.5,
+				"y" : 0.1,
+				"z" : 0
+			},
+			"offsetH" : {
+				"x" : 0.0,
+				"y" : 0.0,
+				"z" : 0.0
+			},
+			"posV" : {
+				"x" : 0.5,
+				"y" : 0.1,
+				"z" : 0
+			},
+			"offsetV" : {
+				"x" : 0.0,
+				"y" : 0.0,
+				"z" : 0.0
+			}
+		}
+	}
+}

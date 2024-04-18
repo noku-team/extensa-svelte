@@ -1,0 +1,284 @@
+{
+	"name" : "menu_top",
+	
+	"parameters" : {
+		
+		"textureList" : [
+			{
+				"name" : "button_account",
+				"url" : "images/UI/button_menu.png"
+			},
+			{
+				"name" : "logo",
+				"url" : "images/UI/Logo_Extensa_2_low.png"
+			},
+			{
+				"name" : "button_back",
+				"url" : "images/UI/button_back.png"
+			},
+			{
+				"name" : "button_search",
+				"url" : "images/UI/button_search.png"
+			}
+		],
+		
+		"materialList" : [
+		
+			{
+				"name" : "button_account",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_account"
+					}
+				}
+			},
+			
+			{
+				"name" : "logo",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "logo"
+					}
+				}
+			},
+			
+			{
+				"name" : "button_search",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_search"
+					}
+				}
+			}
+			
+		],
+		
+		"elementList" : [
+			
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_search",
+					"parameters" : {
+						"width" : 64,
+						"height" : 64
+					},
+					"materialList" : [
+						"button_search"
+					],
+					"position" : {
+						"x" : 170,
+						"y" : 0,
+						"z" : 0
+					},
+					"MM3D" : {
+						"events" : {
+							
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_top.f.openSearch",
+										"functionProp" : {}
+									}
+								]
+							},
+							
+							"touchend" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_top.f.openSearch",
+										"functionProp" : {}
+									}
+								]
+							}
+							
+						},
+						
+						"coordSystem" : "percent",
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 1,
+								"y" : 0,
+								"z" : 0
+							},
+							"sizH" : {
+								"x" : 0.5,
+								"y" : 0.5,
+								"z" : 0.5
+							},
+							"offsetH" : {
+								"x" : -30.0,
+								"y" : -30.0,
+								"z" : 0.0
+							},
+							"posV" : {
+								"x" : 1,
+								"y" : 0,
+								"z" : 0
+							},
+							"sizV" : {
+								"x" : 0.5,
+								"y" : 0.5,
+								"z" : 0.5
+							},
+							"offsetV" : {
+								"x" : -30.0,
+								"y" : -30.0,
+								"z" : 0.0
+							}
+			
+						}
+						
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_account",
+					"parameters" : {
+						"width" : 64,
+						"height" : 64
+					},
+					"materialList" : [
+						"button_account"
+					],
+					"position" : {
+						"x" : 170,
+						"y" : 0,
+						"z" : 0
+					},
+					"MM3D" : {
+						"events" : {
+							
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_top.f.menu_account",
+										"functionProp" : {}
+									}
+								]
+							},
+							
+							"touchend" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_top.f.menu_account",
+										"functionProp" : {}
+									}
+								]
+							}
+							
+						},
+									
+						"coordSystem" : "percent",
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0,
+								"y" : 0,
+								"z" : 0
+							},
+							"sizH" : {
+								"x" : 0.5,
+								"y" : 0.5,
+								"z" : 0.5
+							},
+							"offsetH" : {
+								"x" : 30.0,
+								"y" : -30.0,
+								"z" : 0.0
+							},
+							"posV" : {
+								"x" : 0,
+								"y" : 0,
+								"z" : 0
+							},
+							"sizV" : {
+								"x" : 0.5,
+								"y" : 0.5,
+								"z" : 0.5
+							},
+							"offsetV" : {
+								"x" : 30.0,
+								"y" : -30.0,
+								"z" : 0.0
+							}
+			
+						}
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh",
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "logo",
+					"parameters" : {
+						"width" : 200,
+						"height" : 50
+					},
+					"materialList" : [
+						"logo"
+					],
+					
+					"MM3D" : {
+						
+						"coordSystem" : "percent",
+						
+						"adaptive": {
+							"posH" : {
+								"x" : 0.5,
+								"y" : 0,
+								"z" : 0
+							},
+							"offsetH" : {
+								"x" : 0.0,
+								"y" : -30.0,
+								"z" : 0.0
+							},
+							"posV" : {
+								"x" : 0.5,
+								"y" : 0,
+								"z" : 0
+							},
+							"offsetV" : {
+								"x" : 0.0,
+								"y" : -30.0,
+								"z" : 0.0
+							}
+			
+						}
+					}
+				}
+			}
+		]
+		
+	}
+}

@@ -1,0 +1,584 @@
+{
+	"name" : "popup_login_data",
+	
+	"parameters" : {
+		
+		"textureList" : [
+			{
+				"name" : "button_register_ok",
+				"url" : "images/UI/button_register.png"
+			}
+		],
+		
+		"materialList" : [
+			{
+				"name" : "backdrop",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					}
+				}
+			},
+			{
+				"name" : "button_register_ok",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_register_ok"
+					}
+				}
+			}
+		],
+		
+		"elementList" : [
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "title_name",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "NAME:",
+						"edit" : false,
+						"isNumber" : false,
+						"transparent" : true,
+						"width" : 200,
+						"height" : 16,
+						"textParameters" : {
+							"fontSize": "12pt",
+							"fontType": "Verdana",
+							"textAlign": "left",
+							"textBaseline": "middle",
+							"textPosition": { "x": 5, "y": 8 },
+							"color": { "r": 0, "g": 0, "b": 10}
+						}
+					},
+					
+					"position" : {
+						"x" : 0.0,
+						"y" : 0.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "field_name",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "...",
+						"edit" : true,
+						"isNumber" : false,
+						"transparent" : false,
+						"width" : 200,
+						"height" : 16,
+						"variable" : "UI.p.popup_register.p.name",
+						"textParameters" : {
+							"fontSize": "12pt",
+							"fontType": "Verdana",
+							"textAlign": "left",
+							"textBaseline": "middle",
+							"textPosition": { "x": 5, "y": 8 },
+							"color": { "r": 1, "g": 1, "b": 1 }
+						}
+					},
+					
+					"position" : {
+						"x" : 0.0,
+						"y" : -16.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "title_surname",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "SURNAME:",
+						"edit" : false,
+						"isNumber" : false,
+						"transparent" : true,
+						"width" : 200,
+						"height" : 16,
+						"textParameters" : {
+							"fontSize": "12pt",
+							"fontType": "Verdana",
+							"textAlign": "left",
+							"textBaseline": "middle",
+							"textPosition": { "x": 5, "y": 8 },
+							"color": { "r": 0, "g": 0, "b": 10}
+						}
+					},
+					
+					"position" : {
+						"x" : 0.0,
+						"y" : -50.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "field_surname",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "...",
+						"edit" : true,
+						"isNumber" : false,
+						"transparent" : false,
+						"width" : 200,
+						"height" : 16,
+						"variable" : "UI.p.popup_register.p.surname",
+						"textParameters" : {
+							"fontSize": "12pt",
+							"fontType": "Verdana",
+							"textAlign": "left",
+							"textBaseline": "middle",
+							"textPosition": { "x": 5, "y": 8 },
+							"color": { "r": 1, "g": 1, "b": 1 }
+						}
+					},
+					
+					"position" : {
+						"x" : 0.0,
+						"y" : -66.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "title_wallet",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "WALLET:",
+						"edit" : false,
+						"isNumber" : false,
+						"transparent" : true,
+						"width" : 200,
+						"height" : 16,
+						"textParameters" : {
+							"fontSize": "12pt",
+							"fontType": "Verdana",
+							"textAlign": "left",
+							"textBaseline": "middle",
+							"textPosition": { "x": 5, "y": 8 },
+							"color": { "r": 0, "g": 0, "b": 10}
+						}
+					},
+					
+					"position" : {
+						"x" : 0.0,
+						"y" : -100.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "field_wallet",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "...",
+						"edit" : true,
+						"isNumber" : false,
+						"transparent" : false,
+						"width" : 200,
+						"height" : 16,
+						"variable" : "UI.p.popup_register.p.wallet",
+						"textParameters" : {
+							"fontSize": "12pt",
+							"fontType": "Verdana",
+							"textAlign": "left",
+							"textBaseline": "middle",
+							"textPosition": { "x": 5, "y": 8 },
+							"color": { "r": 1, "g": 1, "b": 1 }
+						}
+					},
+					
+					"position" : {
+						"x" : 0.0,
+						"y" : -116.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "title_email",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "EMAIL:",
+						"edit" : false,
+						"isNumber" : false,
+						"transparent" : true,
+						"width" : 200,
+						"height" : 16,
+						"textParameters" : {
+							"fontSize": "12pt",
+							"fontType": "Verdana",
+							"textAlign": "left",
+							"textBaseline": "middle",
+							"textPosition": { "x": 5, "y": 8 },
+							"color": { "r": 0, "g": 0, "b": 10}
+						}
+					},
+					
+					"position" : {
+						"x" : 0.0,
+						"y" : -150.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "field_email",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "...",
+						"edit" : true,
+						"isNumber" : false,
+						"transparent" : false,
+						"width" : 200,
+						"height" : 16,
+						"variable" : "UI.p.popup_register.p.email",
+						"textParameters" : {
+							"fontSize": "12pt",
+							"fontType": "Verdana",
+							"textAlign": "left",
+							"textBaseline": "middle",
+							"textPosition": { "x": 5, "y": 8 },
+							"color": { "r": 1, "g": 1, "b": 1 }
+						}
+					},
+					
+					"position" : {
+						"x" : 0.0,
+						"y" : -166.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "title_username",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "USERNAME:",
+						"edit" : false,
+						"isNumber" : false,
+						"transparent" : true,
+						"width" : 200,
+						"height" : 16,
+						"textParameters" : {
+							"fontSize": "12pt",
+							"fontType": "Verdana",
+							"textAlign": "left",
+							"textBaseline": "middle",
+							"textPosition": { "x": 5, "y": 8 },
+							"color": { "r": 0, "g": 0, "b": 10}
+						}
+					},
+					
+					"position" : {
+						"x" : 0.0,
+						"y" : -200.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "field_username",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "...",
+						"edit" : true,
+						"isNumber" : false,
+						"transparent" : false,
+						"width" : 200,
+						"height" : 16,
+						"variable" : "UI.p.popup_register.p.user",
+						"textParameters" : {
+							"fontSize": "12pt",
+							"fontType": "Verdana",
+							"textAlign": "left",
+							"textBaseline": "middle",
+							"textPosition": { "x": 5, "y": 8 },
+							"color": { "r": 1, "g": 1, "b": 1 }
+						}
+					},
+					
+					"position" : {
+						"x" : 0.0,
+						"y" : -216.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "title_password",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "PASSWORD:",
+						"edit" : false,
+						"isNumber" : false,
+						"transparent" : true,
+						"width" : 200,
+						"height" : 16,
+						"textParameters" : {
+							"fontSize": "12pt",
+							"fontType": "Verdana",
+							"textAlign": "left",
+							"textBaseline": "middle",
+							"textPosition": { "x": 5, "y": 8 },
+							"color": { "r": 0, "g": 0, "b": 10}
+						}
+					},
+					
+					"position" : {
+						"x" : 0.0,
+						"y" : -250.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "field_password",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "...",
+						"edit" : true,
+						"isNumber" : false,
+						"transparent" : false,
+						"width" : 200,
+						"height" : 16,
+						"variable" : "UI.p.popup_register.p.password",
+						"textParameters" : {
+							"fontSize": "12pt",
+							"fontType": "Verdana",
+							"textAlign": "left",
+							"textBaseline": "middle",
+							"textPosition": { "x": 5, "y": 8 },
+							"color": { "r": 1, "g": 1, "b": 1 }
+						}
+					},
+					
+					"position" : {
+						"x" : 0.0,
+						"y" : -266.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "title_conf_password",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "CONF. PASSWORD:",
+						"edit" : false,
+						"isNumber" : false,
+						"transparent" : true,
+						"width" : 200,
+						"height" : 16,
+						"textParameters" : {
+							"fontSize": "12pt",
+							"fontType": "Verdana",
+							"textAlign": "left",
+							"textBaseline": "middle",
+							"textPosition": { "x": 5, "y": 8 },
+							"color": { "r": 0, "g": 0, "b": 10}
+						}
+					},
+					
+					"position" : {
+						"x" : 0.0,
+						"y" : -300.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			{
+				"type" : "addField",
+				"prop" : {
+					
+					"name" : "field_conf_password",
+					
+					"parameters" : {
+						"enabled" : true,
+						"string" : "...",
+						"edit" : true,
+						"isNumber" : false,
+						"transparent" : false,
+						"width" : 200,
+						"height" : 16,
+						"variable" : "UI.p.popup_register.p.conf_password",
+						"textParameters" : {
+							"fontSize": "12pt",
+							"fontType": "Verdana",
+							"textAlign": "left",
+							"textBaseline": "middle",
+							"textPosition": { "x": 5, "y": 8 },
+							"color": { "r": 1, "g": 1, "b": 1 }
+						}
+					},
+					
+					"position" : {
+						"x" : 0.0,
+						"y" : -316.0,
+						"z" : 0.0
+					}
+				}
+			},
+			
+			
+
+			{
+				"type" : "addMesh", 
+				"prop" : {
+					"type" : "PlaneGeometry",
+					"name" : "button_register_ok",
+					"visible" : true,
+					"materialList" : [ "button_register_ok" ],
+					"parameters" : {
+						"width" : 128,
+						"height" : 64
+					},
+					"position" : {
+						"x" : 0.0,
+						"y" : -360.0,
+						"z" : 0.0
+					},
+					"MM3D" : {
+						
+						"events" : {
+							"mousedown" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.popup_register.f.button_register_ok",
+										"functionProp" : {}
+									}
+								]
+							},
+							
+							"touchstart" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.popup_register.f.button_register_ok",
+										"functionProp" : {}
+									}
+								]
+							}
+						}
+						
+					}
+				}
+			}
+		]
+		
+	},
+	
+	"MM3D" : {
+		
+		"coordSystem" : "percent",
+		
+		"adaptive": {
+			"posH" : {
+				"x" : 0.0,
+				"y" : 0.0,
+				"z" : 0
+			},
+			"sizH" : {
+				"x" : 0.75,
+				"y" : 0.75,
+				"z" : 0.75
+			},
+			"offsetH" : {
+				"x" : 200.0,
+				"y" : -80.0,
+				"z" : 0.0
+			},
+			"posV" : {
+				"x" : 0.0,
+				"y" : 0.0,
+				"z" : 0
+			},
+			"sizV" : {
+				"x" : 0.75,
+				"y" : 0.75,
+				"z" : 0.75
+			},
+			"offsetV" : {
+				"x" : 200.0,
+				"y" : -80.0,
+				"z" : 0.0
+			}
+		}
+		
+	}
+}

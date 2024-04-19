@@ -1,5 +1,8 @@
 <script lang="ts">
+	import cx from "classnames";
+
 	export let showModal: boolean;
+	export let top = false;
 	export let title: string;
 	export let onClose: () => void;
 
@@ -9,7 +12,9 @@
 
 <dialog
 	id="my_modal_3"
-	class="modal"
+	class={cx("modal", {
+		"modal-top": top,
+	})}
 	bind:this={dialog}
 	on:close={() => {
 		onClose();

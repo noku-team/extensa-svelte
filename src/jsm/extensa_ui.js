@@ -243,6 +243,7 @@ const createUI = () => {
 
 		}
 
+		// TODO console.warn(here);
 
 		UI.f.remove_menu_popups();
 
@@ -330,7 +331,7 @@ const createUI = () => {
 
 		console.log("button_removeProject");
 
-		p.obj.userData.pressed = false;
+		if (p) p.obj.userData.pressed = false;
 
 		if (PLY.p.selectedProject.OBJECTS.myProject.children.length > 0) {
 
@@ -1082,6 +1083,7 @@ const createUI = () => {
 
 	UI.p.menu_bottom.f.button_gpsView = function () {
 
+		console.warn("here we are in the gps view");
 		console.log("UI.p.menu_bottom.f.button_gpsView");
 
 		if (MAP.p.OBJ.OBJECTS.tilesList.visible) {

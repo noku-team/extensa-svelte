@@ -641,7 +641,6 @@ const createEditor = () => {
 
 	EDITOR.f.loadProjectData = function () {
 
-
 		let URL = UI.p.previewProject.p.infoProject.url;
 
 		let PROJECTNAME = UI.p.previewProject.p.infoProject.name;

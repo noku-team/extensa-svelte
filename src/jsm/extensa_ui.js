@@ -150,13 +150,13 @@ const createUI = () => {
 
 
 
-	UI.f.goToAddressCoords = function (p) {
+	UI.f.goToAddressCoords = function (location = "") {
 
-		console.log("UI.f.goToAddressCoords " + UI.p.address);
+		console.log("UI.f.goToAddressCoords " + location);
 
 		var geocoder = new window.google.maps.Geocoder();
 
-		geocoder.geocode({ 'address': UI.p.address }, function (results, status) {
+		geocoder.geocode({ 'address': location }, function (results, status) {
 
 			if (status == window.google.maps.GeocoderStatus.OK) {
 

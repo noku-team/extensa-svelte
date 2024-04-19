@@ -16,7 +16,6 @@
 	import getDOMHeight from "../utils/dom/getDOMHeight.js";
 
 	let renderer = null;
-
 	onMount(() => {
 		renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 

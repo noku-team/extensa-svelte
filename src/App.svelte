@@ -7,7 +7,7 @@
 	import { authStore } from "./store/AuthStore";
 
 	export let url = "";
-
+	
 	onMount(() => {
 		// Persist auth on page refresh
 		authStore.sync();
@@ -21,12 +21,8 @@
 		</div>
 		<div id="body">
 			<div>
-				<Route path="/">
-					<WebGl />
-				</Route>
-				<Route path="/login">
-					<User />
-				</Route>
+				<Route path="/" component={WebGl} />
+				<Route path="/login" component={User} />
 			</div>
 		</div>
 		<div id="footer"></div>

@@ -245,7 +245,6 @@ const createEditor = () => {
 	EDITOR.f.createGeoArea = function (prop, callback, callbackprop) {
 		authStore.subscribe((auth) => {
 			const principal = auth.identity?.getPrincipal()?.toString();
-			console.warn(1, principal);
 			let colorGeoArea = { r: 0.0, g: 0.0, b: 0.0 };
 
 			if (principal) {
@@ -450,7 +449,6 @@ const createEditor = () => {
 
 		authStore.subscribe((auth) => {
 			const principal = auth.identity?.getPrincipal()?.toString();
-			console.warn(2, principal);
 
 			if (principal) {
 
@@ -547,7 +545,6 @@ const createEditor = () => {
 		authStore.subscribe((auth) => {
 			const principal = auth.identity?.getPrincipal()?.toString();
 
-			console.warn(3, principal);
 			if (principal) {
 				if (principal == p.obj.parent.userData.user) {
 
@@ -1112,7 +1109,6 @@ const createEditor = () => {
 	EDITOR.f.DROP_FILE = function (p) {
 		authStore.subscribe((auth) => {
 			const principal = auth.identity?.getPrincipal()?.toString();
-			console.warn(4, principal);
 			const projectName = p.name.split('.')[0];
 
 			const extension = p.name.split('.')[1];

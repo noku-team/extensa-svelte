@@ -15,7 +15,7 @@
 	};
 </script>
 
-<Modal bind:showModal title="Search" onClose={onModalClose}>
+<Modal bind:showModal title="Search location" onClose={onModalClose}>
 	<div class="flex gap-3">
 		<input
 			bind:value={searchText}

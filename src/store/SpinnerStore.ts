@@ -10,7 +10,7 @@ export interface SpinnerStore extends Readable<SpinnerStoreData> {
 }
 
 const initSpinnerStore = (): SpinnerStore => {
-    const { subscribe, set, update } = writable<SpinnerStoreData>({
+    const { subscribe, set } = writable<SpinnerStoreData>({
         isLoading: false,
         message: "",
     });

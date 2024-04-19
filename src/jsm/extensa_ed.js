@@ -480,18 +480,23 @@ const createEditor = () => {
 
 
 					PLY.p.selectedProject.MATERIALS.Kernel_Mesh_mat.color.r = 1.0;
+					// TODO whats this for?
 
 					PLY.p.selectedProject.MATERIALS.Kernel_Mesh_mat.color.g = 1.0;
+					// TODO whats this for?
 
 					PLY.p.selectedProject.MATERIALS.Kernel_Mesh_mat.color.b = 0.0;
+					// TODO whats this for?
 
 					PLY.p.selectedProjectName = PLY.p.selectedProject.userData.name;
+
 
 					PLY.p.selectedGeoAreaName = PLY.p.selectedArea.userData.name;
 
 
 					if (UI.p.scene.OBJECTS.previewProject == undefined) {
 
+						console.warn('here',PLY.p.selectedProject);
 						UI.p.scene.OBJECTS.previewProject = true;
 
 						UI.p.previewProject.f.open(PLY.p.selectedArea, PLY.p.selectedProject);

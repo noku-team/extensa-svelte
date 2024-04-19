@@ -7,6 +7,7 @@
 import * as THREE from 'three';
 import { VARCO } from "../VARCO/helpers/VARCO.js";
 import RENDERERSingleton from '../functions/renderer.js';
+import { projectStore } from '../store/ProjectStore';
 import getDOMHeight from '../utils/dom/getDOMHeight.js';
 import { EDITOR, MAP, UI } from "./index.js";
 
@@ -590,7 +591,6 @@ const createPLY = () => {
 	// CODE LOOP :
 
 	PLY.f.GEOAREA_MANAGER = function () {
-
 		let dist;
 		let distMin = 1000;
 		let distMax = PLY.p.geoAreaSize;
@@ -646,10 +646,14 @@ const createPLY = () => {
 				if (PLY.p.selectedProject !== undefined) {
 
 					if (PROJECTOBJ.name !== PLY.p.selectedProject.name) {
+						console.warn("open modal", PLY.p.selectedProject);
 
 						PLY.p.selectedProject = PROJECTOBJ;
 
 						PLY.p.selectedProjectName = PROJECTOBJ.userData.name;
+
+						// Update svelte project store
+						projectStore.setProject({ ...PROJECTOBJ, name: PROJECTOBJ.userData.name });
 
 						PLY.p.selectedGeoAreaName = GEOAREAOBJ.userData.name;
 
@@ -658,10 +662,13 @@ const createPLY = () => {
 					}
 
 				} else {
+					console.warn("open modal UNDEFINED", PLY.p.selectedProject);
 
 					PLY.p.selectedProject = PROJECTOBJ;
 
 					PLY.p.selectedProjectName = PROJECTOBJ.userData.name;
+
+					projectStore.setProject({ ...PROJECTOBJ, name: PROJECTOBJ.userData.name });
 
 					PLY.p.selectedGeoAreaName = GEOAREAOBJ.userData.name;
 
@@ -680,6 +687,8 @@ const createPLY = () => {
 				PLY.p.selectedProject = undefined;
 
 				PLY.p.selectedProjectName = '';
+
+				projectStore.setProject(null);
 
 				PLY.p.selectedGeoAreaName = '';
 
@@ -787,6 +796,8 @@ const createPLY = () => {
 				PLY.p.selectedProject = undefined;
 
 				PLY.p.selectedProjectName = undefined;
+
+				projectStore.setProject(null);
 
 			}
 
@@ -985,7 +996,7 @@ const createPLY = () => {
 			}
 
 			PLY.p.selectedProjectName = '';
-
+			projectStore.setProject(null);
 			PLY.p.selectedGeoAreaName = '';
 
 		}

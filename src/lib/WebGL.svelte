@@ -14,6 +14,7 @@
 
 	import { EDITOR, MAP, PLY, UI } from "../jsm/index.js";
 	import getDOMHeight from "../utils/dom/getDOMHeight.js";
+	import SelectedProject from "./SelectedProject.svelte";
 
 	let renderer = null;
 	onMount(() => {
@@ -141,7 +142,10 @@
 	});
 </script>
 
-<div id="canvas"></div>
+<div>
+	<div id="canvas"></div>
+	<SelectedProject />
+</div>
 
 <style>
 </style>

@@ -1,21 +1,16 @@
 <script lang="ts">
 	import { Link, useRouter } from "svelte-routing";
-	import { UI } from "../jsm";
 	import { authStore } from "../store/AuthStore";
-	import Modal from "./Modal.svelte";
+	import PositionSearch from "./PositionSearch.svelte";
 	import ExtensaLogo from "/images/UI/Logo_Extensa_2.png";
 	import ProfilePicture from "/images/UI/profile.png";
 	import ICP from "/images/blockchain/ICP.png";
 
 	let currentRoute = "";
-	let searchText = "";
 
 	const signIn = async () =>
 		await authStore.signIn((err) => console.error(err));
 	const logout = async () => await authStore.signOut();
-	const onSearch = () => {
-		UI.f.goToAddressCoords(searchText);
-	};
 
 	const router = useRouter();
 
@@ -117,17 +112,7 @@
 			</ul>
 		</div>
 	</div>
-	<Modal bind:showModal title="Search">
-		<div class="flex gap-3">
-			<input
-				bind:value={searchText}
-				type="text"
-				placeholder="Search here..."
-				class="input input-bordered w-full"
-			/>
-			<button class="btn btn-primary" on:click={onSearch}>search</button>
-		</div>
-	</Modal>
+	<PositionSearch bind:showModal />
 </div>
 
 <style>

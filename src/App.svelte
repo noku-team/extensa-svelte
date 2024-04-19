@@ -5,9 +5,10 @@
 	import User from "./lib/User.svelte";
 	import WebGl from "./lib/WebGL.svelte";
 	import { authStore } from "./store/AuthStore";
+	import { spinnerStore } from "./store/SpinnerStore";
 
 	export let url = "";
-	
+
 	onMount(() => {
 		// Persist auth on page refresh
 		authStore.sync();
@@ -20,10 +21,16 @@
 			<ExtensaHeader />
 		</div>
 		<div id="body">
-			<div>
-				<Route path="/" component={WebGl} />
-				<Route path="/login" component={User} />
-			</div>
+			{#if $spinnerStore.isLoading}
+				<div class="h-screen w-screen flex justify-center items-center">
+					<span class="loading loading-spinner loading-lg"></span>
+				</div>
+			{:else}
+				<div>
+					<Route path="/" component={WebGl} />
+					<Route path="/login" component={User} />
+				</div>
+			{/if}
 		</div>
 		<div id="footer"></div>
 	</main>

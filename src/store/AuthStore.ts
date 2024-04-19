@@ -38,7 +38,6 @@ const initAuthStore = (): AuthStore => {
             authClient = authClient ?? (await createAuthClient());
             const isAuthenticated = await authClient?.isAuthenticated();
 
-            console.warn("isauth", isAuthenticated);
             if (isAuthenticated) {
                 const principal = authClient?.getIdentity()?.getPrincipal()?.toString();
                 loadWebGLUserData(principal);
@@ -79,7 +78,7 @@ const initAuthStore = (): AuthStore => {
 
             await client.logout();
 
-            UI.p.menu_editor.f.close();
+            UI.p.popup_account.f.button_logout();
 
 
             // We currently do not have issue because the all screen is reloaded after sign-out.

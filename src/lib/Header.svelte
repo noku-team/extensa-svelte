@@ -20,7 +20,9 @@
 
 	// Search modal
 	let showModal = false;
-	const toggleModal = () => (showModal = true);
+	const toggleModal = () => {
+		showModal = true;
+	};
 </script>
 
 <div class="navbar bg-base-100">

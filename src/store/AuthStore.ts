@@ -3,6 +3,7 @@ import { AuthClient } from "@dfinity/auth-client";
 import type { Readable } from "svelte/store";
 import { writable } from "svelte/store";
 import { AUTH_SESSION_DURATION } from "../constants/ttl";
+import { UI } from "../jsm";
 import getIdentityProviderUrl from "../utils/getIdentityProvider";
 import loadWebGLUserData from "../utils/loadWebGLUserData";
 
@@ -77,6 +78,9 @@ const initAuthStore = (): AuthStore => {
             const client: AuthClient = authClient ?? (await createAuthClient());
 
             await client.logout();
+
+            UI.p.menu_editor.f.close();
+
 
             // We currently do not have issue because the all screen is reloaded after sign-out.
             // But, if we wouldn't, then agent-js auth client would not be able to process next sign-in if object would be still in memory with previous partial information. That's why we reset it.

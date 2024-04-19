@@ -117,10 +117,7 @@
 			</ul>
 		</div>
 	</div>
-	<Modal bind:showModal>
-		<div slot="header">
-			<span class="text-xl font-bold">Search position on the map</span>
-		</div>
+	<Modal bind:showModal title="Search">
 		<div class="flex gap-3">
 			<input
 				bind:value={searchText}

@@ -141,7 +141,7 @@ const createUI = () => {
 
 
 		// open title menu
-		UI.p.menu_top.f.open();
+		// UI.p.menu_top.f.open();
 
 		// open bottom main menu
 		UI.p.menu_bottom.f.open();

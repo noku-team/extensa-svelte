@@ -497,8 +497,6 @@ const createEditor = () => {
 
 
 				if (UI.p.scene.OBJECTS.previewProject == undefined) {
-
-					console.warn('here', p.obj.parent);
 					UI.p.scene.OBJECTS.previewProject = true;
 
 					UI.p.previewProject.f.open(PLY.p.selectedArea, p.obj.parent);
@@ -649,8 +647,6 @@ const createEditor = () => {
 		let PROJECTNAME = UI.p.previewProject.p.infoProject.name;
 
 		let USER = UI.p.previewProject.p.infoArea.user;
-
-		console.warn("heres");
 
 		const { project: _selectedProject } = get(projectStore); // leggi dato
 

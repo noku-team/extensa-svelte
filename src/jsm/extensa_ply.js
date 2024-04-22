@@ -651,8 +651,6 @@ const createPLY = () => {
 
 					if (PROJECTOBJ.name !== _selectedProject.name) {
 
-						console.warn("open modal", PLY.p.selectedProject);
-
 						// PLY.p.selectedProject = PROJECTOBJ;
 
 						PLY.p.selectedProjectName = PROJECTOBJ.userData.name;
@@ -662,12 +660,11 @@ const createPLY = () => {
 
 						PLY.p.selectedGeoAreaName = GEOAREAOBJ.userData.name;
 
-						UI.p.previewProject.f.open(GEOAREAOBJ, PROJECTOBJ)
+						// UI.p.previewProject.f.open(GEOAREAOBJ, PROJECTOBJ)
 
 					}
 
 				} else {
-					console.warn("open modal UNDEFINED", PLY.p.selectedProject);
 
 					// PLY.p.selectedProject = PROJECTOBJ;
 
@@ -677,7 +674,7 @@ const createPLY = () => {
 
 					PLY.p.selectedGeoAreaName = GEOAREAOBJ.userData.name;
 
-					UI.p.previewProject.f.open(GEOAREAOBJ, PROJECTOBJ)
+					// UI.p.previewProject.f.open(GEOAREAOBJ, PROJECTOBJ)
 
 				}
 

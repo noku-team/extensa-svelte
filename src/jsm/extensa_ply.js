@@ -4,6 +4,7 @@
 /* eslint-disable no-redeclare */
 /* eslint-disable no-unused-vars */
 // UI MODULE
+import { get } from 'svelte/store';
 import * as THREE from 'three';
 import { VARCO } from "../VARCO/helpers/VARCO.js";
 import RENDERERSingleton from '../functions/renderer.js';
@@ -643,6 +644,8 @@ const createPLY = () => {
 
 				PROJECTOBJ = PLY.p.scene3D.OBJECTS.geoArea.children[geoNum].OBJECTS.projects.children[prjNum];
 
+				const { project: _selectedProject } = get(projectStore);
+				// For mmare3d: Use _selectedProject as PLY.p.selectedProject
 				if (PLY.p.selectedProject !== undefined) {
 
 					if (PROJECTOBJ.name !== PLY.p.selectedProject.name) {

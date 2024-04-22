@@ -141,7 +141,6 @@ const createUI = () => {
 
 
 		// open title menu
-		// UI.p.menu_top.f.open();
 
 		// open bottom main menu
 		UI.p.menu_bottom.f.open();
@@ -345,42 +344,6 @@ const createUI = () => {
 
 	// ///////////////////////////////////////////////// //
 	// ///////////////////////////////////////////////// //
-
-
-
-	// ///////////////////////////////////////////////// //
-	// ///////////////////////////////////////////////// //
-
-	// MENU TOP
-
-	UI.p.menu_top = {
-		f: {},
-		p: {}
-	};
-
-
-
-	UI.p.menu_top.f.open = function () {
-
-		VARCO.f.loadComplex(
-			UI.p.scene,
-			'json/menu_top.json',
-			undefined,
-			function init_menu_top(p) {
-				PLY.f.resizeScreen();
-			}
-		);
-
-	};
-
-
-
-
-	UI.p.menu_top.f.loop = function (p) {
-
-		p.obj.scale.x = window.innerWidth;
-
-	};
 
 	// ///////////////////////////////////////////////// //
 	// ///////////////////////////////////////////////// //
@@ -808,58 +771,6 @@ const createUI = () => {
 
 	// ///////////////////////////////////////////////// //
 	// ///////////////////////////////////////////////// //
-
-
-
-	// ///////////////////////////////////////////////// //
-	// ///////////////////////////////////////////////// //
-
-	// POPUP SEARCH
-
-	UI.p.menu_top.f.openSearch = function () {
-
-		console.log("UI.p.menu_top.f.openSearch");
-
-		if (UI.p.scene.OBJECTS.menu.OBJECTS.search !== undefined) {
-
-			VARCO.f.deleteElement(UI.p.scene.OBJECTS.menu, UI.p.scene.OBJECTS.menu.OBJECTS.search);
-
-		} else {
-
-			UI.f.remove_menu_popups();
-
-			VARCO.f.loadComplex(
-				UI.p.scene.OBJECTS.menu,
-				'json/search.json',
-				undefined,
-				function init_search(p) {
-					PLY.f.resizeScreen();
-				}
-			);
-
-		}
-
-	};
-
-
-	UI.p.menu_top.f.closeSearch = function () {
-
-		console.log("UI.p.menu_top.f.closeSearch");
-
-		UI.f.remove_menu_popups();
-
-	};
-
-
-	UI.p.menu_top.f.search_ok = function () {
-
-		console.log("UI.p.menu_top.f.search_ok");
-
-		UI.f.remove_menu_popups();
-
-		UI.f.goToAddressCoords();
-
-	};
 
 
 	// ///////////////////////////////////////////////// //

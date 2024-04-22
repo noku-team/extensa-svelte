@@ -650,9 +650,10 @@ const createPLY = () => {
 				if ( _selectedProject !== null ) {
 
 					if (PROJECTOBJ.name !== _selectedProject.name) {
+						
 						console.warn("open modal", PLY.p.selectedProject);
 
-						PLY.p.selectedProject = PROJECTOBJ;
+						// PLY.p.selectedProject = PROJECTOBJ;
 
 						PLY.p.selectedProjectName = PROJECTOBJ.userData.name;
 
@@ -668,7 +669,7 @@ const createPLY = () => {
 				} else {
 					console.warn("open modal UNDEFINED", PLY.p.selectedProject);
 
-					PLY.p.selectedProject = PROJECTOBJ;
+					// PLY.p.selectedProject = PROJECTOBJ;
 
 					PLY.p.selectedProjectName = PROJECTOBJ.userData.name;
 
@@ -688,7 +689,7 @@ const createPLY = () => {
 
 				}
 
-				PLY.p.selectedProject = undefined;
+				// PLY.p.selectedProject = undefined;
 
 				PLY.p.selectedProjectName = '';
 
@@ -797,7 +798,7 @@ const createPLY = () => {
 
 				PLY.p.selectedArea = undefined;
 
-				PLY.p.selectedProject = undefined;
+				// PLY.p.selectedProject = undefined;
 
 				PLY.p.selectedProjectName = undefined;
 

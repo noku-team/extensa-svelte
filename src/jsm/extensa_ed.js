@@ -459,7 +459,7 @@ const createEditor = () => {
 
 				PLY.p.selectedProject = p.obj.parent;
 				
-				projectStore.setProject({ ...PROJECTOBJ, selectedProject: p.obj.parent }); // scrivi dato
+				projectStore.setProject({ ...p.obj.parent, selectedProject: p.obj.parent }); // scrivi dato
 
 				console.log('SELEZIONATO');
 
@@ -1272,12 +1272,12 @@ const createEditor = () => {
 							function (w) {
 
 								// SHOW PROJECT //
-								
-								projectStore.setProject({ ...PROJECTOBJ, selectedProject: w.obj }); // scrivi dato
+						
+								projectStore.setProject({ ...w.obj, selectedProject: w.obj }); // scrivi dato
 
 								PLY.p.selectedProject = w.obj;
 
-								if (PLY.p.selectedProject) {
+								if (PROJECTOBJ) {
 									w.obj.userData.isLoaded = true;
 									w.obj.OBJECTS.myProject.add(PROJECTOBJ);
 									w.obj.OBJECTS.myProject.OBJECTS[PROJECTOBJ.name];
@@ -1340,7 +1340,8 @@ const createEditor = () => {
 									function (w) {
 
 										// SHOW PROJECT //
-										projectStore.setProject({ ...PROJECTOBJ, selectedProject: w.obj }); // scrivi dato
+						
+										projectStore.setProject({ ...w.obj, selectedProject: w.obj }); // scrivi dato
 
 										PLY.p.selectedProject = w.obj;
 

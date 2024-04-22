@@ -459,8 +459,8 @@ const createEditor = () => {
 				EDITOR.f.deselectProjects();
 
 				// PLY.p.selectedProject = p.obj.parent;
-				
-				projectStore.setProject({ ...p.obj.parent, selectedProject: p.obj.parent }); // scrivi dato
+
+				projectStore.setProject(p.obj.parent); // scrivi dato
 
 				console.log('SELEZIONATO');
 
@@ -539,7 +539,7 @@ const createEditor = () => {
 			}
 
 			// PLY.p.selectedProject = undefined;
-			
+
 			projectStore.setProject(null); // scrivi dato NULL
 
 		}
@@ -557,8 +557,8 @@ const createEditor = () => {
 
 				// diseleziona progetti in geoArea diversa da quella attuale
 				const { project: _selectedProject } = get(projectStore); // leggi dato
-				
-				if ( _selectedProject !== null ) {
+
+				if (_selectedProject !== null) {
 
 					if (p.obj.parent.uuid !== _selectedProject.userData.linkedGeoArea.uuid) {
 
@@ -651,10 +651,10 @@ const createEditor = () => {
 		let USER = UI.p.previewProject.p.infoArea.user;
 
 		console.warn("heres");
-		
+
 		const { project: _selectedProject } = get(projectStore); // leggi dato
 
-		if ( _selectedProject !== null ) {
+		if (_selectedProject !== null) {
 
 			const projectFile = 'USER_DB/' + USER + '/contents/' + PROJECTNAME + '.json';
 
@@ -1276,8 +1276,8 @@ const createEditor = () => {
 							function (w) {
 
 								// SHOW PROJECT //
-						
-								projectStore.setProject({ ...w.obj, selectedProject: w.obj }); // scrivi dato
+
+								projectStore.setProject(w.obj); // scrivi dato
 
 								// PLY.p.selectedProject = w.obj;
 
@@ -1344,8 +1344,8 @@ const createEditor = () => {
 									function (w) {
 
 										// SHOW PROJECT //
-						
-										projectStore.setProject({ ...w.obj, selectedProject: w.obj }); // scrivi dato
+
+										projectStore.setProject(w.obj); // scrivi dato
 
 										// PLY.p.selectedProject = w.obj;
 

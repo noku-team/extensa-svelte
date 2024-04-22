@@ -4,7 +4,6 @@ interface Project {
     id: string;
     name: string;
     description: string;
-    is3DVisible: boolean;
 }
 
 export interface ProjectStoreData {

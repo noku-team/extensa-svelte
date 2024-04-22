@@ -4,6 +4,8 @@
 import * as THREE from 'three';
 import { VARCO } from "../VARCO/helpers/VARCO.js";
 import { EDITOR, MAP, PLY } from "./index.js";
+import { projectStore } from '../store/ProjectStore';
+import { get } from 'svelte/store';
 
 const UISingleton = (function () {
 	let instance;
@@ -293,8 +295,10 @@ const createUI = () => {
 
 
 	UI.f.previewProjectFeedBackLoop = function (p) {
+		
+		const { project: _selectedProject } = get(projectStore); // leggi dato
 
-		if (PLY.p.selectedProject !== undefined) {
+		if ( _selectedProject !== null) {
 
 			if (PLY.p.selectedProject.userData.isLoaded) {
 
@@ -331,12 +335,20 @@ const createUI = () => {
 		console.log("button_removeProject");
 
 		if (p) p.obj.userData.pressed = false;
+		
+		const { project: _selectedProject } = get(projectStore); // leggi dato
 
-		if (PLY.p.selectedProject.OBJECTS.myProject.children.length > 0) {
+		if ( _selectedProject.OBJECTS.myProject.children.length > 0) {
 
-			VARCO.f.deleteElement(PLY.p.selectedProject.OBJECTS.myProject, PLY.p.selectedProject.OBJECTS.myProject.children[0]);
+			VARCO.f.deleteElement( _selectedProject.OBJECTS.myProject,  _selectedProject.OBJECTS.myProject.children[0]);
 
-			PLY.p.selectedProject.userData.isLoaded = false;
+			_selectedProject.userData.isLoaded = false;
+			
+			var newSelPrj = _selectedProject;
+			
+			newSelPrj.userData.isLoaded = false;
+			
+			projectStore.setProject(newSelPrj); // scrivi dato
 
 		}
 	};

@@ -7,7 +7,6 @@ import * as THREE from 'three';
 
 // Instantiate a loader
 
-import $ from 'jquery';
 import { ColladaLoader } from 'three/addons/loaders/ColladaLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
@@ -1485,7 +1484,7 @@ VARCO.f.setPropAndParameters = function (OBJ, prop, SCENE) {
 };
 
 
-VARCO.f.tellMouseDown = function(event) {
+VARCO.f.tellMouseDown = function (event) {
 
 	VARCO.p.DEVICES.mouse.clickDown = true;
 	VARCO.p.DEVICES.mouse.startTimer = new Date().getTime();
@@ -1501,7 +1500,7 @@ VARCO.f.tellMouseDown = function(event) {
 
 };
 
-VARCO.f.tellMouseWheel = function(event) {
+VARCO.f.tellMouseWheel = function (event) {
 
 	VARCO.p.DEVICES.mouse.zoom = 0;
 
@@ -1517,7 +1516,7 @@ VARCO.f.tellMouseWheel = function(event) {
 
 };
 
-VARCO.f.tellMouseWheel_FF = function(event) {
+VARCO.f.tellMouseWheel_FF = function (event) {
 
 	VARCO.p.DEVICES.mouse.zoom = 0;
 
@@ -1533,7 +1532,7 @@ VARCO.f.tellMouseWheel_FF = function(event) {
 
 };
 
-VARCO.f.tellMousePos = function(event) {
+VARCO.f.tellMousePos = function (event) {
 
 	event.preventDefault();
 	VARCO.p.DEVICES.mouse.diffH = event.clientX - VARCO.p.DEVICES.mouse.locH;
@@ -1545,7 +1544,7 @@ VARCO.f.tellMousePos = function(event) {
 
 };
 
-VARCO.f.tellMouseUp = function(event) {
+VARCO.f.tellMouseUp = function (event) {
 
 	event.preventDefault();
 	VARCO.p.DEVICES.mouse.clickDown = false;
@@ -1554,7 +1553,7 @@ VARCO.f.tellMouseUp = function(event) {
 
 };
 
-VARCO.f.tellDoubleClick = function(event) {
+VARCO.f.tellDoubleClick = function (event) {
 
 	event.preventDefault();
 	VARCO.p.DEVICES.mouse.clickDown = false;
@@ -1611,79 +1610,79 @@ VARCO.f.removeMouseEvents = function () {
 
 	// function tellMouseDown(event) {
 
-		// VARCO.p.DEVICES.mouse.clickDown = true;
-		// VARCO.p.DEVICES.mouse.startTimer = new Date().getTime();
-		// VARCO.p.DEVICES.mouse.clickDuration = 0;
+	// VARCO.p.DEVICES.mouse.clickDown = true;
+	// VARCO.p.DEVICES.mouse.startTimer = new Date().getTime();
+	// VARCO.p.DEVICES.mouse.clickDuration = 0;
 
-		// if (event.buttons == undefined) {
-			// VARCO.p.DEVICES.mouse.buttonNum = event.which;
-		// } else {
-			// VARCO.p.DEVICES.mouse.buttonNum = event.buttons;
-		// }
+	// if (event.buttons == undefined) {
+	// VARCO.p.DEVICES.mouse.buttonNum = event.which;
+	// } else {
+	// VARCO.p.DEVICES.mouse.buttonNum = event.buttons;
+	// }
 
-		// VARCO.p.DEVICES.eventType = "mousedown";
+	// VARCO.p.DEVICES.eventType = "mousedown";
 
 	// }
 
 	// function tellMouseWheel(event) {
 
-		// VARCO.p.DEVICES.mouse.zoom = 0;
+	// VARCO.p.DEVICES.mouse.zoom = 0;
 
-		// if (event.wheelDelta > 0) {
-			// VARCO.p.DEVICES.mouse.zoom = +1;
-		// }
+	// if (event.wheelDelta > 0) {
+	// VARCO.p.DEVICES.mouse.zoom = +1;
+	// }
 
-		// if (event.wheelDelta < 0) {
-			// VARCO.p.DEVICES.mouse.zoom = -1;
-		// }
+	// if (event.wheelDelta < 0) {
+	// VARCO.p.DEVICES.mouse.zoom = -1;
+	// }
 
-		// VARCO.p.DEVICES.eventType = "mousewheel";
+	// VARCO.p.DEVICES.eventType = "mousewheel";
 
 	// }
 
 	// function tellMouseWheel_FF(event) {
 
-		// VARCO.p.DEVICES.mouse.zoom = 0;
+	// VARCO.p.DEVICES.mouse.zoom = 0;
 
-		// if (event.detail > 0) {
-			// VARCO.p.DEVICES.mouse.zoom = -1;
-		// }
+	// if (event.detail > 0) {
+	// VARCO.p.DEVICES.mouse.zoom = -1;
+	// }
 
-		// if (event.detail < 0) {
-			// VARCO.p.DEVICES.mouse.zoom = +1;
-		// }
+	// if (event.detail < 0) {
+	// VARCO.p.DEVICES.mouse.zoom = +1;
+	// }
 
-		// VARCO.p.DEVICES.eventType = "mousewheel";
+	// VARCO.p.DEVICES.eventType = "mousewheel";
 
 	// }
 
 	// function tellMousePos(event) {
 
-		// event.preventDefault();
-		// VARCO.p.DEVICES.mouse.diffH = event.clientX - VARCO.p.DEVICES.mouse.locH;
-		// VARCO.p.DEVICES.mouse.diffV = event.clientY - VARCO.p.DEVICES.mouse.locV;
+	// event.preventDefault();
+	// VARCO.p.DEVICES.mouse.diffH = event.clientX - VARCO.p.DEVICES.mouse.locH;
+	// VARCO.p.DEVICES.mouse.diffV = event.clientY - VARCO.p.DEVICES.mouse.locV;
 
-		// VARCO.p.DEVICES.mouse.locH = event.clientX;
-		// VARCO.p.DEVICES.mouse.locV = event.clientY;
-		// VARCO.p.DEVICES.eventType = "mousemove";
+	// VARCO.p.DEVICES.mouse.locH = event.clientX;
+	// VARCO.p.DEVICES.mouse.locV = event.clientY;
+	// VARCO.p.DEVICES.eventType = "mousemove";
 
 	// }
 
 	// function tellMouseUp(event) {
 
-		// event.preventDefault();
-		// VARCO.p.DEVICES.mouse.clickDown = false;
-		// VARCO.p.DEVICES.mouse.clickDuration = new Date().getTime() - VARCO.p.DEVICES.mouse.startTimer;
-		// VARCO.p.DEVICES.eventType = "mouseup";
+	// event.preventDefault();
+	// VARCO.p.DEVICES.mouse.clickDown = false;
+	// VARCO.p.DEVICES.mouse.clickDuration = new Date().getTime() - VARCO.p.DEVICES.mouse.startTimer;
+	// VARCO.p.DEVICES.eventType = "mouseup";
 
 	// }
 
 	// function tellDoubleClick(event) {
 
-		// event.preventDefault();
-		// VARCO.p.DEVICES.mouse.clickDown = false;
-		// VARCO.p.DEVICES.mouse.clickDuration = 0;
-		// VARCO.p.DEVICES.eventType = "dblclick";
+	// event.preventDefault();
+	// VARCO.p.DEVICES.mouse.clickDown = false;
+	// VARCO.p.DEVICES.mouse.clickDuration = 0;
+	// VARCO.p.DEVICES.eventType = "dblclick";
 
 	// }
 
@@ -1704,7 +1703,7 @@ VARCO.f.removeMouseEvents = function () {
 
 
 
-VARCO.f.tellTouchDown = function(event) {
+VARCO.f.tellTouchDown = function (event) {
 
 	event.preventDefault();
 
@@ -1732,7 +1731,7 @@ VARCO.f.tellTouchDown = function(event) {
 
 }
 
-VARCO.f.tellTouchUp = function(event) {
+VARCO.f.tellTouchUp = function (event) {
 
 	event.preventDefault();
 
@@ -1762,7 +1761,7 @@ VARCO.f.tellTouchUp = function(event) {
 
 }
 
-VARCO.f.tellTouchPos = function(event) {
+VARCO.f.tellTouchPos = function (event) {
 
 	event.preventDefault();
 
@@ -1866,122 +1865,122 @@ VARCO.f.removeTouchEvents = function () {
 
 	// function tellTouchDown(event) {
 
-		// event.preventDefault();
+	// event.preventDefault();
 
-		// VARCO.p.DEVICES.touch.clickDown = true;
-		// VARCO.p.DEVICES.touch.startTimer = new Date().getTime();
-		// VARCO.p.DEVICES.touch.buttonNum = event.touches.length;
-		// VARCO.p.DEVICES.touch.locH = event.touches[0].pageX;
-		// VARCO.p.DEVICES.touch.locV = event.touches[0].pageY;
-		// VARCO.p.DEVICES.touch.listLoc = [];
+	// VARCO.p.DEVICES.touch.clickDown = true;
+	// VARCO.p.DEVICES.touch.startTimer = new Date().getTime();
+	// VARCO.p.DEVICES.touch.buttonNum = event.touches.length;
+	// VARCO.p.DEVICES.touch.locH = event.touches[0].pageX;
+	// VARCO.p.DEVICES.touch.locV = event.touches[0].pageY;
+	// VARCO.p.DEVICES.touch.listLoc = [];
 
-		// for (var i = 0; i < event.touches.length; ++i) {
+	// for (var i = 0; i < event.touches.length; ++i) {
 
-			// VARCO.p.DEVICES.touch.listLoc.push(
-				// {
-					// locH: event.touches[i].pageX,
-					// locV: event.touches[i].pageY,
-					// diffH: 0,
-					// diffV: 0
-				// }
-			// );
+	// VARCO.p.DEVICES.touch.listLoc.push(
+	// {
+	// locH: event.touches[i].pageX,
+	// locV: event.touches[i].pageY,
+	// diffH: 0,
+	// diffV: 0
+	// }
+	// );
 
-		// }
+	// }
 
-		// VARCO.p.DEVICES.eventType = "touchstart";
+	// VARCO.p.DEVICES.eventType = "touchstart";
 
 	// }
 
 	// function tellTouchUp(event) {
 
-		// event.preventDefault();
+	// event.preventDefault();
 
-		// VARCO.p.DEVICES.touch.clickDown = false;
-		// VARCO.p.DEVICES.touch.clickDuration = new Date().getTime() - VARCO.p.DEVICES.touch.startTimer;
-		// VARCO.p.DEVICES.touch.buttonNum = event.touches.length;
-		// VARCO.p.DEVICES.touch.locH = event.changedTouches[0].pageX;
-		// VARCO.p.DEVICES.touch.locV = event.changedTouches[0].pageY;
-		// VARCO.p.DEVICES.touch.diffH = 0;
-		// VARCO.p.DEVICES.touch.diffV = 0;
-		// VARCO.p.DEVICES.touch.listLoc = [];
+	// VARCO.p.DEVICES.touch.clickDown = false;
+	// VARCO.p.DEVICES.touch.clickDuration = new Date().getTime() - VARCO.p.DEVICES.touch.startTimer;
+	// VARCO.p.DEVICES.touch.buttonNum = event.touches.length;
+	// VARCO.p.DEVICES.touch.locH = event.changedTouches[0].pageX;
+	// VARCO.p.DEVICES.touch.locV = event.changedTouches[0].pageY;
+	// VARCO.p.DEVICES.touch.diffH = 0;
+	// VARCO.p.DEVICES.touch.diffV = 0;
+	// VARCO.p.DEVICES.touch.listLoc = [];
 
-		// for (var i = 0; i < event.touches.length; ++i) {
+	// for (var i = 0; i < event.touches.length; ++i) {
 
-			// VARCO.p.DEVICES.touch.listLoc.push(
-				// {
-					// locH: event.touches[i].pageX,
-					// locV: event.touches[i].pageY,
-					// diffH: 0,
-					// diffV: 0
-				// }
-			// );
+	// VARCO.p.DEVICES.touch.listLoc.push(
+	// {
+	// locH: event.touches[i].pageX,
+	// locV: event.touches[i].pageY,
+	// diffH: 0,
+	// diffV: 0
+	// }
+	// );
 
-		// }
+	// }
 
-		// VARCO.p.DEVICES.eventType = "touchend";
+	// VARCO.p.DEVICES.eventType = "touchend";
 
 	// }
 
 	// function tellTouchPos(event) {
 
-		// event.preventDefault();
+	// event.preventDefault();
 
-		// for (var i = 0; i < event.touches.length; ++i) {
+	// for (var i = 0; i < event.touches.length; ++i) {
 
-			// VARCO.p.DEVICES.touch.listLoc[i].diffH = event.touches[i].pageX - VARCO.p.DEVICES.touch.listLoc[i].locH;
-			// VARCO.p.DEVICES.touch.listLoc[i].diffV = event.touches[i].pageY - VARCO.p.DEVICES.touch.listLoc[i].locV;
-			// VARCO.p.DEVICES.touch.listLoc[i].locH = event.touches[i].pageX;
-			// VARCO.p.DEVICES.touch.listLoc[i].locV = event.touches[i].pageY;
+	// VARCO.p.DEVICES.touch.listLoc[i].diffH = event.touches[i].pageX - VARCO.p.DEVICES.touch.listLoc[i].locH;
+	// VARCO.p.DEVICES.touch.listLoc[i].diffV = event.touches[i].pageY - VARCO.p.DEVICES.touch.listLoc[i].locV;
+	// VARCO.p.DEVICES.touch.listLoc[i].locH = event.touches[i].pageX;
+	// VARCO.p.DEVICES.touch.listLoc[i].locV = event.touches[i].pageY;
 
-		// }
+	// }
 
-		// // drag //
-		// if (VARCO.p.DEVICES.touch.listLoc.length == 1) {
+	// // drag //
+	// if (VARCO.p.DEVICES.touch.listLoc.length == 1) {
 
-			// VARCO.p.DEVICES.touch.eventDragTouch = false;
-			// VARCO.p.DEVICES.touch.oldZoomDistance = undefined;
-			// VARCO.p.DEVICES.touch.diffH = event.touches[0].pageX - VARCO.p.DEVICES.touch.locH;
-			// VARCO.p.DEVICES.touch.diffV = event.touches[0].pageY - VARCO.p.DEVICES.touch.locV;
-			// VARCO.p.DEVICES.touch.locH = event.touches[0].pageX;
-			// VARCO.p.DEVICES.touch.locV = event.touches[0].pageY;
-			// VARCO.p.DEVICES.eventType = "touchmove";
-			// VARCO.p.DEVICES.touch.clickDown = true;
+	// VARCO.p.DEVICES.touch.eventDragTouch = false;
+	// VARCO.p.DEVICES.touch.oldZoomDistance = undefined;
+	// VARCO.p.DEVICES.touch.diffH = event.touches[0].pageX - VARCO.p.DEVICES.touch.locH;
+	// VARCO.p.DEVICES.touch.diffV = event.touches[0].pageY - VARCO.p.DEVICES.touch.locV;
+	// VARCO.p.DEVICES.touch.locH = event.touches[0].pageX;
+	// VARCO.p.DEVICES.touch.locV = event.touches[0].pageY;
+	// VARCO.p.DEVICES.eventType = "touchmove";
+	// VARCO.p.DEVICES.touch.clickDown = true;
 
-		// }
+	// }
 
-		// // zoom //
-		// if (VARCO.p.DEVICES.touch.listLoc.length == 2) {
+	// // zoom //
+	// if (VARCO.p.DEVICES.touch.listLoc.length == 2) {
 
-			// let vetA = new THREE.Vector3(VARCO.p.DEVICES.touch.listLoc[0].locH, VARCO.p.DEVICES.touch.listLoc[0].locV, 0);
-			// let vetB = new THREE.Vector3(VARCO.p.DEVICES.touch.listLoc[1].locH, VARCO.p.DEVICES.touch.listLoc[1].locV, 0);
-			// let zoomDistance = vetB.distanceTo(vetA);
+	// let vetA = new THREE.Vector3(VARCO.p.DEVICES.touch.listLoc[0].locH, VARCO.p.DEVICES.touch.listLoc[0].locV, 0);
+	// let vetB = new THREE.Vector3(VARCO.p.DEVICES.touch.listLoc[1].locH, VARCO.p.DEVICES.touch.listLoc[1].locV, 0);
+	// let zoomDistance = vetB.distanceTo(vetA);
 
-			// VARCO.p.DEVICES.touch.diffH = event.touches[0].pageX - VARCO.p.DEVICES.touch.listLoc[0].locH; // VARCO.p.DEVICES.touch.locH;
-			// VARCO.p.DEVICES.touch.diffV = event.touches[0].pageY - VARCO.p.DEVICES.touch.listLoc[0].locV; // VARCO.p.DEVICES.touch.locV;
-			// VARCO.p.DEVICES.touch.locH = event.touches[0].pageX;
-			// VARCO.p.DEVICES.touch.locV = event.touches[0].pageY;
-			// VARCO.p.DEVICES.eventType = "touchmove";
-			// VARCO.p.DEVICES.touch.clickDown = true;
+	// VARCO.p.DEVICES.touch.diffH = event.touches[0].pageX - VARCO.p.DEVICES.touch.listLoc[0].locH; // VARCO.p.DEVICES.touch.locH;
+	// VARCO.p.DEVICES.touch.diffV = event.touches[0].pageY - VARCO.p.DEVICES.touch.listLoc[0].locV; // VARCO.p.DEVICES.touch.locV;
+	// VARCO.p.DEVICES.touch.locH = event.touches[0].pageX;
+	// VARCO.p.DEVICES.touch.locV = event.touches[0].pageY;
+	// VARCO.p.DEVICES.eventType = "touchmove";
+	// VARCO.p.DEVICES.touch.clickDown = true;
 
-			// console.log(VARCO.p.DEVICES.touch.listLoc[0].diffH + " , " + VARCO.p.DEVICES.touch.listLoc[0].diffV);
+	// console.log(VARCO.p.DEVICES.touch.listLoc[0].diffH + " , " + VARCO.p.DEVICES.touch.listLoc[0].diffV);
 
-			// if (VARCO.p.DEVICES.touch.oldZoomDistance == undefined) {
-				// VARCO.p.DEVICES.touch.oldZoomDistance = zoomDistance;
-			// }
+	// if (VARCO.p.DEVICES.touch.oldZoomDistance == undefined) {
+	// VARCO.p.DEVICES.touch.oldZoomDistance = zoomDistance;
+	// }
 
-			// if (Math.abs(VARCO.p.DEVICES.touch.oldZoomDistance - zoomDistance) > 3) {
-				// VARCO.p.DEVICES.touch.zoom = Math.sign(VARCO.p.DEVICES.touch.oldZoomDistance - zoomDistance);
-				// VARCO.p.DEVICES.eventType = "touchzoom";
-				// VARCO.p.DEVICES.touch.clickDown = false;
-				// VARCO.p.DEVICES.touch.diffH = 0;
-				// VARCO.p.DEVICES.touch.diffV = 0;
-				// VARCO.p.DEVICES.touch.locH = 0;
-				// VARCO.p.DEVICES.touch.locV = 0;
-			// }
+	// if (Math.abs(VARCO.p.DEVICES.touch.oldZoomDistance - zoomDistance) > 3) {
+	// VARCO.p.DEVICES.touch.zoom = Math.sign(VARCO.p.DEVICES.touch.oldZoomDistance - zoomDistance);
+	// VARCO.p.DEVICES.eventType = "touchzoom";
+	// VARCO.p.DEVICES.touch.clickDown = false;
+	// VARCO.p.DEVICES.touch.diffH = 0;
+	// VARCO.p.DEVICES.touch.diffV = 0;
+	// VARCO.p.DEVICES.touch.locH = 0;
+	// VARCO.p.DEVICES.touch.locV = 0;
+	// }
 
-			// VARCO.p.DEVICES.touch.oldZoomDistance = zoomDistance;
+	// VARCO.p.DEVICES.touch.oldZoomDistance = zoomDistance;
 
-		// }
+	// }
 
 	// }
 
@@ -2073,7 +2072,7 @@ VARCO.f.initKeyboardEvents = function () {
 
 		let keyDown = (event.keyCode);
 
-		let flagIsItNew = $.inArray(keyDown, VARCO.p.DEVICES.keyboard.keyDownList);
+		let flagIsItNew = VARCO.p.DEVICES.keyboard.keyDownList.indexOf(keyDown);
 
 		if (flagIsItNew === -1) {
 
@@ -2119,7 +2118,8 @@ VARCO.f.initKeyboardEvents = function () {
 
 		var keyUp = (event.keyCode);
 
-		var flagIsItOld = $.inArray(keyUp, VARCO.p.DEVICES.keyboard.keyDownList);
+		const flagIsItOld = VARCO.p.DEVICES.keyboard.keyDownList.indexOf(keyUp) !== -1;
+
 
 		if (flagIsItOld !== -1) {
 
@@ -5320,44 +5320,32 @@ VARCO.f.loadComplex = function (SCENE, url, prop, callBack, errorCallBack) {
 
 
 
-VARCO.f.loadJSON = function (url, callBack, errorCallBack) {
-
-	if (url !== undefined) {
-
-		$.getJSON(url)
-			.done(
-
-				function (data) {
-
-					if (data === null) { }
-
-					else {
-
-						if (callBack !== undefined) {
-
-							callBack(data, { info: "Perfect! " + url });
-
-						}
-
-					}
-
-				}
-
-			)
-			.fail(
-				function (error) {
-
-					if (errorCallBack !== undefined) {
-
-						errorCallBack(error, { info: "Request Failed: " + error + " --> " + + url });
-
-					}
-				}
-			);
-
-	}
-
+VARCO.f.loadJSON = function(url, callBack, errorCallBack) {
+    if (url !== undefined) {
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data === null) {
+                    // Do nothing if data is null
+                } else {
+                    if (callBack !== undefined) {
+                        callBack(data, { info: "Perfect! " + url });
+                    }
+                }
+            })
+            .catch(error => {
+                if (errorCallBack !== undefined) {
+                    errorCallBack(error.message, { info: "Request Failed: " + error.message + " --> " + url });
+                }
+            });
+    }
 };
+
 
 
 

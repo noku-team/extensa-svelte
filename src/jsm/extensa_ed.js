@@ -647,6 +647,7 @@ const createEditor = () => {
 
 		let USER = UI.p.previewProject.p.infoArea.user;
 
+		console.warn("heres");
 
 		if (PLY.p.selectedProject !== undefined) {
 

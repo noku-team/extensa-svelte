@@ -644,7 +644,8 @@ const createPLY = () => {
 
 				PROJECTOBJ = PLY.p.scene3D.OBJECTS.geoArea.children[geoNum].OBJECTS.projects.children[prjNum];
 
-				const { project: _selectedProject } = get(projectStore);
+				const { project: _selectedProject } = get(projectStore); // leggi dato
+				
 				// For mmare3d: Use _selectedProject as PLY.p.selectedProject
 				if ( _selectedProject !== null ) {
 

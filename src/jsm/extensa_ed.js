@@ -458,6 +458,8 @@ const createEditor = () => {
 				EDITOR.f.deselectProjects();
 
 				PLY.p.selectedProject = p.obj.parent;
+				
+				projectStore.setProject({ ...PROJECTOBJ, selectedProject: p.obj.parent }); // scrivi dato
 
 				console.log('SELEZIONATO');
 
@@ -536,6 +538,8 @@ const createEditor = () => {
 			}
 
 			PLY.p.selectedProject = undefined;
+			
+			projectStore.setProject(null); // scrivi dato NULL
 
 		}
 
@@ -1268,6 +1272,8 @@ const createEditor = () => {
 							function (w) {
 
 								// SHOW PROJECT //
+								
+								projectStore.setProject({ ...PROJECTOBJ, selectedProject: w.obj }); // scrivi dato
 
 								PLY.p.selectedProject = w.obj;
 
@@ -1334,6 +1340,7 @@ const createEditor = () => {
 									function (w) {
 
 										// SHOW PROJECT //
+										projectStore.setProject({ ...PROJECTOBJ, selectedProject: w.obj }); // scrivi dato
 
 										PLY.p.selectedProject = w.obj;
 

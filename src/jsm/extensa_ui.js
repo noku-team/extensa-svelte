@@ -375,57 +375,6 @@ const createUI = () => {
 
 
 
-	UI.p.menu_top.f.menu_account = function () {
-
-		console.log("UI.p.menu_top.f.menu_account");
-
-		if (UI.p.popup_login_data.p.data !== undefined) { // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-			if (UI.p.scene.OBJECTS.menu.OBJECTS.popup_account !== undefined) {
-
-				VARCO.f.deleteElement(UI.p.scene.OBJECTS.menu, UI.p.scene.OBJECTS.menu.OBJECTS.popup_account);
-
-			} else {
-
-				UI.f.remove_menu_popups();
-
-				VARCO.f.loadComplex(
-					UI.p.scene.OBJECTS.menu,
-					'json/popup_account.json',
-					undefined,
-					function init_popup_account(p) {
-						PLY.f.resizeScreen();
-					}
-				);
-
-			}
-
-		} else {
-
-			if (UI.p.scene.OBJECTS.menu.OBJECTS.popup_login !== undefined) {
-
-				VARCO.f.deleteElement(UI.p.scene.OBJECTS.menu, UI.p.scene.OBJECTS.menu.OBJECTS.popup_login);
-
-			} else {
-
-				UI.f.remove_menu_popups();
-
-				VARCO.f.loadComplex(
-					UI.p.scene.OBJECTS.menu,
-					'json/popup_login.json',
-					undefined,
-					function init_popup_login(p) {
-						PLY.f.resizeScreen();
-					}
-				);
-
-			}
-
-		}
-
-	};
-
-
 
 	UI.p.menu_top.f.loop = function (p) {
 

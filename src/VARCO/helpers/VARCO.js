@@ -4,7 +4,6 @@
 /* eslint-disable no-case-declarations */
 // MODULE
 import * as THREE from 'three';
-
 // Instantiate a loader
 
 import { ColladaLoader } from 'three/addons/loaders/ColladaLoader.js';
@@ -5320,30 +5319,36 @@ VARCO.f.loadComplex = function (SCENE, url, prop, callBack, errorCallBack) {
 
 
 
-VARCO.f.loadJSON = function(url, callBack, errorCallBack) {
-    if (url !== undefined) {
-        fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data === null) {
-                    // Do nothing if data is null
-                } else {
-                    if (callBack !== undefined) {
-                        callBack(data, { info: "Perfect! " + url });
-                    }
-                }
-            })
-            .catch(error => {
-                if (errorCallBack !== undefined) {
-                    errorCallBack(error.message, { info: "Request Failed: " + error.message + " --> " + url });
-                }
-            });
-    }
+VARCO.f.loadJSON = function (url, callBack, errorCallBack) {
+
+	if (url !== undefined) {
+
+		const request = new XMLHttpRequest();
+
+		request.open("GET", url, true);
+		request.setRequestHeader("Content-type", "application/json");
+
+		request.onload = function () {
+			if (request.status === 200) {
+				const data = JSON.parse(request.responseText);
+				if (callBack !== undefined) {
+					callBack(data, { info: "Perfect! " + url });
+				}
+			} else {
+				if (errorCallBack !== undefined) {
+					errorCallBack(new Error(request.statusText), { info: "Request Failed: " + request.statusText + " --> " + url });
+				}
+			}
+		};
+
+		request.onerror = function () {
+			if (errorCallBack !== undefined) {
+				errorCallBack(new Error("Network Error"), { info: "Network Error: Unable to fetch " + url });
+			}
+		};
+
+		request.send();
+	}
 };
 
 

@@ -457,7 +457,7 @@ const createEditor = () => {
 
 				EDITOR.f.deselectProjects();
 
-				PLY.p.selectedProject = p.obj.parent;
+				// PLY.p.selectedProject = p.obj.parent;
 				
 				projectStore.setProject({ ...p.obj.parent, selectedProject: p.obj.parent }); // scrivi dato
 
@@ -465,11 +465,11 @@ const createEditor = () => {
 
 				EDITOR.p.alreadySelected = true;
 
-				if (PLY.p.selectedArea == undefined || PLY.p.selectedArea.uuid !== PLY.p.selectedProject.userData.linkedGeoArea.uuid) {
+				if (PLY.p.selectedArea == undefined || PLY.p.selectedArea.uuid !== p.obj.parent.userData.linkedGeoArea.uuid) {
 
 					EDITOR.f.deselectGeoArea();
 
-					PLY.p.selectedArea = PLY.p.selectedProject.userData.linkedGeoArea;
+					PLY.p.selectedArea = p.obj.parent.userData.linkedGeoArea;
 
 					PLY.p.selectedArea.MATERIALS.geoAreaKernel_mat.color.r = 1.0;
 
@@ -480,27 +480,27 @@ const createEditor = () => {
 				}
 
 
-				PLY.p.selectedProject.MATERIALS.Kernel_Mesh_mat.color.r = 1.0;
+				p.obj.parent.MATERIALS.Kernel_Mesh_mat.color.r = 1.0;
 				// TODO whats this for?
 
-				PLY.p.selectedProject.MATERIALS.Kernel_Mesh_mat.color.g = 1.0;
+				p.obj.parent.MATERIALS.Kernel_Mesh_mat.color.g = 1.0;
 				// TODO whats this for?
 
-				PLY.p.selectedProject.MATERIALS.Kernel_Mesh_mat.color.b = 0.0;
+				p.obj.parent.MATERIALS.Kernel_Mesh_mat.color.b = 0.0;
 				// TODO whats this for?
 
-				PLY.p.selectedProjectName = PLY.p.selectedProject.userData.name;
+				PLY.p.selectedProjectName = p.obj.parent.userData.name;
 
 
-				PLY.p.selectedGeoAreaName = PLY.p.selectedArea.userData.name;
+				PLY.p.selectedGeoAreaName = p.obj.parent.userData.name;
 
 
 				if (UI.p.scene.OBJECTS.previewProject == undefined) {
 
-					console.warn('here', PLY.p.selectedProject);
+					console.warn('here', p.obj.parent);
 					UI.p.scene.OBJECTS.previewProject = true;
 
-					UI.p.previewProject.f.open(PLY.p.selectedArea, PLY.p.selectedProject);
+					UI.p.previewProject.f.open(PLY.p.selectedArea, p.obj.parent);
 
 				}
 
@@ -537,7 +537,7 @@ const createEditor = () => {
 
 			}
 
-			PLY.p.selectedProject = undefined;
+			// PLY.p.selectedProject = undefined;
 			
 			projectStore.setProject(null); // scrivi dato NULL
 
@@ -555,9 +555,11 @@ const createEditor = () => {
 			if (principal == p.obj.parent.userData.user) {
 
 				// diseleziona progetti in geoArea diversa da quella attuale
-				if (PLY.p.selectedProject !== undefined) {
+				const { project: _selectedProject } = get(projectStore); // leggi dato
+				
+				if ( _selectedProject !== null ) {
 
-					if (p.obj.parent.uuid !== PLY.p.selectedProject.userData.linkedGeoArea.uuid) {
+					if (p.obj.parent.uuid !== _selectedProject.userData.linkedGeoArea.uuid) {
 
 						EDITOR.f.deselectProjects();
 
@@ -648,9 +650,10 @@ const createEditor = () => {
 		let USER = UI.p.previewProject.p.infoArea.user;
 
 		console.warn("heres");
+		
+		const { project: _selectedProject } = get(projectStore); // leggi dato
 
-		if (PLY.p.selectedProject !== undefined) {
-
+		if ( _selectedProject !== null ) {
 
 			const projectFile = 'USER_DB/' + USER + '/contents/' + PROJECTNAME + '.json';
 
@@ -664,12 +667,12 @@ const createEditor = () => {
 
 					UI.p.scene.OBJECTS.previewProject.OBJECTS.loadingProject.visible = true;
 
-					PLY.p.selectedProject.userData.isLoaded = true;
+					_selectedProject.userData.isLoaded = true;
 
 
 					VARCO.f.addComplex(
 
-						PLY.p.selectedProject.OBJECTS.myProject,
+						_selectedProject.OBJECTS.myProject,
 
 						projectData,
 
@@ -725,14 +728,14 @@ const createEditor = () => {
 
 					UI.p.scene.OBJECTS.previewProject.OBJECTS.loadingProject.visible = true;
 
-					PLY.p.selectedProject.userData.isLoaded = true;
+					_selectedProject.userData.isLoaded = true;
 
 					VARCO.f.addFromFile(
 
-						PLY.p.selectedProject.OBJECTS.myProject,
+						_selectedProject.OBJECTS.myProject,
 
 						{
-							"name": PLY.p.selectedProject.userData.name,
+							"name": _selectedProject.userData.name,
 							"parameters": {
 								"url": URL
 							},
@@ -1275,7 +1278,7 @@ const createEditor = () => {
 						
 								projectStore.setProject({ ...w.obj, selectedProject: w.obj }); // scrivi dato
 
-								PLY.p.selectedProject = w.obj;
+								// PLY.p.selectedProject = w.obj;
 
 								if (PROJECTOBJ) {
 									w.obj.userData.isLoaded = true;
@@ -1343,7 +1346,7 @@ const createEditor = () => {
 						
 										projectStore.setProject({ ...w.obj, selectedProject: w.obj }); // scrivi dato
 
-										PLY.p.selectedProject = w.obj;
+										// PLY.p.selectedProject = w.obj;
 
 										if (PROJECTOBJ) {
 											w.obj.userData.isLoaded = true;

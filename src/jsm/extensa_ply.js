@@ -646,7 +646,7 @@ const createPLY = () => {
 
 				const { project: _selectedProject } = get(projectStore);
 				// For mmare3d: Use _selectedProject as PLY.p.selectedProject
-				if (PLY.p.selectedProject !== undefined) {
+				if ( _selectedProject !== null ) {
 
 					if (PROJECTOBJ.name !== PLY.p.selectedProject.name) {
 						console.warn("open modal", PLY.p.selectedProject);
@@ -656,7 +656,7 @@ const createPLY = () => {
 						PLY.p.selectedProjectName = PROJECTOBJ.userData.name;
 
 						// Update svelte project store
-						projectStore.setProject({ ...PROJECTOBJ, name: PROJECTOBJ.userData.name });
+						projectStore.setProject({ ...PROJECTOBJ, selectedProject: PROJECTOBJ }); // scrivi dato
 
 						PLY.p.selectedGeoAreaName = GEOAREAOBJ.userData.name;
 
@@ -671,7 +671,7 @@ const createPLY = () => {
 
 					PLY.p.selectedProjectName = PROJECTOBJ.userData.name;
 
-					projectStore.setProject({ ...PROJECTOBJ, name: PROJECTOBJ.userData.name });
+					projectStore.setProject({ ...PROJECTOBJ, selectedProject: PROJECTOBJ }); // scrivi dato
 
 					PLY.p.selectedGeoAreaName = GEOAREAOBJ.userData.name;
 
@@ -683,7 +683,7 @@ const createPLY = () => {
 
 				if (UI.p.scene.OBJECTS.previewProject !== undefined) {
 
-					VARCO.f.deleteElement(UI.p.scene, UI.p.scene.OBJECTS.previewProject);
+					VARCO.f.deleteElement(UI.p.scene, UI.p.scene.OBJECTS.previewProject); 
 
 				}
 
@@ -691,7 +691,7 @@ const createPLY = () => {
 
 				PLY.p.selectedProjectName = '';
 
-				projectStore.setProject(null);
+				projectStore.setProject(null); // scrivi dato NULL
 
 				PLY.p.selectedGeoAreaName = '';
 
@@ -800,7 +800,7 @@ const createPLY = () => {
 
 				PLY.p.selectedProjectName = undefined;
 
-				projectStore.setProject(null);
+				projectStore.setProject(null); // scrivi dato NULL
 
 			}
 
@@ -999,7 +999,7 @@ const createPLY = () => {
 			}
 
 			PLY.p.selectedProjectName = '';
-			projectStore.setProject(null);
+			projectStore.setProject(null); // scrivi dato NULL
 			PLY.p.selectedGeoAreaName = '';
 
 		}

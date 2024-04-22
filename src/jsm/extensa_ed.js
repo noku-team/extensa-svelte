@@ -9,6 +9,7 @@ import { get } from 'svelte/store';
 import * as THREE from 'three';
 import { VARCO } from "../VARCO/helpers/VARCO.js";
 import { authStore } from '../store/AuthStore';
+import { projectStore } from '../store/ProjectStore';
 import UISingleton from './extensa_ui.js';
 import { MAP, PLY } from "./index.js";
 

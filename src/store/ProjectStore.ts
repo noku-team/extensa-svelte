@@ -4,7 +4,7 @@ interface Project {
     id: string;
     name: string;
     description: string;
-	selectedProject: any;
+	
 }
 
 export interface ProjectStoreData {

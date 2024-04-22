@@ -5328,16 +5328,19 @@ VARCO.f.loadJSON = function (url, callBack, errorCallBack) {
 		request.open("GET", url, true);
 		request.setRequestHeader("Content-type", "application/json");
 
-		request.onload = function () {
+		request.onload = () => {
 			if (request.status === 200) {
-				const data = JSON.parse(request.responseText);
-				if (callBack !== undefined) {
-					callBack(data, { info: "Perfect! " + url });
+				try {
+					const data = JSON.parse(request.responseText);
+					if (callBack !== undefined) callBack(data, { info: "Perfect! " + url });
+
+				} catch (e) {
+					if (!e instanceof SyntaxError) {
+						console.error(e);
+					}
 				}
 			} else {
-				if (errorCallBack !== undefined) {
-					errorCallBack(new Error(request.statusText), { info: "Request Failed: " + request.statusText + " --> " + url });
-				}
+				if (errorCallBack !== undefined) errorCallBack(new Error(request.statusText), { info: "Request Failed: " + request.statusText + " --> " + url });
 			}
 		};
 

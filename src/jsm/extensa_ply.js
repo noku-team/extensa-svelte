@@ -649,7 +649,7 @@ const createPLY = () => {
 				// For mmare3d: Use _selectedProject as PLY.p.selectedProject
 				if ( _selectedProject !== null ) {
 
-					if (PROJECTOBJ.name !== PLY.p.selectedProject.name) {
+					if (PROJECTOBJ.name !== _selectedProject.name) {
 						console.warn("open modal", PLY.p.selectedProject);
 
 						PLY.p.selectedProject = PROJECTOBJ;
@@ -964,6 +964,7 @@ const createPLY = () => {
 
 
 	PLY.f.UPDATE = function (renderer) {
+		
 		let oldPosX = 0;
 
 		let oldPosY = 0;
@@ -997,7 +998,11 @@ const createPLY = () => {
 
 				VARCO.f.deleteElement(UI.p.scene, UI.p.scene.OBJECTS.previewProject);
 
-			}
+			};
+			
+			const { project: _selectedProject } = get(projectStore); // leggi dato
+			
+			console.log( _selectedProject );
 
 			PLY.p.selectedProjectName = '';
 			projectStore.setProject(null); // scrivi dato NULL

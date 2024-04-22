@@ -1028,7 +1028,7 @@ const createUI = () => {
 
 	UI.p.menu_bottom.f.checkAntennaStatusLoop = function (p) {
 
-		console.log("checkAntennaStatusLoop")
+		// console.log("checkAntennaStatusLoop")
 
 		switch (PLY.p.qualityGPS) {
 

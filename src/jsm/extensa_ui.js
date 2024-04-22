@@ -300,7 +300,7 @@ const createUI = () => {
 
 		if ( _selectedProject !== null) {
 
-			if (PLY.p.selectedProject.userData.isLoaded) {
+			if ( _selectedProject.userData.isLoaded) {
 
 				if (UI.p.scene.OBJECTS.previewProject !== undefined) {
 

@@ -15,6 +15,8 @@
 		projectStore.set3DVisible(false);
 	};
 
+	const selectedProject = $projectStore.project;
+
 	const onClose = () => {
 		projectStore.setProject(null);
 
@@ -49,7 +51,7 @@
 		</div>
 		<span class="font-semibold text-xl">{$projectStore.project?.name}</span>
 		<div class="flex">
-			{#if !$projectStore.is3DVisible}
+			{#if !$projectStore.project.is3DVisible}
 				<img src={EyeIcon} alt="icon" on:click={onEyeClick} />
 			{:else}
 				<img src={EyeOffIcon} alt="eye-off" on:click={onEyeOffClick} />

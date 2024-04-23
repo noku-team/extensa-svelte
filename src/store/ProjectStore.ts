@@ -2,22 +2,25 @@ import { writable, type Readable } from "svelte/store";
 import type { Group } from "three";
 
 export interface ProjectStoreData {
-    projects: Group[];
-    project: Group | null;
-    is3DVisible?: boolean;
+    projects: Project[];
+    project: Project | null;
 }
 
 export interface ProjectStore extends Readable<ProjectStoreData> {
-    setProjects: (projects: Group[]) => void;
-    setProject: (project: Group | null) => void;
+    setProjects: (projects: Project[]) => void;
+    setProject: (project: Project | null) => void;
     set3DVisible: (is3DVisible: boolean) => void;
     resetState: () => void;
+}
+
+
+interface Project extends Group {
+    is3DVisible: boolean;
 }
 
 const initState: ProjectStoreData = {
     projects: [],
     project: null,
-    is3DVisible: false
 };
 
 const initProjectStore = (): ProjectStore => {
@@ -25,7 +28,7 @@ const initProjectStore = (): ProjectStore => {
 
     return {
         subscribe,
-        setProject: (project: Group | null) => {
+        setProject: (project: Project | null) => {
             update((state) => {
                 return {
                     ...state,
@@ -33,7 +36,7 @@ const initProjectStore = (): ProjectStore => {
                 };
             })
         },
-        setProjects: (projects: Group[]) => {
+        setProjects: (projects: Project[]) => {
             update((state) => {
                 return {
                     ...state,
@@ -43,10 +46,8 @@ const initProjectStore = (): ProjectStore => {
         },
         set3DVisible: (is3DVisible: boolean) => {
             update((state) => {
-                return {
-                    ...state,
-                    is3DVisible
-                };
+                if (state.project) state.project.is3DVisible = is3DVisible;
+                return state;
             });
         },
         resetState: () => (set(initState))

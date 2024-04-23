@@ -22,6 +22,7 @@ const UISingleton = (function () {
 
 
 const createUI = () => {
+	
 	const UI = {
 
 		p: {
@@ -259,6 +260,8 @@ const createUI = () => {
 			function init_previewProject(q) {
 
 				console.log(PROJECTOBJ.name);
+				
+				q.obj.visible = false;
 
 				UI.p.previewProject.p.infoArea = GEOAREAOBJ.userData;
 

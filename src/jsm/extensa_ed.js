@@ -664,7 +664,17 @@ const createEditor = () => {
 
 					UI.p.scene.OBJECTS.previewProject.OBJECTS.loadingProject.visible = true;
 
-					_selectedProject.userData.isLoaded = true;
+					// _selectedProject.userData.isLoaded = true;
+					
+					const geoArea =_selectedProject.userData.linkedGeoArea
+					
+					geoArea.OBJECTS.projects.children.forEach( 
+						function( child ){
+							if ( child.uuid == _selectedProject.uuid ){
+								child.userData.isLoaded = true;
+							}
+						}
+					);
 
 
 					VARCO.f.addComplex(
@@ -725,7 +735,17 @@ const createEditor = () => {
 
 					UI.p.scene.OBJECTS.previewProject.OBJECTS.loadingProject.visible = true;
 
-					_selectedProject.userData.isLoaded = true;
+					// _selectedProject.userData.isLoaded = true;
+	
+					const geoArea =_selectedProject.userData.linkedGeoArea
+					
+					geoArea.OBJECTS.projects.children.forEach( 
+						function( child ){
+							if ( child.uuid == _selectedProject.uuid ){
+								child.userData.isLoaded = true;
+							}
+						}
+					);
 
 					VARCO.f.addFromFile(
 

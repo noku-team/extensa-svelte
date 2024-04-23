@@ -660,7 +660,7 @@ const createPLY = () => {
 
 						PLY.p.selectedGeoAreaName = GEOAREAOBJ.userData.name;
 
-						// UI.p.previewProject.f.open(GEOAREAOBJ, PROJECTOBJ)
+						UI.p.previewProject.f.open(GEOAREAOBJ, PROJECTOBJ)
 
 					}
 
@@ -674,7 +674,7 @@ const createPLY = () => {
 
 					PLY.p.selectedGeoAreaName = GEOAREAOBJ.userData.name;
 
-					// UI.p.previewProject.f.open(GEOAREAOBJ, PROJECTOBJ)
+					UI.p.previewProject.f.open(GEOAREAOBJ, PROJECTOBJ)
 
 				}
 

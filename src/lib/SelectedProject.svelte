@@ -9,7 +9,7 @@
 		EDITOR.f.loadProjectData();
 		projectStore.set3DVisible(true);
 	};
-	
+
 	const onEyeOffClick = () => {
 		UI.p.previewProject.f.button_removeProject();
 		projectStore.set3DVisible(false);
@@ -37,7 +37,16 @@
 </script>
 
 {#if !!$projectStore.project}
-	<div class="flex flex-col gap-3 fixed top-20 left-1/2 transform -translate-x-1/2 p-10 bg-neutral z-10 rounded-xl">
+	<div
+		class="flex flex-col gap-3 fixed top-20 left-1/2 transform -translate-x-1/2 p-10 bg-neutral z-10 rounded-xl"
+	>
+		<div
+			class="absolute top-4 right-4 cursor-pointer"
+			on:click={onClose}
+			role="button"
+		>
+			✕
+		</div>
 		<span class="font-semibold text-xl">{$projectStore.project?.name}</span>
 		<div class="flex">
 			{#if !$projectStore.is3DVisible}

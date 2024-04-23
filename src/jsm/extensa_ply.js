@@ -1224,7 +1224,9 @@ const createPLY = () => {
 							speedX = VARCO.p.DEVICES.mouse.diffH * (PLY.p.camera3DAxis.userData.orbitRadius + 15.0) * 0.001 * -1;
 
 							speedZ = VARCO.p.DEVICES.mouse.diffV * (PLY.p.camera3DAxis.userData.orbitRadius + 15.0) * 0.001 * -1;
+							
 							PLY.p.camera3DAxis.translateX(speedX);
+							
 							PLY.p.camera3DAxis.translateZ(speedZ);
 
 						}
@@ -1500,7 +1502,11 @@ const createPLY = () => {
 
 		if (VARCO.p.DEVICES.mouse.clickDown == false && PLY.p.flagPlayerOn == false) {
 
-			PLY.p.flagPlayerOn = true;
+			if ( EDITOR.p.action == '' ){
+			
+				PLY.p.flagPlayerOn = true;  //// JJ
+			
+			};
 
 		}
 
@@ -2675,6 +2681,142 @@ const createPLY = () => {
 		PLY.p.STREETVIEW_MARKER.position.y = p.results.point.y + 0.05;
 
 		PLY.p.STREETVIEW_MARKER.position.z = p.results.point.z;
+		
+		
+		if ( UI.p.popup_login_data.p.data !== undefined ){ 	/////// XLUCA da cambiare con info se e' loggato l'utente
+	
+			let wPos;
+			
+			switch ( EDITOR.p.action ){
+				
+				case 'DRAG_project':
+				
+					if ( VARCO.p.DEVICES.mouse.clickDown ){
+						
+						if ( EDITOR.p.mousePivotPoint == undefined ){
+							
+							EDITOR.p.mousePivotPoint = p.results.point;
+							
+							EDITOR.p.mousePivotOffset = new THREE.Vector3();
+							
+							wPos = new THREE.Vector3();
+						
+							PLY.p.selectedProject.getWorldPosition( wPos );
+		
+							EDITOR.p.mousePivotOffset.x = wPos.x - EDITOR.p.mousePivotPoint.x;
+							
+							EDITOR.p.mousePivotOffset.z = wPos.z - EDITOR.p.mousePivotPoint.z;
+							
+						};
+				
+						PLY.p.selectedProject.position.x = ( p.results.point.x - PLY.p.selectedArea.position.x ) + EDITOR.p.mousePivotOffset.x ;
+						
+						PLY.p.selectedProject.position.z = ( p.results.point.z - PLY.p.selectedArea.position.z ) + EDITOR.p.mousePivotOffset.z ;
+						
+					} else {
+						
+						EDITOR.p.mousePivotPoint = undefined;
+						
+						EDITOR.p.mousePivotOffset = undefined;
+						
+					}
+					
+				break;
+				
+				case 'ROTATE_project':
+
+					if ( VARCO.p.DEVICES.mouse.clickDown ){
+					
+						PLY.p.selectedProject.rotation.y += VARCO.f.deg2rad( VARCO.p.DEVICES.mouse.diffH * 0.1 );
+						
+					};
+
+				break;
+				
+				case 'SCALE_project':
+					
+					if ( VARCO.p.DEVICES.mouse.clickDown ){
+						
+						if ( EDITOR.p.mousePivotPoint == undefined ){
+							
+							EDITOR.p.mousePivotPoint = p.results.point;
+							
+						};
+						
+						wPos = new THREE.Vector3();
+						
+						PLY.p.selectedProject.getWorldPosition( wPos );
+						
+						let distanceArea;
+				
+						distanceArea = wPos.distanceTo( EDITOR.p.mousePivotPoint );
+						
+						let distanceMouse = wPos.distanceTo( p.results.point );
+						
+						
+						PLY.p.selectedProject.scale.x = ( distanceMouse / distanceArea );
+						
+						PLY.p.selectedProject.scale.y = ( distanceMouse / distanceArea );
+						
+						PLY.p.selectedProject.scale.z = ( distanceMouse / distanceArea  );
+						
+					} else {
+						
+						EDITOR.p.mousePivotPoint = undefined;
+						
+					};
+					
+				break;
+				
+				
+				case 'DRAG_area':
+				
+					if ( VARCO.p.DEVICES.mouse.clickDown ){
+						
+						if ( EDITOR.p.mousePivotPoint == undefined ){
+							
+							EDITOR.p.mousePivotPoint = p.results.point;
+							
+							EDITOR.p.mousePivotOffset = new THREE.Vector3();
+						
+							EDITOR.p.mousePivotOffset.x = PLY.p.selectedArea.position.x - EDITOR.p.mousePivotPoint.x;
+							
+							EDITOR.p.mousePivotOffset.z = PLY.p.selectedArea.position.z - EDITOR.p.mousePivotPoint.z;
+							
+						};
+						
+						
+						PLY.p.selectedArea.position.x = p.results.point.x + EDITOR.p.mousePivotOffset.x ;
+						
+						PLY.p.selectedArea.position.z = p.results.point.z + EDITOR.p.mousePivotOffset.z ;
+						
+						console.log( PLY.p.selectedArea.position )
+						
+						// update coords //
+						
+						let altitude = 0.0;
+						
+						let myCoords = MAP.f.getMapCoords( MAP.p.width, MAP.p.height, PLY.p.selectedArea.position, altitude )
+						
+						PLY.p.selectedArea.userData.myCoords.lng = myCoords.lng;
+						
+						PLY.p.selectedArea.userData.myCoords.lat = myCoords.lat;
+						
+						PLY.p.selectedArea.userData.myCoords.alt = altitude;
+						
+					} else {
+						
+						EDITOR.p.mousePivotPoint = undefined;
+						
+						EDITOR.p.mousePivotOffset = undefined;
+						
+					}
+					
+				break;
+				
+			};
+			
+		};
 
 	};
 
@@ -2727,6 +2869,21 @@ const createPLY = () => {
 		}
 
 	};
+	
+	
+	PLY.f.isLoaded = function( selectedProject ){
+		
+		const geoArea = selectedProject.userData.linkedGeoArea
+						
+		geoArea.OBJECTS.projects.children.forEach( 
+			function( child ){
+				if ( child.uuid == selectedProject.uuid ){
+					child.userData.isLoaded = true;
+				}
+			}
+		);
+	};
+	
 	return PLY;
 }
 

@@ -2873,6 +2873,8 @@ const createPLY = () => {
 	
 	PLY.f.isLoaded = function( selectedProject ){
 		
+		let flagIsLoaded = false;
+		
 		if ( selectedProject !== null ){
 			
 			const geoArea = selectedProject.userData.linkedGeoArea
@@ -2880,11 +2882,15 @@ const createPLY = () => {
 			geoArea.OBJECTS.projects.children.forEach( 
 				function( child ){
 					if ( child.uuid == selectedProject.uuid ){
-						child.userData.isLoaded = true;
+						if ( child.userData.isLoaded ){;
+							flagIsLoaded = true;
+						}
 					}
 				}
 			);
 		};
+		
+		return flagIsLoaded;
 		
 	};
 	

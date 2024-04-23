@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 // UI MODULE
 
+import { get } from 'svelte/store';
 import * as THREE from 'three';
 import { VARCO } from "../VARCO/helpers/VARCO.js";
-import { EDITOR, MAP, PLY } from "./index.js";
 import { projectStore } from '../store/ProjectStore';
-import { get } from 'svelte/store';
+import { EDITOR, MAP, PLY } from "./index.js";
 
 const UISingleton = (function () {
 	let instance;
@@ -454,7 +454,6 @@ const createUI = () => {
 		UI.f.remove_menu_popups();
 
 		const accountToLoad = 'USER_DB/' + UI.p.popup_login_data.p.user + '.json';
-
 		VARCO.f.loadJSON(
 
 			accountToLoad,

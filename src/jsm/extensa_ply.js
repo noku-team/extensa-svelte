@@ -808,6 +808,7 @@ const createPLY = () => {
 
 			// carica il settore //
 
+			// TODO load all JSON sectors here
 			for (var num = 0; num < sectorList.length; num += 1) {
 
 				VARCO.f.loadJSON(
@@ -820,7 +821,6 @@ const createPLY = () => {
 
 						// carica geoaree del settore //
 						for (var i = 0; i < sectorData.geoareaList.length; i += 1) {
-
 							VARCO.f.loadJSON(
 
 								'USER_DB/' + sectorData.geoareaList[i].user + '/geoArea/' + sectorData.geoareaList[i].geoAreaName + '.json', // path x geoarea

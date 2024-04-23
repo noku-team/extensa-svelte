@@ -971,7 +971,6 @@ const createEditor = () => {
 
 
 			// CHECK IF SECTOR EXIST //
-
 			VARCO.f.loadJSON(
 
 				'SECTOR_DB/' + PLY.p.selectedArea.userData.sectorName + '.json',

@@ -5286,7 +5286,6 @@ VARCO.f.loadComplex = function (SCENE, url, prop, callBack, errorCallBack) {
 	console.log('loadComplex');
 
 	console.log(url);
-
 	VARCO.f.loadJSON(
 		url,
 		function (data) {
@@ -5320,6 +5319,7 @@ VARCO.f.loadComplex = function (SCENE, url, prop, callBack, errorCallBack) {
 
 
 VARCO.f.loadJSON = function (url, callBack, errorCallBack) {
+	console.warn("+++", url);
 
 	if (url !== undefined) {
 

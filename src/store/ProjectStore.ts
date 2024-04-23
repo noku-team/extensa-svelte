@@ -1,19 +1,13 @@
 import { writable, type Readable } from "svelte/store";
-
-interface Project {
-    id: string;
-    name: string;
-    description: string;
-	
-}
+import type { Group } from "three";
 
 export interface ProjectStoreData {
-    project: Project | null;
+    project: Group | null;
     is3DVisible?: boolean;
 }
 
 export interface ProjectStore extends Readable<ProjectStoreData> {
-    setProject: (project: Project | null) => void;
+    setProject: (project: Group | null) => void;
     set3DVisible: (is3DVisible: boolean) => void;
 }
 
@@ -25,7 +19,7 @@ const initProjectStore = (): ProjectStore => {
 
     return {
         subscribe,
-        setProject: (project: Project | null) => {
+        setProject: (project: Group | null) => {
             set({ project });
         },
         set3DVisible: (is3DVisible: boolean) => {

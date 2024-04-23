@@ -1582,6 +1582,598 @@ const createEditor = () => {
 				
 		};
 	};
+	
+	
+		
+	// /////////////////////////////// JJJ 
+
+
+	// EDITOR.f.optimizerTextures( PLY.p.selectedProject.OBJECTS.myProject.children[ 0 ], 0.5, function(p){ console.log( p ) }, {} );
+
+	EDITOR.f.optimizerTextures = function( SOURCEOBJ, valueTextures, callback, callbackprop ){
+		
+		let OBJ = SOURCEOBJ.clone();
+		
+		OBJ.traverse(function(child) {
+
+			if ( child.isMesh ) {
+
+				child.material = child.material.clone();
+
+			}
+
+		});
+
+		// const OBJ = cloneDeep(SOURCEOBJ);
+		
+		if ( PLY.p.selectedProject.OBJECTS.myProjectCloned.children.length > 0 ){
+			
+			VARCO.f.deleteElement( PLY.p.selectedProject.OBJECTS.myProjectCloned, PLY.p.selectedProject.OBJECTS.myProjectCloned.children[ 0 ] );
+			
+		};
+		
+		PLY.p.selectedProject.OBJECTS.myProjectCloned.OBJECTS[ OBJ.name ];
+		
+		PLY.p.selectedProject.OBJECTS.myProjectCloned.add( OBJ );
+		
+		SOURCEOBJ.visible = false;
+		
+		OBJ.visible = true;
+
+		const exporter = new GLTFExporter();
+
+		const textureTypeList = [
+			"map",
+			"emissiveMap",
+			"bumpMap",
+			"displacementMap",
+			"specularMap",
+			"envMap",
+			"normalMap",
+			"lightMap",
+			"aoMap",
+			"alphaMap",
+			"metalnessMap",
+			"roughnessMap",
+			"transmissionMap",
+			"gradientMap",
+			"clearcoatMap",
+			"clearcoatNormalMap",
+			"clearcoatRoughnessMap"
+		];
+		
+		let maxResizeWidth = 4096;
+		
+		let maxResizeHeight = 4096;
+		
+		let textureToResizeList = [];
+		
+
+		OBJ.traverse(
+		
+			function( child ){
+				
+				if ( child.material !== undefined ){
+					
+					textureTypeList.forEach(
+					
+						function( textureType ){
+							
+							if ( child.material[ textureType ] !== null && child.material[ textureType ] !== undefined ){
+								
+								child.material[ textureType ].flipY = true;
+								
+								child.material[ textureType ].name = child.material[ textureType ].name + '_' + textureType;
+							
+								textureToResizeList.push( 
+									{ 
+										childOriginal: child, 
+										
+										textureOriginal: child.material[ textureType ], 
+										
+										materialOriginal: child.material,
+						
+										textureType: textureType
+									
+									}
+								);
+								
+							};
+							
+						}
+						
+					);
+					
+				};
+
+			}
+			
+		);
+		
+		
+		console.log( 'hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh' );
+		
+		console.log( textureToResizeList );
+		
+		console.log( 'hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh' );
+
+		
+		let COUNTER = 0;
+		
+		let FlipY = true;
+		
+		console.log( textureToResizeList);
+		
+		let textureImage, type;
+		
+		function resizeTexture ( textureToResizeList ){
+
+			if ( textureToResizeList[ COUNTER ].textureOriginal.image !== undefined ) {
+				
+				textureImage = textureToResizeList[ COUNTER ].textureOriginal.image;
+
+				type = 'image';
+				
+				FlipY = true;
+				
+			} else {
+				
+				textureImage = textureToResizeList[ COUNTER ].textureOriginal.source.data;
+				
+				type = 'embedded';
+				
+				FlipY = true;
+				
+			};
+			
+			textureToResizeList[ COUNTER ].textureImageOriginal = textureImage;
+			
+
+			const canvasOriginal = document.createElement('canvas');
+			
+			const ctxOriginal = canvasOriginal.getContext('2d');
+			
+			
+			ctxOriginal.imageSmoothingEnabled = true;
+			
+			ctxOriginal.imageSmoothingQuality = 'high';
+			
+			canvasOriginal.width = textureImage.width;
+			
+			canvasOriginal.height = textureImage.height;
+
+
+			 // Flip the image
+			ctxOriginal.save(); // Save the current state
+
+			// Step 2: Translate the context to image width
+			ctxOriginal.translate( 0, textureImage.height);
+
+			// Step 3: Scale the context horizontally by -1
+			ctxOriginal.scale( 1, -1 );
+
+				// Step 4: Draw the image at the translated point
+			ctxOriginal.drawImage( textureImage, 0, 0, textureImage.width, textureImage.height, 0, 0, textureImage.width, textureImage.height);
+
+			ctxOriginal.restore(); // Restore the context to its original state
+
+			
+			canvasOriginal.toBlob(
+			
+				function( blobPreviewOriginal ) {
+				
+					// salva nello zip le immagini originali //
+					//PLY.p.zipImage.file( "texturesOriginali/" + "image_" + COUNTER + ".png", blobPreviewOriginal, {binary:true} );
+
+					const canvasLowres = document.createElement('canvas');
+					
+					const ctxLowres = canvasLowres.getContext('2d');
+					
+					ctxLowres.imageSmoothingEnabled = true;
+					
+					ctxLowres.imageSmoothingQuality = 'high';
+					
+					ctxLowres.willReadFrequently = true;
+					
+
+					 // Flip the image
+					ctxLowres.save(); // Save the current state
+				
+					let resizeWidth;
+					
+					let resizeHeight;
+					
+					// reduction of the textures //
+
+					// dynamic smart reduction of the textures //
+					const reductionSize = [ 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096 ];
+					
+					
+					let propValH = 1
+					
+					let propValV = 1
+					
+					
+					if ( textureImage.width > textureImage.height ){
+						
+						propValV = textureImage.height / textureImage.width;
+						
+					} else {
+						
+						propValH = textureImage.width / textureImage.height;
+						
+					};
+					
+					
+					let textureSizeH = Math.floor( textureImage.width * propValH * valueTextures );
+					
+					let textureSizeV = Math.floor( textureImage.height * propValV * valueTextures );
+					
+					
+					// width //
+					for( var ws = 0; ws < reductionSize.length; ws++) {
+						
+						if ( reductionSize[ ws ] < maxResizeWidth ){
+							
+							if ( textureSizeH < reductionSize[ ws ] ){
+								
+								resizeWidth = reductionSize[ ws ];
+								
+								break;
+								
+							};
+							
+						} else {
+							
+							resizeWidth = maxResizeWidth;
+							
+							break;
+							
+						};
+						
+					};
+					
+					
+					// height //
+					for( var hs = 0; hs < reductionSize.length; hs++) {
+						
+						if ( reductionSize[ hs ] < maxResizeHeight ){
+							
+							if ( textureSizeV < reductionSize[ hs ] ){
+								
+								resizeHeight = reductionSize[ hs ];
+								
+								break;
+								
+							};
+							
+						} else {
+							
+							resizeHeight = maxResizeHeight;
+							
+							break;
+							
+						};
+						
+					};
+					
+					
+					console.log( resizeWidth, resizeHeight );
+
+					canvasLowres.width = resizeWidth;
+					
+					canvasLowres.height = resizeHeight;
+					
+					
+					// Flip the image
+					ctxLowres.save(); // Save the current state
+		
+					// Step 2: Translate the context to image width
+					ctxLowres.translate( 0, resizeHeight);
+
+					// Step 3: Scale the context horizontally by -1
+					ctxLowres.scale(1, -1);
+			
+					// Step 4: Draw the image at the translated point
+					ctxLowres.drawImage( textureImage, 0, 0, textureImage.width, textureImage.height, 0, 0, resizeWidth, resizeHeight);
+		
+					ctxLowres.restore(); // Restore the context to its original state
+					
+					
+					canvasLowres.toBlob(
+			
+						function( blobPreviewLowres ) {
+						
+							textureToResizeList[ COUNTER ].textureImageCompressed = canvasLowres.toDataURL();
+							
+							textureToResizeList[ COUNTER ].textureCompressed = '';
+							
+							VARCO.f.addTexture(
+									
+								PLY.p.selectedProject.OBJECTS.myProject,
+								
+								{
+									"name" : textureToResizeList[ COUNTER ].textureOriginal.name,
+									"type" : "base64",
+									"url" : textureToResizeList[ COUNTER ].textureImageCompressed,
+									"parameters" : {
+										"encoding" : "THREE.sRGBEncoding"
+									}
+								},
+								
+								function( pTexture ){
+									
+									textureToResizeList[ COUNTER ].childOriginal.material[ textureToResizeList[ COUNTER ].textureType ] = pTexture.obj;
+									
+									textureToResizeList[ COUNTER ].childOriginal.material[ textureToResizeList[ COUNTER ].textureType ].flipY = FlipY
+							
+									textureToResizeList[ COUNTER ].childOriginal.material.needsUpdate = true;
+									
+									COUNTER +=1;
+							
+									if ( COUNTER < textureToResizeList.length ){
+										
+										resizeTexture( textureToResizeList );
+										
+									} else {
+										
+										if ( callback !== undefined ){
+											
+											if ( callbackprop == undefined ){
+												
+												callbackprop = {}
+												
+											};
+											
+											callbackprop.obj = textureToResizeList;
+											
+											callback( callbackprop );
+											
+										};
+										
+										return textureToResizeList;
+
+									}
+									
+								}
+								
+							);
+			
+						}
+						
+					)
+		
+				}
+				
+			);
+
+		};
+
+		resizeTexture( textureToResizeList );
+
+	};
+
+
+
+
+	// EDITOR.f.optimizerGeometry( PLY.p.selectedProject.OBJECTS.myProject.children[ 0 ], 0.5, function(p){ console.log( p ) }, {} );
+
+	EDITOR.f.optimizerGeometry = function( SOURCEOBJ, valueGeometry, callback, callbackprop ){
+
+		const simplifyModifier = new SimplifyModifier();
+		
+		if ( PLY.p.selectedProject.OBJECTS.myProjectCloned.children.length > 0 ){
+			
+			VARCO.f.deleteElement( PLY.p.selectedProject.OBJECTS.myProjectCloned, PLY.p.selectedProject.OBJECTS.myProjectCloned.children[ 0 ] );
+			
+		};
+
+		PLY.p.selectedProject.OBJECTS.myProjectCloned.OBJECTS[ SOURCEOBJ.name ];
+		
+		SOURCEOBJ.traverse(
+		
+			function( child ){
+
+				const simplifyChild = child.clone();
+
+				if ( child.geometry !== undefined ) {
+
+					const polygonCount = Math.floor(child.geometry.attributes.position.count * valueGeometry );
+					
+					const simplifiedGeometry = simplifyModifier.modify( child.geometry, polygonCount ); // Riduce del 50%
+					
+					simplifyChild.geometry = simplifiedGeometry;
+		
+					simplifyChild.material = child.material.clone();
+					
+					simplifyChild.material.flatShading = true;
+					
+					PLY.p.selectedProject.OBJECTS.myProjectCloned.add( simplifyChild );
+					
+					PLY.p.selectedProject.OBJECTS.myProjectCloned.OBJECTS[ simplifyChild.name ] = simplifyChild;
+					
+				};
+				
+			}
+			
+		);
+
+
+		PLY.p.selectedProject.OBJECTS.myProject.visible = false;
+		
+		PLY.p.selectedProject.OBJECTS.myProjectCloned.visible = true;
+
+
+	};
+
+
+
+	EDITOR.f.optimizerDrawCalls = function( SOURCEOBJ, valueGeometry, callback, callbackprop ){
+
+		if ( PLY.p.selectedProject.OBJECTS.myProjectCloned.children.length > 0 ){
+			
+			VARCO.f.deleteElement( PLY.p.selectedProject.OBJECTS.myProjectCloned, PLY.p.selectedProject.OBJECTS.myProjectCloned.children[ 0 ] );
+			
+		};
+		
+		const geometries = [];
+		
+		const combinedGeometry = new THREE.BufferGeometry();
+		
+		SOURCEOBJ.traverse(
+		
+			function( child ){
+				
+				console.log( child );
+				
+				if ( child.geometry !== undefined ){
+				
+					geometries.push( child.geometry.clone() );
+				
+				};
+			
+			}
+		
+		);
+		
+		
+		SOURCEOBJ.traverse( child => {
+			
+				if (child.isMesh) {
+					const mesh = child;
+
+					// Clona la geometria per evitare mutazioni indesiderate
+					
+					const clonedGeometry = mesh.geometry.clone();
+					
+					clonedGeometry.applyMatrix4(mesh.matrixWorld);
+
+					// Raccogli la geometria clonata
+					geometries.push(clonedGeometry);
+					
+				}
+			}
+			
+		);
+		
+		console.log( BufferGeometryUtils );
+
+		// Unisci tutte le geometrie raccolte
+		const mergedGeometry = BufferGeometryUtils.mergeGeometries( geometries );
+
+		// Crea un materiale unico per la geometria combinata
+		const material = new THREE.MeshStandardMaterial({ color: 0x777777 });
+		
+		const combinedMesh = new THREE.Mesh(mergedGeometry, material);
+
+		// combinedMesh.rotateY( VARCO.f.deg2rad( 180 ) )
+
+		combinedMesh.rotateX( VARCO.f.deg2rad( -90 ) )
+
+		combinedMesh.scale.x = -1
+		
+		
+		PLY.p.selectedProject.OBJECTS.myProjectCloned.add(combinedMesh);
+		
+		PLY.p.selectedProject.OBJECTS.myProject.visible = false;
+		
+		PLY.p.selectedProject.OBJECTS.myProjectCloned.visible = true;
+
+			
+	};
+
+
+
+
+	EDITOR.f.exportGLTF = function( OBJ ){
+		
+		const exporter = new GLTFExporter();
+		
+		
+		// Funzione per convertire un ArrayBuffer in base64
+		function arrayBufferToBase64(buffer) {
+			let binary = '';
+			const bytes = new Uint8Array(buffer);
+			const len = bytes.byteLength;
+			for (let i = 0; i < len; i++) {
+				binary += String.fromCharCode(bytes[i]);
+			}
+			return window.btoa(binary);
+		}
+
+		
+		// Instantiate a exporter
+		const options = {
+			
+			binary: false,
+			
+			maxTextureSize: 4096,
+			
+			animations: OBJ.animations,
+			
+			includeCustomExtensions: true
+			
+		};
+
+		exporter.parse(
+										
+			OBJ, 
+			
+			function ( result ) {
+
+				// Converti l'oggetto scene in stringa JSON
+				const sceneString = JSON.stringify( result );
+
+				// Converti la stringa JSON in base64
+				const base64 = window.btoa(unescape(encodeURIComponent(sceneString)));
+				
+				OBJ.userData.type = '3d'
+				
+				OBJ.userData.stringByte64 = base64;
+				
+				OBJ.userData.extension = 'gltf';
+				
+				EDITOR.f.saveProjectData( UI.p.popup_login_data.p.data.user, OBJ );
+				
+			}
+			
+		);
+
+	};
+
+
+
+	EDITOR.f.exportUSDZ = function( OBJ ){
+		
+		// USDZ
+		const exporter = new USDZExporter();
+
+		exporter.parse(
+			OBJ,
+			// called when the gltf has been generated
+			function ( arraybuffer ) {
+
+				console.log( arraybuffer );
+				
+				const blob = new Blob( [ arraybuffer ], { type: 'application/octet-stream' } );
+
+				const link = document.getElementById( 'link' );
+				
+				link.href = URL.createObjectURL( blob );
+
+			},
+			// called when there is an error in the generation
+			function ( error ) {
+
+				console.log( 'An error happened' );
+
+			},
+			{}
+		);
+
+						
+	};
+
 
 	return EDITOR;
 };

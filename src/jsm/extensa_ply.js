@@ -2873,15 +2873,19 @@ const createPLY = () => {
 	
 	PLY.f.isLoaded = function( selectedProject ){
 		
-		const geoArea = selectedProject.userData.linkedGeoArea
-						
-		geoArea.OBJECTS.projects.children.forEach( 
-			function( child ){
-				if ( child.uuid == selectedProject.uuid ){
-					child.userData.isLoaded = true;
+		if ( selectedProject !== null ){
+			
+			const geoArea = selectedProject.userData.linkedGeoArea
+							
+			geoArea.OBJECTS.projects.children.forEach( 
+				function( child ){
+					if ( child.uuid == selectedProject.uuid ){
+						child.userData.isLoaded = true;
+					}
 				}
-			}
-		);
+			);
+		};
+		
 	};
 	
 	return PLY;

@@ -37,7 +37,7 @@
 
 {#if !!$projectStore.project}
 	<div
-		class="flex flex-col gap-3 fixed top-20 left-1/2 transform -translate-x-1/2 p-10 bg-neutral z-10 rounded-xl"
+		class="flex flex-col gap-3 fixed top-20 left-1/2 transform -translate-x-1/2 p-10 bg-base-100 z-10 rounded-xl"
 	>
 		<!-- <div
 			class="absolute top-4 right-4 cursor-pointer"
@@ -49,19 +49,13 @@
 		<span class="font-semibold text-xl">{$projectStore.project?.name}</span>
 		<div class="flex">
 			{#if !$projectStore.project.is3DVisible}
-				<img
-					src={EyeIcon}
-					alt="icon"
-					on:click={onEyeClick}
-					class="cursor-pointer"
-				/>
+				<button on:click={onEyeClick}>
+					<img src={EyeIcon} alt="icon" class="cursor-pointer" />
+				</button>
 			{:else}
-				<img
-					src={EyeOffIcon}
-					alt="eye-off"
-					on:click={onEyeOffClick}
-					class="cursor-pointer"
-				/>
+				<button on:click={onEyeOffClick}>
+					<img src={EyeOffIcon} alt="eye-off" class="cursor-pointer" />
+				</button>
 			{/if}
 		</div>
 	</div>

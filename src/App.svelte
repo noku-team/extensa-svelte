@@ -16,7 +16,7 @@
 </script>
 
 <Router {url}>
-	<main>
+	<main class="font-inter">
 		<div id="header">
 			<ExtensaHeader />
 		</div>

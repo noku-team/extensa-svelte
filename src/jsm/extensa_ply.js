@@ -794,7 +794,6 @@ const createPLY = () => {
 							{}
 						);
 					}
-					console.warn(json);
 				},
 				(error) => {
 					console.error("Error while loading testing geoareas", error);

@@ -632,9 +632,7 @@ const createEditor = () => {
 
 						function (q) {
 
-
 							UI.p.scene.OBJECTS.previewProject.OBJECTS.loadingProject.visible = false;
-
 
 							let idleAction;
 

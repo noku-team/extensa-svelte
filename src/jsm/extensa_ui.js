@@ -245,8 +245,6 @@ const createUI = () => {
 
 		}
 
-		// TODO console.warn(here);
-
 		UI.f.remove_menu_popups();
 
 		VARCO.f.loadComplex(

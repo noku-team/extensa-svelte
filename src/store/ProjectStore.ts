@@ -1,13 +1,15 @@
 import { writable, type Readable } from "svelte/store";
 import type { Group } from "three";
 
+interface GeoArea extends Group { }
+
 export interface ProjectStoreData {
-    projects: Project[];
+    geoAreas: GeoArea[];
     project: Project | null;
 }
 
 export interface ProjectStore extends Readable<ProjectStoreData> {
-    setProjects: (projects: Project[]) => void;
+    setGeoareas: (geoAreas: GeoArea[]) => void;
     setProject: (project: Project | null) => void;
     set3DVisible: (is3DVisible: boolean) => void;
     resetState: () => void;
@@ -19,7 +21,7 @@ interface Project extends Group {
 }
 
 const initState: ProjectStoreData = {
-    projects: [],
+    geoAreas: [],
     project: null,
 };
 
@@ -36,11 +38,11 @@ const initProjectStore = (): ProjectStore => {
                 };
             })
         },
-        setProjects: (projects: Project[]) => {
+        setGeoareas: (geoAreas: GeoArea[]) => {
             update((state) => {
                 return {
                     ...state,
-                    projects
+                    geoAreas
                 };
             });
         },

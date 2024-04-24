@@ -64,8 +64,8 @@ const createPLY = () => {
 			geoMapSectors: {
 				maxNumSectH: 20000,
 				maxNumSectV: 10000,
-				actualSectHV: [0, 0],
-				oldSectHV: [0, 0],
+				actualSectHV: 0,
+				oldSectHV: 1,
 				sectNumH: 1, // 1 + 1 + 1
 				sectNumV: 1, // 1 + 1 + 1
 				lonLatA: { lng: -180.0, lat: 90.0 },
@@ -729,40 +729,12 @@ const createPLY = () => {
 	PLY.f.SECTOR_MANAGER = function () {
 
 
-		PLY.p.geoMapSectors.actualSectHV = PLY.f.findGeoAreaSector(MAP.p.actualCoords.lng, MAP.p.actualCoords.lat, PLY.p.geoMapSectors.maxNumSectH, PLY.p.geoMapSectors.maxNumSectV);
+		PLY.p.geoMapSectors.actualSectHV = 0;
 
 
-		if (PLY.p.geoMapSectors.actualSectHV[0] !== PLY.p.geoMapSectors.oldSectHV[0] || PLY.p.geoMapSectors.actualSectHV[1] !== PLY.p.geoMapSectors.oldSectHV[1]) {
-
+		if ( PLY.p.geoMapSectors.actualSectHV !== PLY.p.geoMapSectors.oldSectHV ) {
+			
 			PLY.p.geoMapSectors.oldSectHV = PLY.p.geoMapSectors.actualSectHV;
-
-			let sectorList = [];
-
-			let startY = PLY.p.geoMapSectors.sectNumV * -3;
-
-			let endY = PLY.p.geoMapSectors.sectNumV + 3;
-
-			let startX = PLY.p.geoMapSectors.sectNumH * -3;
-
-			let endX = PLY.p.geoMapSectors.sectNumH + 3;
-
-
-			for (var numY = startY; numY < endY; numY += 1) {
-
-				let sectV = PLY.p.geoMapSectors.actualSectHV[1] + numY;
-
-				let stringV = PLY.f.fromNumToStringWithZero(sectV);
-
-				for (var numX = startX; numX < endX; numX += 1) {
-
-					let sectH = PLY.p.geoMapSectors.actualSectHV[0] + numX;
-
-					let stringH = PLY.f.fromNumToStringWithZero(sectH);
-
-					sectorList.push("Sect_" + stringH + "_" + stringV);
-
-				}
-			}
 
 			// cancella vecchie geoAree //
 			let numGeoAreaToDelete = [];
@@ -787,11 +759,9 @@ const createPLY = () => {
 				VARCO.f.deleteElement(UI.p.scene.OBJECTS.poi, numGeoAreaToDelete[num]);
 			}
 
-			if (UI.p.popup_login_data.p.data == undefined) {
+			if (UI.p.popup_login_data.p.data == undefined) { // DA CONTROLLARE SE UTENTE E' LOGGATO OPPURE NO
 
 				PLY.p.selectedArea = undefined;
-
-				// PLY.p.selectedProjectName = undefined;
 
 				projectStore.setProject(null); // scrivi dato NULL
 

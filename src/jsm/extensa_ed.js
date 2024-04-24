@@ -50,56 +50,6 @@ const createEditor = () => {
 
 
 
-	EDITOR.f.updateSector = function () {
-
-	};
-
-
-	EDITOR.f.findSector = function (prop) {
-
-		let coords;
-
-		let lng, lat;
-
-
-		if (prop.position !== undefined) { // vector xyz
-
-			coords = MAP.f.getMapCoords(MAP.p.width, MAP.p.height, prop.position, MAP.p.actualCoords.alt);
-
-			lng = coords.lng;
-
-			lat = coords.lat;
-
-		}
-
-
-		if (prop.coords !== undefined) { // { lng: , lat:, alt: }
-
-			lng = prop.coords.lng;
-
-			lat = prop.coords.lat;
-
-		}
-
-
-		let sectorHV = PLY.p.geoMapSectors.actualSectHV = PLY.f.findGeoAreaSector(lng, lat, PLY.p.geoMapSectors.maxNumSectH, PLY.p.geoMapSectors.maxNumSectV);
-
-
-		let stringH = PLY.f.fromNumToStringWithZero(sectorHV[0]);
-
-		let stringV = PLY.f.fromNumToStringWithZero(sectorHV[1]);
-
-		let sectorName = "Sect_" + stringH + "_" + stringV;
-
-		// console.log( sectorName );
-
-		return { "name": sectorName, "num": sectorHV };
-
-	};
-
-
-
-
 	EDITOR.f.createProject = function (GEOAREAOBJ, prop, callback, callbackprop) {
 
 		console.log("createProject");

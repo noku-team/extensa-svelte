@@ -3942,7 +3942,7 @@ VARCO.f.addMaterial = function (SCENE, prop, callBack, callBackProp) {
 
 	} else {
 
-		console.log(prop.type)
+		// console.log(prop.type)
 
 		const MATERIAL = new THREE[prop.type];
 

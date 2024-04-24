@@ -411,15 +411,12 @@ const createEditor = () => {
 
 				EDITOR.f.deselectProjects();
 
-				// PLY.p.selectedProject = p.obj.parent;
-
 				projectStore.setProject(p.obj.parent); // scrivi dato
 				
 				const { project: _selectedProject } = get(projectStore); // leggi dato
 				
 				console.log( _selectedProject.name );
 				
-
 				console.log('SELEZIONATO');
 
 				EDITOR.p.alreadySelected = true;
@@ -445,10 +442,6 @@ const createEditor = () => {
 
 				p.obj.parent.MATERIALS.Kernel_Mesh_mat.color.b = 0.0;
 				
-				// PLY.p.selectedProjectName = p.obj.parent.userData.name;
-
-				// PLY.p.selectedGeoAreaName = p.obj.parent.userData.name;
-
 
 				if (UI.p.scene.OBJECTS.previewProject == undefined) {
 
@@ -459,7 +452,6 @@ const createEditor = () => {
 				}
 
 				PLY.p.flagPlayerOn = false;
-
 
 			}
 

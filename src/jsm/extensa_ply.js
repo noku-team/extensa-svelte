@@ -726,11 +726,9 @@ const createPLY = () => {
 
 
 
-	PLY.f.SECTOR_MANAGER = function () {
-
-
-		PLY.p.geoMapSectors.actualSectHV = 0;
-
+	PLY.f.SECTOR_UPDATE = function () {
+		
+		console.log( 'SECTOR_UPDATE' );
 
 		if ( PLY.p.geoMapSectors.actualSectHV !== PLY.p.geoMapSectors.oldSectHV ) {
 			
@@ -1410,15 +1408,6 @@ const createPLY = () => {
 
 		// ///////////////////////////////////////
 
-		// CHECK sector , geoMap ,  project  //
-
-		if (PLY.p.selectedArea == undefined) {
-
-			PLY.f.SECTOR_MANAGER();
-
-		}
-
-
 		PLY.f.GEOAREA_MANAGER();
 
 
@@ -1465,22 +1454,6 @@ const createPLY = () => {
 	// //////////////////////////////////////////////////////////
 
 	// DATA FROM DB:
-
-	PLY.f.findGeoAreaSector = function (lng, lat, maxNumSectH, maxNumSectV) {
-
-		let UH = ((lng + 180.0) / 360);
-
-		let UV = 1.0 - ((lat + 90.0) / 180);
-
-		let sectH = Math.floor(maxNumSectH * UH);
-
-		let sectV = Math.floor(maxNumSectV * UV);
-
-		return [sectH, sectV]
-
-	};
-
-
 
 	PLY.f.parseData = function (dbData) {
 
@@ -2591,7 +2564,13 @@ const createPLY = () => {
 
 
 	PLY.f.MAP_mouseTouchUp = function (p) {
+		
+		if (PLY.p.selectedArea == undefined) {
 
+			PLY.f.SECTOR_UPDATE();
+
+		}
+		
 	};
 
 
@@ -2749,6 +2728,12 @@ const createPLY = () => {
 	PLY.f.MAP_mouseDoubleClick = function (p) {
 
 		console.log("doubleClick");
+		
+		if (PLY.p.selectedArea == undefined) {
+
+			PLY.f.SECTOR_UPDATE();
+
+		}
 
 		// let alt = 0.0;
 

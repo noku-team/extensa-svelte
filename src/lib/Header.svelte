@@ -8,8 +8,10 @@
 
 	let currentRoute = "";
 
-	const signIn = async () =>
-		await authStore.signIn((err) => console.error(err));
+	const signIn = async () => {
+		await authStore.mockLogin();
+		// await authStore.signIn((err) => console.error(err));
+	};
 	const logout = async () => await authStore.signOut();
 
 	const router = useRouter();

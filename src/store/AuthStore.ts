@@ -24,6 +24,7 @@ let authClient: AuthClient | undefined | null;
 export interface AuthStore extends Readable<AuthStoreData> {
     sync: () => Promise<void>;
     signIn: (onError: (error?: string) => void) => Promise<void>;
+    mockLogin: () => Promise<void>;
     signOut: () => Promise<void>;
 }
 
@@ -47,7 +48,19 @@ const initAuthStore = (): AuthStore => {
                 identity: isAuthenticated ? authClient?.getIdentity() : null,
             });
         },
+        mockLogin: async () => {
+            update((state: AuthStoreData) => {
+                const mockedUser = "test";
+                loadWebGLUserData(mockedUser);
 
+                return {
+                    ...state,
+                    identity: {
+                        getPrincipal: () => mockedUser,
+                    } as any
+                }
+            });
+        },
         signIn: async (onError: (error?: string) => void) => {
             authClient = authClient ?? (await createAuthClient());
 

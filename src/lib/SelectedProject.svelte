@@ -52,9 +52,19 @@
 		<span class="font-semibold text-xl">{$projectStore.project?.name}</span>
 		<div class="flex">
 			{#if !$projectStore.project.is3DVisible}
-				<img src={EyeIcon} alt="icon" on:click={onEyeClick} />
+				<img
+					src={EyeIcon}
+					alt="icon"
+					on:click={onEyeClick}
+					class="cursor-pointer"
+				/>
 			{:else}
-				<img src={EyeOffIcon} alt="eye-off" on:click={onEyeOffClick} />
+				<img
+					src={EyeOffIcon}
+					alt="eye-off"
+					on:click={onEyeOffClick}
+					class="cursor-pointer"
+				/>
 			{/if}
 		</div>
 	</div>

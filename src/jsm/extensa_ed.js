@@ -397,6 +397,9 @@ const createEditor = () => {
 
 
 	EDITOR.f.selectProject = function (p) {
+		
+		console.log('EDITOR.f.selectProject');
+		
 		const auth = get(authStore);
 		const principal = auth.identity?.getPrincipal()?.toString();
 
@@ -411,6 +414,11 @@ const createEditor = () => {
 				// PLY.p.selectedProject = p.obj.parent;
 
 				projectStore.setProject(p.obj.parent); // scrivi dato
+				
+				const { project: _selectedProject } = get(projectStore); // leggi dato
+				
+				console.log( _selectedProject.name );
+				
 
 				console.log('SELEZIONATO');
 
@@ -436,8 +444,8 @@ const createEditor = () => {
 				p.obj.parent.MATERIALS.Kernel_Mesh_mat.color.g = 1.0;
 
 				p.obj.parent.MATERIALS.Kernel_Mesh_mat.color.b = 0.0;
+				
 				// PLY.p.selectedProjectName = p.obj.parent.userData.name;
-
 
 				// PLY.p.selectedGeoAreaName = p.obj.parent.userData.name;
 
@@ -457,7 +465,6 @@ const createEditor = () => {
 
 		}
 
-		console.log('EDITOR.f.selectProject');
 
 	};
 

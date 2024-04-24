@@ -538,7 +538,7 @@ const createEditor = () => {
 			}
 
 			// PLY.p.selectedProject = undefined;
-
+			
 			projectStore.setProject(null); // scrivi dato NULL
 
 		}

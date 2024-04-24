@@ -5794,6 +5794,8 @@ VARCO.f.doScriptList = function (scriptList) {
 					scriptProp.function = VARCO.f.stringToFunction(scriptProp.functionName);
 				}
 			}
+			
+			// console.log( scriptProp )
 
 			scriptProp.function(scriptProp.functionProp);
 

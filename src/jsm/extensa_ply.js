@@ -953,6 +953,9 @@ const createPLY = () => {
 
 			// PLY.p.selectedProjectName = '';
 			projectStore.setProject(null); // scrivi dato NULL
+			
+			EDITOR.p.action = '';
+			
 			// PLY.p.selectedGeoAreaName = '';
 
 		}
@@ -2630,6 +2633,8 @@ const createPLY = () => {
 		PLY.p.STREETVIEW_MARKER.position.y = p.results.point.y + 0.05;
 
 		PLY.p.STREETVIEW_MARKER.position.z = p.results.point.z;
+		
+		const { project: _selectedProject } = get(projectStore); // leggi dato
 
 
 		if (UI.p.popup_login_data.p.data !== undefined) { 	/////// XLUCA da cambiare con info se e' loggato l'utente
@@ -2639,7 +2644,7 @@ const createPLY = () => {
 			switch (EDITOR.p.action) {
 
 				case 'DRAG_project':
-
+		
 					if (VARCO.p.DEVICES.mouse.clickDown) {
 
 						if (EDITOR.p.mousePivotPoint == undefined) {
@@ -2649,8 +2654,6 @@ const createPLY = () => {
 							EDITOR.p.mousePivotOffset = new THREE.Vector3();
 
 							wPos = new THREE.Vector3();
-
-							const { project: _selectedProject } = get(projectStore); // leggi dato
 
 							_selectedProject.getWorldPosition(wPos);
 

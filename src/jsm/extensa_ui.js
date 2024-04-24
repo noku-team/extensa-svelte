@@ -730,22 +730,169 @@ const createUI = () => {
 	};
 
 
-	UI.p.menu_editor.f.feedback = function (p) {
+	
+	UI.p.menu_editor.f.DRAG = function(){ /////// JJ
+		
+		console.log( 'UI.p.menu_editor.f.DRAG' )
+		
+		const { project: _selectedProject } = get(projectStore); // leggi dato
 
-		if (EDITOR.p.dragAndDrop) {
+		if ( PLY.p.selectedArea !== undefined ){
+		
+			EDITOR.p.action = 'DRAG_area';
+			
+		};
+		
+		if ( _selectedProject !== null ){
+		
+			EDITOR.p.action = 'DRAG_project';
+			
+		};
+		
+		PLY.p.flagPlayerOn = false;
+		
+	};
 
+
+	UI.p.menu_editor.f.ROTATE = function(){ /////// JJ
+		
+		console.log( 'UI.p.menu_editor.f.ROTATE' )
+		
+		if ( PLY.p.selectedArea !== undefined ){
+		
+			EDITOR.p.action = 'ROTATE_area';
+			
+		};
+		
+		const { project: _selectedProject } = get(projectStore); // leggi dato
+		
+		if ( _selectedProject !== null ){
+		
+			EDITOR.p.action = 'ROTATE_project';
+			
+		};
+		
+		PLY.p.flagPlayerOn = false;
+		
+	};
+
+
+	UI.p.menu_editor.f.SCALE = function(){ /////// JJ
+		
+		console.log( 'UI.p.menu_editor.f.SCALE' )
+		
+		if ( PLY.p.selectedArea !== undefined ){
+		
+			EDITOR.p.action = 'SCALE_area';
+			
+		};
+		
+		const { project: _selectedProject } = get(projectStore); // leggi dato
+		
+		if ( _selectedProject !== null ){
+		
+			EDITOR.p.action = 'SCALE_project';
+			
+		};
+		
+		PLY.p.flagPlayerOn = false;
+		
+	};
+
+
+	UI.p.menu_editor.f.TOOLS = function(){ 
+		
+		console.log( 'UI.p.menu_editor.f.TOOLS' )
+		
+		const { project: _selectedProject } = get(projectStore); // leggi dato
+		
+		if ( _selectedProject !== null ){
+			
+			UI.p.menu_optimizer.f.open();
+		
+		}
+
+	};
+
+
+
+
+	UI.p.menu_editor.f.feedback = function( p ){  // JJ
+		
+		if ( EDITOR.p.dragAndDrop ){
+			
 			p.obj.OBJECTS.button_import.material.color.r = 1.0;
 			p.obj.OBJECTS.button_import.material.color.g = 1.0;
 			p.obj.OBJECTS.button_import.material.color.b = 0.0;
-
+			
 		} else {
-
+			
 			p.obj.OBJECTS.button_import.material.color.r = 1.0;
 			p.obj.OBJECTS.button_import.material.color.g = 1.0;
 			p.obj.OBJECTS.button_import.material.color.b = 1.0;
+			
+		};
+		
+		
+		
+		p.obj.OBJECTS.button_drag.material.color.r = 1.0;
+		p.obj.OBJECTS.button_drag.material.color.g = 1.0;
+		p.obj.OBJECTS.button_drag.material.color.b = 1.0;
+		
+		p.obj.OBJECTS.button_rotate.material.color.r = 1.0;
+		p.obj.OBJECTS.button_rotate.material.color.g = 1.0;
+		p.obj.OBJECTS.button_rotate.material.color.b = 1.0;
+		
+		p.obj.OBJECTS.button_scale.material.color.r = 1.0;
+		p.obj.OBJECTS.button_scale.material.color.g = 1.0;
+		p.obj.OBJECTS.button_scale.material.color.b = 1.0;
+		
+		switch ( EDITOR.p.action ){
+			
+			case 'DRAG_project':
+				
+				p.obj.OBJECTS.button_drag.material.color.r = 1.0;
+				p.obj.OBJECTS.button_drag.material.color.g = 1.0;
+				p.obj.OBJECTS.button_drag.material.color.b = 0.0;
+				
+			break;
+			
+			case 'ROTATE_project':
 
-		}
+				p.obj.OBJECTS.button_rotate.material.color.r = 1.0;
+				p.obj.OBJECTS.button_rotate.material.color.g = 1.0;
+				p.obj.OBJECTS.button_rotate.material.color.b = 0.0;
 
+			break;
+			
+			case 'SCALE_project':
+				
+				p.obj.OBJECTS.button_scale.material.color.r = 1.0;
+				p.obj.OBJECTS.button_scale.material.color.g = 1.0;
+				p.obj.OBJECTS.button_scale.material.color.b = 0.0;
+				
+			break;
+		};
+		
+		switch ( EDITOR.p.action ){
+			
+			case 'DRAG_area':
+				
+				p.obj.OBJECTS.button_drag.material.color.r = 1.0;
+				p.obj.OBJECTS.button_drag.material.color.g = 1.0;
+				p.obj.OBJECTS.button_drag.material.color.b = 0.0;
+				
+			break;
+			
+			case 'ROTATE_project':
+
+			break;
+			
+			case 'SCALE_project':
+				
+			break;
+		};
+		
 	};
 
 	// ///////////////////////////////////////////////// //

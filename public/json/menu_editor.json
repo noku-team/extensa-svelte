@@ -214,7 +214,7 @@
 							"mouseup" : {
 								"scriptList" : [
 									{
-										"functionName" : "EDITOR.f.DRAG_rotate",
+										"functionName" : "UI.p.menu_editor.f.ROTATE",
 										"functionProp" : {}
 									}
 								]
@@ -246,7 +246,7 @@
 							"mouseup" : {
 								"scriptList" : [
 									{
-										"functionName" : "EDITOR.f.DRAG_scale",
+										"functionName" : "UI.p.menu_editor.f.SCALE",
 										"functionProp" : {}
 									}
 								]
@@ -278,7 +278,7 @@
 							"mouseup" : {
 								"scriptList" : [
 									{
-										"functionName" : "EDITOR.f.DRAG_project",
+										"functionName" : "UI.p.menu_editor.f.DRAG",
 										"functionProp" : {}
 									}
 								]

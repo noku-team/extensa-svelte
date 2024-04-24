@@ -64,8 +64,8 @@ const createPLY = () => {
 			geoMapSectors: {
 				maxNumSectH: 20000,
 				maxNumSectV: 10000,
-				actualSectHV: 0,
-				oldSectHV: 1,
+				actualSectHV : [ 0,0 ],
+				oldSectHV : [ 0,0 ],
 				sectNumH: 1, // 1 + 1 + 1
 				sectNumV: 1, // 1 + 1 + 1
 				lonLatA: { lng: -180.0, lat: 90.0 },
@@ -728,9 +728,12 @@ const createPLY = () => {
 
 	PLY.f.SECTOR_UPDATE = function () {
 		
-		console.log( 'SECTOR_UPDATE' );
-
-		if ( PLY.p.geoMapSectors.actualSectHV !== PLY.p.geoMapSectors.oldSectHV ) {
+		PLY.p.geoMapSectors.actualSectHV = PLY.f.findGeoAreaSector( MAP.p.actualCoords.lng, MAP.p.actualCoords.lat, PLY.p.geoMapSectors.maxNumSectH, PLY.p.geoMapSectors.maxNumSectV );
+	
+	
+		if ( PLY.p.geoMapSectors.actualSectHV[ 0 ] !== PLY.p.geoMapSectors.oldSectHV[ 0 ] ||  PLY.p.geoMapSectors.actualSectHV[ 1 ] !== PLY.p.geoMapSectors.oldSectHV[ 1 ] ){
+		
+			console.log( 'SECTOR_UPDATE' );
 			
 			PLY.p.geoMapSectors.oldSectHV = PLY.p.geoMapSectors.actualSectHV;
 
@@ -797,8 +800,9 @@ const createPLY = () => {
 					console.error("Error while loading testing geoareas", error);
 				}
 			)
-		}
-
+			
+		};
+			
 	};
 
 
@@ -1393,7 +1397,7 @@ const createPLY = () => {
 		// ///////////////////////////////////////
 
 		// ///////////////////////////////////////
-
+		
 		// UPDATE COMPASS //
 
 		// compass object position on ground //
@@ -1407,6 +1411,13 @@ const createPLY = () => {
 		// ///////////////////////////////////////
 
 		// ///////////////////////////////////////
+		
+		if (PLY.p.selectedArea == undefined) {
+
+			PLY.f.SECTOR_UPDATE();
+
+		};
+		
 
 		PLY.f.GEOAREA_MANAGER();
 
@@ -1454,6 +1465,22 @@ const createPLY = () => {
 	// //////////////////////////////////////////////////////////
 
 	// DATA FROM DB:
+	
+	
+	PLY.f.findGeoAreaSector = function( lng, lat, maxNumSectH, maxNumSectV ){
+			
+		let UH = ( ( lng + 180.0 ) / 360 );
+		
+		let UV = 1.0 - ( ( lat + 90.0 ) / 180 );
+		
+		let sectH = Math.floor( maxNumSectH * UH );
+		
+		let sectV = Math.floor( maxNumSectV * UV );
+		
+		return [ sectH , sectV ]
+		
+	};
+
 
 	PLY.f.parseData = function (dbData) {
 
@@ -2559,17 +2586,13 @@ const createPLY = () => {
 
 	PLY.f.MAP_mouseTouchDown = function (p) {
 
+		
 	};
 
 
 
 	PLY.f.MAP_mouseTouchUp = function (p) {
 		
-		if (PLY.p.selectedArea == undefined) {
-
-			PLY.f.SECTOR_UPDATE();
-
-		}
 		
 	};
 
@@ -2729,12 +2752,6 @@ const createPLY = () => {
 
 		console.log("doubleClick");
 		
-		if (PLY.p.selectedArea == undefined) {
-
-			PLY.f.SECTOR_UPDATE();
-
-		}
-
 		// let alt = 0.0;
 
 		let coords

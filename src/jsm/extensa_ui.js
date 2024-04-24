@@ -473,7 +473,9 @@ const createUI = () => {
 
 				UI.p.menu_editor.f.open();
 
-				PLY.p.geoMapSectors.oldSectHV = [0, 0];
+				PLY.f.SECTOR_UPDATE();
+				
+				// PLY.p.geoMapSectors.oldSectHV = [0, 0];
 
 			},
 
@@ -610,8 +612,10 @@ const createUI = () => {
 		EDITOR.f.deselectProjects();
 
 		EDITOR.f.deselectGeoArea();
+		
+		PLY.f.SECTOR_UPDATE();
 
-		PLY.p.geoMapSectors.oldSectHV = [0, 0];
+		// PLY.p.geoMapSectors.oldSectHV = [0, 0];
 
 		EDITOR.p.STATE = false; // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 

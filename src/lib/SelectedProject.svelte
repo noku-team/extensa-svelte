@@ -37,7 +37,7 @@
 
 {#if !!$projectStore.project}
 	<div
-		class="flex flex-col gap-3 fixed top-20 left-1/2 transform -translate-x-1/2 p-10 bg-base-100 z-10 rounded-xl"
+		class="flex flex-col gap-3 fixed top-20 left-1/2 transform -translate-x-1/2 p-5 bg-base-100 z-10 rounded-xl justify-center items-center w-1/3"
 	>
 		<!-- <div
 			class="absolute top-4 right-4 cursor-pointer"
@@ -46,14 +46,25 @@
 		>
 			✕
 		</div> -->
-		<span class="font-semibold text-xl">{$projectStore.project?.name}</span>
+		<span class="font-bold text-2xl"
+			>{$projectStore.project?.name?.toUpperCase()}</span
+		>
+		<span>ID: {$projectStore.project.uuid}</span>
 		<div class="flex">
 			{#if !$projectStore.project.is3DVisible}
-				<button on:click={onEyeClick}>
+				<button
+					on:click={onEyeClick}
+					class="flex gap-2 items-center btn btn-primary"
+				>
+					<span>View project</span>
 					<img src={EyeIcon} alt="icon" class="cursor-pointer" />
 				</button>
 			{:else}
-				<button on:click={onEyeOffClick}>
+				<button
+					on:click={onEyeOffClick}
+					class="flex gap-2 items-center btn btn-primary"
+				>
+					<span>Hide project</span>
 					<img src={EyeOffIcon} alt="eye-off" class="cursor-pointer" />
 				</button>
 			{/if}

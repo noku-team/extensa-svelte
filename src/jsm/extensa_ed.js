@@ -482,14 +482,10 @@ const createEditor = () => {
 
 
 				p.obj.parent.MATERIALS.Kernel_Mesh_mat.color.r = 1.0;
-				// TODO whats this for?
 
 				p.obj.parent.MATERIALS.Kernel_Mesh_mat.color.g = 1.0;
-				// TODO whats this for?
 
 				p.obj.parent.MATERIALS.Kernel_Mesh_mat.color.b = 0.0;
-				// TODO whats this for?
-
 				// PLY.p.selectedProjectName = p.obj.parent.userData.name;
 
 
@@ -497,7 +493,7 @@ const createEditor = () => {
 
 
 				if (UI.p.scene.OBJECTS.previewProject == undefined) {
-					
+
 					UI.p.scene.OBJECTS.previewProject = true;
 
 					UI.p.previewProject.f.open(PLY.p.selectedArea, p.obj.parent);
@@ -666,12 +662,12 @@ const createEditor = () => {
 					UI.p.scene.OBJECTS.previewProject.OBJECTS.loadingProject.visible = true;
 
 					// _selectedProject.userData.isLoaded = true;
-					
-					const geoArea =_selectedProject.userData.linkedGeoArea
-					
-					geoArea.OBJECTS.projects.children.forEach( 
-						function( child ){
-							if ( child.uuid == _selectedProject.uuid ){
+
+					const geoArea = _selectedProject.userData.linkedGeoArea
+
+					geoArea.OBJECTS.projects.children.forEach(
+						function (child) {
+							if (child.uuid == _selectedProject.uuid) {
 								child.userData.isLoaded = true;
 							}
 						}
@@ -737,12 +733,12 @@ const createEditor = () => {
 					UI.p.scene.OBJECTS.previewProject.OBJECTS.loadingProject.visible = true;
 
 					// _selectedProject.userData.isLoaded = true;
-	
-					const geoArea =_selectedProject.userData.linkedGeoArea
-					
-					geoArea.OBJECTS.projects.children.forEach( 
-						function( child ){
-							if ( child.uuid == _selectedProject.uuid ){
+
+					const geoArea = _selectedProject.userData.linkedGeoArea
+
+					geoArea.OBJECTS.projects.children.forEach(
+						function (child) {
+							if (child.uuid == _selectedProject.uuid) {
 								child.userData.isLoaded = true;
 							}
 						}
@@ -1132,106 +1128,106 @@ const createEditor = () => {
 
 
 	EDITOR.f.DROP_FILE = function (p) {
-		
-		
-		function objectReady( PROJECTOBJ, projectName ){
-		
+
+
+		function objectReady(PROJECTOBJ, projectName) {
+
 			PROJECTOBJ.name = projectName;
 
-			VARCO.f.setPropAndParameters( PROJECTOBJ, { "MM3D" : {} } );
-			
+			VARCO.f.setPropAndParameters(PROJECTOBJ, { "MM3D": {} });
+
 			PROJECTOBJ.userData.type = '3d';
-			
+
 			PROJECTOBJ.userData.fileName = projectName;
-			
+
 			PROJECTOBJ.userData.extension = extension;
-			
+
 			PROJECTOBJ.userData.data = p.data;
-			
+
 			PROJECTOBJ.userData.stringByte64 = stringByte64;
 
-			PROJECTOBJ.userData.myCoords = { 'lng': MAP.p.actualCoords.lng, 'lat': MAP.p.actualCoords.lat , 'alt': MAP.p.actualCoords.alt };
-			
-			
+			PROJECTOBJ.userData.myCoords = { 'lng': MAP.p.actualCoords.lng, 'lat': MAP.p.actualCoords.lat, 'alt': MAP.p.actualCoords.alt };
+
+
 			// aggiungi ombre //
-			
-			PROJECTOBJ.traverse( 
-			
-				function( child ){
-				
-					if ( child.material !== undefined ){
-						
+
+			PROJECTOBJ.traverse(
+
+				function (child) {
+
+					if (child.material !== undefined) {
+
 						child.castShadow = true;
-						
+
 					}
-					
+
 				}
-				
+
 			);
-			
-			
-			
+
+
+
 			// start animation //
-			
+
 			setTimeout(
-			
-				function(){
-					
-					if ( PROJECTOBJ.animations !== undefined ){
-						
-						PROJECTOBJ.MM3D = { 
-						
-							threeJsAnimation : { 
-							
-								mixer: new THREE.AnimationMixer( PROJECTOBJ ), 
-								
+
+				function () {
+
+					if (PROJECTOBJ.animations !== undefined) {
+
+						PROJECTOBJ.MM3D = {
+
+							threeJsAnimation: {
+
+								mixer: new THREE.AnimationMixer(PROJECTOBJ),
+
 								animations: PROJECTOBJ.animations
-								
+
 							}
-							
+
 						};
-						
+
 						let idleAction;
-						
-						for( var i = 0; i < PROJECTOBJ.animations.length; i++) {
-							
-							idleAction = PROJECTOBJ.MM3D.threeJsAnimation.mixer.clipAction( p.obj.animations[ i ] );
-							
+
+						for (var i = 0; i < PROJECTOBJ.animations.length; i++) {
+
+							idleAction = PROJECTOBJ.MM3D.threeJsAnimation.mixer.clipAction(p.obj.animations[i]);
+
 							idleAction.play();
-							
+
 						};
-		
+
 					};
-					
+
 				},
 				2000
-			
+
 			);
-			
-			
-			
+
+
+
 			// DATI OGGETTO ORIGINALE DA SALVARE //
-			
-			EDITOR.f.saveProjectData( UI.p.popup_login_data.p.data.user, PROJECTOBJ );
-			
+
+			EDITOR.f.saveProjectData(UI.p.popup_login_data.p.data.user, PROJECTOBJ);
+
 			// ///////////////////////////////// //
-			
-			
-			
+
+
+
 			// CANCELLA E PREPARA NUOVO PROGETTO //
-			
+
 			EDITOR.f.deselectProjects();
-			
+
 			// ///////////////////////////////// //
-			
-			
+
+
 			// inserisci nuovo progetto in area gia' esistente //
-			if ( PLY.p.selectedArea !== undefined ){
-				
+			if (PLY.p.selectedArea !== undefined) {
+
 				EDITOR.f.createProject(
-						
+
 					PLY.p.selectedArea,
-					
+
 					{
 						"type": "---",
 						"name": projectName,
@@ -1253,53 +1249,53 @@ const createEditor = () => {
 							"z": 1
 						},
 						"previewImage": ""
-					}, 
-					function( w ){
-						
+					},
+					function (w) {
+
 						// SHOW PROJECT //
-						
+
 						// PLY.p.selectedProject = w.obj;
-						
+
 						projectStore.setProject(w.obj); // scrivi dato
-						
-						if ( PROJECTOBJ ){
+
+						if (PROJECTOBJ) {
 							w.obj.userData.isLoaded = true;
-							w.obj.OBJECTS.myProject.add( PROJECTOBJ );
-							w.obj.OBJECTS.myProject.OBJECTS[ PROJECTOBJ.name ];
+							w.obj.OBJECTS.myProject.add(PROJECTOBJ);
+							w.obj.OBJECTS.myProject.OBJECTS[PROJECTOBJ.name];
 						};
-						
-					}, 
+
+					},
 					{}
-					
+
 				);
-				
+
 			} else {
 
 				// crea nuova area ed inserisci nuovo progetto //
-				
+
 				const geoAreaName = VARCO.f.generateUUID();
 
-				EDITOR.f.createGeoArea( 
+				EDITOR.f.createGeoArea(
 					{
-						"user" : UI.p.popup_login_data.p.data.user,
-						"geoAreaName" : geoAreaName,
+						"user": UI.p.popup_login_data.p.data.user,
+						"geoAreaName": geoAreaName,
 						"sectorName": sectorName,
-						"myCoords" : {
-							"lng" : MAP.p.actualCoords.lng,
-							"lat" : MAP.p.actualCoords.lat,
-							"alt" : MAP.p.actualCoords.alt
+						"myCoords": {
+							"lng": MAP.p.actualCoords.lng,
+							"lat": MAP.p.actualCoords.lat,
+							"alt": MAP.p.actualCoords.alt
 						}
-					}, 
-					function( q ){
-						
+					},
+					function (q) {
+
 						// insert area in sector:
-						
+
 						PLY.p.selectedArea = q.obj;
-						
+
 						EDITOR.f.createProject(
-						
-							PLY.p.selectedArea, 
-							
+
+							PLY.p.selectedArea,
+
 							{
 								"type": "---",
 								"name": projectName,
@@ -1321,46 +1317,46 @@ const createEditor = () => {
 									"z": 1
 								},
 								"previewImage": ""
-							}, 
-							function( w ){
-								
+							},
+							function (w) {
+
 								// SHOW PROJECT //
-								
+
 								// PLY.p.selectedProject = w.obj;
-								
+
 								projectStore.setProject(w.obj); // scrivi dato
-								
-								if ( PROJECTOBJ ){
+
+								if (PROJECTOBJ) {
 									w.obj.userData.isLoaded = true;
-									w.obj.OBJECTS.myProject.add( PROJECTOBJ );
-									w.obj.OBJECTS.myProject.OBJECTS[ PROJECTOBJ.name ];
+									w.obj.OBJECTS.myProject.add(PROJECTOBJ);
+									w.obj.OBJECTS.myProject.OBJECTS[PROJECTOBJ.name];
 								};
-								
+
 								// update user geoList //
-								
-								UI.p.popup_login_data.p.data.geoareaList.push( 
-								
+
+								UI.p.popup_login_data.p.data.geoareaList.push(
+
 								);
-				
-							}, 
+
+							},
 							{}
-							
+
 						);
-						
+
 					},
 					{}
 				);
-				
+
 			};
 
 		};
-		
-		
-		
+
+
+
 		const auth = get(authStore);
 
 		const principal = auth.identity?.getPrincipal()?.toString();
-		
+
 		const projectName = p.name.split('.')[0];
 
 		const extension = p.name.split('.')[1];
@@ -1376,234 +1372,234 @@ const createEditor = () => {
 
 
 
-		if ( EDITOR.p.dragAndDrop ){
-	
-			switch( extension ){
-				
+		if (EDITOR.p.dragAndDrop) {
+
+			switch (extension) {
+
 				case "gltf":
-					
+
 					PROJECTOBJ = p.obj;
-		
-					stringByte64 = VARCO.f.arrayBufferToBase64( p.data ); 
-					
-					
-					if ( PLY.p.scene3D.OBJECTS[ name ] !== undefined ){
-						
+
+					stringByte64 = VARCO.f.arrayBufferToBase64(p.data);
+
+
+					if (PLY.p.scene3D.OBJECTS[name] !== undefined) {
+
 						name = name + '_due';
-						
+
 					};
-					
-					
-					objectReady( PROJECTOBJ, projectName );
 
-		
-				break;
-				
-				
+
+					objectReady(PROJECTOBJ, projectName);
+
+
+					break;
+
+
 				case "png":
-				
-					console.log( p );
-					
-					console.log( p.data.width );
-					
+
+					console.log(p);
+
+					console.log(p.data.width);
+
 					VARCO.f.addComplex(
 						PLY.p.scene3D,
 						{
-							"name" : projectName,
-							"parameters" : {
-								"textureList" : [
+							"name": projectName,
+							"parameters": {
+								"textureList": [
 									{
-										"name" : projectName,
-										"type" : "base64",
-										"url" : p.data
+										"name": projectName,
+										"type": "base64",
+										"url": p.data
 									}
 								],
-								"materialList" : [
+								"materialList": [
 									{
-										"name" : projectName,
-										"type" : "MeshBasicMaterial",
-										"parameters" : {
-											"textures" : { "map" : projectName },
-											"side" : "THREE.DoubleSide"
+										"name": projectName,
+										"type": "MeshBasicMaterial",
+										"parameters": {
+											"textures": { "map": projectName },
+											"side": "THREE.DoubleSide"
 										}
 									}
 								],
-								"elementList" : [
+								"elementList": [
 									{
-										"type" : "addMesh",
-										"prop" : {
-											"type" : "PlaneGeometry",
-											"name" : projectName,
-											"materialList" : [ projectName ],
-											"castShadow" : true,
-											"parameters" : {
-												"width" : 1,
-												"height" : 1
+										"type": "addMesh",
+										"prop": {
+											"type": "PlaneGeometry",
+											"name": projectName,
+											"materialList": [projectName],
+											"castShadow": true,
+											"parameters": {
+												"width": 1,
+												"height": 1
 											}
 										}
 									}
 								]
-								
+
 							}
-			
+
 						},
-						function( q ){
-							
+						function (q) {
+
 							PROJECTOBJ = q.obj;
-							
-							objectReady( PROJECTOBJ, projectName );
-							
+
+							objectReady(PROJECTOBJ, projectName);
+
 						},
 						{}
-					
+
 					);
 
-				break;
-				
-				
+					break;
+
+
 				case "jpg":
-				
-					case "png":
-				
-					console.log( p );
-					
-					console.log( p.data.width );
-					
+
+				case "png":
+
+					console.log(p);
+
+					console.log(p.data.width);
+
 					VARCO.f.addComplex(
 						PLY.p.scene3D,
 						{
-							"name" : projectName,
-							"parameters" : {
-								"textureList" : [
+							"name": projectName,
+							"parameters": {
+								"textureList": [
 									{
-										"name" : projectName,
-										"type" : "base64",
-										"url" : p.data
+										"name": projectName,
+										"type": "base64",
+										"url": p.data
 									}
 								],
-								"materialList" : [
+								"materialList": [
 									{
-										"name" : projectName,
-										"type" : "MeshBasicMaterial",
-										"parameters" : {
-											"textures" : { "map" : projectName },
-											"side" : "THREE.DoubleSide"
+										"name": projectName,
+										"type": "MeshBasicMaterial",
+										"parameters": {
+											"textures": { "map": projectName },
+											"side": "THREE.DoubleSide"
 										}
 									}
 								],
-								"elementList" : [
+								"elementList": [
 									{
-										"type" : "addMesh",
-										"prop" : {
-											"type" : "PlaneGeometry",
-											"name" : projectName,
-											"materialList" : [ projectName ],
-											"castShadow" : true,
-											"parameters" : {
-												"width" : 1,
-												"height" : 1
+										"type": "addMesh",
+										"prop": {
+											"type": "PlaneGeometry",
+											"name": projectName,
+											"materialList": [projectName],
+											"castShadow": true,
+											"parameters": {
+												"width": 1,
+												"height": 1
 											}
 										}
 									}
 								]
-								
+
 							}
-			
+
 						},
-						function( q ){
-							
+						function (q) {
+
 							PROJECTOBJ = q.obj;
-							
-							objectReady( PROJECTOBJ, projectName );
-							
+
+							objectReady(PROJECTOBJ, projectName);
+
 						},
-						
+
 						{}
 
 					);
-						
-				break;
-				
-				
+
+					break;
+
+
 				case "mp4":
-				
-					console.log( p );
-					
+
+					console.log(p);
+
 					VARCO.f.addComplex(
 						PLY.p.scene3D,
 						{
-							"name" : projectName,
-							"parameters" : {
-								"textureList" : [
+							"name": projectName,
+							"parameters": {
+								"textureList": [
 									{
-										"name" : projectName,
-										"type" : "videoBase64",
-										"url" : p.data
+										"name": projectName,
+										"type": "videoBase64",
+										"url": p.data
 									}
 								],
-								"materialList" : [
+								"materialList": [
 									{
-										"name" : projectName,
-										"type" : "MeshBasicMaterial",
-										"parameters" : {
-											"textures" : { "map" : projectName },
-											"side" : "THREE.DoubleSide"
+										"name": projectName,
+										"type": "MeshBasicMaterial",
+										"parameters": {
+											"textures": { "map": projectName },
+											"side": "THREE.DoubleSide"
 										}
 									}
 								],
-								"elementList" : [
+								"elementList": [
 									{
-										"type" : "addMesh",
-										"prop" : {
-											"type" : "PlaneGeometry",
-											"name" : projectName,
-											"materialList" : [ projectName ],
-											"castShadow" : true,
-											"parameters" : {
-												"width" : 1,
-												"height" : 1
+										"type": "addMesh",
+										"prop": {
+											"type": "PlaneGeometry",
+											"name": projectName,
+											"materialList": [projectName],
+											"castShadow": true,
+											"parameters": {
+												"width": 1,
+												"height": 1
 											}
 										}
 									}
 								]
-								
+
 							}
-			
+
 						},
-						function( q ){
-							
+						function (q) {
+
 							PROJECTOBJ = q.obj;
-							
-							objectReady( PROJECTOBJ, projectName );
-							
+
+							objectReady(PROJECTOBJ, projectName);
+
 						},
 						{}
-					
+
 					);
 
-				break;
-				
+					break;
+
 			};
-				
+
 		};
 	};
-	
-	
-		
+
+
+
 	// /////////////////////////////// JJJ 
 
 
 	// EDITOR.f.optimizerTextures( PLY.p.selectedProject.OBJECTS.myProject.children[ 0 ], 0.5, function(p){ console.log( p ) }, {} );
 
-	EDITOR.f.optimizerTextures = function( SOURCEOBJ, valueTextures, callback, callbackprop ){
-		
-		let OBJ = SOURCEOBJ.clone();
-		
-		const { project: _selectedProject } = get(projectStore); // leggi dato
-		
-		OBJ.traverse(function(child) {
+	EDITOR.f.optimizerTextures = function (SOURCEOBJ, valueTextures, callback, callbackprop) {
 
-			if ( child.isMesh ) {
+		let OBJ = SOURCEOBJ.clone();
+
+		const { project: _selectedProject } = get(projectStore); // leggi dato
+
+		OBJ.traverse(function (child) {
+
+			if (child.isMesh) {
 
 				child.material = child.material.clone();
 
@@ -1613,18 +1609,18 @@ const createEditor = () => {
 
 		// const OBJ = cloneDeep(SOURCEOBJ);
 
-		if ( _selectedProject.OBJECTS.myProjectCloned.children.length > 0 ){
-			
-			VARCO.f.deleteElement( _selectedProject.OBJECTS.myProjectCloned, _selectedProject.OBJECTS.myProjectCloned.children[ 0 ] );
-			
+		if (_selectedProject.OBJECTS.myProjectCloned.children.length > 0) {
+
+			VARCO.f.deleteElement(_selectedProject.OBJECTS.myProjectCloned, _selectedProject.OBJECTS.myProjectCloned.children[0]);
+
 		};
-		
-		_selectedProject.OBJECTS.myProjectCloned.OBJECTS[ OBJ.name ];
-		
-		_selectedProject.OBJECTS.myProjectCloned.add( OBJ );
-		
+
+		_selectedProject.OBJECTS.myProjectCloned.OBJECTS[OBJ.name];
+
+		_selectedProject.OBJECTS.myProjectCloned.add(OBJ);
+
 		SOURCEOBJ.visible = false;
-		
+
 		OBJ.visible = true;
 
 		const exporter = new GLTFExporter();
@@ -1648,315 +1644,315 @@ const createEditor = () => {
 			"clearcoatNormalMap",
 			"clearcoatRoughnessMap"
 		];
-		
+
 		let maxResizeWidth = 4096;
-		
+
 		let maxResizeHeight = 4096;
-		
+
 		let textureToResizeList = [];
-		
+
 
 		OBJ.traverse(
-		
-			function( child ){
-				
-				if ( child.material !== undefined ){
-					
+
+			function (child) {
+
+				if (child.material !== undefined) {
+
 					textureTypeList.forEach(
-					
-						function( textureType ){
-							
-							if ( child.material[ textureType ] !== null && child.material[ textureType ] !== undefined ){
-								
-								child.material[ textureType ].flipY = true;
-								
-								child.material[ textureType ].name = child.material[ textureType ].name + '_' + textureType;
-							
-								textureToResizeList.push( 
-									{ 
-										childOriginal: child, 
-										
-										textureOriginal: child.material[ textureType ], 
-										
+
+						function (textureType) {
+
+							if (child.material[textureType] !== null && child.material[textureType] !== undefined) {
+
+								child.material[textureType].flipY = true;
+
+								child.material[textureType].name = child.material[textureType].name + '_' + textureType;
+
+								textureToResizeList.push(
+									{
+										childOriginal: child,
+
+										textureOriginal: child.material[textureType],
+
 										materialOriginal: child.material,
-						
+
 										textureType: textureType
-									
+
 									}
 								);
-								
+
 							};
-							
+
 						}
-						
+
 					);
-					
+
 				};
 
 			}
-			
+
 		);
-		
-		
-		console.log( 'hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh' );
-		
-		console.log( textureToResizeList );
-		
-		console.log( 'hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh' );
 
-		
+
+		console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
+
+		console.log(textureToResizeList);
+
+		console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
+
+
 		let COUNTER = 0;
-		
-		let FlipY = true;
-		
-		console.log( textureToResizeList);
-		
-		let textureImage, type;
-		
-		function resizeTexture ( textureToResizeList ){
 
-			if ( textureToResizeList[ COUNTER ].textureOriginal.image !== undefined ) {
-				
-				textureImage = textureToResizeList[ COUNTER ].textureOriginal.image;
+		let FlipY = true;
+
+		console.log(textureToResizeList);
+
+		let textureImage, type;
+
+		function resizeTexture(textureToResizeList) {
+
+			if (textureToResizeList[COUNTER].textureOriginal.image !== undefined) {
+
+				textureImage = textureToResizeList[COUNTER].textureOriginal.image;
 
 				type = 'image';
-				
+
 				FlipY = true;
-				
+
 			} else {
-				
-				textureImage = textureToResizeList[ COUNTER ].textureOriginal.source.data;
-				
+
+				textureImage = textureToResizeList[COUNTER].textureOriginal.source.data;
+
 				type = 'embedded';
-				
+
 				FlipY = true;
-				
+
 			};
-			
-			textureToResizeList[ COUNTER ].textureImageOriginal = textureImage;
-			
+
+			textureToResizeList[COUNTER].textureImageOriginal = textureImage;
+
 
 			const canvasOriginal = document.createElement('canvas');
-			
+
 			const ctxOriginal = canvasOriginal.getContext('2d');
-			
-			
+
+
 			ctxOriginal.imageSmoothingEnabled = true;
-			
+
 			ctxOriginal.imageSmoothingQuality = 'high';
-			
+
 			canvasOriginal.width = textureImage.width;
-			
+
 			canvasOriginal.height = textureImage.height;
 
 
-			 // Flip the image
+			// Flip the image
 			ctxOriginal.save(); // Save the current state
 
 			// Step 2: Translate the context to image width
-			ctxOriginal.translate( 0, textureImage.height);
+			ctxOriginal.translate(0, textureImage.height);
 
 			// Step 3: Scale the context horizontally by -1
-			ctxOriginal.scale( 1, -1 );
+			ctxOriginal.scale(1, -1);
 
-				// Step 4: Draw the image at the translated point
-			ctxOriginal.drawImage( textureImage, 0, 0, textureImage.width, textureImage.height, 0, 0, textureImage.width, textureImage.height);
+			// Step 4: Draw the image at the translated point
+			ctxOriginal.drawImage(textureImage, 0, 0, textureImage.width, textureImage.height, 0, 0, textureImage.width, textureImage.height);
 
 			ctxOriginal.restore(); // Restore the context to its original state
 
-			
+
 			canvasOriginal.toBlob(
-			
-				function( blobPreviewOriginal ) {
-				
+
+				function (blobPreviewOriginal) {
+
 					// salva nello zip le immagini originali //
 					//PLY.p.zipImage.file( "texturesOriginali/" + "image_" + COUNTER + ".png", blobPreviewOriginal, {binary:true} );
 
 					const canvasLowres = document.createElement('canvas');
-					
-					const ctxLowres = canvasLowres.getContext('2d');
-					
-					ctxLowres.imageSmoothingEnabled = true;
-					
-					ctxLowres.imageSmoothingQuality = 'high';
-					
-					ctxLowres.willReadFrequently = true;
-					
 
-					 // Flip the image
+					const ctxLowres = canvasLowres.getContext('2d');
+
+					ctxLowres.imageSmoothingEnabled = true;
+
+					ctxLowres.imageSmoothingQuality = 'high';
+
+					ctxLowres.willReadFrequently = true;
+
+
+					// Flip the image
 					ctxLowres.save(); // Save the current state
-				
+
 					let resizeWidth;
-					
+
 					let resizeHeight;
-					
+
 					// reduction of the textures //
 
 					// dynamic smart reduction of the textures //
-					const reductionSize = [ 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096 ];
-					
-					
+					const reductionSize = [8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096];
+
+
 					let propValH = 1
-					
+
 					let propValV = 1
-					
-					
-					if ( textureImage.width > textureImage.height ){
-						
+
+
+					if (textureImage.width > textureImage.height) {
+
 						propValV = textureImage.height / textureImage.width;
-						
+
 					} else {
-						
+
 						propValH = textureImage.width / textureImage.height;
-						
+
 					};
-					
-					
-					let textureSizeH = Math.floor( textureImage.width * propValH * valueTextures );
-					
-					let textureSizeV = Math.floor( textureImage.height * propValV * valueTextures );
-					
-					
+
+
+					let textureSizeH = Math.floor(textureImage.width * propValH * valueTextures);
+
+					let textureSizeV = Math.floor(textureImage.height * propValV * valueTextures);
+
+
 					// width //
-					for( var ws = 0; ws < reductionSize.length; ws++) {
-						
-						if ( reductionSize[ ws ] < maxResizeWidth ){
-							
-							if ( textureSizeH < reductionSize[ ws ] ){
-								
-								resizeWidth = reductionSize[ ws ];
-								
+					for (var ws = 0; ws < reductionSize.length; ws++) {
+
+						if (reductionSize[ws] < maxResizeWidth) {
+
+							if (textureSizeH < reductionSize[ws]) {
+
+								resizeWidth = reductionSize[ws];
+
 								break;
-								
+
 							};
-							
+
 						} else {
-							
+
 							resizeWidth = maxResizeWidth;
-							
+
 							break;
-							
+
 						};
-						
+
 					};
-					
-					
+
+
 					// height //
-					for( var hs = 0; hs < reductionSize.length; hs++) {
-						
-						if ( reductionSize[ hs ] < maxResizeHeight ){
-							
-							if ( textureSizeV < reductionSize[ hs ] ){
-								
-								resizeHeight = reductionSize[ hs ];
-								
+					for (var hs = 0; hs < reductionSize.length; hs++) {
+
+						if (reductionSize[hs] < maxResizeHeight) {
+
+							if (textureSizeV < reductionSize[hs]) {
+
+								resizeHeight = reductionSize[hs];
+
 								break;
-								
+
 							};
-							
+
 						} else {
-							
+
 							resizeHeight = maxResizeHeight;
-							
+
 							break;
-							
+
 						};
-						
+
 					};
-					
-					
-					console.log( resizeWidth, resizeHeight );
+
+
+					console.log(resizeWidth, resizeHeight);
 
 					canvasLowres.width = resizeWidth;
-					
+
 					canvasLowres.height = resizeHeight;
-					
-					
+
+
 					// Flip the image
 					ctxLowres.save(); // Save the current state
-		
+
 					// Step 2: Translate the context to image width
-					ctxLowres.translate( 0, resizeHeight);
+					ctxLowres.translate(0, resizeHeight);
 
 					// Step 3: Scale the context horizontally by -1
 					ctxLowres.scale(1, -1);
-			
+
 					// Step 4: Draw the image at the translated point
-					ctxLowres.drawImage( textureImage, 0, 0, textureImage.width, textureImage.height, 0, 0, resizeWidth, resizeHeight);
-		
+					ctxLowres.drawImage(textureImage, 0, 0, textureImage.width, textureImage.height, 0, 0, resizeWidth, resizeHeight);
+
 					ctxLowres.restore(); // Restore the context to its original state
-					
-					
+
+
 					canvasLowres.toBlob(
-			
-						function( blobPreviewLowres ) {
-						
-							textureToResizeList[ COUNTER ].textureImageCompressed = canvasLowres.toDataURL();
-							
-							textureToResizeList[ COUNTER ].textureCompressed = '';
-							
+
+						function (blobPreviewLowres) {
+
+							textureToResizeList[COUNTER].textureImageCompressed = canvasLowres.toDataURL();
+
+							textureToResizeList[COUNTER].textureCompressed = '';
+
 							VARCO.f.addTexture(
-									
+
 								_selectedProject.OBJECTS.myProject,
-								
+
 								{
-									"name" : textureToResizeList[ COUNTER ].textureOriginal.name,
-									"type" : "base64",
-									"url" : textureToResizeList[ COUNTER ].textureImageCompressed,
-									"parameters" : {
-										"encoding" : "THREE.sRGBEncoding"
+									"name": textureToResizeList[COUNTER].textureOriginal.name,
+									"type": "base64",
+									"url": textureToResizeList[COUNTER].textureImageCompressed,
+									"parameters": {
+										"encoding": "THREE.sRGBEncoding"
 									}
 								},
-								
-								function( pTexture ){
-									
-									textureToResizeList[ COUNTER ].childOriginal.material[ textureToResizeList[ COUNTER ].textureType ] = pTexture.obj;
-									
-									textureToResizeList[ COUNTER ].childOriginal.material[ textureToResizeList[ COUNTER ].textureType ].flipY = FlipY
-							
-									textureToResizeList[ COUNTER ].childOriginal.material.needsUpdate = true;
-									
-									COUNTER +=1;
-							
-									if ( COUNTER < textureToResizeList.length ){
-										
-										resizeTexture( textureToResizeList );
-										
+
+								function (pTexture) {
+
+									textureToResizeList[COUNTER].childOriginal.material[textureToResizeList[COUNTER].textureType] = pTexture.obj;
+
+									textureToResizeList[COUNTER].childOriginal.material[textureToResizeList[COUNTER].textureType].flipY = FlipY
+
+									textureToResizeList[COUNTER].childOriginal.material.needsUpdate = true;
+
+									COUNTER += 1;
+
+									if (COUNTER < textureToResizeList.length) {
+
+										resizeTexture(textureToResizeList);
+
 									} else {
-										
-										if ( callback !== undefined ){
-											
-											if ( callbackprop == undefined ){
-												
+
+										if (callback !== undefined) {
+
+											if (callbackprop == undefined) {
+
 												callbackprop = {}
-												
+
 											};
-											
+
 											callbackprop.obj = textureToResizeList;
-											
-											callback( callbackprop );
-											
+
+											callback(callbackprop);
+
 										};
-										
+
 										return textureToResizeList;
 
 									}
-									
+
 								}
-								
+
 							);
-			
+
 						}
-						
+
 					)
-		
+
 				}
-				
+
 			);
 
 		};
 
-		resizeTexture( textureToResizeList );
+		resizeTexture(textureToResizeList);
 
 	};
 
@@ -1965,51 +1961,51 @@ const createEditor = () => {
 
 	// EDITOR.f.optimizerGeometry( PLY.p.selectedProject.OBJECTS.myProject.children[ 0 ], 0.5, function(p){ console.log( p ) }, {} );
 
-	EDITOR.f.optimizerGeometry = function( SOURCEOBJ, valueGeometry, callback, callbackprop ){
+	EDITOR.f.optimizerGeometry = function (SOURCEOBJ, valueGeometry, callback, callbackprop) {
 
 		const { project: _selectedProject } = get(projectStore); // leggi dato
-		
+
 		const simplifyModifier = new SimplifyModifier();
-		
-		if ( _selectedProject.OBJECTS.myProjectCloned.children.length > 0 ){
-			
-			VARCO.f.deleteElement( _selectedProject.OBJECTS.myProjectCloned, _selectedProject.OBJECTS.myProjectCloned.children[ 0 ] );
-			
+
+		if (_selectedProject.OBJECTS.myProjectCloned.children.length > 0) {
+
+			VARCO.f.deleteElement(_selectedProject.OBJECTS.myProjectCloned, _selectedProject.OBJECTS.myProjectCloned.children[0]);
+
 		};
 
-		_selectedProject.OBJECTS.myProjectCloned.OBJECTS[ SOURCEOBJ.name ];
-		
+		_selectedProject.OBJECTS.myProjectCloned.OBJECTS[SOURCEOBJ.name];
+
 		SOURCEOBJ.traverse(
-		
-			function( child ){
+
+			function (child) {
 
 				const simplifyChild = child.clone();
 
-				if ( child.geometry !== undefined ) {
+				if (child.geometry !== undefined) {
 
-					const polygonCount = Math.floor(child.geometry.attributes.position.count * valueGeometry );
-					
-					const simplifiedGeometry = simplifyModifier.modify( child.geometry, polygonCount ); // Riduce del 50%
-					
+					const polygonCount = Math.floor(child.geometry.attributes.position.count * valueGeometry);
+
+					const simplifiedGeometry = simplifyModifier.modify(child.geometry, polygonCount); // Riduce del 50%
+
 					simplifyChild.geometry = simplifiedGeometry;
-		
+
 					simplifyChild.material = child.material.clone();
-					
+
 					simplifyChild.material.flatShading = true;
-					
-					_selectedProject.OBJECTS.myProjectCloned.add( simplifyChild );
-					
-					_selectedProject.OBJECTS.myProjectCloned.OBJECTS[ simplifyChild.name ] = simplifyChild;
-					
+
+					_selectedProject.OBJECTS.myProjectCloned.add(simplifyChild);
+
+					_selectedProject.OBJECTS.myProjectCloned.OBJECTS[simplifyChild.name] = simplifyChild;
+
 				};
-				
+
 			}
-			
+
 		);
 
 
 		_selectedProject.OBJECTS.myProject.visible = false;
-		
+
 		_selectedProject.OBJECTS.myProjectCloned.visible = true;
 
 
@@ -2017,90 +2013,90 @@ const createEditor = () => {
 
 
 
-	EDITOR.f.optimizerDrawCalls = function( SOURCEOBJ, valueGeometry, callback, callbackprop ){
-		
+	EDITOR.f.optimizerDrawCalls = function (SOURCEOBJ, valueGeometry, callback, callbackprop) {
+
 		const { project: _selectedProject } = get(projectStore); // leggi dato
 
-		if ( _selectedProject.OBJECTS.myProjectCloned.children.length > 0 ){
-			
-			VARCO.f.deleteElement( _selectedProject.OBJECTS.myProjectCloned, _selectedProject.OBJECTS.myProjectCloned.children[ 0 ] );
-			
+		if (_selectedProject.OBJECTS.myProjectCloned.children.length > 0) {
+
+			VARCO.f.deleteElement(_selectedProject.OBJECTS.myProjectCloned, _selectedProject.OBJECTS.myProjectCloned.children[0]);
+
 		};
-		
+
 		const geometries = [];
-		
+
 		const combinedGeometry = new THREE.BufferGeometry();
-		
+
 		SOURCEOBJ.traverse(
-		
-			function( child ){
-				
-				console.log( child );
-				
-				if ( child.geometry !== undefined ){
-				
-					geometries.push( child.geometry.clone() );
-				
+
+			function (child) {
+
+				console.log(child);
+
+				if (child.geometry !== undefined) {
+
+					geometries.push(child.geometry.clone());
+
 				};
-			
-			}
-		
-		);
-		
-		
-		SOURCEOBJ.traverse( child => {
-			
-				if (child.isMesh) {
-					const mesh = child;
 
-					// Clona la geometria per evitare mutazioni indesiderate
-					
-					const clonedGeometry = mesh.geometry.clone();
-					
-					clonedGeometry.applyMatrix4(mesh.matrixWorld);
-
-					// Raccogli la geometria clonata
-					geometries.push(clonedGeometry);
-					
-				}
 			}
-			
+
 		);
-		
-		console.log( BufferGeometryUtils );
+
+
+		SOURCEOBJ.traverse(child => {
+
+			if (child.isMesh) {
+				const mesh = child;
+
+				// Clona la geometria per evitare mutazioni indesiderate
+
+				const clonedGeometry = mesh.geometry.clone();
+
+				clonedGeometry.applyMatrix4(mesh.matrixWorld);
+
+				// Raccogli la geometria clonata
+				geometries.push(clonedGeometry);
+
+			}
+		}
+
+		);
+
+		console.log(BufferGeometryUtils);
 
 		// Unisci tutte le geometrie raccolte
-		const mergedGeometry = BufferGeometryUtils.mergeGeometries( geometries );
+		const mergedGeometry = BufferGeometryUtils.mergeGeometries(geometries);
 
 		// Crea un materiale unico per la geometria combinata
 		const material = new THREE.MeshStandardMaterial({ color: 0x777777 });
-		
+
 		const combinedMesh = new THREE.Mesh(mergedGeometry, material);
 
 		// combinedMesh.rotateY( VARCO.f.deg2rad( 180 ) )
 
-		combinedMesh.rotateX( VARCO.f.deg2rad( -90 ) )
+		combinedMesh.rotateX(VARCO.f.deg2rad(-90))
 
 		combinedMesh.scale.x = -1
-		
-		
+
+
 		_selectedProject.OBJECTS.myProjectCloned.add(combinedMesh);
-		
+
 		_selectedProject.OBJECTS.myProject.visible = false;
-		
+
 		_selectedProject.OBJECTS.myProjectCloned.visible = true;
 
-			
+
 	};
 
 
 
 
-	EDITOR.f.exportGLTF = function( OBJ ){
-		
+	EDITOR.f.exportGLTF = function (OBJ) {
+
 		const exporter = new GLTFExporter();
-		
-		
+
+
 		// Funzione per convertire un ArrayBuffer in base64
 		function arrayBufferToBase64(buffer) {
 			let binary = '';
@@ -2112,77 +2108,77 @@ const createEditor = () => {
 			return window.btoa(binary);
 		}
 
-		
+
 		// Instantiate a exporter
 		const options = {
-			
+
 			binary: false,
-			
+
 			maxTextureSize: 4096,
-			
+
 			animations: OBJ.animations,
-			
+
 			includeCustomExtensions: true
-			
+
 		};
 
 		exporter.parse(
-										
-			OBJ, 
-			
-			function ( result ) {
+
+			OBJ,
+
+			function (result) {
 
 				// Converti l'oggetto scene in stringa JSON
-				const sceneString = JSON.stringify( result );
+				const sceneString = JSON.stringify(result);
 
 				// Converti la stringa JSON in base64
 				const base64 = window.btoa(unescape(encodeURIComponent(sceneString)));
-				
+
 				OBJ.userData.type = '3d'
-				
+
 				OBJ.userData.stringByte64 = base64;
-				
+
 				OBJ.userData.extension = 'gltf';
-				
-				EDITOR.f.saveProjectData( UI.p.popup_login_data.p.data.user, OBJ );
-				
+
+				EDITOR.f.saveProjectData(UI.p.popup_login_data.p.data.user, OBJ);
+
 			}
-			
+
 		);
 
 	};
 
 
 
-	EDITOR.f.exportUSDZ = function( OBJ ){
-		
+	EDITOR.f.exportUSDZ = function (OBJ) {
+
 		// USDZ
 		const exporter = new USDZExporter();
 
 		exporter.parse(
 			OBJ,
 			// called when the gltf has been generated
-			function ( arraybuffer ) {
+			function (arraybuffer) {
 
-				console.log( arraybuffer );
-				
-				const blob = new Blob( [ arraybuffer ], { type: 'application/octet-stream' } );
+				console.log(arraybuffer);
 
-				const link = document.getElementById( 'link' );
-				
-				link.href = URL.createObjectURL( blob );
+				const blob = new Blob([arraybuffer], { type: 'application/octet-stream' });
+
+				const link = document.getElementById('link');
+
+				link.href = URL.createObjectURL(blob);
 
 			},
 			// called when there is an error in the generation
-			function ( error ) {
+			function (error) {
 
-				console.log( 'An error happened' );
+				console.log('An error happened');
 
 			},
 			{}
 		);
 
-						
+
 	};
 
 

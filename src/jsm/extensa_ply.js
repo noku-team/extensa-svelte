@@ -664,7 +664,7 @@ const createPLY = () => {
 
 				} else {
 
-				
+
 					// PLY.p.selectedProjectName = PROJECTOBJ.userData.name;
 
 					projectStore.setProject(PROJECTOBJ); // scrivi dato
@@ -683,7 +683,7 @@ const createPLY = () => {
 
 				}
 
-			
+
 				// PLY.p.selectedProjectName = '';
 
 				projectStore.setProject(null); // scrivi dato NULL
@@ -801,79 +801,34 @@ const createPLY = () => {
 
 
 			// carica il settore //
-
 			// TODO load all JSON sectors here
-			for (var num = 0; num < sectorList.length; num += 1) {
-
-				VARCO.f.loadJSON(
-
-					'SECTOR_DB/' + sectorList[num] + '.json',
-
-					function init_sectorData(sectorData) {
-
-						console.log(sectorData);
-
-						// carica geoaree del settore //
-						for (var i = 0; i < sectorData.geoareaList.length; i += 1) {
-							VARCO.f.loadJSON(
-
-								'USER_DB/' + sectorData.geoareaList[i].user + '/geoArea/' + sectorData.geoareaList[i].geoAreaName + '.json', // path x geoarea
-
-								function init_geoData(geoData) {
-
-									// CREATE GEOAREA CIRCLES //
-									EDITOR.f.createGeoArea(
-
-										geoData,
-
-										function initDataOfGeoArea(q) {
-
-											let GEOAREAOBJ = q.obj;
-
-											for (var j = 0; j < geoData.projectsList.length; j += 1) {
-
-												// CREATE PROJECTS CIRCLES //
-												EDITOR.f.createProject(
-
-													GEOAREAOBJ,
-
-													geoData.projectsList[j],
-
-													function () {
-
-													},
-
-													{}
-
-												);
-												// /////////////////////// //
-
-											}
-
-										},
-
+			VARCO.f.loadJSON(
+				`TEST_GEOAREA/test_geoarea.json`,
+				(geoAreas) => {
+					for (const geoData of geoAreas) {
+						EDITOR.f.createGeoArea(
+							geoData,
+							(q) => {
+								let GEOAREAOBJ = q.obj;
+								for (const project of geoData.projectsList) {
+									// CREATE PROJECTS CIRCLES //
+									EDITOR.f.createProject(
+										GEOAREAOBJ,
+										project,
+										() => { },
 										{}
 									);
-									// /////////////////////// //
-
 								}
-
-							)
-
-						}
-
-					},
-
-					function error_data() {
-
-						console.log('no sector founded');
-
+							},
+							{}
+						);
 					}
-
-				);
-
-			}
-
+					console.warn(json);
+				},
+				(error) => {
+					console.error("Error while loading testing geoareas", error);
+				}
+			)
 		}
 
 	};

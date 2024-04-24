@@ -10,6 +10,9 @@
 	$: if (dialog && showModal) dialog.showModal();
 </script>
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <dialog
 	id="my_modal_3"
 	class={cx("modal", {
@@ -31,7 +34,7 @@
 			>
 		</form>
 		<h3 class="font-bold text-lg my-3">{title}</h3>
-		<div>
+		<div class="h-auto">
 			<slot />
 		</div>
 	</div>

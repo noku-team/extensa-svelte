@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { VARCO } from "../VARCO/helpers/VARCO";
-	import { EDITOR, PLY, UI } from "../jsm";
+	import { EDITOR, UI } from "../jsm";
 	import { projectStore } from "../store/ProjectStore";
 	import EyeOffIcon from "/images/UI/eye-off.png";
 	import EyeIcon from "/images/UI/eye.png";
@@ -15,40 +14,38 @@
 		projectStore.set3DVisible(false);
 	};
 
-	const selectedProject = $projectStore.project;
+	// const onClose = () => {
+	// 	projectStore.setProject(null);
 
-	const onClose = () => {
-		projectStore.setProject(null);
+	// 	UI.f.remove_menu_popups();
 
-		UI.f.remove_menu_popups();
+	// 	EDITOR.f.deselectProjects();
 
-		EDITOR.f.deselectProjects();
+	// 	EDITOR.f.deselectGeoArea();
 
-		EDITOR.f.deselectGeoArea();
+	// 	if (UI.p.scene.OBJECTS.previewProject !== undefined)
+	// 		(VARCO.f as any).deleteElement(
+	// 			UI.p.scene,
+	// 			UI.p.scene.OBJECTS.previewProject
+	// 		);
 
-		if (UI.p.scene.OBJECTS.previewProject !== undefined)
-			(VARCO.f as any).deleteElement(
-				UI.p.scene,
-				UI.p.scene.OBJECTS.previewProject
-			);
-
-		PLY.p.selectedProjectName = "";
-		projectStore.setProject(null);
-		PLY.p.selectedGeoAreaName = "";
-	};
+	// 	PLY.p.selectedProjectName = "";
+	// 	projectStore.setProject(null);
+	// 	PLY.p.selectedGeoAreaName = "";
+	// };
 </script>
 
 {#if !!$projectStore.project}
 	<div
 		class="flex flex-col gap-3 fixed top-20 left-1/2 transform -translate-x-1/2 p-10 bg-neutral z-10 rounded-xl"
 	>
-		<div
+		<!-- <div
 			class="absolute top-4 right-4 cursor-pointer"
 			on:click={onClose}
 			role="button"
 		>
 			✕
-		</div>
+		</div> -->
 		<span class="font-semibold text-xl">{$projectStore.project?.name}</span>
 		<div class="flex">
 			{#if !$projectStore.project.is3DVisible}

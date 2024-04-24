@@ -1577,18 +1577,20 @@ VARCO.f.initMouseEvents = function () {
 		viewPortList: []
 	};
 
+	const canvas = document.getElementById('canvas');
 
-	window.addEventListener('mousemove', VARCO.f.tellMousePos, false);
-	window.addEventListener('mousedown', VARCO.f.tellMouseDown, false);
-	window.addEventListener('mouseup', VARCO.f.tellMouseUp, false);
-	window.addEventListener('mousewheel', VARCO.f.tellMouseWheel, false);
-	window.addEventListener('DOMMouseScroll', VARCO.f.tellMouseWheel_FF, false);
-	window.addEventListener('dblclick', VARCO.f.tellDoubleClick, false);
-
-	window.addEventListener("contextmenu", function setContextMenuOff(e) {
-		e.preventDefault();
-	}, false);
-
+	if(canvas) {
+		canvas.addEventListener('mousemove', VARCO.f.tellMousePos, false);
+		canvas.addEventListener('mousedown', VARCO.f.tellMouseDown, false);
+		canvas.addEventListener('mouseup', VARCO.f.tellMouseUp, false);
+		canvas.addEventListener('mousewheel', VARCO.f.tellMouseWheel, false);
+		canvas.addEventListener('DOMMouseScroll', VARCO.f.tellMouseWheel_FF, false);
+		canvas.addEventListener('dblclick', VARCO.f.tellDoubleClick, false);
+	
+		canvas.addEventListener("contextmenu", function setContextMenuOff(e) {
+			e.preventDefault();
+		}, false);
+	}
 };
 
 VARCO.f.removeMouseEvents = function () {

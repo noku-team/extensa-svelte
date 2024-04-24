@@ -68,5 +68,5 @@
 		</div>
 		<button class="btn btn-primary" on:click={onSearch}>SEARCH</button>
 	</div>
-	<div class="h-48" />
+	<div class="h-52" />
 </Modal>

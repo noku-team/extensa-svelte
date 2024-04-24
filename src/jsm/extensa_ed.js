@@ -944,6 +944,7 @@ const createEditor = () => {
 
 			const nameFile = 'USER_DB/' + PLY.p.selectedArea.userData.user + '/' + PLY.p.selectedArea.userData.geoAreaName + ".json";
 
+			// TODO EDIT PROJECT HERE AND SEND TO BLOCKCHAIN
 			VARCO.f.saveInfo(textData, nameFile);
 
 

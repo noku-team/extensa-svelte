@@ -651,14 +651,12 @@ const createPLY = () => {
 
 					if (PROJECTOBJ.name !== _selectedProject.name) {
 
-						// PLY.p.selectedProject = PROJECTOBJ;
-
-						PLY.p.selectedProjectName = PROJECTOBJ.userData.name;
+						// PLY.p.selectedProjectName = PROJECTOBJ.userData.name;
 
 						// Update svelte project store
 						projectStore.setProject(PROJECTOBJ); // scrivi dato
 
-						PLY.p.selectedGeoAreaName = GEOAREAOBJ.userData.name;
+						// PLY.p.selectedGeoAreaName = GEOAREAOBJ.userData.name;
 
 						UI.p.previewProject.f.open(GEOAREAOBJ, PROJECTOBJ)
 
@@ -666,13 +664,12 @@ const createPLY = () => {
 
 				} else {
 
-					// PLY.p.selectedProject = PROJECTOBJ;
-
-					PLY.p.selectedProjectName = PROJECTOBJ.userData.name;
+				
+					// PLY.p.selectedProjectName = PROJECTOBJ.userData.name;
 
 					projectStore.setProject(PROJECTOBJ); // scrivi dato
 
-					PLY.p.selectedGeoAreaName = GEOAREAOBJ.userData.name;
+					// PLY.p.selectedGeoAreaName = GEOAREAOBJ.userData.name;
 
 					UI.p.previewProject.f.open(GEOAREAOBJ, PROJECTOBJ)
 
@@ -686,9 +683,8 @@ const createPLY = () => {
 
 				}
 
-				// PLY.p.selectedProject = undefined;
-
-				PLY.p.selectedProjectName = '';
+			
+				// PLY.p.selectedProjectName = '';
 
 				projectStore.setProject(null); // scrivi dato NULL
 
@@ -795,9 +791,7 @@ const createPLY = () => {
 
 				PLY.p.selectedArea = undefined;
 
-				// PLY.p.selectedProject = undefined;
-
-				PLY.p.selectedProjectName = undefined;
+				// PLY.p.selectedProjectName = undefined;
 
 				projectStore.setProject(null); // scrivi dato NULL
 
@@ -1002,9 +996,9 @@ const createPLY = () => {
 
 			console.log(_selectedProject);
 
-			PLY.p.selectedProjectName = '';
+			// PLY.p.selectedProjectName = '';
 			projectStore.setProject(null); // scrivi dato NULL
-			PLY.p.selectedGeoAreaName = '';
+			// PLY.p.selectedGeoAreaName = '';
 
 		}
 

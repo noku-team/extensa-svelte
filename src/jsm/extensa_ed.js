@@ -490,13 +490,14 @@ const createEditor = () => {
 				p.obj.parent.MATERIALS.Kernel_Mesh_mat.color.b = 0.0;
 				// TODO whats this for?
 
-				PLY.p.selectedProjectName = p.obj.parent.userData.name;
+				// PLY.p.selectedProjectName = p.obj.parent.userData.name;
 
 
-				PLY.p.selectedGeoAreaName = p.obj.parent.userData.name;
+				// PLY.p.selectedGeoAreaName = p.obj.parent.userData.name;
 
 
 				if (UI.p.scene.OBJECTS.previewProject == undefined) {
+					
 					UI.p.scene.OBJECTS.previewProject = true;
 
 					UI.p.previewProject.f.open(PLY.p.selectedArea, p.obj.parent);

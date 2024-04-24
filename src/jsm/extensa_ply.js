@@ -2700,8 +2700,10 @@ const createPLY = () => {
 							EDITOR.p.mousePivotOffset = new THREE.Vector3();
 							
 							wPos = new THREE.Vector3();
+							
+							const { project: _selectedProject } = get(projectStore); // leggi dato
 						
-							PLY.p.selectedProject.getWorldPosition( wPos );
+							_selectedProject.getWorldPosition( wPos );
 		
 							EDITOR.p.mousePivotOffset.x = wPos.x - EDITOR.p.mousePivotPoint.x;
 							
@@ -2709,9 +2711,9 @@ const createPLY = () => {
 							
 						};
 				
-						PLY.p.selectedProject.position.x = ( p.results.point.x - PLY.p.selectedArea.position.x ) + EDITOR.p.mousePivotOffset.x ;
+						_selectedProject.position.x = ( p.results.point.x - PLY.p.selectedArea.position.x ) + EDITOR.p.mousePivotOffset.x ;
 						
-						PLY.p.selectedProject.position.z = ( p.results.point.z - PLY.p.selectedArea.position.z ) + EDITOR.p.mousePivotOffset.z ;
+						_selectedProject.position.z = ( p.results.point.z - PLY.p.selectedArea.position.z ) + EDITOR.p.mousePivotOffset.z ;
 						
 					} else {
 						
@@ -2727,7 +2729,7 @@ const createPLY = () => {
 
 					if ( VARCO.p.DEVICES.mouse.clickDown ){
 					
-						PLY.p.selectedProject.rotation.y += VARCO.f.deg2rad( VARCO.p.DEVICES.mouse.diffH * 0.1 );
+						_selectedProject.rotation.y += VARCO.f.deg2rad( VARCO.p.DEVICES.mouse.diffH * 0.1 );
 						
 					};
 
@@ -2745,7 +2747,7 @@ const createPLY = () => {
 						
 						wPos = new THREE.Vector3();
 						
-						PLY.p.selectedProject.getWorldPosition( wPos );
+						_selectedProject.getWorldPosition( wPos );
 						
 						let distanceArea;
 				
@@ -2754,11 +2756,11 @@ const createPLY = () => {
 						let distanceMouse = wPos.distanceTo( p.results.point );
 						
 						
-						PLY.p.selectedProject.scale.x = ( distanceMouse / distanceArea );
+						_selectedProject.scale.x = ( distanceMouse / distanceArea );
 						
-						PLY.p.selectedProject.scale.y = ( distanceMouse / distanceArea );
+						_selectedProject.scale.y = ( distanceMouse / distanceArea );
 						
-						PLY.p.selectedProject.scale.z = ( distanceMouse / distanceArea  );
+						_selectedProject.scale.z = ( distanceMouse / distanceArea  );
 						
 					} else {
 						

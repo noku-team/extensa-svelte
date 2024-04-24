@@ -1257,9 +1257,11 @@ const createEditor = () => {
 						
 						// SHOW PROJECT //
 						
-						PLY.p.selectedProject = w.obj;
+						// PLY.p.selectedProject = w.obj;
 						
-						if ( PLY.p.selectedProject ){
+						projectStore.setProject(w.obj); // scrivi dato
+						
+						if ( PROJECTOBJ ){
 							w.obj.userData.isLoaded = true;
 							w.obj.OBJECTS.myProject.add( PROJECTOBJ );
 							w.obj.OBJECTS.myProject.OBJECTS[ PROJECTOBJ.name ];
@@ -1323,7 +1325,9 @@ const createEditor = () => {
 								
 								// SHOW PROJECT //
 								
-								PLY.p.selectedProject = w.obj;
+								// PLY.p.selectedProject = w.obj;
+								
+								projectStore.setProject(w.obj); // scrivi dato
 								
 								if ( PROJECTOBJ ){
 									w.obj.userData.isLoaded = true;
@@ -1594,6 +1598,8 @@ const createEditor = () => {
 		
 		let OBJ = SOURCEOBJ.clone();
 		
+		const { project: _selectedProject } = get(projectStore); // leggi dato
+		
 		OBJ.traverse(function(child) {
 
 			if ( child.isMesh ) {
@@ -1605,16 +1611,16 @@ const createEditor = () => {
 		});
 
 		// const OBJ = cloneDeep(SOURCEOBJ);
-		
-		if ( PLY.p.selectedProject.OBJECTS.myProjectCloned.children.length > 0 ){
+
+		if ( _selectedProject.OBJECTS.myProjectCloned.children.length > 0 ){
 			
-			VARCO.f.deleteElement( PLY.p.selectedProject.OBJECTS.myProjectCloned, PLY.p.selectedProject.OBJECTS.myProjectCloned.children[ 0 ] );
+			VARCO.f.deleteElement( _selectedProject.OBJECTS.myProjectCloned, _selectedProject.OBJECTS.myProjectCloned.children[ 0 ] );
 			
 		};
 		
-		PLY.p.selectedProject.OBJECTS.myProjectCloned.OBJECTS[ OBJ.name ];
+		_selectedProject.OBJECTS.myProjectCloned.OBJECTS[ OBJ.name ];
 		
-		PLY.p.selectedProject.OBJECTS.myProjectCloned.add( OBJ );
+		_selectedProject.OBJECTS.myProjectCloned.add( OBJ );
 		
 		SOURCEOBJ.visible = false;
 		
@@ -1890,7 +1896,7 @@ const createEditor = () => {
 							
 							VARCO.f.addTexture(
 									
-								PLY.p.selectedProject.OBJECTS.myProject,
+								_selectedProject.OBJECTS.myProject,
 								
 								{
 									"name" : textureToResizeList[ COUNTER ].textureOriginal.name,
@@ -1960,15 +1966,17 @@ const createEditor = () => {
 
 	EDITOR.f.optimizerGeometry = function( SOURCEOBJ, valueGeometry, callback, callbackprop ){
 
+		const { project: _selectedProject } = get(projectStore); // leggi dato
+		
 		const simplifyModifier = new SimplifyModifier();
 		
-		if ( PLY.p.selectedProject.OBJECTS.myProjectCloned.children.length > 0 ){
+		if ( _selectedProject.OBJECTS.myProjectCloned.children.length > 0 ){
 			
-			VARCO.f.deleteElement( PLY.p.selectedProject.OBJECTS.myProjectCloned, PLY.p.selectedProject.OBJECTS.myProjectCloned.children[ 0 ] );
+			VARCO.f.deleteElement( _selectedProject.OBJECTS.myProjectCloned, _selectedProject.OBJECTS.myProjectCloned.children[ 0 ] );
 			
 		};
 
-		PLY.p.selectedProject.OBJECTS.myProjectCloned.OBJECTS[ SOURCEOBJ.name ];
+		_selectedProject.OBJECTS.myProjectCloned.OBJECTS[ SOURCEOBJ.name ];
 		
 		SOURCEOBJ.traverse(
 		
@@ -1988,9 +1996,9 @@ const createEditor = () => {
 					
 					simplifyChild.material.flatShading = true;
 					
-					PLY.p.selectedProject.OBJECTS.myProjectCloned.add( simplifyChild );
+					_selectedProject.OBJECTS.myProjectCloned.add( simplifyChild );
 					
-					PLY.p.selectedProject.OBJECTS.myProjectCloned.OBJECTS[ simplifyChild.name ] = simplifyChild;
+					_selectedProject.OBJECTS.myProjectCloned.OBJECTS[ simplifyChild.name ] = simplifyChild;
 					
 				};
 				
@@ -1999,9 +2007,9 @@ const createEditor = () => {
 		);
 
 
-		PLY.p.selectedProject.OBJECTS.myProject.visible = false;
+		_selectedProject.OBJECTS.myProject.visible = false;
 		
-		PLY.p.selectedProject.OBJECTS.myProjectCloned.visible = true;
+		_selectedProject.OBJECTS.myProjectCloned.visible = true;
 
 
 	};
@@ -2009,10 +2017,12 @@ const createEditor = () => {
 
 
 	EDITOR.f.optimizerDrawCalls = function( SOURCEOBJ, valueGeometry, callback, callbackprop ){
+		
+		const { project: _selectedProject } = get(projectStore); // leggi dato
 
-		if ( PLY.p.selectedProject.OBJECTS.myProjectCloned.children.length > 0 ){
+		if ( _selectedProject.OBJECTS.myProjectCloned.children.length > 0 ){
 			
-			VARCO.f.deleteElement( PLY.p.selectedProject.OBJECTS.myProjectCloned, PLY.p.selectedProject.OBJECTS.myProjectCloned.children[ 0 ] );
+			VARCO.f.deleteElement( _selectedProject.OBJECTS.myProjectCloned, _selectedProject.OBJECTS.myProjectCloned.children[ 0 ] );
 			
 		};
 		
@@ -2073,11 +2083,11 @@ const createEditor = () => {
 		combinedMesh.scale.x = -1
 		
 		
-		PLY.p.selectedProject.OBJECTS.myProjectCloned.add(combinedMesh);
+		_selectedProject.OBJECTS.myProjectCloned.add(combinedMesh);
 		
-		PLY.p.selectedProject.OBJECTS.myProject.visible = false;
+		_selectedProject.OBJECTS.myProject.visible = false;
 		
-		PLY.p.selectedProject.OBJECTS.myProjectCloned.visible = true;
+		_selectedProject.OBJECTS.myProjectCloned.visible = true;
 
 			
 	};

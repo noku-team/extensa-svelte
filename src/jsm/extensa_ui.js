@@ -1969,6 +1969,310 @@ const createUI = () => {
 	// ///////////////////////////////////////////////// //
 	// ///////////////////////////////////////////////// //
 
+	
+	
+	// ///////////////////////////////////////////////// //
+	// ///////////////////////////////////////////////// //
+
+	// OPTIMIZATOR //
+
+
+	UI.p.menu_optimizer = {
+		f : {},
+		p : {
+			flagTextures : false,
+			flagGeometry : false,
+			flagDrawCalls : false,
+			valueTextures : 1.0,
+			valueGeometry : 1.0,
+			valueDrawCalls : 1.0
+			
+		}
+	}
+
+
+	UI.p.menu_optimizer.f.open = function(){
+		
+		console.log( 'UI.p.menu_optimizer.f.open' );
+		
+		if ( UI.p.scene.OBJECTS.menu_optimizer == undefined ){
+			
+			UI.f.remove_menu_popups();
+
+			VARCO.f.loadComplex(
+				UI.p.scene,
+				'json/menu_optimizer.json',
+				undefined,
+				function init_menu_optimizer ( p ){
+					PLY.f.resizeScreen();
+					
+				}
+			);
+		
+		};
+		
+	};
+
+
+	UI.p.menu_optimizer.f.close = function(){
+		
+		console.log( 'UI.p.menu_optimizer.f.close' );
+		
+		if ( UI.p.scene.OBJECTS.menu_optimizer !== undefined ){
+			
+			VARCO.f.deleteElement( UI.p.scene, UI.p.scene.OBJECTS.menu_optimizer );
+			
+		};
+		
+	};
+
+
+
+	UI.p.menu_optimizer.f.button_textures = function(){
+		
+		console.log( 'UI.p.menu_optimizer.f.button_textures_onOff' );
+		
+		if ( UI.p.menu_optimizer.p.flagTextures ){
+			UI.p.menu_optimizer.p.flagTextures = false;
+		} else {
+			UI.p.menu_optimizer.p.flagTextures = true;
+		};
+		
+	};
+
+	UI.p.menu_optimizer.f.slider_texture_down = function( p ){
+		
+		if ( UI.p.menu_optimizer.p.flagTextures ){
+				
+			UI.p.menu_optimizer.p.valueTextures = p.results.uv.x;
+			
+			UI.p.scene.OBJECTS.menu_optimizer.OBJECTS.slider_textures.OBJECTS.slider_marker.position.x = ( 200 * UI.p.menu_optimizer.p.valueTextures ) - 100;
+			
+		};
+		
+	};
+
+	UI.p.menu_optimizer.f.slider_texture_move = function( p ){
+		
+		if ( UI.p.menu_optimizer.p.flagTextures ){
+			
+			if ( VARCO.p.DEVICES.mouse.clickDown ){
+				
+				UI.p.menu_optimizer.p.valueTextures = p.results.uv.x;
+			
+				UI.p.scene.OBJECTS.menu_optimizer.OBJECTS.slider_textures.OBJECTS.slider_marker.position.x = ( 200 * UI.p.menu_optimizer.p.valueTextures ) - 100;
+				
+			};
+		
+		};
+		
+	};
+
+
+
+	UI.p.menu_optimizer.f.button_geometry = function(){
+		
+		console.log( 'UI.p.menu_optimizer.f.button_geometry_onOff' );
+		
+		if ( UI.p.menu_optimizer.p.flagGeometry ){
+			
+			UI.p.menu_optimizer.p.flagGeometry = false;
+			
+		} else {
+			
+			UI.p.menu_optimizer.p.flagGeometry = true;
+			
+		};
+		
+	};
+
+	UI.p.menu_optimizer.f.slider_geometry_down = function( p ){
+		
+		if ( UI.p.menu_optimizer.p.flagGeometry ){
+			
+			UI.p.menu_optimizer.p.valueGeometry = p.results.uv.x;
+			
+			UI.p.scene.OBJECTS.menu_optimizer.OBJECTS.slider_geometry.OBJECTS.slider_marker.position.x = ( 200 * UI.p.menu_optimizer.p.valueGeometry ) - 100;
+			
+		};
+		
+	};
+
+	UI.p.menu_optimizer.f.slider_geometry_move = function( p ){
+		
+		if ( UI.p.menu_optimizer.p.flagGeometry ){
+			
+			if ( VARCO.p.DEVICES.mouse.clickDown ){
+				
+				UI.p.menu_optimizer.p.valueGeometry = p.results.uv.x;
+			
+				UI.p.scene.OBJECTS.menu_optimizer.OBJECTS.slider_geometry.OBJECTS.slider_marker.position.x = ( 200 * UI.p.menu_optimizer.p.valueGeometry ) - 100;
+				
+			};
+			
+		};
+		
+	};
+
+
+
+	UI.p.menu_optimizer.f.button_drawCalls = function(){
+		
+		console.log( 'UI.p.menu_optimizer.f.button_drawCalls_onOff' );
+		
+		if ( UI.p.menu_optimizer.p.flagDrawCalls ){
+			
+			UI.p.menu_optimizer.p.flagDrawCalls = false;
+			
+		} else {
+			
+			UI.p.menu_optimizer.p.flagDrawCalls = true;
+			
+		};
+		
+	};
+
+	UI.p.menu_optimizer.f.slider_drawCalls_down = function( p ){
+		
+		if ( UI.p.menu_optimizer.p.flagDrawCalls ){
+			
+			UI.p.menu_optimizer.p.valueDrawCalls = p.results.uv.x;
+			
+			UI.p.scene.OBJECTS.menu_optimizer.OBJECTS.slider_drawCalls.OBJECTS.slider_marker.position.x = ( 200 * UI.p.menu_optimizer.p.valueDrawCalls ) - 100;
+			
+		};
+		
+	};
+
+	UI.p.menu_optimizer.f.slider_drawCalls_move = function( p ){
+		
+		if ( UI.p.menu_optimizer.p.flagDrawCalls ){
+				
+			if ( VARCO.p.DEVICES.mouse.clickDown ){
+				
+				UI.p.menu_optimizer.p.valueDrawCalls = p.results.uv.x;
+			
+				UI.p.scene.OBJECTS.menu_optimizer.OBJECTS.slider_drawCalls.OBJECTS.slider_marker.position.x = ( 200 * UI.p.menu_optimizer.p.valueDrawCalls ) - 100;
+				
+			};
+			
+		};
+		
+	};
+
+
+
+	UI.p.menu_optimizer.f.button_optimizer = function(){
+		
+		console.log( 'UI.p.menu_optimizer.f.button_optimizer' );
+		
+		const { project: _selectedProject } = get(projectStore); // leggi dato
+		
+		if ( _selectedProject.OBJECTS.myProject.children.length > 0 ){
+			
+			if ( UI.p.menu_optimizer.p.valueTextures < 1.0 ){
+			
+				EDITOR.f.optimizerTextures( _selectedProject.OBJECTS.myProject.children[ 0 ], UI.p.menu_optimizer.p.valueTextures );
+		
+			};
+			
+			if ( UI.p.menu_optimizer.p.valueGeometry < 1.0 ){
+			
+				EDITOR.f.optimizerGeometry( _selectedProject.OBJECTS.myProject.children[ 0 ], UI.p.menu_optimizer.p.valueGeometry );
+		
+			};
+			
+			if ( UI.p.menu_optimizer.p.valueDrawCalls < 1.0 ){
+			
+				EDITOR.f.optimizerDrawCalls( _selectedProject.OBJECTS.myProject.children[ 0 ], UI.p.menu_optimizer.p.valueDrawCalls );
+		
+			};
+			
+		}
+		
+	}; 
+
+
+	UI.p.menu_optimizer.f.button_save_gltf= function(){
+		
+		console.log( 'UI.p.menu_optimizer.f.button_save_gltf' );
+		
+		const { project: _selectedProject } = get(projectStore); // leggi dato
+		
+		if ( _selectedProject.OBJECTS.myProject.children.length > 0 ){
+			
+			if ( _selectedProject.OBJECTS.myProjectCloned.children.length > 0 ){
+		
+				EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			
+			} else {
+				
+				EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProject.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				
+			}
+										
+		};
+		
+	};
+
+
+
+	UI.p.menu_optimizer.f.feedback = function( p ){  // JJ
+
+		// sliders //
+		
+		
+		
+		// /////// //
+		
+		if ( UI.p.menu_optimizer.p.flagTextures ){
+			
+			p.obj.OBJECTS.button_textures.material.color.r = 1.0;
+			p.obj.OBJECTS.button_textures.material.color.g = 1.0;
+			p.obj.OBJECTS.button_textures.material.color.b = 0.0;
+			
+		} else {
+			
+			p.obj.OBJECTS.button_textures.material.color.r = 1.0;
+			p.obj.OBJECTS.button_textures.material.color.g = 1.0;
+			p.obj.OBJECTS.button_textures.material.color.b = 1.0;
+			
+		};
+		
+		if ( UI.p.menu_optimizer.p.flagGeometry ){
+			
+			p.obj.OBJECTS.button_geometry.material.color.r = 1.0;
+			p.obj.OBJECTS.button_geometry.material.color.g = 1.0;
+			p.obj.OBJECTS.button_geometry.material.color.b = 0.0;
+			
+		} else {
+			
+			p.obj.OBJECTS.button_geometry.material.color.r = 1.0;
+			p.obj.OBJECTS.button_geometry.material.color.g = 1.0;
+			p.obj.OBJECTS.button_geometry.material.color.b = 1.0;
+			
+		};
+		
+		if ( UI.p.menu_optimizer.p.flagDrawCalls ){
+			
+			p.obj.OBJECTS.button_drawCalls.material.color.r = 1.0;
+			p.obj.OBJECTS.button_drawCalls.material.color.g = 1.0;
+			p.obj.OBJECTS.button_drawCalls.material.color.b = 0.0;
+			
+		} else {
+			
+			p.obj.OBJECTS.button_drawCalls.material.color.r = 1.0;
+			p.obj.OBJECTS.button_drawCalls.material.color.g = 1.0;
+			p.obj.OBJECTS.button_drawCalls.material.color.b = 1.0;
+			
+		};
+		
+	};
+
+
+	// ///////////////////////////////////////////////// //
+	// ///////////////////////////////////////////////// //
+
 
 
 	// ///////////////////////////////////////////////// //

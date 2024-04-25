@@ -95,10 +95,15 @@ VARCO.f.checkCollisionOBB = function (objA, objB) {
 VARCO.f.generateUUID = function(){
 
     var d = new Date().getTime();
+	
     var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+		
         var r = (d + Math.random()*16)%16 | 0;
+		
         d = Math.floor(d/16);
+		
         return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+		
     });
 	
     return uuid;
@@ -3604,7 +3609,7 @@ VARCO.f.addTexture = function (SCENE, prop, callBack, callBackProp) {
 	let loadStandardTexture = function () {
 
 		loader = new THREE.TextureLoader();
-
+		
 		loader.load(
 			// resource URL
 			prop.url,
@@ -3621,7 +3626,7 @@ VARCO.f.addTexture = function (SCENE, prop, callBack, callBackProp) {
 
 			// onError callback
 			function callbackTextureError(err) {
-
+	
 				console.error('An error happened.');
 
 			}

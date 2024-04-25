@@ -13,6 +13,12 @@ import { projectStore } from '../store/ProjectStore';
 import UISingleton from './extensa_ui.js';
 import { MAP, PLY } from "./index.js";
 
+import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
+import { SimplifyModifier } from 'three/addons/modifiers/SimplifyModifier.js';
+import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
+
+
+
 let UI = UISingleton.getInstance();
 
 const createEditor = () => {
@@ -142,6 +148,13 @@ const createEditor = () => {
 							"type": "addComplex",
 							"prop": {
 								"name": "myProject"
+							}
+						},
+					
+						{
+							"type" : "addComplex",
+							"prop" : { 
+								"name" : "myProjectCloned"
 							}
 						}
 
@@ -2059,6 +2072,8 @@ const createEditor = () => {
 
 		// Unisci tutte le geometrie raccolte
 		const mergedGeometry = BufferGeometryUtils.mergeGeometries(geometries);
+		
+		mergedGeometry.computeBoundingSphere();
 
 		// Crea un materiale unico per la geometria combinata
 		const material = new THREE.MeshStandardMaterial({ color: 0x777777 });
@@ -2066,6 +2081,8 @@ const createEditor = () => {
 		const combinedMesh = new THREE.Mesh(mergedGeometry, material);
 
 		// combinedMesh.rotateY( VARCO.f.deg2rad( 180 ) )
+		
+		
 
 		combinedMesh.rotateX(VARCO.f.deg2rad(-90))
 

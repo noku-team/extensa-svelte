@@ -14,6 +14,7 @@
 
 	import { EDITOR, MAP, PLY, UI } from "../jsm/index.js";
 	import getDOMHeight from "../utils/dom/getDOMHeight.js";
+	import EditProject from "./EditProject.svelte";
 	import SelectedProject from "./SelectedProject.svelte";
 
 	let renderer = null;
@@ -145,6 +146,7 @@
 <div>
 	<div id="canvas"></div>
 	<SelectedProject />
+	<EditProject />
 </div>
 
 <style>

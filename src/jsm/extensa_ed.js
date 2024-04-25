@@ -397,9 +397,9 @@ const createEditor = () => {
 
 
 	EDITOR.f.selectProject = function (p) {
-		
+
 		console.log('EDITOR.f.selectProject');
-		
+
 		const auth = get(authStore);
 		const principal = auth.identity?.getPrincipal()?.toString();
 
@@ -412,11 +412,11 @@ const createEditor = () => {
 				EDITOR.f.deselectProjects();
 
 				projectStore.setProject(p.obj.parent); // scrivi dato
-				
+
 				const { project: _selectedProject } = get(projectStore); // leggi dato
-				
-				console.log( _selectedProject.name );
-				
+
+				console.log(_selectedProject.name);
+
 				console.log('SELEZIONATO');
 
 				EDITOR.p.alreadySelected = true;
@@ -441,7 +441,7 @@ const createEditor = () => {
 				p.obj.parent.MATERIALS.Kernel_Mesh_mat.color.g = 1.0;
 
 				p.obj.parent.MATERIALS.Kernel_Mesh_mat.color.b = 0.0;
-				
+
 
 				if (UI.p.scene.OBJECTS.previewProject == undefined) {
 
@@ -483,7 +483,7 @@ const createEditor = () => {
 			}
 
 			// PLY.p.selectedProject = undefined;
-			
+
 			projectStore.setProject(null); // scrivi dato NULL
 
 		}
@@ -892,98 +892,99 @@ const createEditor = () => {
 			const nameFile = 'USER_DB/' + PLY.p.selectedArea.userData.user + '/' + PLY.p.selectedArea.userData.geoAreaName + ".json";
 
 			// TODO EDIT PROJECT HERE AND SEND TO BLOCKCHAIN
-			VARCO.f.saveInfo(textData, nameFile);
+			projectStore.setGeoAreaToEdit(geoAreaInfo);
+			// VARCO.f.saveInfo(textData, nameFile);
 
 
 
-			// UPDATE USER DATA //
+			// // UPDATE USER DATA //
 
-			let flagAddNewGeoArea = true;
+			// let flagAddNewGeoArea = true;
 
-			for (var i = 0; i < UI.p.popup_login_data.p.data.geoareaList.length; i += 1) {
+			// for (var i = 0; i < UI.p.popup_login_data.p.data.geoareaList.length; i += 1) {
 
-				if (UI.p.popup_login_data.p.data.geoareaList[i].geoAreaName == PLY.p.selectedArea.userData.geoAreaName) {
+			// 	if (UI.p.popup_login_data.p.data.geoareaList[i].geoAreaName == PLY.p.selectedArea.userData.geoAreaName) {
 
-					flagAddNewGeoArea = false;
+			// 		flagAddNewGeoArea = false;
 
-					break;
+			// 		break;
 
-				}
+			// 	}
 
-			}
-
-
-			if (flagAddNewGeoArea) {
-
-				UI.p.popup_login_data.p.data.geoareaList.push(
-					{
-						"geoAreaName": PLY.p.selectedArea.userData.geoAreaName,
-						"myCoords": {
-							"lng": PLY.p.selectedArea.userData.myCoords.lng,
-							"lat": PLY.p.selectedArea.userData.myCoords.lat,
-							"alt": PLY.p.selectedArea.userData.myCoords.alt
-						}
-					}
-				);
-
-			}
+			// }
 
 
-			EDITOR.f.saveUserData(UI.p.popup_login_data.p.data);
+			// if (flagAddNewGeoArea) {
 
-			// UPDATE USER DATA //
+			// 	UI.p.popup_login_data.p.data.geoareaList.push(
+			// 		{
+			// 			"geoAreaName": PLY.p.selectedArea.userData.geoAreaName,
+			// 			"myCoords": {
+			// 				"lng": PLY.p.selectedArea.userData.myCoords.lng,
+			// 				"lat": PLY.p.selectedArea.userData.myCoords.lat,
+			// 				"alt": PLY.p.selectedArea.userData.myCoords.alt
+			// 			}
+			// 		}
+			// 	);
+
+			// }
+
+
+			// EDITOR.f.saveUserData(UI.p.popup_login_data.p.data);
+
+			// // UPDATE USER DATA //
 
 
 
-			// CHECK IF SECTOR EXIST //
-			VARCO.f.loadJSON(
+			// // CHECK IF SECTOR EXIST //
+			// VARCO.f.loadJSON(
 
-				'SECTOR_DB/' + PLY.p.selectedArea.userData.sectorName + '.json',
-				function init_sectorData(sectorData) {
+			// 	'SECTOR_DB/' + PLY.p.selectedArea.userData.sectorName + '.json',
+			// 	function init_sectorData(sectorData) {
 
-					// UPDATE SECTOR //
-					let flagExist = false;
+			// 		// UPDATE SECTOR //
+			// 		let flagExist = false;
 
-					for (var i = 0; i < sectorData.geoareaList.length; i += 1) {
-						if (sectorData.geoareaList[i].user == PLY.p.selectedArea.userData.user) {
-							if (sectorData.geoareaList[i].geoAreaName == PLY.p.selectedArea.userData.geoAreaName) {
-								flagExist = true;
-								break;
-							}
-						}
-					}
+			// 		for (var i = 0; i < sectorData.geoareaList.length; i += 1) {
+			// 			if (sectorData.geoareaList[i].user == PLY.p.selectedArea.userData.user) {
+			// 				if (sectorData.geoareaList[i].geoAreaName == PLY.p.selectedArea.userData.geoAreaName) {
+			// 					flagExist = true;
+			// 					break;
+			// 				}
+			// 			}
+			// 		}
 
-					if (flagExist == false) {
-						sectorData.geoareaList.push(
-							{
-								"user": PLY.p.selectedArea.userData.user,
-								"geoAreaName": PLY.p.selectedArea.userData.geoAreaName
-							}
-						);
-					}
+			// 		if (flagExist == false) {
+			// 			sectorData.geoareaList.push(
+			// 				{
+			// 					"user": PLY.p.selectedArea.userData.user,
+			// 					"geoAreaName": PLY.p.selectedArea.userData.geoAreaName
+			// 				}
+			// 			);
+			// 		}
 
-					EDITOR.f.saveSector(sectorData);
+			// 		EDITOR.f.saveSector(sectorData);
 
-				},
-				function error_data() {
+			// 	},
+			// 	function error_data() {
 
-					// CREATE NEW SECTOR //
+			// 		// CREATE NEW SECTOR //
 
-					const newSectorData = {
-						"sectorName": PLY.p.selectedArea.userData.sectorName,
-						"geoareaList": [
-							{
-								"user": PLY.p.selectedArea.userData.user,
-								"geoAreaName": PLY.p.selectedArea.userData.geoAreaName
-							}
-						]
-					};
+			// 		const newSectorData = {
+			// 			"sectorName": PLY.p.selectedArea.userData.sectorName,
+			// 			"geoareaList": [
+			// 				{
+			// 					"user": PLY.p.selectedArea.userData.user,
+			// 					"geoAreaName": PLY.p.selectedArea.userData.geoAreaName
+			// 				}
+			// 			]
+			// 		};
 
-					EDITOR.f.saveSector(newSectorData);
+			// 		EDITOR.f.saveSector(newSectorData);
 
-				}
+			// 	}
 
-			);
+			// );
 
 		}
 
@@ -996,49 +997,49 @@ const createEditor = () => {
 
 
 	}
-	
-	
-	
-	EDITOR.f.findSector = function( prop ){
-		
-		let coords;
-		
-		let lng, lat;
-		
-		
-		if ( prop.position !== undefined ){ // vector xyz
 
-			coords = MAP.f.getMapCoords( MAP.p.width, MAP.p.height, prop.position, MAP.p.actualCoords.alt );
-			
+
+
+	EDITOR.f.findSector = function (prop) {
+
+		let coords;
+
+		let lng, lat;
+
+
+		if (prop.position !== undefined) { // vector xyz
+
+			coords = MAP.f.getMapCoords(MAP.p.width, MAP.p.height, prop.position, MAP.p.actualCoords.alt);
+
 			lng = coords.lng;
-			
+
 			lat = coords.lat;
-			
+
 		};
-		
-		
-		if ( prop.coords !== undefined ){ // { lng: , lat:, alt: }
+
+
+		if (prop.coords !== undefined) { // { lng: , lat:, alt: }
 
 			lng = prop.coords.lng;
-			
+
 			lat = prop.coords.lat;
 
 		};
-		
 
-		let sectorHV = PLY.p.geoMapSectors.actualSectHV = PLY.f.findGeoAreaSector( lng, lat, PLY.p.geoMapSectors.maxNumSectH, PLY.p.geoMapSectors.maxNumSectV );
-		
-		
-		let stringH = PLY.f.fromNumToStringWithZero( sectorHV[ 0 ] );
-					
-		let stringV = PLY.f.fromNumToStringWithZero( sectorHV[ 1 ] );
-		
+
+		let sectorHV = PLY.p.geoMapSectors.actualSectHV = PLY.f.findGeoAreaSector(lng, lat, PLY.p.geoMapSectors.maxNumSectH, PLY.p.geoMapSectors.maxNumSectV);
+
+
+		let stringH = PLY.f.fromNumToStringWithZero(sectorHV[0]);
+
+		let stringV = PLY.f.fromNumToStringWithZero(sectorHV[1]);
+
 		let sectorName = "Sect_" + stringH + "_" + stringV;
-		
+
 		// console.log( sectorName );
-		
-		return { "name" : sectorName, "num" : sectorHV };
-		
+
+		return { "name": sectorName, "num": sectorHV };
+
 	};
 
 

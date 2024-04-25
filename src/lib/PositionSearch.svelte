@@ -1,4 +1,5 @@
 <script lang="ts">
+	import cx from "classnames";
 	import { UI } from "../jsm";
 	import Modal from "./Modal.svelte";
 
@@ -53,7 +54,7 @@
 			{#if autocompleteItems.length > 0}
 				<ul
 					tabindex="0"
-					class="dropdown-content z-[1] menu p-2 shadow bg-base-100 w-full rounded-box max-h-56 flex-nowrap overflow-auto"
+					class="dropdown-content z-[1] menu shadow bg-base-100 w-full rounded-box e flex-nowrap overflow-auto"
 				>
 					{#each autocompleteItems as item}
 						<li>
@@ -68,5 +69,9 @@
 		</div>
 		<button class="btn btn-primary" on:click={onSearch}>SEARCH</button>
 	</div>
-	<div class="h-52" />
+	<div
+		class={cx({
+			"h-56": autocompleteItems.length > 0,
+		})}
+	/>
 </Modal>

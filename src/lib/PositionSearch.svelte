@@ -67,7 +67,9 @@
 				</ul>
 			{/if}
 		</div>
-		<button class="btn btn-primary" on:click={onSearch}>SEARCH</button>
+		<button class="btn btn-primary" on:click={onSearch} disabled={!searchText}
+			>SEARCH</button
+		>
 	</div>
 	<div
 		class={cx({

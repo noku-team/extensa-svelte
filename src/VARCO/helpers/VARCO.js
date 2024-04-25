@@ -3609,7 +3609,7 @@ VARCO.f.addTexture = function (SCENE, prop, callBack, callBackProp) {
 	let loadStandardTexture = function () {
 
 		loader = new THREE.TextureLoader();
-
+		
 		loader.load(
 			// resource URL
 			prop.url,
@@ -3626,7 +3626,7 @@ VARCO.f.addTexture = function (SCENE, prop, callBack, callBackProp) {
 
 			// onError callback
 			function callbackTextureError(err) {
-
+	
 				console.error('An error happened.');
 
 			}

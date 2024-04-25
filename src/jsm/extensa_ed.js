@@ -13,6 +13,12 @@ import { projectStore } from '../store/ProjectStore';
 import UISingleton from './extensa_ui.js';
 import { MAP, PLY } from "./index.js";
 
+import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
+import { SimplifyModifier } from 'three/addons/modifiers/SimplifyModifier.js';
+import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
+
+
+
 let UI = UISingleton.getInstance();
 
 const createEditor = () => {
@@ -142,6 +148,13 @@ const createEditor = () => {
 							"type": "addComplex",
 							"prop": {
 								"name": "myProject"
+							}
+						},
+					
+						{
+							"type" : "addComplex",
+							"prop" : { 
+								"name" : "myProjectCloned"
 							}
 						}
 

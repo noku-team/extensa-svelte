@@ -2166,23 +2166,25 @@ const createUI = () => {
 		
 		console.log( 'UI.p.menu_optimizer.f.button_optimizer' );
 		
-		if ( PLY.p.selectedProject.OBJECTS.myProject.children.length > 0 ){
+		const { project: _selectedProject } = get(projectStore); // leggi dato
+		
+		if ( _selectedProject.OBJECTS.myProject.children.length > 0 ){
 			
 			if ( UI.p.menu_optimizer.p.valueTextures < 1.0 ){
 			
-				EDITOR.f.optimizerTextures( PLY.p.selectedProject.OBJECTS.myProject.children[ 0 ], UI.p.menu_optimizer.p.valueTextures );
+				EDITOR.f.optimizerTextures( _selectedProject.OBJECTS.myProject.children[ 0 ], UI.p.menu_optimizer.p.valueTextures );
 		
 			};
 			
 			if ( UI.p.menu_optimizer.p.valueGeometry < 1.0 ){
 			
-				EDITOR.f.optimizerGeometry( PLY.p.selectedProject.OBJECTS.myProject.children[ 0 ], UI.p.menu_optimizer.p.valueGeometry );
+				EDITOR.f.optimizerGeometry( _selectedProject.OBJECTS.myProject.children[ 0 ], UI.p.menu_optimizer.p.valueGeometry );
 		
 			};
 			
 			if ( UI.p.menu_optimizer.p.valueDrawCalls < 1.0 ){
 			
-				EDITOR.f.optimizerDrawCalls( PLY.p.selectedProject.OBJECTS.myProject.children[ 0 ], UI.p.menu_optimizer.p.valueDrawCalls );
+				EDITOR.f.optimizerDrawCalls( _selectedProject.OBJECTS.myProject.children[ 0 ], UI.p.menu_optimizer.p.valueDrawCalls );
 		
 			};
 			
@@ -2195,15 +2197,17 @@ const createUI = () => {
 		
 		console.log( 'UI.p.menu_optimizer.f.button_save_gltf' );
 		
-		if ( PLY.p.selectedProject.OBJECTS.myProject.children.length > 0 ){
-			
-			if ( PLY.p.selectedProject.OBJECTS.myProjectCloned.children.length > 0 ){
+		const { project: _selectedProject } = get(projectStore); // leggi dato
 		
-				EDITOR.f.exportGLTF( PLY.p.selectedProject.OBJECTS.myProjectCloned.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		if ( _selectedProject.OBJECTS.myProject.children.length > 0 ){
+			
+			if ( _selectedProject.OBJECTS.myProjectCloned.children.length > 0 ){
+		
+				EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			
 			} else {
 				
-				EDITOR.f.exportGLTF( PLY.p.selectedProject.OBJECTS.myProject.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProject.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 				
 			}
 										

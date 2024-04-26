@@ -776,39 +776,207 @@ const createEditor = () => {
 
 	EDITOR.f.saveProjectData = function (user, PROJECTOBJ) {
 
-		const projectData = {
-			"name": PROJECTOBJ.name,
-			"parameters": {
-				"elementList": [
-					{
-						"type": "addFromFile",
-						"prop": {
-							"name": PROJECTOBJ.name,
-							"parameters": {
-								"type": "base64",
-								"url": PROJECTOBJ.userData.stringByte64,
-								"extension": PROJECTOBJ.userData.extension // "gltf"
+		let projectData;
+		
+		switch( PROJECTOBJ.userData.type ){
+			
+			case '3d':
+			
+				projectData = {
+					"name": PROJECTOBJ.name,
+					"parameters": {
+						"elementList": [
+							{
+								"type": "addFromFile",
+								"prop": {
+									"name": PROJECTOBJ.name,
+									"parameters": {
+										"type": "base64",
+										"url": PROJECTOBJ.userData.stringByte64,
+										"extension": PROJECTOBJ.userData.extension // "gltf"
+									}
+								}
 							}
-						}
+						]
+					},
+					"position": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 1.0,
+						"y": 1.0,
+						"z": 1.0
 					}
-				]
-			},
-			"position": {
-				"x": 0.0,
-				"y": 0.0,
-				"z": 0.0
-			},
-			"rotation": {
-				"x": 0.0,
-				"y": 0.0,
-				"z": 0.0
-			},
-			"scale": {
-				"x": 1.0,
-				"y": 1.0,
-				"z": 1.0
-			}
-		};
+				};
+				
+			break;
+			
+			
+			case 'glb':
+			
+				projectData = {
+					"name": PROJECTOBJ.name,
+					"parameters": {
+						"elementList": [
+							{
+								"type": "addFromFile",
+								"prop": {
+									"name": PROJECTOBJ.name,
+									"parameters": {
+										"type": "base64",
+										"url": PROJECTOBJ.userData.stringByte64,
+										"extension": PROJECTOBJ.userData.extension // "gltf"
+									}
+								}
+							}
+						]
+					},
+					"position": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 1.0,
+						"y": 1.0,
+						"z": 1.0
+					}
+				};
+				
+			break;
+			
+			case 'image':
+		
+				projectData = {
+					"name" : PROJECTOBJ.name,
+					"parameters" : {
+						"textureList" : [
+							{
+								"name" : PROJECTOBJ.name,
+								"type" : "base64",
+								"url" :  PROJECTOBJ.userData.stringByte64
+							}
+						],
+						"materialList" : [
+							{
+								"name" : PROJECTOBJ.name,
+								"type" : "MeshBasicMaterial",
+								"parameters" : {
+									"textures" : { "map" : PROJECTOBJ.name },
+									"side" : "THREE.DoubleSide"
+								}
+							}
+						],
+						"elementList" : [
+							{
+								"type" : "addMesh",
+								"prop" : {
+									"type" : "PlaneGeometry",
+									"name" : PROJECTOBJ.name,
+									"materialList" : [ PROJECTOBJ.name ],
+									"castShadow" : true,
+									"parameters" : {
+										"width" : 1,
+										"height" : 1
+									}
+								}
+							}
+						]
+						
+					},
+					"position" : {
+						"x" : 0.0,
+						"y" : 0.0,
+						"z" : 0.0
+					},
+					"rotation" : {
+						"x" : 0.0,
+						"y" : 0.0,
+						"z" : 0.0
+					},
+					"scale" : {
+						"x" : PROJECTOBJ.scale.x,
+						"y" : PROJECTOBJ.scale.y,
+						"z" : PROJECTOBJ.scale.z
+					}
+
+				};
+				
+			break;
+			
+			
+			case 'video':
+			
+				projectData = {
+					"name" : PROJECTOBJ.name,
+					"parameters" : {
+						"textureList" : [
+							{
+								"name" : PROJECTOBJ.name,
+								"type" : "videoBase64",
+								"url" :  PROJECTOBJ.userData.stringByte64
+							}
+						],
+						"materialList" : [
+							{
+								"name" : PROJECTOBJ.name,
+								"type" : "MeshBasicMaterial",
+								"parameters" : {
+									"textures" : { "map" : PROJECTOBJ.name },
+									"side" : "THREE.DoubleSide"
+								}
+							}
+						],
+						"elementList" : [
+							{
+								"type" : "addMesh",
+								"prop" : {
+									"type" : "PlaneGeometry",
+									"name" : PROJECTOBJ.name,
+									"materialList" : [ PROJECTOBJ.name ],
+									"castShadow" : true,
+									"parameters" : {
+										"width" : 1,
+										"height" : 1
+									}
+								}
+							}
+						]
+						
+					},
+					"position" : {
+						"x" : 0.0,
+						"y" : 0.0,
+						"z" : 0.0
+					},
+					"rotation" : {
+						"x" : 0.0,
+						"y" : 0.0,
+						"z" : 0.0
+					},
+					"scale" : {
+						"x" : PROJECTOBJ.scale.x,
+						"y" : PROJECTOBJ.scale.y,
+						"z" : PROJECTOBJ.scale.z
+					}
+
+				};
+				
+			break;
+			
+		}
 
 		const textData = JSON.stringify(projectData);
 
@@ -1404,7 +1572,7 @@ const createEditor = () => {
 				
 					PROJECTOBJ = p.obj;
 					
-					alert( "glb" )
+					// alert( "glb" )
 		
 					stringByte64 = VARCO.f.arrayBufferToBase64( p.data ); 
 					
@@ -2181,11 +2349,70 @@ const createEditor = () => {
 
 
 
-	EDITOR.f.exportGLTF = function (OBJ) {
+	
+	EDITOR.f.exportVIDEO = function( OBJ ){
+		
+		console.log( 'EDITOR.f.exportVIDEO' );
+		
+		const propVideoObject = {
+			"name" : OBJ.name,
+			"parameters" : {
+				"textureList" : [
+					{
+						"name" : OBJ.name,
+						"type" : "videoBase64",
+						"url" : OBJ.TEXTURES[ OBJ.name ].source.data.currentSrc
+					}
+				],
+				"materialList" : [
+					{
+						"name" : OBJ.name,
+						"type" : "MeshBasicMaterial",
+						"parameters" : {
+							"textures" : { "map" : OBJ.name },
+							"side" : "THREE.DoubleSide"
+						}
+					}
+				],
+				"elementList" : [
+					{
+						"type" : "addMesh",
+						"prop" : {
+							"type" : "PlaneGeometry",
+							"name" : OBJ.name,
+							"materialList" : [ OBJ.name ],
+							"castShadow" : true,
+							"parameters" : {
+								"width" : 1,
+								"height" : 1
+							}
+						}
+					}
+				]
+				
+			}
 
+		}
+		
+		const textData = JSON.stringify( propVideoObject );
+		
+		const user = UI.p.popup_login_data.p.data.user;
+		
+		const nameFile = 'USER_DB/' + user + '/contents/' + OBJ.name + '.json';
+		
+		VARCO.f.saveInfo( textData, nameFile );
+		
+	};
+
+
+
+	EDITOR.f.exportGLTF = function( OBJ ){
+		
+		console.log( 'EDITOR.f.exportGLTF' );
+		
 		const exporter = new GLTFExporter();
-
-
+		
+		
 		// Funzione per convertire un ArrayBuffer in base64
 		function arrayBufferToBase64(buffer) {
 			let binary = '';
@@ -2197,77 +2424,140 @@ const createEditor = () => {
 			return window.btoa(binary);
 		}
 
-
+		
 		// Instantiate a exporter
 		const options = {
-
+			
 			binary: false,
-
+			
 			maxTextureSize: 4096,
-
+			
 			animations: OBJ.animations,
-
+			
 			includeCustomExtensions: true
-
+			
 		};
 
 		exporter.parse(
-
-			OBJ,
-
-			function (result) {
+										
+			OBJ, 
+			
+			function ( result ) {
 
 				// Converti l'oggetto scene in stringa JSON
-				const sceneString = JSON.stringify(result);
+				const sceneString = JSON.stringify( result );
 
 				// Converti la stringa JSON in base64
 				const base64 = window.btoa(unescape(encodeURIComponent(sceneString)));
-
+				
 				OBJ.userData.type = '3d'
-
+				
 				OBJ.userData.stringByte64 = base64;
-
+				
 				OBJ.userData.extension = 'gltf';
-
-				EDITOR.f.saveProjectData(UI.p.popup_login_data.p.data.user, OBJ);
-
+				
+				EDITOR.f.saveProjectData( UI.p.popup_login_data.p.data.user, OBJ );
+				
 			}
+			
+		);
 
+	};
+	
+	
+	
+	
+	EDITOR.f.exportGLB = function( OBJ ){
+		
+		console.log( 'EDITOR.f.exportGLB' );
+		
+		const exporter = new GLBExporter();
+		
+		
+		// Funzione per convertire un ArrayBuffer in base64
+		function arrayBufferToBase64(buffer) {
+			let binary = '';
+			const bytes = new Uint8Array(buffer);
+			const len = bytes.byteLength;
+			for (let i = 0; i < len; i++) {
+				binary += String.fromCharCode(bytes[i]);
+			}
+			return window.btoa(binary);
+		}
+
+		
+		// Instantiate a exporter
+		const options = {
+			
+			binary: false,
+			
+			maxTextureSize: 4096,
+			
+			animations: OBJ.animations,
+			
+			includeCustomExtensions: true
+			
+		};
+
+		exporter.parse(
+										
+			OBJ, 
+			
+			function ( result ) {
+
+				// Converti l'oggetto scene in stringa JSON
+				const sceneString = JSON.stringify( result );
+
+				// Converti la stringa JSON in base64
+				const base64 = window.btoa(unescape(encodeURIComponent(sceneString)));
+				
+				OBJ.userData.type = '3d'
+				
+				OBJ.userData.stringByte64 = base64;
+				
+				OBJ.userData.extension = 'gltf';
+				
+				EDITOR.f.saveProjectData( UI.p.popup_login_data.p.data.user, OBJ );
+				
+			}
+			
 		);
 
 	};
 
 
 
-	EDITOR.f.exportUSDZ = function (OBJ) {
-
+	EDITOR.f.exportUSDZ = function( OBJ ){
+		
+		console.log( 'EDITOR.f.exportUSDZ' );
+		
 		// USDZ
 		const exporter = new USDZExporter();
 
 		exporter.parse(
 			OBJ,
 			// called when the gltf has been generated
-			function (arraybuffer) {
+			function ( arraybuffer ) {
 
-				console.log(arraybuffer);
+				console.log( arraybuffer );
+				
+				const blob = new Blob( [ arraybuffer ], { type: 'application/octet-stream' } );
 
-				const blob = new Blob([arraybuffer], { type: 'application/octet-stream' });
-
-				const link = document.getElementById('link');
-
-				link.href = URL.createObjectURL(blob);
+				const link = document.getElementById( 'link' );
+				
+				link.href = URL.createObjectURL( blob );
 
 			},
 			// called when there is an error in the generation
-			function (error) {
+			function ( error ) {
 
-				console.log('An error happened');
+				console.log( 'An error happened' );
 
 			},
 			{}
 		);
 
-
+						
 	};
 
 

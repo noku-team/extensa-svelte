@@ -1136,13 +1136,13 @@ const createEditor = () => {
 	EDITOR.f.DROP_FILE = function (p) {
 
 
-		function objectReady(PROJECTOBJ, projectName) {
+		function objectReady(PROJECTOBJ, projectName, type) {
 
 			PROJECTOBJ.name = projectName;
 
 			VARCO.f.setPropAndParameters(PROJECTOBJ, { "MM3D": {} });
 
-			PROJECTOBJ.userData.type = '3d';
+			PROJECTOBJ.userData.type = type;
 
 			PROJECTOBJ.userData.fileName = projectName;
 
@@ -1235,9 +1235,9 @@ const createEditor = () => {
 					PLY.p.selectedArea,
 
 					{
-						"type": "---",
+						"type": type,
 						"name": projectName,
-						"url": "objects/" + projectName + ".gltf",
+						"url": "objects/" + projectName + "." + extension,
 						"urlLowres": "puo' essere un path oppure un blob or una stringa , creata dal tool in automatico opera_fisica_preview.gltf",
 						"myPosition": {
 							"x": myPosition.x - PLY.p.selectedArea.position.x,
@@ -1303,10 +1303,10 @@ const createEditor = () => {
 							PLY.p.selectedArea,
 
 							{
-								"type": "---",
+								"type": type,
 								"name": projectName,
-								"url": "objects/" + projectName + ".gltf",
-								"urlLowres": "puo' essere un path oppure un blob or una stringa , creata dal tool in automatico opera_fisica_preview.gltf",
+								"url": "objects/" + projectName + "." + extension,
+								"urlLowres": "",
 								"myPosition": {
 									"x": myPosition.x - PLY.p.selectedArea.position.x,
 									"y": myPosition.y - PLY.p.selectedArea.position.y,
@@ -1374,7 +1374,7 @@ const createEditor = () => {
 		const myPosition = MAP.f.getMapPosition(MAP.p.width, MAP.p.height, MAP.p.actualCoords.lng, MAP.p.actualCoords.lat, MAP.p.actualCoords.alt);
 
 
-		let type, stringByte64;
+		let type, stringByte64, PROJECTOBJ;
 
 
 		if (EDITOR.p.dragAndDrop) {
@@ -1383,7 +1383,7 @@ const createEditor = () => {
 
 				case "gltf":
 
-					let PROJECTOBJ = p.obj;
+					PROJECTOBJ = p.obj;
 
 					stringByte64 = VARCO.f.arrayBufferToBase64(p.data);
 
@@ -1395,10 +1395,31 @@ const createEditor = () => {
 					};
 
 
-					objectReady(PROJECTOBJ, projectName);
+					objectReady(PROJECTOBJ, projectName, '3d');
 
 
 					break;
+					
+				case "glb":
+				
+					PROJECTOBJ = p.obj;
+					
+					alert( "glb" )
+		
+					stringByte64 = VARCO.f.arrayBufferToBase64( p.data ); 
+					
+					
+					if ( PLY.p.scene3D.OBJECTS[ name ] !== undefined ){
+						
+						name = name + '_due';
+						
+					};
+					
+					
+					objectReady( PROJECTOBJ, projectName, '3d' );
+
+		
+				break;
 
 
 				case "png":
@@ -1452,7 +1473,7 @@ const createEditor = () => {
 
 							PROJECTOBJ = q.obj;
 
-							objectReady(PROJECTOBJ, projectName);
+							objectReady(PROJECTOBJ, projectName, 'image');
 
 						},
 						{}
@@ -1463,6 +1484,65 @@ const createEditor = () => {
 
 
 				case "jpg":
+					
+					console.log(p);
+
+					console.log(p.data.width);
+
+					VARCO.f.addComplex(
+						PLY.p.scene3D,
+						{
+							"name": projectName,
+							"parameters": {
+								"textureList": [
+									{
+										"name": projectName,
+										"type": "base64",
+										"url": p.data
+									}
+								],
+								"materialList": [
+									{
+										"name": projectName,
+										"type": "MeshBasicMaterial",
+										"parameters": {
+											"textures": { "map": projectName },
+											"side": "THREE.DoubleSide"
+										}
+									}
+								],
+								"elementList": [
+									{
+										"type": "addMesh",
+										"prop": {
+											"type": "PlaneGeometry",
+											"name": projectName,
+											"materialList": [projectName],
+											"castShadow": true,
+											"parameters": {
+												"width": 1,
+												"height": 1
+											}
+										}
+									}
+								]
+
+							}
+
+						},
+						function (q) {
+
+							PROJECTOBJ = q.obj;
+
+							objectReady(PROJECTOBJ, projectName, 'image');
+
+						},
+
+						{}
+
+					);
+
+					break;
 
 				case "png":
 
@@ -1515,7 +1595,7 @@ const createEditor = () => {
 
 							PROJECTOBJ = q.obj;
 
-							objectReady(PROJECTOBJ, projectName);
+							objectReady(PROJECTOBJ, projectName, 'image');
 
 						},
 
@@ -1575,7 +1655,7 @@ const createEditor = () => {
 
 							PROJECTOBJ = q.obj;
 
-							objectReady(PROJECTOBJ, projectName);
+							objectReady(PROJECTOBJ, projectName, 'video');
 
 						},
 						{}

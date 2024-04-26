@@ -5,6 +5,7 @@
 /* eslint-disable no-unused-vars */
 // VARCO EVENTS MODULE:
 
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { VARCO } from "./VARCO.js";
@@ -86,11 +87,15 @@ VARCO.f.initDropZone = function (DIV, callback, callbackprop) {
 
 			if (file.name.includes(".gltf")) {
 				fileType = "gltf"
-			}
+			};
+			
+			if ( file.name.includes(".glb") ){
+				fileType = "glb"
+			};
 
 			if (file.name.includes(".zip")) {
 				fileType = "zip"
-			}
+			};
 
 			console.log(file.type);
 			console.log(fileType);
@@ -319,6 +324,65 @@ VARCO.f.initDropZone = function (DIV, callback, callbackprop) {
 					reader.readAsArrayBuffer(file);
 
 					break;
+					
+					
+				case "glb" :
+	
+					reader.addEventListener(
+						'load', 
+						async function ( event ) {
+
+							var contents = event.target.result;
+							
+							loader = new GLTFLoader();
+							
+							const dracoLoader = new DRACOLoader();
+							
+							// if ( prop.parameters !== undefined ){
+								
+								// if ( prop.parameters.setDecoderPath !== undefined ){
+									// dracoLoader.setDecoderPath( prop.parameters.setDecoderPath );
+								// };
+								
+								// if ( prop.parameters.setDecoderConfig !== undefined ){
+									// dracoLoader.setDecoderConfig( prop.parameters.setDecoderConfig );
+								// };
+
+								// loader.setDRACOLoader( dracoLoader );
+								
+							// };
+							
+							loader.setDRACOLoader( dracoLoader );
+							
+							
+							loader.parse( contents, '', function ( result ) {
+
+								var scene = result.scene;
+			
+								if ( result.animations !== undefined ){
+									scene.animations.push( ...result.animations );
+								}
+					
+								if ( callback !== undefined ){
+									if ( callbackprop == undefined ){
+										callbackprop = { obj: null }
+									};
+									callbackprop.obj = scene;
+									callbackprop.name = name;
+									callbackprop.data = contents;
+									
+									callback( callbackprop );
+								};
+								
+							} );
+
+						}, 
+						false
+					);
+					
+					reader.readAsArrayBuffer( file );
+				
+				break;
 
 
 				case "zip":

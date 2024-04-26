@@ -3286,22 +3286,22 @@ VARCO.f.addFromFile = function (SCENE, prop, callBack, callBackProp) {
 			loader = new GLTFLoader();
 
 			const dracoLoader = new DRACOLoader();
+			
+			if ( prop.parameters !== undefined ){
+				
+				if ( prop.parameters.setDecoderPath !== undefined ){
+					dracoLoader.setDecoderPath( prop.parameters.setDecoderPath );
+				};
+				
+				if ( prop.parameters.setDecoderConfig !== undefined ){
+					dracoLoader.setDecoderConfig( prop.parameters.setDecoderConfig );
+				};
 
-			if (prop.parameters !== undefined) {
-
-				if (prop.parameters.setDecoderPath !== undefined) {
-					dracoLoader.setDecoderPath(prop.parameters.setDecoderPath);
-				}
-
-				if (prop.parameters.setDecoderConfig !== undefined) {
-					dracoLoader.setDecoderConfig(prop.parameters.setDecoderConfig);
-				}
-
-				loader.setDRACOLoader(dracoLoader);
-
-			}
-
-			objectLoader(prop.parameters.url, callBack, callBackProp)
+				loader.setDRACOLoader( dracoLoader );
+				
+			};
+			
+			objectLoader( prop.parameters.url, callBack, callBackProp )
 
 			break;
 

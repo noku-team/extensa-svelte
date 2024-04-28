@@ -13,10 +13,10 @@ import { projectStore } from '../store/ProjectStore';
 import UISingleton from './extensa_ui.js';
 import { MAP, PLY } from "./index.js";
 
-import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
-import { SimplifyModifier } from 'three/addons/modifiers/SimplifyModifier.js';
-import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
-
+import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js'; // <<<<<<<<<<<<<<<<
+import { SimplifyModifier } from 'three/addons/modifiers/SimplifyModifier.js'; // <<<<<<<<<<<<<<<<
+import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js'; // <<<<<<<<<<<<<<<<
+// import { MeshoptDecoder } from 'three/libs/meshopt_decoder.module'; // <<<<<<<<<<<<<<<<
 
 
 let UI = UISingleton.getInstance();
@@ -2471,57 +2471,87 @@ const createEditor = () => {
 		
 		console.log( 'EDITOR.f.exportGLB' );
 		
-		const exporter = new GLBExporter();
+		// const exporter = new GLTFExporter();
 		
 		
-		// Funzione per convertire un ArrayBuffer in base64
-		function arrayBufferToBase64(buffer) {
-			let binary = '';
-			const bytes = new Uint8Array(buffer);
-			const len = bytes.byteLength;
-			for (let i = 0; i < len; i++) {
-				binary += String.fromCharCode(bytes[i]);
-			}
-			return window.btoa(binary);
-		}
+		// // Funzione per convertire un ArrayBuffer in base64
+		// function arrayBufferToBase64(buffer) {
+			// let binary = '';
+			// const bytes = new Uint8Array(buffer);
+			// const len = bytes.byteLength;
+			// for (let i = 0; i < len; i++) {
+				// binary += String.fromCharCode(bytes[i]);
+			// }
+			// return window.btoa(binary);
+		// }
 
 		
-		// Instantiate a exporter
-		const options = {
+		// // Instantiate a exporter
+		// const options = {
 			
-			binary: false,
+			// binary: true,
 			
-			maxTextureSize: 4096,
+			// maxTextureSize: 4096,
 			
-			animations: OBJ.animations,
+			// animations: OBJ.animations,
 			
-			includeCustomExtensions: true
+			// includeCustomExtensions: true
 			
-		};
+		// };
 
-		exporter.parse(
+		// exporter.parse(
 										
-			OBJ, 
+			// OBJ, 
 			
-			function ( result ) {
+			// function ( result ) {
 
-				// Converti l'oggetto scene in stringa JSON
-				const sceneString = JSON.stringify( result );
+				// // Converti l'oggetto scene in stringa JSON
+				// const sceneString = JSON.stringify( result );
 
-				// Converti la stringa JSON in base64
-				const base64 = window.btoa(unescape(encodeURIComponent(sceneString)));
+				// // Converti la stringa JSON in base64
+				// const base64 = window.btoa(unescape(encodeURIComponent(sceneString)));
 				
-				OBJ.userData.type = '3d'
+				// OBJ.userData.type = '3d'
 				
-				OBJ.userData.stringByte64 = base64;
+				// OBJ.userData.stringByte64 = base64;
 				
-				OBJ.userData.extension = 'gltf';
+				// OBJ.userData.extension = 'gltf';
 				
-				EDITOR.f.saveProjectData( UI.p.popup_login_data.p.data.user, OBJ );
+				// EDITOR.f.saveProjectData( UI.p.popup_login_data.p.data.user, OBJ );
 				
+			// }
+			
+		// );
+		
+		
+		const exporter = new THREE.GLTFExporter();
+
+		exporter.parse( OBJ, function(result) {
+			
+			const arrayBuffer = result;
+			
+			const glbBuffer = Buffer.from(arrayBuffer);
+			
+			OBJ.userData.type = 'glb'
+				
+			OBJ.userData.stringByte64 = glbBuffer;
+			
+			OBJ.userData.extension = 'glb';
+			
+			EDITOR.f.saveProjectData( UI.p.popup_login_data.p.data.user, OBJ );
+			
+			console.log('Esportato in formato GLB compresso.');
+		}, {
+			binary: true,
+			dracoOptions: {
+				compressionLevel: 10
+			},
+			meshoptOptions: {
+				compressionLevel: 10,
+				generateDracoBinds: true
+				//decoder: MeshoptDecoder
 			}
-			
-		);
+		});
 
 	};
 

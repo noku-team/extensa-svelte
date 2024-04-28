@@ -8,7 +8,7 @@
         "alt": 0
     },
     "projectsList": [{
-            "type": "---",
+            "type": "3d",
             "name": "aeternum_mother",
             "url": "objects/aeternum_mother.gltf",
             "urlLowres": "puo' essere un path oppure un blob or una stringa , creata dal tool in automatico opera_fisica_preview.gltf",
@@ -29,7 +29,7 @@
             },
             "previewImage": ""
         }, {
-            "type": "---",
+            "type": "3d",
             "name": "opera_fisica",
             "url": "objects/opera_fisica.gltf",
             "urlLowres": "puo' essere un path oppure un blob or una stringa , creata dal tool in automatico opera_fisica_preview.gltf",
@@ -50,7 +50,7 @@
             },
             "previewImage": ""
         }, {
-            "type": "---",
+            "type": "3d",
             "name": "bitmother_3d",
             "url": "objects/bitmother_3d.gltf",
             "urlLowres": "puo' essere un path oppure un blob or una stringa , creata dal tool in automatico opera_fisica_preview.gltf",

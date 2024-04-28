@@ -22,6 +22,14 @@
 				"url" : "images/UI/button_save_gltf.png"
 			},
 			{
+				"name" : "button_save_glb",
+				"url" : "images/UI/button_save_glb.png"
+			},
+			{
+				"name" : "button_save_area",
+				"url" : "images/UI/button_save_area.png"
+			},
+			{
 				"name" : "button_optimizer",
 				"url" : "images/UI/button_optimizer.png"
 			},
@@ -92,6 +100,36 @@
 					"transparent" : true,
 					"textures" : {
 						"map" : "button_save_gltf"
+					}
+				}
+			},
+			{
+				"name" : "button_save_glb",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_save_glb"
+					}
+				}
+			},
+			{
+				"name" : "button_save_area",
+				"type" : "MeshBasicMaterial",
+				"parameters" : {
+					"color" : {
+						"r" : 1.0,
+						"g" : 1.0,
+						"b" : 1.0
+					},
+					"transparent" : true,
+					"textures" : {
+						"map" : "button_save_area"
 					}
 				}
 			},
@@ -298,6 +336,38 @@
 				"type" : "addMesh", 
 				"prop" : {
 					"type" : "PlaneGeometry",
+					"name" : "button_save_glb",
+					"visible" : true,
+					"materialList" : [ "button_save_glb" ],
+					"parameters" : {
+						"width" : 128,
+						"height" : 64
+					},
+					"position" : {
+						"x" : 0.0,
+						"y" : -240.0,
+						"z" : 0.0
+					},
+					
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_optimizer.f.button_save_glb",
+										"functionProp" : {}
+									}
+								]
+							}
+						}
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh", 
+				"prop" : {
+					"type" : "PlaneGeometry",
 					"name" : "button_save_gltf",
 					"visible" : true,
 					"materialList" : [ "button_save_gltf" ],
@@ -330,6 +400,38 @@
 				"type" : "addMesh", 
 				"prop" : {
 					"type" : "PlaneGeometry",
+					"name" : "button_save_area",
+					"visible" : true,
+					"materialList" : [ "button_save_area" ],
+					"parameters" : {
+						"width" : 128,
+						"height" : 64
+					},
+					"position" : {
+						"x" : 0.0,
+						"y" : -380.0,
+						"z" : 0.0
+					},
+					
+					"MM3D" : {
+						"events" : {
+							"mouseup" : {
+								"scriptList" : [
+									{
+										"functionName" : "UI.p.menu_optimizer.f.button_save_area",
+										"functionProp" : {}
+									}
+								]
+							}
+						}
+					}
+				}
+			},
+			
+			{
+				"type" : "addMesh", 
+				"prop" : {
+					"type" : "PlaneGeometry",
 					"name" : "button_close",
 					"visible" : true,
 					"materialList" : [ "button_close" ],
@@ -339,7 +441,7 @@
 					},
 					"position" : {
 						"x" : 150.0,
-						"y" : -310.0,
+						"y" : -380.0,
 						"z" : 0.0
 					},
 					

@@ -1074,98 +1074,7 @@ const createEditor = () => {
 
 			// TODO EDIT PROJECT HERE AND SEND TO BLOCKCHAIN
 			projectStore.setGeoAreaToEdit(geoAreaInfo);
-			// VARCO.f.saveInfo(textData, nameFile);
-
-
-
-			// // UPDATE USER DATA //
-
-			// let flagAddNewGeoArea = true;
-
-			// for (var i = 0; i < UI.p.popup_login_data.p.data.geoareaList.length; i += 1) {
-
-			// 	if (UI.p.popup_login_data.p.data.geoareaList[i].geoAreaName == PLY.p.selectedArea.userData.geoAreaName) {
-
-			// 		flagAddNewGeoArea = false;
-
-			// 		break;
-
-			// 	}
-
-			// }
-
-
-			// if (flagAddNewGeoArea) {
-
-			// 	UI.p.popup_login_data.p.data.geoareaList.push(
-			// 		{
-			// 			"geoAreaName": PLY.p.selectedArea.userData.geoAreaName,
-			// 			"myCoords": {
-			// 				"lng": PLY.p.selectedArea.userData.myCoords.lng,
-			// 				"lat": PLY.p.selectedArea.userData.myCoords.lat,
-			// 				"alt": PLY.p.selectedArea.userData.myCoords.alt
-			// 			}
-			// 		}
-			// 	);
-
-			// }
-
-
-			// EDITOR.f.saveUserData(UI.p.popup_login_data.p.data);
-
-			// // UPDATE USER DATA //
-
-
-
-			// // CHECK IF SECTOR EXIST //
-			// VARCO.f.loadJSON(
-
-			// 	'SECTOR_DB/' + PLY.p.selectedArea.userData.sectorName + '.json',
-			// 	function init_sectorData(sectorData) {
-
-			// 		// UPDATE SECTOR //
-			// 		let flagExist = false;
-
-			// 		for (var i = 0; i < sectorData.geoareaList.length; i += 1) {
-			// 			if (sectorData.geoareaList[i].user == PLY.p.selectedArea.userData.user) {
-			// 				if (sectorData.geoareaList[i].geoAreaName == PLY.p.selectedArea.userData.geoAreaName) {
-			// 					flagExist = true;
-			// 					break;
-			// 				}
-			// 			}
-			// 		}
-
-			// 		if (flagExist == false) {
-			// 			sectorData.geoareaList.push(
-			// 				{
-			// 					"user": PLY.p.selectedArea.userData.user,
-			// 					"geoAreaName": PLY.p.selectedArea.userData.geoAreaName
-			// 				}
-			// 			);
-			// 		}
-
-			// 		EDITOR.f.saveSector(sectorData);
-
-			// 	},
-			// 	function error_data() {
-
-			// 		// CREATE NEW SECTOR //
-
-			// 		const newSectorData = {
-			// 			"sectorName": PLY.p.selectedArea.userData.sectorName,
-			// 			"geoareaList": [
-			// 				{
-			// 					"user": PLY.p.selectedArea.userData.user,
-			// 					"geoAreaName": PLY.p.selectedArea.userData.geoAreaName
-			// 				}
-			// 			]
-			// 		};
-
-			// 		EDITOR.f.saveSector(newSectorData);
-
-			// 	}
-
-			// );
+			
 
 		}
 
@@ -1584,7 +1493,7 @@ const createEditor = () => {
 					};
 					
 					
-					objectReady( PROJECTOBJ, projectName, '3d' );
+					objectReady( PROJECTOBJ, projectName, 'glb' );
 
 		
 				break;
@@ -1981,6 +1890,7 @@ const createEditor = () => {
 				FlipY = true;
 
 			};
+			
 
 			textureToResizeList[COUNTER].textureImageOriginal = textureImage;
 
@@ -2205,7 +2115,13 @@ const createEditor = () => {
 
 		};
 
-		resizeTexture(textureToResizeList);
+		if ( textureToResizeList.length > 0 ){
+			
+			resizeTexture(textureToResizeList);
+		
+		} else {
+			alert( 'nessuna texture da ridimensionare' );
+		}
 
 	};
 
@@ -2276,6 +2192,10 @@ const createEditor = () => {
 
 		};
 
+		const geometryAttributesList = [];
+		
+		const geometriesUV = [];
+		
 		const geometries = [];
 
 		const combinedGeometry = new THREE.BufferGeometry();
@@ -2284,11 +2204,17 @@ const createEditor = () => {
 
 			function (child) {
 
-				console.log(child);
-
 				if (child.geometry !== undefined) {
-
-					geometries.push(child.geometry.clone());
+					
+					if ( child.geometry.attributes.uv !== undefined ){
+						
+						geometriesUV.push(child.geometry.clone());
+						
+					} else {
+						
+						geometries.push(child.geometry.clone());
+						
+					}
 
 				};
 
@@ -2296,48 +2222,77 @@ const createEditor = () => {
 
 		);
 
+		
+		
 
-		SOURCEOBJ.traverse(child => {
+		// SOURCEOBJ.traverse(child => {
 
-			if (child.isMesh) {
-				const mesh = child;
+			// if (child.isMesh) {
+				
+				// const mesh = child;
 
-				// Clona la geometria per evitare mutazioni indesiderate
+				// // Clona la geometria per evitare mutazioni indesiderate
 
-				const clonedGeometry = mesh.geometry.clone();
+				// const clonedGeometry = mesh.geometry.clone();
 
-				clonedGeometry.applyMatrix4(mesh.matrixWorld);
+				// clonedGeometry.applyMatrix4(mesh.matrixWorld);
 
-				// Raccogli la geometria clonata
-				geometries.push(clonedGeometry);
+				// // Raccogli la geometria clonata
+				
+				// if ( clonedGeometry.length == 0){
+					
+					// if ( clonedGeometry.attributes.uv !== undefined ){
+						
+						// console.log( clonedGeometry.attributes.uv );
+					
+					// }
+					
+				// };
+				
+				// geometries.push(clonedGeometry);
 
-			}
-		}
+			// }
+		// }
 
-		);
+		// );
 
-		console.log(BufferGeometryUtils);
+		// console.log(BufferGeometryUtils);
 
 		// Unisci tutte le geometrie raccolte
-		const mergedGeometry = BufferGeometryUtils.mergeGeometries(geometries);
 		
-		mergedGeometry.computeBoundingSphere();
-
-		// Crea un materiale unico per la geometria combinata
 		const material = new THREE.MeshStandardMaterial({ color: 0x777777 });
-
-		const combinedMesh = new THREE.Mesh(mergedGeometry, material);
-
-		// combinedMesh.rotateY( VARCO.f.deg2rad( 180 ) )
 		
+		if ( geometriesUV.length > 0){
+			
+			const mergedGeometryUV = BufferGeometryUtils.mergeGeometries(geometriesUV);
+			
+			const combinedMeshUV = new THREE.Mesh(mergedGeometryUV, material);
+			
+			mergedGeometryUV.computeBoundingSphere();
+			
+			combinedMeshUV.rotateX(VARCO.f.deg2rad(-90))
+
+			combinedMeshUV.scale.x = -1
+			
+			_selectedProject.OBJECTS.myProjectCloned.add(combinedMeshUV);
 		
+		};
+		
+		if ( geometries.length > 0){
+			
+			const mergedGeometry = BufferGeometryUtils.mergeGeometries(geometries);
+			
+			const combinedMesh = new THREE.Mesh(mergedGeometry, material);
 
-		combinedMesh.rotateX(VARCO.f.deg2rad(-90))
+			mergedGeometry.computeBoundingSphere();
+			
+			combinedMesh.rotateX(VARCO.f.deg2rad(-90))
 
-		combinedMesh.scale.x = -1
+			combinedMesh.scale.x = -1
 
+			_selectedProject.OBJECTS.myProjectCloned.add(combinedMesh);
 
-		_selectedProject.OBJECTS.myProjectCloned.add(combinedMesh);
+		}
 
 		_selectedProject.OBJECTS.myProject.visible = false;
 
@@ -2471,87 +2426,39 @@ const createEditor = () => {
 		
 		console.log( 'EDITOR.f.exportGLB' );
 		
-		// const exporter = new GLTFExporter();
+		const exporter = new GLTFExporter();
 		
-		
-		// // Funzione per convertire un ArrayBuffer in base64
-		// function arrayBufferToBase64(buffer) {
-			// let binary = '';
-			// const bytes = new Uint8Array(buffer);
-			// const len = bytes.byteLength;
-			// for (let i = 0; i < len; i++) {
-				// binary += String.fromCharCode(bytes[i]);
-			// }
-			// return window.btoa(binary);
-		// }
+		exporter.parse(
+			  OBJ,
+			  function (result) {
+				saveArrayBuffer(result, "scene.glb");
+			  },
+			  // called when there is an error in the generation
+			  function ( error ) {
 
-		
-		// // Instantiate a exporter
-		// const options = {
-			
-			// binary: true,
-			
-			// maxTextureSize: 4096,
-			
-			// animations: OBJ.animations,
-			
-			// includeCustomExtensions: true
-			
-		// };
+				  console.log( 'An error happened' );
 
-		// exporter.parse(
-										
-			// OBJ, 
+			  }, 
+			  { binary: true }
+			);
+		 
+		function saveArrayBuffer(buffer, filename) {
+	
+			save(new Blob([buffer], { type: "application/octet-stream" }), filename);
 			
-			// function ( result ) {
+		}
 
-				// // Converti l'oggetto scene in stringa JSON
-				// const sceneString = JSON.stringify( result );
+		const link = document.createElement("a");
+		link.style.display = "none";
+		document.body.appendChild(link); // Firefox workaround, see #6594
 
-				// // Converti la stringa JSON in base64
-				// const base64 = window.btoa(unescape(encodeURIComponent(sceneString)));
-				
-				// OBJ.userData.type = '3d'
-				
-				// OBJ.userData.stringByte64 = base64;
-				
-				// OBJ.userData.extension = 'gltf';
-				
-				// EDITOR.f.saveProjectData( UI.p.popup_login_data.p.data.user, OBJ );
-				
-			// }
+		function save(blob, filename) {
 			
-		// );
-		
-		
-		const exporter = new THREE.GLTFExporter();
-
-		exporter.parse( OBJ, function(result) {
-			
-			const arrayBuffer = result;
-			
-			const glbBuffer = Buffer.from(arrayBuffer);
-			
-			OBJ.userData.type = 'glb'
-				
-			OBJ.userData.stringByte64 = glbBuffer;
-			
-			OBJ.userData.extension = 'glb';
-			
-			EDITOR.f.saveProjectData( UI.p.popup_login_data.p.data.user, OBJ );
-			
-			console.log('Esportato in formato GLB compresso.');
-		}, {
-			binary: true,
-			dracoOptions: {
-				compressionLevel: 10
-			},
-			meshoptOptions: {
-				compressionLevel: 10,
-				generateDracoBinds: true
-				//decoder: MeshoptDecoder
-			}
-		});
+			link.href = URL.createObjectURL(blob);
+			link.download = filename;
+			link.click();
+		}
+		  
 
 	};
 

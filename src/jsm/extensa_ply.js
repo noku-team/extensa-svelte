@@ -517,7 +517,10 @@ const createPLY = () => {
 
 
 	PLY.f.initPANO = function () {
+		
 		window.panorama.addListener("pano_changed", () => {
+			
+			// console.log( "pano_changed" );
 
 			if (PLY.p.idtimeout !== undefined) {
 
@@ -932,27 +935,28 @@ const createPLY = () => {
 		}
 
 
-		if (VARCO.p.DEVICES.keyboard.keyPressed == 18) {
+		// if (VARCO.p.DEVICES.keyboard.keyPressed == 18) {
 
-			if (VARCO.p.DEVICES.mouse.buttonNum == 1) {
+		if (VARCO.p.DEVICES.mouse.buttonNum == 1) {
 
-				PLY.p.action = 'drag';
-
-			}
-
-			if (VARCO.p.DEVICES.mouse.buttonNum == 2) {
-
-				PLY.p.action = 'rotation';
-
-			}
-
-			if (VARCO.p.DEVICES.mouse.buttonNum == 3) {
-
-				PLY.p.action = 'position';
-
-			}
+			PLY.p.action = 'drag';
 
 		}
+
+		if (VARCO.p.DEVICES.mouse.buttonNum == 2) {
+
+			PLY.p.action = 'rotation';
+
+		}
+
+		if (VARCO.p.DEVICES.mouse.buttonNum == 3) {
+
+			PLY.p.action = 'position';
+
+		}
+
+		// }
+		
 
 		// ///////////////////////////////////////
 

@@ -5,7 +5,7 @@
 	"myCoords": { "lng": 9.817726187892196, "lat": 45.64481184394597, "alt": 0 },
 	"projectsList": [
 		{
-			"type": "---",
+			"type": "3d",
 			"name": "bouilding",
 			"url": "objects/bouilding.gltf",
 			"urlLowres": "puo' essere un path oppure un blob or una stringa , creata dal tool in automatico opera_fisica_preview.gltf",
@@ -15,7 +15,7 @@
 			"previewImage": ""
 		},
 		{
-			"type": "---",
+			"type": "3d",
 			"name": "house",
 			"url": "objects/house.gltf",
 			"urlLowres": "puo' essere un path oppure un blob or una stringa , creata dal tool in automatico opera_fisica_preview.gltf",

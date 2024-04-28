@@ -5,7 +5,7 @@
 	"myCoords": { "lng": 9.798996264892812, "lat": 45.620783780235946, "alt": 0 },
 	"projectsList": [
 		{
-			"type": "---",
+			"type": "3d",
 			"name": "house",
 			"url": "objects/house.gltf",
 			"urlLowres": "puo' essere un path oppure un blob or una stringa , creata dal tool in automatico opera_fisica_preview.gltf",

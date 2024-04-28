@@ -2192,31 +2192,32 @@ const createUI = () => {
 		
 	}; 
 
+	UI.p.menu_optimizer.f.button_save_area = function(){
+		
+		EDITOR.f.SAVE_GEOAREA();
+		
+	};
+	
+	UI.p.menu_optimizer.f.button_save_glb = function(){
+		
+		const { project: _selectedProject } = get(projectStore); // leggi dato
+		
+		EDITOR.f.exportGLB( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			
+	};
 
-	UI.p.menu_optimizer.f.button_save_gltf= function(){
+	UI.p.menu_optimizer.f.button_save_gltf = function(){
 		
 		console.log( 'UI.p.menu_optimizer.f.button_save_gltf' );
 		
 		const { project: _selectedProject } = get(projectStore); // leggi dato
 		
-		// if ( _selectedProject.OBJECTS.myProject.children.length > 0 ){
-			
-			// if ( _selectedProject.OBJECTS.myProjectCloned.children.length > 0 ){
-		
-				// EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			
-			// } else {
-				
-				// EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProject.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-				
-			// }
-										
-		// };
-		
 		if ( _selectedProject.OBJECTS.myProject.children.length > 0 ){
+			
+			console.log( _selectedProject.userData.type );
 		
 			if ( _selectedProject.OBJECTS.myProjectCloned.children.length > 0 ){
-				
+		
 				switch( _selectedProject.userData.type ){
 					
 					case "3d" : 
@@ -2234,6 +2235,11 @@ const createUI = () => {
 						
 					break;
 					
+					default:
+					
+						EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			
+					break;
 				};
 		
 				
@@ -2247,13 +2253,19 @@ const createUI = () => {
 					break;
 					
 					case "glb" : 
-						EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProject.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+						EDITOR.f.exportGLB( _selectedProject.OBJECTS.myProject.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			
 					break;
 					
 					case "video":
 						EDITOR.f.exportVIDEO( _selectedProject.OBJECTS.myProject.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 						
+					break;
+					
+					default:
+					
+						EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProject.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			
 					break;
 					
 				};

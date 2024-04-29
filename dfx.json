@@ -1,8 +1,13 @@
 {
 	"canisters": {
 		"extensa_frontend": {
-			"source": ["dist"],
+			"source": ["src/extensa_frontend/dist"],
 			"type": "assets"
+		},
+		"extensa_backend": {
+			"candid": "src/extensa_backend/extensa_backend.did",
+			"package": "extensa_backend",
+			"type": "rust"
 		},
 		"internet_identity": {
 			"type": "custom",

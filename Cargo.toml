@@ -1,0 +1,2 @@
+[workspace]
+members = ["src/extensa_backend"]

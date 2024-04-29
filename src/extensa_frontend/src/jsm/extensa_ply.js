@@ -822,6 +822,8 @@ const createPLY = () => {
 			const auth = get(authStore);
 			const { identity = null } = auth ?? {};
 
+			console.warn("gregre");
+			console.warn("here", process.env.CANISTER_ID_EXTENSA_BACKEND);
 			const fetchParams = {
 				identity,
 				canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,

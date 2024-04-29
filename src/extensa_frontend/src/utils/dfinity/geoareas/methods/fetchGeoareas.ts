@@ -13,7 +13,6 @@ export const executeFetchGeoareas = async ({
 	identity,
 	canisterId,
 }: FetchGeoareasParams): Promise<GeoArea[] | undefined> => {
-	console.warn(process.env.CANISTER_ID_EXTENSA_BACKEND);
 	const {
 		canister: { get_geoarea_by_user },
 	} = await createCanister({ identity, canisterId: mapCanisterId(canisterId) })

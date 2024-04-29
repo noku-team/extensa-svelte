@@ -10,8 +10,8 @@
 	let currentRoute = "";
 
 	const signIn = async () => {
-		await authStore.mockLogin();
-		// await authStore.signIn((err) => console.error(err));
+		// await authStore.mockLogin();
+		await authStore.signIn((err) => console.error(err));
 	};
 	const logout = async () => await authStore.signOut();
 

@@ -23,7 +23,7 @@ export const createCanister = async ({
 	const agent = await createAgentWrapper({
 		identity,
 		host,
-	})
+	});
 
 	if (isTestnet()) await agent.fetchRootKey()
 

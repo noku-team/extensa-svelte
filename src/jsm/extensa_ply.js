@@ -68,8 +68,8 @@ const createPLY = () => {
 				oldSectHV : [ 0,0 ],
 				sectNumH: 1, // 1 + 1 + 1
 				sectNumV: 1, // 1 + 1 + 1
-				lonLatA: { lng: -180.0, lat: 90.0 },
-				lonLatB: { lng: 180.0, lat: -90.0 }
+				lngLatA: { lng: -180.0, lat: 90.0 },
+				lngLatB: { lng: 180.0, lat: -90.0 }
 			},
 
 			splitScreenValue: 0.4,
@@ -731,36 +731,92 @@ const createPLY = () => {
 
 	PLY.f.SECTOR_UPDATE = function () {
 		
+		// grandezza settore dinamica //
+		PLY.p.geoMapSectors.maxNumSectH = ( MAP.p.zoomMap + 1 ) * 1000;
+		
+		PLY.p.geoMapSectors.maxNumSectV = ( MAP.p.zoomMap + 1 ) * 1000 * 0.5;
+		
+		const numBaseSectorsH = 1;
+		
+		const numBaseSectorsV = 1;
+		
+		const stepLng = ( 360.0 / PLY.p.geoMapSectors.maxNumSectH ) * numBaseSectorsH;
+		
+		const stepLat = ( 180.0 / PLY.p.geoMapSectors.maxNumSectV ) * numBaseSectorsV;
+		
+
 		PLY.p.geoMapSectors.actualSectHV = PLY.f.findGeoAreaSector( MAP.p.actualCoords.lng, MAP.p.actualCoords.lat, PLY.p.geoMapSectors.maxNumSectH, PLY.p.geoMapSectors.maxNumSectV );
 	
-	
+		const lngA = ( stepLng * PLY.p.geoMapSectors.actualSectHV[ 0 ] ) - 180.0;
+		
+		const lngB = lngA + stepLng;
+		
+		const latA = 90.0 - ( stepLat * PLY.p.geoMapSectors.actualSectHV[ 1 ] );
+		
+		const latB = latA - stepLat;
+		
+		const centLng = ( lngA + lngB ) * 0.5;
+		
+		const centLat = ( latA + latB ) * 0.5;
+		
+
 		if ( PLY.p.geoMapSectors.actualSectHV[ 0 ] !== PLY.p.geoMapSectors.oldSectHV[ 0 ] ||  PLY.p.geoMapSectors.actualSectHV[ 1 ] !== PLY.p.geoMapSectors.oldSectHV[ 1 ] ){
 		
+			PLY.p.geoMapSectors.oldSectHV = PLY.p.geoMapSectors.actualSectHV;
+			
 			console.log( 'SECTOR_UPDATE' );
 			
-			PLY.p.geoMapSectors.oldSectHV = PLY.p.geoMapSectors.actualSectHV;
+			console.log( 'center' )
+			console.log( centLng, centLat )
+			
+			console.log( lngA, latA )
+			console.log( lngB, latB )
+			
+			// CHIAMA DB geoAree passando lngA, latA, lngB, latB
+			
+			// >>>>>>>>>>>>>>>>>>>>>>
+			
+			// ///////////////////////
+			
 
 			// cancella vecchie geoAree //
-			let numGeoAreaToDelete = [];
+			let listGeoAreaToDelete = [];
 
 			for (var num = 0; num < PLY.p.scene3D.OBJECTS.geoArea.children.length; num += 1) {
-				numGeoAreaToDelete.push(PLY.p.scene3D.OBJECTS.geoArea.children[num]);
-			}
+				listGeoAreaToDelete.push(PLY.p.scene3D.OBJECTS.geoArea.children[num]);
+			};
+			
+			
 
-			for (var num = 0; num < numGeoAreaToDelete.length; num += 1) {
-				VARCO.f.deleteElement(PLY.p.scene3D.OBJECTS.geoArea, numGeoAreaToDelete[num]);
-			}
-
-
+			
+			// controlla geoAree presenti nella nuova chiamata e toglile dalla listGeoAreaToDelete
+			
+			
 			// cancella vecchi POI geoAree //
-			numGeoAreaToDelete = [];
+			let listPOIToDelete = [];
+			
+			for (var numA = 0; numA < UI.p.scene.OBJECTS.poi.children.length; numA += 1) {
+				for (var numB = 0; numB < listGeoAreaToDelete.length; numB += 1) {
+					if ( listGeoAreaToDelete[ numB ].uuid == UI.p.scene.OBJECTS.poi.children[ numA ].userData.linkedObj.uuid ){
+						listPOIToDelete.push(UI.p.scene.OBJECTS.poi.children[numA]);
+					};
+				}
+			}
+			
+			// cancella solo le geoAree visibili sulla mappa ma non piu' presenti nel settore
 
-			for (var num = 0; num < UI.p.scene.OBJECTS.poi.children.length; num += 1) {
-				numGeoAreaToDelete.push(UI.p.scene.OBJECTS.poi.children[num]);
+			for (var num = 0; num < listPOIToDelete.length; num += 1) {
+				VARCO.f.deleteElement(PLY.p.scene3D.OBJECTS.geoArea, listPOIToDelete[num]);
 			}
 
-			for (var num = 0; num < numGeoAreaToDelete.length; num += 1) {
-				VARCO.f.deleteElement(UI.p.scene.OBJECTS.poi, numGeoAreaToDelete[num]);
+
+			// cancella vecchi POI delle geoAree non piu' presenti //
+			
+			
+			
+
+			for (var num = 0; num < listGeoAreaToDelete.length; num += 1) {
+				VARCO.f.deleteElement(UI.p.scene.OBJECTS.poi, listGeoAreaToDelete[num]);
 			}
 
 			if (UI.p.popup_login_data.p.data == undefined) { // DA CONTROLLARE SE UTENTE E' LOGGATO OPPURE NO
@@ -771,7 +827,7 @@ const createPLY = () => {
 
 			}
 
-			numGeoAreaToDelete = undefined;
+			listGeoAreaToDelete = undefined;
 
 
 			// carica il settore //

@@ -79,7 +79,13 @@ const createEditor = () => {
 							"type": "MeshBasicMaterial",
 							"name": "Kernel_Mesh_mat",
 							"parameters": {
-								"color": { "r": 0.0, "g": 0.0, "b": 0.5 }
+								"color": { "r": 0.0, "g": 0.0, "b": 0.5 },
+								"transparent": true,
+								"opacity": 0.8,
+								"alphaTest": 0.5,
+								"visible": true,
+								"depthTest": false,
+								"depthWrite": false
 							}
 						}
 
@@ -239,7 +245,9 @@ const createEditor = () => {
 								"transparent": true,
 								"opacity": 0.8,
 								"alphaTest": 0.5,
-								"visible": true
+								"visible": true,
+								"depthTest": false,
+								"depthWrite": false
 							}
 						},
 
@@ -506,6 +514,7 @@ const createEditor = () => {
 
 
 	EDITOR.f.selectGeoArea = function (p) {
+		
 		const auth = get(authStore);
 		const principal = auth.identity?.getPrincipal()?.toString();
 
@@ -684,7 +693,7 @@ const createEditor = () => {
 
 				},
 
-				function error_login() {
+				function project_loaded() {
 
 					// MOMENTANEO //
 					// MOMENTANEO //
@@ -1315,7 +1324,7 @@ const createEditor = () => {
 						"type": type,
 						"name": projectName,
 						"url": "objects/" + projectName + "." + extension,
-						"urlLowres": "puo' essere un path oppure un blob or una stringa , creata dal tool in automatico opera_fisica_preview.gltf",
+						"urlLowres": "",
 						"myPosition": {
 							"x": myPosition.x - PLY.p.selectedArea.position.x,
 							"y": myPosition.y - PLY.p.selectedArea.position.y,
@@ -1620,68 +1629,6 @@ const createEditor = () => {
 					);
 
 					break;
-
-				case "png":
-
-					console.log(p);
-
-					console.log(p.data.width);
-
-					VARCO.f.addComplex(
-						PLY.p.scene3D,
-						{
-							"name": projectName,
-							"parameters": {
-								"textureList": [
-									{
-										"name": projectName,
-										"type": "base64",
-										"url": p.data
-									}
-								],
-								"materialList": [
-									{
-										"name": projectName,
-										"type": "MeshBasicMaterial",
-										"parameters": {
-											"textures": { "map": projectName },
-											"side": "THREE.DoubleSide"
-										}
-									}
-								],
-								"elementList": [
-									{
-										"type": "addMesh",
-										"prop": {
-											"type": "PlaneGeometry",
-											"name": projectName,
-											"materialList": [projectName],
-											"castShadow": true,
-											"parameters": {
-												"width": 1,
-												"height": 1
-											}
-										}
-									}
-								]
-
-							}
-
-						},
-						function (q) {
-
-							PROJECTOBJ = q.obj;
-
-							objectReady(PROJECTOBJ, projectName, 'image');
-
-						},
-
-						{}
-
-					);
-
-					break;
-
 
 				case "mp4":
 
@@ -2120,7 +2067,7 @@ const createEditor = () => {
 			resizeTexture(textureToResizeList);
 		
 		} else {
-			alert( 'nessuna texture da ridimensionare' );
+			console.log( 'nessuna texture da ridimensionare' );
 		}
 
 	};
@@ -2223,41 +2170,6 @@ const createEditor = () => {
 		);
 
 		
-		
-
-		// SOURCEOBJ.traverse(child => {
-
-			// if (child.isMesh) {
-				
-				// const mesh = child;
-
-				// // Clona la geometria per evitare mutazioni indesiderate
-
-				// const clonedGeometry = mesh.geometry.clone();
-
-				// clonedGeometry.applyMatrix4(mesh.matrixWorld);
-
-				// // Raccogli la geometria clonata
-				
-				// if ( clonedGeometry.length == 0){
-					
-					// if ( clonedGeometry.attributes.uv !== undefined ){
-						
-						// console.log( clonedGeometry.attributes.uv );
-					
-					// }
-					
-				// };
-				
-				// geometries.push(clonedGeometry);
-
-			// }
-		// }
-
-		// );
-
-		// console.log(BufferGeometryUtils);
-
 		// Unisci tutte le geometrie raccolte
 		
 		const material = new THREE.MeshStandardMaterial({ color: 0x777777 });

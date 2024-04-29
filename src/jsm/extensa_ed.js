@@ -412,6 +412,8 @@ const createEditor = () => {
 	EDITOR.f.selectProjectDown = function (p) {
 
 		console.log('EDITOR.f.selectProjectDown');
+		
+		projectStore.setProject(null); // scrivi dato
 
 	};
 
@@ -440,7 +442,7 @@ const createEditor = () => {
 
 				console.log('SELEZIONATO');
 
-				EDITOR.p.alreadySelected = true;
+				// EDITOR.p.alreadySelected = true;
 
 				if (PLY.p.selectedArea == undefined || PLY.p.selectedArea.uuid !== p.obj.parent.userData.linkedGeoArea.uuid) {
 
@@ -463,14 +465,6 @@ const createEditor = () => {
 
 				p.obj.parent.MATERIALS.Kernel_Mesh_mat.color.b = 0.0;
 
-
-				if (UI.p.scene.OBJECTS.previewProject == undefined) {
-
-					UI.p.scene.OBJECTS.previewProject = true;
-
-					UI.p.previewProject.f.open(PLY.p.selectedArea, p.obj.parent);
-
-				}
 
 				PLY.p.flagPlayerOn = false;
 
@@ -619,13 +613,11 @@ const createEditor = () => {
 
 	EDITOR.f.loadProjectData = function () {
 
-		let URL = UI.p.previewProject.p.infoProject.url;
-
-		let PROJECTNAME = UI.p.previewProject.p.infoProject.name;
-
-		let USER = UI.p.previewProject.p.infoArea.user;
-
 		const { project: _selectedProject } = get(projectStore); // leggi dato
+		
+		let USER = _selectedProject.userData.linkedGeoArea.userData.user;
+		
+		let PROJECTNAME = _selectedProject.userData.name;
 
 		if (_selectedProject !== null) {
 
@@ -637,11 +629,6 @@ const createEditor = () => {
 				projectFile,
 
 				function init_projectData(projectData) {
-
-
-					UI.p.scene.OBJECTS.previewProject.OBJECTS.loadingProject.visible = true;
-
-					// _selectedProject.userData.isLoaded = true;
 
 					const geoArea = _selectedProject.userData.linkedGeoArea
 
@@ -661,8 +648,6 @@ const createEditor = () => {
 						projectData,
 
 						function (q) {
-
-							UI.p.scene.OBJECTS.previewProject.OBJECTS.loadingProject.visible = false;
 
 							let idleAction;
 
@@ -704,12 +689,6 @@ const createEditor = () => {
 
 				function project_loaded() {
 
-					// MOMENTANEO //
-					// MOMENTANEO //
-					// MOMENTANEO //
-
-					UI.p.scene.OBJECTS.previewProject.OBJECTS.loadingProject.visible = true;
-
 					// _selectedProject.userData.isLoaded = true;
 
 					const geoArea = _selectedProject.userData.linkedGeoArea
@@ -738,8 +717,6 @@ const createEditor = () => {
 							}
 						},
 						function ui_project_ready(q) {
-
-							UI.p.scene.OBJECTS.previewProject.OBJECTS.loadingProject.visible = false;
 
 							let idleAction;
 

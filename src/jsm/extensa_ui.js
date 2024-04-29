@@ -237,51 +237,51 @@ const createUI = () => {
 
 
 
-	UI.p.previewProject.f.open = function (GEOAREAOBJ, PROJECTOBJ) {
+	// UI.p.previewProject.f.open = function (GEOAREAOBJ, PROJECTOBJ) {
 
-		if (UI.p.scene.OBJECTS.previewProject !== undefined) {
+		// if (UI.p.scene.OBJECTS.previewProject !== undefined) {
 
-			VARCO.f.deleteElement(UI.p.scene, UI.p.scene.OBJECTS.previewProject);
+			// VARCO.f.deleteElement(UI.p.scene, UI.p.scene.OBJECTS.previewProject);
 
-		}
+		// }
 
-		UI.f.remove_menu_popups();
+		// UI.f.remove_menu_popups();
 
-		VARCO.f.loadComplex(
+		// VARCO.f.loadComplex(
 
-			UI.p.scene,
+			// UI.p.scene,
 
-			'json/previewProject.json',
+			// 'json/previewProject.json',
 
-			undefined,
+			// undefined,
 
-			function init_previewProject(q) {
+			// function init_previewProject(q) {
 
-				console.log(PROJECTOBJ.name);
+				// console.log(PROJECTOBJ.name);
 				
-				q.obj.visible = false;
+				// q.obj.visible = false;
 
-				UI.p.previewProject.p.infoArea = GEOAREAOBJ.userData;
+				// UI.p.previewProject.p.infoArea = GEOAREAOBJ.userData;
 
-				UI.p.previewProject.p.infoProject = PROJECTOBJ.userData;
+				// UI.p.previewProject.p.infoProject = PROJECTOBJ.userData;
 
-				PLY.f.resizeScreen();
+				// PLY.f.resizeScreen();
 
-			}
+			// }
 
-		);
+		// );
 
-	};
+	// };
 
 
 
-	UI.p.previewProject.f.close = function () {
+	// UI.p.previewProject.f.close = function () {
 
-		console.log("UI.p.previewProject.f.close");
+		// console.log("UI.p.previewProject.f.close");
 
-		UI.f.remove_menu_popups();
+		// UI.f.remove_menu_popups();
 
-	};
+	// };
 
 
 

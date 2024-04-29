@@ -661,8 +661,6 @@ const createPLY = () => {
 
 						// PLY.p.selectedGeoAreaName = GEOAREAOBJ.userData.name;
 
-						UI.p.previewProject.f.open(GEOAREAOBJ, PROJECTOBJ)
-
 					}
 
 				} else {
@@ -674,20 +672,9 @@ const createPLY = () => {
 
 					// PLY.p.selectedGeoAreaName = GEOAREAOBJ.userData.name;
 
-					UI.p.previewProject.f.open(GEOAREAOBJ, PROJECTOBJ)
-
 				}
 
 			} else {
-
-				if (UI.p.scene.OBJECTS.previewProject !== undefined) {
-
-					VARCO.f.deleteElement(UI.p.scene, UI.p.scene.OBJECTS.previewProject);
-
-				}
-
-
-				// PLY.p.selectedProjectName = '';
 
 				projectStore.setProject(null); // scrivi dato NULL
 
@@ -970,12 +957,6 @@ const createPLY = () => {
 			EDITOR.f.deselectProjects();
 
 			EDITOR.f.deselectGeoArea();
-
-			if (UI.p.scene.OBJECTS.previewProject !== undefined) {
-
-				VARCO.f.deleteElement(UI.p.scene, UI.p.scene.OBJECTS.previewProject);
-
-			};
 
 			const { project: _selectedProject } = get(projectStore); // leggi dato
 
@@ -1501,19 +1482,6 @@ const createPLY = () => {
 
 	// //////////////////////////////////////////////////////////
 	// //////////////////////////////////////////////////////////
-
-	// PLY.f.selectPreviewProject = function( geoAreaOBJ, projectOBJ ){
-
-	// console.log( "selectPreviewProject" );
-
-	// PLY.p.selectedProjectName = projectOBJ.userData.name;
-
-	// PLY.p.selectedGeoAreaName = geoAreaOBJ.userData.name;
-
-	// // UI.p.previewProject.f.open( geoAreaOBJ, projectOBJ );
-
-	// };
-
 
 	// //////////////////////////////////////////////////////////
 	// //////////////////////////////////////////////////////////

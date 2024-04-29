@@ -7,7 +7,7 @@ import type { _SERVICE } from '../../../../../declarations/extensa_backend/exten
 import { createActor } from '../../../../../declarations/extensa_backend/index'
 
 interface Canister {
-	identity: Identity
+	identity?: Identity
 	canisterId: Principal
 	host?: string
 }

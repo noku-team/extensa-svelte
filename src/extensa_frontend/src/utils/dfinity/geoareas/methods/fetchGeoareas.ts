@@ -1,11 +1,12 @@
-import type { Identity } from '@dfinity/agent'
-import type { GeoArea } from '../../../../../../declarations/extensa_backend/extensa_backend.did'
-import mapCanisterId from '../../mapCanisterId'
-import { createCanister } from '../geoareas'
+import type { Identity } from '@dfinity/agent';
+import type { GeoArea } from '../../../../../../declarations/extensa_backend/extensa_backend.did';
+import mapCanisterId from '../../mapCanisterId';
+import { createCanister } from '../geoareas';
 
 export interface FetchGeoareasParams {
-	identity: Identity
-	canisterId: string
+	identity?: Identity;
+	canisterId: string;
+	// other params for canister call
 }
 
 // [[key, { value }], [key, { value }], [key, { value }]]
@@ -14,11 +15,12 @@ export const executeFetchGeoareas = async ({
 	canisterId,
 }: FetchGeoareasParams): Promise<GeoArea[] | undefined> => {
 	const {
-		canister: { get_geoarea_by_user },
+		canister: { get_geoarea_by_coords },
 	} = await createCanister({ identity, canisterId: mapCanisterId(canisterId) })
 
-	console.warn('get_geoarea_by_user');
-	const receipt = await get_geoarea_by_user();
+	const principal = identity?.getPrincipal();
+	console.warn('get_geoarea_by_user', identity?.getPrincipal().toText());
+	const receipt = await get_geoarea_by_coords(2.3, 2.4, 3.4, 23.4, [[principal]]);
 	// const receipt = await mint({
 	// 	to: { owner, subaccount: toNullable(subaccount) },
 	// 	token_id,

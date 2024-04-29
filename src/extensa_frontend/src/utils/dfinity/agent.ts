@@ -5,13 +5,13 @@ import IdentityAgentWrapper from './identityAgent'
 type PrincipalAsText = string
 let agents: Record<PrincipalAsText, HttpAgent> | undefined | null = undefined
 
-export const createAgentWrapper = async ({ identity, host }: { identity: Identity; host?: string }): Promise<Agent> => {
-	const principalAsText: string = identity.getPrincipal().toText()
+export const createAgentWrapper = async ({ identity, host }: { identity?: Identity; host?: string }): Promise<Agent> => {
+	const principalAsText: string = identity?.getPrincipal()?.toText() ?? "";
 
 	// e.g. a particular agent for anonymous call and another for signed-in identity
 	if (agents?.[principalAsText] === undefined) {
 		const agent = await createAgent({
-			identity,
+			identity: identity ?? {} as Identity,
 			...(host !== undefined && { host }),
 		})
 
@@ -22,7 +22,7 @@ export const createAgentWrapper = async ({ identity, host }: { identity: Identit
 	}
 
 	return new IdentityAgentWrapper({
-		identity,
+		identity: identity ?? {} as Identity,
 		wrappedAgent: agents[principalAsText],
 	})
 }

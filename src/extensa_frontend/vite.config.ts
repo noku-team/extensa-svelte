@@ -3,9 +3,10 @@ import dotenv from "dotenv";
 import { defineConfig } from 'vite';
 import environment from "vite-plugin-environment";
 
-dotenv.config();
+dotenv.config({
+  path: "../../.env"
+});
 
-console.warn(process.env.CANISTER_ID_EXTENSA_BACKEND);
 export default defineConfig({
   server: {
     proxy: {

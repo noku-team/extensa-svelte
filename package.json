@@ -11,6 +11,7 @@
 		"Extensa"
 	],
 	"scripts": {
+		"install": "cd src/extensa_frontend && npm i",
 		"build": "cd src/extensa_frontend && npm run build",
 		"prebuild": "dfx generate",
 		"dev": "cd src/extensa_frontend && npm run dev",

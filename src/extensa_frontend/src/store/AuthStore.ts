@@ -4,7 +4,7 @@ import type { Readable } from "svelte/store";
 import { writable } from "svelte/store";
 import { AUTH_SESSION_DURATION } from "../constants/ttl";
 import { UI } from "../jsm";
-import getIdentityProviderUrl from "../utils/getIdentityProvider";
+import getIdentityProviderUrl from "../utils/dfinity/getIdentityProvider";
 import loadWebGLUserData from "../utils/loadWebGLUserData";
 
 export interface AuthStoreData {

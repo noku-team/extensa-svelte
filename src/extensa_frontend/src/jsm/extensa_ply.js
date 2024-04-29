@@ -8,7 +8,9 @@ import { get } from 'svelte/store';
 import * as THREE from 'three';
 import { VARCO } from "../VARCO/helpers/VARCO.js";
 import RENDERERSingleton from '../functions/renderer.js';
+import { authStore } from '../store/AuthStore';
 import { projectStore } from '../store/ProjectStore';
+import executeFetchGeoareas from '../utils/dfinity/geoareas/methods/fetchGeoareas';
 import getDOMHeight from '../utils/dom/getDOMHeight.js';
 import { EDITOR, MAP, UI } from "./index.js";
 
@@ -64,8 +66,8 @@ const createPLY = () => {
 			geoMapSectors: {
 				maxNumSectH: 20000,
 				maxNumSectV: 10000,
-				actualSectHV : [ 0,0 ],
-				oldSectHV : [ 0,0 ],
+				actualSectHV: [0, 0],
+				oldSectHV: [0, 0],
 				sectNumH: 1, // 1 + 1 + 1
 				sectNumV: 1, // 1 + 1 + 1
 				lngLatA: { lng: -180.0, lat: 90.0 },
@@ -517,9 +519,9 @@ const createPLY = () => {
 
 
 	PLY.f.initPANO = function () {
-		
+
 		window.panorama.addListener("pano_changed", () => {
-			
+
 			// console.log( "pano_changed" );
 
 			if (PLY.p.idtimeout !== undefined) {
@@ -717,54 +719,54 @@ const createPLY = () => {
 
 
 	PLY.f.SECTOR_UPDATE = function () {
-		
+
 		// grandezza settore dinamica //
-		PLY.p.geoMapSectors.maxNumSectH = ( MAP.p.zoomMap + 1 ) * 1000;
-		
-		PLY.p.geoMapSectors.maxNumSectV = ( MAP.p.zoomMap + 1 ) * 1000 * 0.5;
-		
+		PLY.p.geoMapSectors.maxNumSectH = (MAP.p.zoomMap + 1) * 1000;
+
+		PLY.p.geoMapSectors.maxNumSectV = (MAP.p.zoomMap + 1) * 1000 * 0.5;
+
 		const numBaseSectorsH = 1;
-		
+
 		const numBaseSectorsV = 1;
-		
-		const stepLng = ( 360.0 / PLY.p.geoMapSectors.maxNumSectH ) * numBaseSectorsH;
-		
-		const stepLat = ( 180.0 / PLY.p.geoMapSectors.maxNumSectV ) * numBaseSectorsV;
-		
 
-		PLY.p.geoMapSectors.actualSectHV = PLY.f.findGeoAreaSector( MAP.p.actualCoords.lng, MAP.p.actualCoords.lat, PLY.p.geoMapSectors.maxNumSectH, PLY.p.geoMapSectors.maxNumSectV );
-	
-		const lngA = ( stepLng * PLY.p.geoMapSectors.actualSectHV[ 0 ] ) - 180.0;
-		
+		const stepLng = (360.0 / PLY.p.geoMapSectors.maxNumSectH) * numBaseSectorsH;
+
+		const stepLat = (180.0 / PLY.p.geoMapSectors.maxNumSectV) * numBaseSectorsV;
+
+
+		PLY.p.geoMapSectors.actualSectHV = PLY.f.findGeoAreaSector(MAP.p.actualCoords.lng, MAP.p.actualCoords.lat, PLY.p.geoMapSectors.maxNumSectH, PLY.p.geoMapSectors.maxNumSectV);
+
+		const lngA = (stepLng * PLY.p.geoMapSectors.actualSectHV[0]) - 180.0;
+
 		const lngB = lngA + stepLng;
-		
-		const latA = 90.0 - ( stepLat * PLY.p.geoMapSectors.actualSectHV[ 1 ] );
-		
-		const latB = latA - stepLat;
-		
-		const centLng = ( lngA + lngB ) * 0.5;
-		
-		const centLat = ( latA + latB ) * 0.5;
-		
 
-		if ( PLY.p.geoMapSectors.actualSectHV[ 0 ] !== PLY.p.geoMapSectors.oldSectHV[ 0 ] ||  PLY.p.geoMapSectors.actualSectHV[ 1 ] !== PLY.p.geoMapSectors.oldSectHV[ 1 ] ){
-		
+		const latA = 90.0 - (stepLat * PLY.p.geoMapSectors.actualSectHV[1]);
+
+		const latB = latA - stepLat;
+
+		const centLng = (lngA + lngB) * 0.5;
+
+		const centLat = (latA + latB) * 0.5;
+
+
+		if (PLY.p.geoMapSectors.actualSectHV[0] !== PLY.p.geoMapSectors.oldSectHV[0] || PLY.p.geoMapSectors.actualSectHV[1] !== PLY.p.geoMapSectors.oldSectHV[1]) {
+
 			PLY.p.geoMapSectors.oldSectHV = PLY.p.geoMapSectors.actualSectHV;
-			
-			console.log( 'SECTOR_UPDATE' );
-			
-			console.log( 'center' )
-			console.log( centLng, centLat )
-			
-			console.log( lngA, latA )
-			console.log( lngB, latB )
-			
+
+			console.log('SECTOR_UPDATE');
+
+			console.log('center')
+			console.log(centLng, centLat)
+
+			console.log(lngA, latA)
+			console.log(lngB, latB)
+
 			// CHIAMA DB geoAree passando lngA, latA, lngB, latB
-			
+
 			// >>>>>>>>>>>>>>>>>>>>>>
-			
+
 			// ///////////////////////
-			
+
 
 			// cancella vecchie geoAree //
 			let listGeoAreaToDelete = [];
@@ -772,24 +774,24 @@ const createPLY = () => {
 			for (var num = 0; num < PLY.p.scene3D.OBJECTS.geoArea.children.length; num += 1) {
 				listGeoAreaToDelete.push(PLY.p.scene3D.OBJECTS.geoArea.children[num]);
 			};
-			
-			
 
-			
+
+
+
 			// controlla geoAree presenti nella nuova chiamata e toglile dalla listGeoAreaToDelete
-			
-			
+
+
 			// cancella vecchi POI geoAree //
 			let listPOIToDelete = [];
-			
+
 			for (var numA = 0; numA < UI.p.scene.OBJECTS.poi.children.length; numA += 1) {
 				for (var numB = 0; numB < listGeoAreaToDelete.length; numB += 1) {
-					if ( listGeoAreaToDelete[ numB ].uuid == UI.p.scene.OBJECTS.poi.children[ numA ].userData.linkedObj.uuid ){
+					if (listGeoAreaToDelete[numB].uuid == UI.p.scene.OBJECTS.poi.children[numA].userData.linkedObj.uuid) {
 						listPOIToDelete.push(UI.p.scene.OBJECTS.poi.children[numA]);
 					};
 				}
 			}
-			
+
 			// cancella solo le geoAree visibili sulla mappa ma non piu' presenti nel settore
 
 			for (var num = 0; num < listPOIToDelete.length; num += 1) {
@@ -798,9 +800,9 @@ const createPLY = () => {
 
 
 			// cancella vecchi POI delle geoAree non piu' presenti //
-			
-			
-			
+
+
+
 
 			for (var num = 0; num < listGeoAreaToDelete.length; num += 1) {
 				VARCO.f.deleteElement(UI.p.scene.OBJECTS.poi, listGeoAreaToDelete[num]);
@@ -816,6 +818,19 @@ const createPLY = () => {
 
 			listGeoAreaToDelete = undefined;
 
+
+			const auth = get(authStore);
+			const { identity = null } = auth ?? {};
+
+			const fetchParams = {
+				identity,
+				canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
+			};
+
+			// Fetch geoareas from canister
+			executeFetchGeoareas(fetchParams).then((res) => {
+				console.warn(res);
+			});
 
 			// carica il settore //
 			// TODO load all JSON sectors here
@@ -845,9 +860,9 @@ const createPLY = () => {
 					console.error("Error while loading testing geoareas", error);
 				}
 			)
-			
+
 		};
-			
+
 	};
 
 
@@ -964,9 +979,9 @@ const createPLY = () => {
 
 			// PLY.p.selectedProjectName = '';
 			projectStore.setProject(null); // scrivi dato NULL
-			
+
 			EDITOR.p.action = '';
-			
+
 			// PLY.p.selectedGeoAreaName = '';
 
 		}
@@ -993,7 +1008,7 @@ const createPLY = () => {
 		}
 
 		// }
-		
+
 
 		// ///////////////////////////////////////
 
@@ -1221,12 +1236,12 @@ const createPLY = () => {
 
 					PLY.p.camera3DAxis.userData.orbitRadiusInt += VARCO.p.DEVICES.mouse.zoom * PLY.p.camera3DAxis.userData.orbitRadiusInt * 0.1;
 
-					if ( PLY.p.camera3DAxis.userData.orbitRadiusInt > 512000 ){
-						
+					if (PLY.p.camera3DAxis.userData.orbitRadiusInt > 512000) {
+
 						PLY.p.camera3DAxis.userData.orbitRadiusInt = 512000
-						
+
 					};
-					
+
 					// MAP.p.actualMapAltitude = PLY.p.camera3DAxis.userData.orbitRadiusInt;
 
 				}
@@ -1240,13 +1255,13 @@ const createPLY = () => {
 				if (VARCO.p.DEVICES.touch.zoom !== 0) {
 
 					PLY.p.camera3DAxis.userData.orbitRadiusInt += VARCO.p.DEVICES.touch.zoom * PLY.p.camera3DAxis.userData.orbitRadiusInt * 0.1;
-					
-					if ( PLY.p.camera3DAxis.userData.orbitRadiusInt > 512000 ){
-						
+
+					if (PLY.p.camera3DAxis.userData.orbitRadiusInt > 512000) {
+
 						PLY.p.camera3DAxis.userData.orbitRadiusInt = 512000
-						
+
 					};
-					
+
 					// MAP.p.actualMapAltitude = PLY.p.camera3DAxis.userData.orbitRadiusInt;
 
 					PLY.p.flagDoubleTouch = true;
@@ -1449,7 +1464,7 @@ const createPLY = () => {
 		// ///////////////////////////////////////
 
 		// ///////////////////////////////////////
-		
+
 		// UPDATE COMPASS //
 
 		// compass object position on ground //
@@ -1463,13 +1478,13 @@ const createPLY = () => {
 		// ///////////////////////////////////////
 
 		// ///////////////////////////////////////
-		
+
 		if (PLY.p.selectedArea == undefined) {
 
 			PLY.f.SECTOR_UPDATE();
 
 		};
-		
+
 
 		PLY.f.GEOAREA_MANAGER();
 
@@ -1504,20 +1519,20 @@ const createPLY = () => {
 	// //////////////////////////////////////////////////////////
 
 	// DATA FROM DB:
-	
-	
-	PLY.f.findGeoAreaSector = function( lng, lat, maxNumSectH, maxNumSectV ){
-			
-		let UH = ( ( lng + 180.0 ) / 360 );
-		
-		let UV = 1.0 - ( ( lat + 90.0 ) / 180 );
-		
-		let sectH = Math.floor( maxNumSectH * UH );
-		
-		let sectV = Math.floor( maxNumSectV * UV );
-		
-		return [ sectH , sectV ]
-		
+
+
+	PLY.f.findGeoAreaSector = function (lng, lat, maxNumSectH, maxNumSectV) {
+
+		let UH = ((lng + 180.0) / 360);
+
+		let UV = 1.0 - ((lat + 90.0) / 180);
+
+		let sectH = Math.floor(maxNumSectH * UH);
+
+		let sectV = Math.floor(maxNumSectV * UV);
+
+		return [sectH, sectV]
+
 	};
 
 
@@ -2625,14 +2640,14 @@ const createPLY = () => {
 
 	PLY.f.MAP_mouseTouchDown = function (p) {
 
-		
+
 	};
 
 
 
 	PLY.f.MAP_mouseTouchUp = function (p) {
-		
-		
+
+
 	};
 
 
@@ -2644,7 +2659,7 @@ const createPLY = () => {
 		PLY.p.STREETVIEW_MARKER.position.y = p.results.point.y + 0.05;
 
 		PLY.p.STREETVIEW_MARKER.position.z = p.results.point.z;
-		
+
 		const { project: _selectedProject } = get(projectStore); // leggi dato
 
 
@@ -2655,11 +2670,11 @@ const createPLY = () => {
 			switch (EDITOR.p.action) {
 
 				case 'DRAG_project':
-		
-					if (VARCO.p.DEVICES.mouse.clickDown && _selectedProject !== null ) {
 
-						if ( VARCO.p.DEVICES.mouse.buttonNum == 1 ){
-							
+					if (VARCO.p.DEVICES.mouse.clickDown && _selectedProject !== null) {
+
+						if (VARCO.p.DEVICES.mouse.buttonNum == 1) {
+
 							if (EDITOR.p.mousePivotPoint == undefined) {
 
 								EDITOR.p.mousePivotPoint = p.results.point;
@@ -2681,13 +2696,13 @@ const createPLY = () => {
 							_selectedProject.position.z = (p.results.point.z - PLY.p.selectedArea.position.z) + EDITOR.p.mousePivotOffset.z;
 
 						};
-						
-						if ( VARCO.p.DEVICES.mouse.buttonNum == 2 ){
-							
-							_selectedProject.position.y +=  VARCO.p.DEVICES.mouse.diffV * 0.1 * -1
+
+						if (VARCO.p.DEVICES.mouse.buttonNum == 2) {
+
+							_selectedProject.position.y += VARCO.p.DEVICES.mouse.diffV * 0.1 * -1
 
 						};
-						
+
 					} else {
 
 						EDITOR.p.mousePivotPoint = undefined;
@@ -2700,7 +2715,7 @@ const createPLY = () => {
 
 				case 'ROTATE_project':
 
-					if (VARCO.p.DEVICES.mouse.clickDown && _selectedProject !== null ) {
+					if (VARCO.p.DEVICES.mouse.clickDown && _selectedProject !== null) {
 
 						_selectedProject.rotation.y += VARCO.f.deg2rad(VARCO.p.DEVICES.mouse.diffH * 0.1);
 
@@ -2710,7 +2725,7 @@ const createPLY = () => {
 
 				case 'SCALE_project':
 
-					if (VARCO.p.DEVICES.mouse.clickDown && _selectedProject !== null ) {
+					if (VARCO.p.DEVICES.mouse.clickDown && _selectedProject !== null) {
 
 						if (EDITOR.p.mousePivotPoint == undefined) {
 
@@ -2800,7 +2815,7 @@ const createPLY = () => {
 	PLY.f.MAP_mouseDoubleClick = function (p) {
 
 		console.log("doubleClick");
-		
+
 		// let alt = 0.0;
 
 		let coords

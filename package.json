@@ -8,12 +8,15 @@
 		"Svelte",
 		"Canister",
 		"Internet Identity",
-        "Extensa"
+		"Extensa"
 	],
 	"scripts": {
 		"build": "cd src/extensa_frontend && npm run build",
 		"prebuild": "dfx generate",
 		"dev": "cd src/extensa_frontend && npm run dev",
 		"prestart": "dfx generate"
+	},
+	"dependencies": {
+		"@dfinity/agent": "^1.2.1"
 	}
 }

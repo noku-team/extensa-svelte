@@ -1,11 +1,11 @@
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import dotenv from "dotenv";
-// @ts-ignore
 import { defineConfig } from 'vite';
 import environment from "vite-plugin-environment";
 
 dotenv.config();
 
+console.warn(process.env.CANISTER_ID_EXTENSA_BACKEND);
 export default defineConfig({
   server: {
     proxy: {
@@ -14,6 +14,9 @@ export default defineConfig({
         changeOrigin: true,
       },
     },
+  },
+  define: {
+    'process.env': process.env
   },
   plugins: [
     svelte(),

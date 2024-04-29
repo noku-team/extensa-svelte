@@ -1,4 +1,4 @@
-import isTestnet from "./dfinity/isTestnet";
+import isTestnet from "./isTestnet";
 
 const getIdentityProviderUrl = () => {
 	const isLocalDevelopment = isTestnet()

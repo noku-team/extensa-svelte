@@ -1,0 +1,59 @@
+type Chunk = record { id : nat64; value : text; hash : text };
+type Coords = record { alt : float64; lat : float64; lng : float64 };
+type File = record {
+  id : nat64;
+  updated_at : nat64;
+  owner : record { principal; opt blob };
+  created_at : nat64;
+  chunks : vec opt nat64;
+};
+type GeoArea = record {
+  id : nat64;
+  name : text;
+  user : record { principal; opt blob };
+  projectsList : vec Project;
+  myCoords : Coords;
+};
+type Project = record {
+  id : nat64;
+  myPosition : XYZ;
+  name : text;
+  "type" : text;
+  mySize : XYZ;
+  myOrientation : XYZ;
+  file_id : nat64;
+};
+type Result = variant { Ok : nat64; Err : text };
+type Result_1 = variant { Ok : record { nat64; nat32; nat32 }; Err : text };
+type XYZ = record { x : float64; y : float64; z : float64 };
+service : {
+  add_geoarea : (text, Coords) -> (Result);
+  add_project : (nat64, text, text, XYZ, XYZ, XYZ, nat64) -> (Result);
+  allocate_new_file : (nat32) -> (Result_1);
+  edit_geoarea : (nat64, opt text, opt Coords) -> (Result);
+  edit_project : (
+      nat64,
+      nat64,
+      opt text,
+      opt text,
+      opt XYZ,
+      opt XYZ,
+      opt XYZ,
+      opt nat64,
+    ) -> (Result);
+  get_chunk_by_id : (nat64) -> (opt Chunk) query;
+  get_chunk_by_index : (nat64, nat64) -> (opt Chunk) query;
+  get_file : (nat64) -> (opt File) query;
+  get_geoarea_by_coords : (
+      float64,
+      float64,
+      float64,
+      float64,
+      opt record { principal; opt blob },
+    ) -> (opt vec GeoArea) query;
+  get_geoarea_by_id : (nat64) -> (opt GeoArea) query;
+  get_geoarea_by_user : (opt record { principal; opt blob }) -> (
+      opt vec GeoArea,
+    ) query;
+  store_chunk : (nat64, nat64, text) -> (Result);
+}

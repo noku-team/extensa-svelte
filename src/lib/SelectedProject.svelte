@@ -51,23 +51,23 @@
 		>
 		<span>ID: {$projectStore.project.uuid}</span>
 		<div class="flex">
-			{#if !$projectStore.project.is3DVisible}
-				<button
-					on:click={onEyeClick}
-					class="flex gap-2 items-center btn btn-primary"
+			<button
+				on:click={!$projectStore.project.is3DVisible
+					? onEyeClick
+					: onEyeOffClick}
+				class="flex gap-2 items-center btn btn-primary"
+			>
+				<span
+					>{!$projectStore.project.is3DVisible
+						? "View project"
+						: "Hide project"}</span
 				>
-					<span>View project</span>
-					<img src={EyeIcon} alt="icon" class="cursor-pointer" />
-				</button>
-			{:else}
-				<button
-					on:click={onEyeOffClick}
-					class="flex gap-2 items-center btn btn-primary"
-				>
-					<span>Hide project</span>
-					<img src={EyeOffIcon} alt="eye-off" class="cursor-pointer" />
-				</button>
-			{/if}
+				<img
+					src={!$projectStore.project.is3DVisible ? EyeIcon : EyeOffIcon}
+					alt="icon"
+					class="cursor-pointer"
+				/>
+			</button>
 		</div>
 	</div>
 {/if}

@@ -1221,6 +1221,12 @@ const createPLY = () => {
 
 					PLY.p.camera3DAxis.userData.orbitRadiusInt += VARCO.p.DEVICES.mouse.zoom * PLY.p.camera3DAxis.userData.orbitRadiusInt * 0.1;
 
+					if ( PLY.p.camera3DAxis.userData.orbitRadiusInt > 512000 ){
+						
+						PLY.p.camera3DAxis.userData.orbitRadiusInt = 512000
+						
+					};
+					
 					// MAP.p.actualMapAltitude = PLY.p.camera3DAxis.userData.orbitRadiusInt;
 
 				}
@@ -1234,7 +1240,13 @@ const createPLY = () => {
 				if (VARCO.p.DEVICES.touch.zoom !== 0) {
 
 					PLY.p.camera3DAxis.userData.orbitRadiusInt += VARCO.p.DEVICES.touch.zoom * PLY.p.camera3DAxis.userData.orbitRadiusInt * 0.1;
-
+					
+					if ( PLY.p.camera3DAxis.userData.orbitRadiusInt > 512000 ){
+						
+						PLY.p.camera3DAxis.userData.orbitRadiusInt = 512000
+						
+					};
+					
 					// MAP.p.actualMapAltitude = PLY.p.camera3DAxis.userData.orbitRadiusInt;
 
 					PLY.p.flagDoubleTouch = true;
@@ -1812,7 +1824,7 @@ const createPLY = () => {
 									"prop": {
 										"name": "boxAltitude",
 										"type": "BoxGeometry",
-										"parameters": { "width": 4, "height": 1.0, "depth": 4 },
+										"parameters": { "width": 0.2, "height": 1.0, "depth": 0.2 },
 
 										"MM3D": {
 
@@ -2644,28 +2656,38 @@ const createPLY = () => {
 
 				case 'DRAG_project':
 		
-					if (VARCO.p.DEVICES.mouse.clickDown) {
+					if (VARCO.p.DEVICES.mouse.clickDown && _selectedProject !== null ) {
 
-						if (EDITOR.p.mousePivotPoint == undefined) {
+						if ( VARCO.p.DEVICES.mouse.buttonNum == 1 ){
+							
+							if (EDITOR.p.mousePivotPoint == undefined) {
 
-							EDITOR.p.mousePivotPoint = p.results.point;
+								EDITOR.p.mousePivotPoint = p.results.point;
 
-							EDITOR.p.mousePivotOffset = new THREE.Vector3();
+								EDITOR.p.mousePivotOffset = new THREE.Vector3();
 
-							wPos = new THREE.Vector3();
+								wPos = new THREE.Vector3();
 
-							_selectedProject.getWorldPosition(wPos);
+								_selectedProject.getWorldPosition(wPos);
 
-							EDITOR.p.mousePivotOffset.x = wPos.x - EDITOR.p.mousePivotPoint.x;
+								EDITOR.p.mousePivotOffset.x = wPos.x - EDITOR.p.mousePivotPoint.x;
 
-							EDITOR.p.mousePivotOffset.z = wPos.z - EDITOR.p.mousePivotPoint.z;
+								EDITOR.p.mousePivotOffset.z = wPos.z - EDITOR.p.mousePivotPoint.z;
+
+							};
+
+							_selectedProject.position.x = (p.results.point.x - PLY.p.selectedArea.position.x) + EDITOR.p.mousePivotOffset.x;
+
+							_selectedProject.position.z = (p.results.point.z - PLY.p.selectedArea.position.z) + EDITOR.p.mousePivotOffset.z;
 
 						};
+						
+						if ( VARCO.p.DEVICES.mouse.buttonNum == 2 ){
+							
+							_selectedProject.position.y +=  VARCO.p.DEVICES.mouse.diffV * 0.1 * -1
 
-						_selectedProject.position.x = (p.results.point.x - PLY.p.selectedArea.position.x) + EDITOR.p.mousePivotOffset.x;
-
-						_selectedProject.position.z = (p.results.point.z - PLY.p.selectedArea.position.z) + EDITOR.p.mousePivotOffset.z;
-
+						};
+						
 					} else {
 
 						EDITOR.p.mousePivotPoint = undefined;
@@ -2678,7 +2700,7 @@ const createPLY = () => {
 
 				case 'ROTATE_project':
 
-					if (VARCO.p.DEVICES.mouse.clickDown) {
+					if (VARCO.p.DEVICES.mouse.clickDown && _selectedProject !== null ) {
 
 						_selectedProject.rotation.y += VARCO.f.deg2rad(VARCO.p.DEVICES.mouse.diffH * 0.1);
 
@@ -2688,7 +2710,7 @@ const createPLY = () => {
 
 				case 'SCALE_project':
 
-					if (VARCO.p.DEVICES.mouse.clickDown) {
+					if (VARCO.p.DEVICES.mouse.clickDown && _selectedProject !== null ) {
 
 						if (EDITOR.p.mousePivotPoint == undefined) {
 

@@ -822,8 +822,6 @@ const createPLY = () => {
 			const auth = get(authStore);
 			const { identity = null } = auth ?? {};
 
-			console.warn("gregre");
-			console.warn("here", process.env.CANISTER_ID_EXTENSA_BACKEND);
 			const fetchParams = {
 				identity,
 				canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
@@ -1201,7 +1199,6 @@ const createPLY = () => {
 						let speedZ;
 
 						if (VARCO.p.DEVICES.mouse.clickDown) {
-							// debugger;
 							speedX = VARCO.p.DEVICES.mouse.diffH * (PLY.p.camera3DAxis.userData.orbitRadius + 15.0) * 0.001 * -1;
 
 							speedZ = VARCO.p.DEVICES.mouse.diffV * (PLY.p.camera3DAxis.userData.orbitRadius + 15.0) * 0.001 * -1;

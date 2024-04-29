@@ -17,7 +17,7 @@ export const executeFetchGeoareas = async ({
 		canister: { get_geoarea_by_user },
 	} = await createCanister({ identity, canisterId: mapCanisterId(canisterId) })
 
-	debugger;
+	console.warn('get_geoarea_by_user');
 	const receipt = await get_geoarea_by_user();
 	// const receipt = await mint({
 	// 	to: { owner, subaccount: toNullable(subaccount) },

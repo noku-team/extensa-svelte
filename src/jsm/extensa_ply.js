@@ -1221,6 +1221,12 @@ const createPLY = () => {
 
 					PLY.p.camera3DAxis.userData.orbitRadiusInt += VARCO.p.DEVICES.mouse.zoom * PLY.p.camera3DAxis.userData.orbitRadiusInt * 0.1;
 
+					if ( PLY.p.camera3DAxis.userData.orbitRadiusInt > 512000 ){
+						
+						PLY.p.camera3DAxis.userData.orbitRadiusInt = 512000
+						
+					};
+					
 					// MAP.p.actualMapAltitude = PLY.p.camera3DAxis.userData.orbitRadiusInt;
 
 				}
@@ -1234,7 +1240,13 @@ const createPLY = () => {
 				if (VARCO.p.DEVICES.touch.zoom !== 0) {
 
 					PLY.p.camera3DAxis.userData.orbitRadiusInt += VARCO.p.DEVICES.touch.zoom * PLY.p.camera3DAxis.userData.orbitRadiusInt * 0.1;
-
+					
+					if ( PLY.p.camera3DAxis.userData.orbitRadiusInt > 512000 ){
+						
+						PLY.p.camera3DAxis.userData.orbitRadiusInt = 512000
+						
+					};
+					
 					// MAP.p.actualMapAltitude = PLY.p.camera3DAxis.userData.orbitRadiusInt;
 
 					PLY.p.flagDoubleTouch = true;

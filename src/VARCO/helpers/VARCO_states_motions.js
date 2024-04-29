@@ -192,12 +192,12 @@ VARCO.f.updateMotion = function (node, motionName, motionProp) {
 
 	if (perc > 1.0 || perc < 0.0) { // fine step motion			
 
-		if (motionStateProp.scriptList !== undefined) { // do function when action is finished
-			for (var w = 0; w < motionStateProp.scriptList.length; w++) {
-				motionStateProp.scriptList[w].functionProp = { obj: node }
-			}
-			VARCO.f.doScriptList(motionStateProp.scriptList);
-		}
+		// if (motionStateProp.scriptList !== undefined) { // do function when action is finished
+			// for (var w = 0; w < motionStateProp.scriptList.length; w++) {
+				// motionStateProp.scriptList[w].functionProp = { obj: node }
+			// }
+			// VARCO.f.doScriptList(motionStateProp.scriptList);
+		// }
 
 
 		let propEndValueList;
@@ -268,6 +268,14 @@ VARCO.f.updateMotion = function (node, motionName, motionProp) {
 				}
 
 			}
+			
+			if (motionStateProp.scriptList !== undefined) { // do function when action is finished
+				for (var w = 0; w < motionStateProp.scriptList.length; w++) {
+					motionStateProp.scriptList[w].functionProp = { obj: node }
+				}
+				VARCO.f.doScriptList(motionStateProp.scriptList);
+			}
+
 
 		} else {
 

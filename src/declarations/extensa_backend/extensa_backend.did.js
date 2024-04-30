@@ -29,9 +29,9 @@ export const idlFactory = ({ IDL }) => {
   const Project = IDL.Record({
     'id' : IDL.Nat64,
     'myPosition' : XYZ,
-    'name' : IDL.Text,
     'type' : IDL.Text,
     'mySize' : XYZ,
+    'geoAreaName' : IDL.Text,
     'myOrientation' : XYZ,
     'file_id' : IDL.Nat64,
   });

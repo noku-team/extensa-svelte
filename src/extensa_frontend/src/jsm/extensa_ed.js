@@ -1028,18 +1028,6 @@ const createEditor = () => {
 
 
 
-	EDITOR.f.saveSector = function (sectorData) {
-
-		const textData = JSON.stringify(sectorData);
-
-		const nameFile = 'SECTOR_DB/' + sectorData.sectorName + ".json";
-
-		VARCO.f.saveInfo(textData, nameFile);
-
-	};
-
-
-
 	EDITOR.f.saveUserData = function (prop) {
 
 		// save USERDATA // 

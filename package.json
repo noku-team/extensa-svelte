@@ -15,7 +15,8 @@
 		"build": "cd src/extensa_frontend && npm run build",
 		"prebuild": "dfx generate",
 		"dev": "cd src/extensa_frontend && npm run dev",
-		"prestart": "dfx generate"
+		"prestart": "dfx generate",
+		"build:extensa": "dfx deploy && candid-extractor target/wasm32-unknown-unknown/release/extensa_backend.wasm > src/extensa_backend/extensa_backend.did"
 	},
 	"dependencies": {
 		"@dfinity/agent": "^1.2.1"

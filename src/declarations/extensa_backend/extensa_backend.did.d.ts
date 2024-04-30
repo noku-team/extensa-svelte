@@ -21,9 +21,9 @@ export interface GeoArea {
 export interface Project {
   'id' : bigint,
   'myPosition' : XYZ,
-  'name' : string,
   'type' : string,
   'mySize' : XYZ,
+  'geoAreaName' : string,
   'myOrientation' : XYZ,
   'file_id' : bigint,
 }

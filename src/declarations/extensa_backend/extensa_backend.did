@@ -17,9 +17,9 @@ type GeoArea = record {
 type Project = record {
   id : nat64;
   myPosition : XYZ;
-  name : text;
   "type" : text;
   mySize : XYZ;
+  geoAreaName : text;
   myOrientation : XYZ;
   file_id : nat64;
 };

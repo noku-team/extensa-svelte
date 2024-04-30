@@ -10,7 +10,8 @@ import { VARCO } from "../VARCO/helpers/VARCO.js";
 import RENDERERSingleton from '../functions/renderer.js';
 import { authStore } from '../store/AuthStore';
 import { projectStore } from '../store/ProjectStore';
-import executeFetchGeoareas from '../utils/dfinity/geoareas/methods/fetchGeoareas';
+import executeFetchGeoareasByCoords from '../utils/dfinity/geoareas/methods/fetchGeoareas';
+import { getAnonymousIdentity } from '../utils/dfinity/identityAgent';
 import getDOMHeight from '../utils/dom/getDOMHeight.js';
 import { EDITOR, MAP, UI } from "./index.js";
 
@@ -34,7 +35,6 @@ const PLYSingleton = (function () {
 
 const createPLY = () => {
 	const PLY = {
-
 		p: {
 
 			userName: 'admin',
@@ -822,14 +822,28 @@ const createPLY = () => {
 			const auth = get(authStore);
 			const { identity = null } = auth ?? {};
 
+			const anonymousIdentity = getAnonymousIdentity();
+
 			const fetchParams = {
-				identity,
+				identity: identity ?? anonymousIdentity,
 				canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
+				coords: {
+					topLeft: {
+						lat: latA,
+						lng: lngA
+					},
+					bottomRight: {
+						lat: latB,
+						lng: lngB
+					}
+				}
 			};
 
+			console.warn("topLeft", latA, lngA);
+			console.warn("bottomRight", latB, lngB);
 			// Fetch geoareas from canister
-			executeFetchGeoareas(fetchParams).then((res) => {
-				console.warn(res);
+			executeFetchGeoareasByCoords(fetchParams).then((res) => {
+				console.warn("geoareas", res);
 			});
 
 			// carica il settore //

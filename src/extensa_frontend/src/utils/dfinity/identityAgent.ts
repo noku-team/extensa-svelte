@@ -9,7 +9,7 @@ import type {
 	ReadStateResponse,
 	SubmitResponse,
 } from '@dfinity/agent';
-import { IdentityInvalidError, } from '@dfinity/agent';
+import { AnonymousIdentity, IdentityInvalidError, } from '@dfinity/agent';
 import type { JsonObject } from '@dfinity/candid';
 import { Principal } from '@dfinity/principal';
 import { isNullish } from '@dfinity/utils';
@@ -87,5 +87,7 @@ class IdentityAgentWrapper implements Agent {
 		this.identity = identity
 	}
 }
+
+export const getAnonymousIdentity = (): Identity => new AnonymousIdentity();
 
 export default IdentityAgentWrapper

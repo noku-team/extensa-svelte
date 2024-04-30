@@ -839,8 +839,6 @@ const createPLY = () => {
 				}
 			};
 
-			console.warn("topLeft", latA, lngA);
-			console.warn("bottomRight", latB, lngB);
 			// Fetch geoareas from canister
 			executeFetchGeoareasByCoords(fetchParams).then((res) => {
 				console.warn("geoareas", res);

@@ -47,7 +47,7 @@ export const executeAddProject = async ({
     );
 
     if ('Ok' in receipt) return receipt.Ok;
-    else if ('Err' in receipt) throw new Error(Object.keys(receipt.Err).join(','))
+    else if ('Err' in receipt) throw new Error(Object.keys(receipt.Err).join(','));
 }
 
 export default executeAddProject;

@@ -57,7 +57,7 @@ struct XYZ {
 #[derive(CandidType, Deserialize, Clone)]
 struct Project {
     r#type: String,
-    geoAreaName: String,
+    name: String,
     myPosition: XYZ,
     myOrientation: XYZ,
     mySize: XYZ,
@@ -69,7 +69,7 @@ struct Project {
 #[derive(CandidType, Deserialize)]
 struct GeoArea {
     user: Account,
-    name: String,
+    geoAreaName: String,
     myCoords: Coords,
     projectsList: Vec<Project>,
     // internal
@@ -218,7 +218,7 @@ thread_local! {
 fn add_geoarea(name: String, coords: Coords) -> Result<GeoAreaId, String> {
     match authenticate_call(None) {
         Ok(caller) => {
-            let geoarea_id = store_geoarea(name, caller, coords);
+            let geoarea_id = create_new_geoarea(name, caller, coords);
             Ok(geoarea_id)
         }
         Err(error_message) => Err(error_message),
@@ -236,7 +236,7 @@ fn edit_geoarea(id: GeoAreaId, name: Option<String>, coords: Option<Coords>) -> 
                 Some(mut geoarea) => {
                     if compare_accounts(caller, geoarea.user) {
                         if let Some(new_name) = name {
-                            geoarea.name = new_name;
+                            geoarea.geoAreaName = new_name;
                         }
                         if let Some(new_coords) = coords {
                             geoarea.myCoords = new_coords;
@@ -305,7 +305,7 @@ fn add_project(geoarea_id: GeoAreaId, r#type: String, name: String, position: XY
             let geoarea_result = get_geoarea_by_id(geoarea_id);
             match geoarea_result {
                 None => Err(String::from("Geoarea not found.")),
-                Some(geoarea) => {
+                Some(mut geoarea) => {
                     if compare_accounts(caller, geoarea.user) == false {
                         return Err(String::from("Caller is not owner of this element."));
                     }
@@ -314,7 +314,7 @@ fn add_project(geoarea_id: GeoAreaId, r#type: String, name: String, position: XY
 
                     let new_project = Project {
                         r#type: r#type.clone(),
-                        geoAreaName: name.clone(),
+                        name: name.clone(),
                         myPosition: position,
                         myOrientation: orientation,
                         mySize: size,
@@ -322,13 +322,11 @@ fn add_project(geoarea_id: GeoAreaId, r#type: String, name: String, position: XY
                         file_id,
                     };
 
-                    let add_project_result = add_or_replace_project_to_list(geoarea_id, new_project);
+                    geoarea.projectsList = add_or_replace_project_to_list(geoarea.projectsList, new_project);
 
-                    if let Err(error) = add_project_result {
-                        return Err(error);
-                    }
-
+                    GEOAREAS_MAP.with(|p| p.borrow_mut().insert(geoarea_id, geoarea));
                     Ok(project_id)
+
                 }
             }
         }
@@ -352,7 +350,7 @@ fn edit_project(
             let geoarea_result = get_geoarea_by_id(geoarea_id);
             match geoarea_result {
                 None => Err(String::from("Geoarea not found.")),
-                Some(geoarea) => {
+                Some(mut geoarea) => {
                     if compare_accounts(caller, geoarea.user) == false {
                         return Err(String::from("Caller is not owner of this element."));
                     }
@@ -360,34 +358,32 @@ fn edit_project(
                     match geoarea.projectsList.iter().find(|&x| x.id == project_id) {
                         None => return Err(String::from("Project not found.")),
                         Some(previous_project) => {
-                            let mut new_project = previous_project.clone();
+                            let mut edited_project = previous_project.clone();
 
                             if let Some(new_type) = r#type {
-                                new_project.r#type = new_type.to_string();
+                                edited_project.r#type = new_type.to_string();
                             }
                             if let Some(new_name) = name {
-                                new_project.geoAreaName = new_name.to_string();
+                                edited_project.name = new_name.to_string();
                             }
                             if let Some(new_position) = position {
-                                new_project.myPosition = new_position.clone();
+                                edited_project.myPosition = new_position.clone();
                             }
                             if let Some(new_orientation) = orientation {
-                                new_project.myOrientation = new_orientation.clone();
+                                edited_project.myOrientation = new_orientation.clone();
                             }
                             if let Some(new_size) = size {
-                                new_project.mySize = new_size.clone();
+                                edited_project.mySize = new_size.clone();
                             }
                             if let Some(new_file_id) = file_id {
-                                new_project.file_id = new_file_id.clone();
+                                edited_project.file_id = new_file_id.clone();
                             }
 
-                            let add_project_result = add_or_replace_project_to_list(geoarea_id, new_project);
+                            geoarea.projectsList = add_or_replace_project_to_list(geoarea.projectsList, edited_project);
 
-                            if let Err(error) = add_project_result {
-                                return Err(error);
-                            }
-
+                            GEOAREAS_MAP.with(|p| p.borrow_mut().insert(geoarea_id, geoarea));
                             Ok(project_id)
+
                         }
                     }
                 }
@@ -396,9 +392,57 @@ fn edit_project(
     }
 }
 
+#[ic_cdk::update]
+fn remove_project(geoarea_id: GeoAreaId, project_id: ProjectId) -> Result<ProjectId, String> {
+    match authenticate_call(None) {
+        Err(error_message) => Err(error_message),
+        Ok(caller) => {
+            let geoarea_result = get_geoarea_by_id(geoarea_id);
+            match geoarea_result {
+                None => Err(String::from("Geoarea not found.")),
+                Some(mut geoarea) => {
+                    if compare_accounts(caller, geoarea.user) == false {
+                        return Err(String::from("Caller is not owner of this element."));
+                    }
+
+                    geoarea.projectsList = remove_project_from_list(geoarea.projectsList, project_id);
+
+                    GEOAREAS_MAP.with(|p| p.borrow_mut().insert(geoarea_id, geoarea));
+                    Ok(project_id)
+
+                }
+            }
+        }
+    }
+}
+
 //todo funzione per rimuovere i progetti da una geoarea
 
-//todo genera documentazione
+/// Allocates a new file with the specified size. This function is a core operation within the system, responsible for
+/// initializing a new file entry, dividing it into manageable chunks, and associating it with the caller as the file's owner.
+/// 
+/// # Arguments
+/// 
+/// * `file_size` - The size of the file to be allocated, expressed in bytes. It determines the total storage capacity required
+///   for the file's data.
+/// 
+/// # Returns
+/// 
+/// Returns a tuple containing the following information about the newly allocated file:
+/// 
+/// * `file_id` - A unique identifier assigned to the file upon creation, facilitating its retrieval and manipulation.
+/// * `number_of_chunks` - The total number of chunks the file is divided into. This value depends on the size of the file
+///   and the predetermined maximum chunk size (`MAX_CHUNK_LENGTH`).
+/// * `MAX_CHUNK_LENGTH` - The maximum size allowed for each chunk. Chunks are used to manage the file's data in smaller,
+///   more manageable portions.
+/// 
+/// # Errors
+/// 
+/// If the specified `file_size` exceeds the maximum allowed file length (`MAX_FILE_LENGTH`), the function returns an error
+/// indicating that the file size is too large for allocation.
+/// 
+/// If the authentication process fails, the function returns an error with the provided error message. Authentication
+/// is crucial to ensure that only authorized users can allocate new files.
 #[ic_cdk::update]
 fn allocate_new_file(file_size: u32) -> Result<(FileId, u32, u32), String> {
     if file_size > MAX_FILE_LENGTH {
@@ -537,11 +581,11 @@ fn authenticate_call(subaccount: Option<Subaccount>) -> Result<Account, String> 
     let caller = ic_cdk::caller();
     // The anonymous principal is not allowed to interact with canister.
     if caller == Principal::anonymous() {
-        //todo rimuovere! controllo disabilitato in fase di testing
-        Ok((caller, subaccount))
-        // Err(String::from(
-        //     "Anonymous principal not allowed to make calls.",
-        // ))
+        // enable this instruction to debug without identity
+        // Ok((caller, subaccount))
+        Err(String::from(
+            "Anonymous principal not allowed to make calls.",
+        ))
     } else {
         Ok((caller, subaccount))
     }
@@ -599,14 +643,14 @@ fn get_new_project_id() -> ProjectId {
     })
 }
 
-fn store_geoarea(name: String, user: Account, coords: Coords) -> GeoAreaId {
+fn create_new_geoarea(name: String, user: Account, coords: Coords) -> GeoAreaId {
     let geoarea_id = get_new_geoarea_id();
     GEOAREAS_MAP.with(|p| {
         p.borrow_mut().insert(
             geoarea_id,
             GeoArea {
                 id: geoarea_id,
-                name,
+                geoAreaName: name,
                 user,
                 myCoords: coords,
                 projectsList: Vec::new(),
@@ -616,16 +660,15 @@ fn store_geoarea(name: String, user: Account, coords: Coords) -> GeoAreaId {
     geoarea_id
 }
 
-fn add_or_replace_project_to_list(geoarea_id: GeoAreaId, project: Project) -> Result<(), String> {
-    let geoarea_result = get_geoarea_by_id(geoarea_id);
-    match geoarea_result {
-        None => Err(String::from("Geoarea not found.")),
-        Some(mut geoarea) => {
-            geoarea.projectsList.retain(|x| x.id != project.id);
-            geoarea.projectsList.push(project);
-            Ok(())
-        }
-    }
+fn add_or_replace_project_to_list(mut project_list:Vec<Project>, project: Project) -> Vec<Project> {
+    project_list.retain(|x| x.id != project.id);
+    project_list.push(project);
+    project_list
+}
+
+fn remove_project_from_list(mut project_list:Vec<Project>, project_id: ProjectId) -> Vec<Project> {
+    project_list.retain(|x| x.id != project_id);
+    project_list
 }
 
 fn compare_accounts(a: Account, b: Account) -> bool {

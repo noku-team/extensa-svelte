@@ -9,17 +9,17 @@ type File = record {
 };
 type GeoArea = record {
   id : nat64;
-  name : text;
   user : record { principal; opt blob };
   projectsList : vec Project;
+  geoAreaName : text;
   myCoords : Coords;
 };
 type Project = record {
   id : nat64;
   myPosition : XYZ;
+  name : text;
   "type" : text;
   mySize : XYZ;
-  geoAreaName : text;
   myOrientation : XYZ;
   file_id : nat64;
 };
@@ -55,5 +55,6 @@ service : {
   get_geoarea_by_user : (opt record { principal; opt blob }) -> (
       opt vec GeoArea,
     ) query;
+  remove_project : (nat64, nat64) -> (Result);
   store_chunk : (nat64, nat64, text) -> (Result);
 }

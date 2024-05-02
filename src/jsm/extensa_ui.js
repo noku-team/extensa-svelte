@@ -1996,8 +1996,10 @@ const createUI = () => {
 		console.log( 'UI.p.menu_optimizer.f.open' );
 		
 		if ( UI.p.scene.OBJECTS.menu_optimizer == undefined ){
-			
+
 			UI.f.remove_menu_popups();
+			
+			UI.p.scene.OBJECTS.menu_optimizer = true;
 
 			VARCO.f.loadComplex(
 				UI.p.scene,

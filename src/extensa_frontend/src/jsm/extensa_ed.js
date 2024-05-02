@@ -1105,7 +1105,77 @@ const createEditor = () => {
 			projectStore.setGeoAreaToEdit(geoAreaInfo);
 			
 
-		}
+		};
+		
+		
+		
+		const { project: _selectedProject } = get(projectStore); // leggi dato
+		
+		if ( _selectedProject !== null ){
+		
+			if ( _selectedProject.OBJECTS.myProject.children.length > 0 ){
+				
+				// console.log( _selectedProject.userData.type );
+			
+				if ( _selectedProject.OBJECTS.myProjectCloned.children.length > 0 ){
+			
+					switch( _selectedProject.userData.type ){
+						
+						case "3d" : 
+							EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				
+						break;
+						
+						case "glb" : 
+							EDITOR.f.exportGLB( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				
+						break;
+						
+						case "video":
+							EDITOR.f.exportVIDEO( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+							
+						break;
+						
+						default:
+						
+							EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				
+						break;
+					};
+			
+					
+				} else {
+					
+					switch( _selectedProject.userData.type ){
+						
+						case "3d" : 
+							EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProject.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				
+						break;
+						
+						case "glb" : 
+							EDITOR.f.exportGLB( _selectedProject.OBJECTS.myProject.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				
+						break;
+						
+						case "video":
+							EDITOR.f.exportVIDEO( _selectedProject.OBJECTS.myProject.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+							
+						break;
+						
+						default:
+						
+							EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProject.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				
+						break;
+						
+					};
+					
+				}
+											
+			};
+			
+		};
 
 	};
 
@@ -1241,22 +1311,62 @@ const createEditor = () => {
 
 	EDITOR.f.DROP_FILE = function (p) {
 
-
 		function objectReady(PROJECTOBJ, projectName, type) {
 
 			PROJECTOBJ.name = projectName;
+			
+			if ( type !== "json" ){
 
-			VARCO.f.setPropAndParameters(PROJECTOBJ, { "MM3D": {} });
+				VARCO.f.setPropAndParameters(PROJECTOBJ, { "MM3D": {} });
+				
+				PROJECTOBJ.userData.data = p.data;
+
+				PROJECTOBJ.userData.stringByte64 = stringByte64;
+				
+				// start animation //
+
+				setTimeout(
+
+					function () {
+
+						if (PROJECTOBJ.animations !== undefined) {
+
+							PROJECTOBJ.MM3D = {
+
+								threeJsAnimation: {
+
+									mixer: new THREE.AnimationMixer(PROJECTOBJ),
+
+									animations: PROJECTOBJ.animations
+
+								}
+
+							};
+
+							let idleAction;
+
+							for (var i = 0; i < PROJECTOBJ.animations.length; i++) {
+
+								idleAction = PROJECTOBJ.MM3D.threeJsAnimation.mixer.clipAction(p.obj.animations[i]);
+
+								idleAction.play();
+
+							};
+
+						};
+
+					},
+					2000
+
+				);
+			
+			};
 
 			PROJECTOBJ.userData.type = type;
 
 			PROJECTOBJ.userData.fileName = projectName;
 
 			PROJECTOBJ.userData.extension = extension;
-
-			PROJECTOBJ.userData.data = p.data;
-
-			PROJECTOBJ.userData.stringByte64 = stringByte64;
 
 			PROJECTOBJ.userData.myCoords = { 'lng': MAP.p.actualCoords.lng, 'lat': MAP.p.actualCoords.lat, 'alt': MAP.p.actualCoords.alt };
 
@@ -1276,54 +1386,6 @@ const createEditor = () => {
 				}
 
 			);
-
-
-
-			// start animation //
-
-			setTimeout(
-
-				function () {
-
-					if (PROJECTOBJ.animations !== undefined) {
-
-						PROJECTOBJ.MM3D = {
-
-							threeJsAnimation: {
-
-								mixer: new THREE.AnimationMixer(PROJECTOBJ),
-
-								animations: PROJECTOBJ.animations
-
-							}
-
-						};
-
-						let idleAction;
-
-						for (var i = 0; i < PROJECTOBJ.animations.length; i++) {
-
-							idleAction = PROJECTOBJ.MM3D.threeJsAnimation.mixer.clipAction(p.obj.animations[i]);
-
-							idleAction.play();
-
-						};
-
-					};
-
-				},
-				2000
-
-			);
-
-
-
-			// DATI OGGETTO ORIGINALE DA SALVARE //
-
-			EDITOR.f.saveProjectData(UI.p.popup_login_data.p.data.user, PROJECTOBJ);
-
-			// ///////////////////////////////// //
-
 
 
 			// CANCELLA E PREPARA NUOVO PROGETTO //
@@ -1460,6 +1522,8 @@ const createEditor = () => {
 				);
 
 			};
+			
+			UI.p.menu_optimizer.f.open();
 
 		};
 
@@ -1720,6 +1784,27 @@ const createEditor = () => {
 					);
 
 					break;
+					
+					
+				case "json":
+
+					console.log(p);
+
+					VARCO.f.addComplex(
+						PLY.p.scene3D,
+						p.obj,
+						function (q) {
+
+							PROJECTOBJ = q.obj;
+
+							objectReady(PROJECTOBJ, projectName, 'json');
+
+						},
+						{}
+					)
+
+					break;
+
 
 			};
 

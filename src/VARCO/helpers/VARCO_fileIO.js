@@ -143,7 +143,7 @@ VARCO.f.initDropZone = function (DIV, callback, callbackprop) {
 						var video = document.createElement('video');
 						video.src = e2.target.result;
 						
-						video.onload = function(){
+						//video.onload = function(){
 							
 							console.log( "go go go " )
 
@@ -161,7 +161,7 @@ VARCO.f.initDropZone = function (DIV, callback, callbackprop) {
 								callback(callbackprop);
 							}
 
-						};
+						//};
 						// TEXTURE.image.play();
 
 					};

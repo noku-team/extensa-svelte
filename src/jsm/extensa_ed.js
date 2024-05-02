@@ -1769,12 +1769,12 @@ const createEditor = () => {
 											"materialList": [projectName],
 											"castShadow": true,
 											"parameters": {
-												"width": p.obj.width * 0.01,
-												"height": p.obj.height * 0.01,
+												"width": 4,
+												"height": 2.5,
 											},
 											"position" : {
 												"x" : 0.0,
-												"y" : p.obj.height * 0.01 * 0.5,
+												"y" : 1.3,
 												"z" : 0.0
 											}
 										}

@@ -1536,7 +1536,6 @@ const createUI = () => {
 	};
 
 
-
 	UI.p.menu_bottom.f.button_AR = function () {
 
 		console.log("UI.p.menu_bottom.f.button_AR");
@@ -2002,10 +2001,15 @@ const createUI = () => {
 			UI.p.scene.OBJECTS.menu_optimizer = true;
 
 			VARCO.f.loadComplex(
+			
 				UI.p.scene,
+				
 				'json/menu_optimizer.json',
+				
 				undefined,
+				
 				function init_menu_optimizer ( p ){
+					
 					PLY.f.resizeScreen();
 					
 				}
@@ -2029,18 +2033,22 @@ const createUI = () => {
 	};
 
 
-
 	UI.p.menu_optimizer.f.button_textures = function(){
 		
 		console.log( 'UI.p.menu_optimizer.f.button_textures_onOff' );
 		
 		if ( UI.p.menu_optimizer.p.flagTextures ){
+			
 			UI.p.menu_optimizer.p.flagTextures = false;
+			
 		} else {
+			
 			UI.p.menu_optimizer.p.flagTextures = true;
+			
 		};
 		
 	};
+
 
 	UI.p.menu_optimizer.f.slider_texture_down = function( p ){
 		
@@ -2053,6 +2061,7 @@ const createUI = () => {
 		};
 		
 	};
+
 
 	UI.p.menu_optimizer.f.slider_texture_move = function( p ){
 		
@@ -2071,7 +2080,6 @@ const createUI = () => {
 	};
 
 
-
 	UI.p.menu_optimizer.f.button_geometry = function(){
 		
 		console.log( 'UI.p.menu_optimizer.f.button_geometry_onOff' );
@@ -2088,6 +2096,7 @@ const createUI = () => {
 		
 	};
 
+
 	UI.p.menu_optimizer.f.slider_geometry_down = function( p ){
 		
 		if ( UI.p.menu_optimizer.p.flagGeometry ){
@@ -2099,6 +2108,7 @@ const createUI = () => {
 		};
 		
 	};
+	
 
 	UI.p.menu_optimizer.f.slider_geometry_move = function( p ){
 		
@@ -2117,7 +2127,6 @@ const createUI = () => {
 	};
 
 
-
 	UI.p.menu_optimizer.f.button_drawCalls = function(){
 		
 		console.log( 'UI.p.menu_optimizer.f.button_drawCalls_onOff' );
@@ -2134,6 +2143,7 @@ const createUI = () => {
 		
 	};
 
+
 	UI.p.menu_optimizer.f.slider_drawCalls_down = function( p ){
 		
 		if ( UI.p.menu_optimizer.p.flagDrawCalls ){
@@ -2145,6 +2155,7 @@ const createUI = () => {
 		};
 		
 	};
+
 
 	UI.p.menu_optimizer.f.slider_drawCalls_move = function( p ){
 		
@@ -2161,7 +2172,6 @@ const createUI = () => {
 		};
 		
 	};
-
 
 
 	UI.p.menu_optimizer.f.button_optimizer = function(){
@@ -2194,11 +2204,13 @@ const createUI = () => {
 		
 	}; 
 
+
 	UI.p.menu_optimizer.f.button_save_area = function(){
 		
 		EDITOR.f.SAVE_GEOAREA();
 		
 	};
+	
 	
 	UI.p.menu_optimizer.f.button_save_glb = function(){
 		
@@ -2207,6 +2219,7 @@ const createUI = () => {
 		EDITOR.f.exportGLB( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			
 	};
+
 
 	UI.p.menu_optimizer.f.button_save_gltf = function(){
 		
@@ -2279,14 +2292,9 @@ const createUI = () => {
 	};
 
 
-
 	UI.p.menu_optimizer.f.feedback = function( p ){  // JJ
 
 		// sliders //
-		
-		
-		
-		// /////// //
 		
 		if ( UI.p.menu_optimizer.p.flagTextures ){
 			

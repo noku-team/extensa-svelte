@@ -493,7 +493,7 @@ fn get_chunk_by_index(file_id: FileId, index: usize) -> Option<Chunk> {
     match file_result {
         None => None,
         Some(file) => {
-            if index > file.chunks.len() {
+            if index >= file.chunks.len() {
                 return None;
             } else {
                 let chunk_id_result = file.chunks[index];
@@ -582,10 +582,10 @@ fn authenticate_call(subaccount: Option<Subaccount>) -> Result<Account, String> 
     // The anonymous principal is not allowed to interact with canister.
     if caller == Principal::anonymous() {
         // enable this instruction to debug without identity
-        // Ok((caller, subaccount))
-        Err(String::from(
-            "Anonymous principal not allowed to make calls.",
-        ))
+        Ok((caller, subaccount))
+        // Err(String::from(
+        //     "Anonymous principal not allowed to make calls.",
+        // ))
     } else {
         Ok((caller, subaccount))
     }

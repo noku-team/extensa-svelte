@@ -840,9 +840,7 @@ const createPLY = () => {
 			};
 
 			// Fetch geoareas from canister
-			executeFetchGeoareasByCoords(fetchParams).then((res) => {
-				console.warn("geoareas", res);
-			});
+			executeFetchGeoareasByCoords(fetchParams).then();
 
 			// carica il settore //
 			// TODO load all JSON sectors here

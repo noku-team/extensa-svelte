@@ -25,7 +25,7 @@ const storeCompleteFile = async (dfinityOptions: StoreCompleteFileParams, storeC
 
     const promises = chunks.map((chunk, index) => {
         const indexBN = BigInt(index);
-        executeStoreFileChunk({
+        return executeStoreFileChunk({
             identity,
             canisterId,
             fileId: fileId,

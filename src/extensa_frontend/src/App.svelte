@@ -22,7 +22,7 @@
 		</div>
 		<div id="body">
 			{#if $spinnerStore.isLoading}
-				<div class="h-screen w-screen flex justify-center items-center">
+				<div class="h-screen w-screen flex justify-center items-center bg-base-100 bg-opacity-10">
 					<span class="loading loading-spinner loading-lg"></span>
 				</div>
 			{:else}

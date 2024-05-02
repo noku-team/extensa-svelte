@@ -149,7 +149,7 @@ VARCO.f.initDropZone = function (DIV, callback, callbackprop) {
 							if (callbackprop == undefined) {
 								callbackprop = { obj: null }
 							}
-							callbackprop.obj = TEXTURE;
+							callbackprop.obj = video;
 							callbackprop.name = name;
 							callbackprop.data = video.src;
 

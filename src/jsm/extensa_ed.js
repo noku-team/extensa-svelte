@@ -1608,7 +1608,7 @@ const createEditor = () => {
 					
 					console.log(p);
 
-					console.log(p.data.width);
+					console.log(p.obj.width);
 
 					VARCO.f.addComplex(
 						PLY.p.scene3D,

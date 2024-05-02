@@ -142,20 +142,26 @@ VARCO.f.initDropZone = function (DIV, callback, callbackprop) {
 						// finished reading file data.
 						var video = document.createElement('video');
 						video.src = e2.target.result;
+						
+						video.onload = function(){
+							
+							console.log( "go go go " )
 
-						// let TEXTURE = new THREE.VideoTexture( video );
 
-						if (callback !== undefined) {
-							if (callbackprop == undefined) {
-								callbackprop = { obj: null }
+							// let TEXTURE = new THREE.VideoTexture( video );
+
+							if (callback !== undefined) {
+								if (callbackprop == undefined) {
+									callbackprop = { obj: null }
+								}
+								callbackprop.obj = video;
+								callbackprop.name = name;
+								callbackprop.data = video.src;
+
+								callback(callbackprop);
 							}
-							callbackprop.obj = video;
-							callbackprop.name = name;
-							callbackprop.data = video.src;
 
-							callback(callbackprop);
-						}
-
+						};
 						// TEXTURE.image.play();
 
 					};
@@ -172,22 +178,28 @@ VARCO.f.initDropZone = function (DIV, callback, callbackprop) {
 						// finished reading file data.
 						var img = document.createElement('img');
 						img.src = e2.target.result;
+						
+						img.onload = function(){
+							
+							console.log( "go go go " )
 
-						// let TEXTURE = new THREE.Texture();
+							// let TEXTURE = new THREE.Texture();
 
-						// TEXTURE.image = img;
-						// TEXTURE.needsUpdate = true;
-						// TEXTURE.name = name;
+							// TEXTURE.image = img;
+							// TEXTURE.needsUpdate = true;
+							// TEXTURE.name = name;
 
-						if (callback !== undefined) {
-							if (callbackprop == undefined) {
-								callbackprop = { obj: null }
+							if (callback !== undefined) {
+								if (callbackprop == undefined) {
+									callbackprop = { obj: null }
+								}
+								callbackprop.obj = img;
+								callbackprop.name = name;
+								callbackprop.data = img.src;
+
+								callback(callbackprop);
 							}
-							callbackprop.obj = img;
-							callbackprop.name = name;
-							callbackprop.data = img.src;
-
-							callback(callbackprop);
+						
 						}
 
 					};

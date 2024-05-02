@@ -429,6 +429,8 @@ const createEditor = () => {
 				let OBJ = p.obj;
 
 				// create MAP POI //
+				
+				OBJ.userData.projectsList = [];
 
 				UI.f.createGeoArea_POI(OBJ);
 
@@ -1280,51 +1282,16 @@ const createEditor = () => {
 				PROJECTOBJ.userData.data = p.data;
 
 				PROJECTOBJ.userData.stringByte64 = stringByte64;
-				
-				// start animation //
-
-				setTimeout(
-
-					function () {
-
-						if (PROJECTOBJ.animations !== undefined) {
-
-							PROJECTOBJ.MM3D = {
-
-								threeJsAnimation: {
-
-									mixer: new THREE.AnimationMixer(PROJECTOBJ),
-
-									animations: PROJECTOBJ.animations
-
-								}
-
-							};
-
-							let idleAction;
-
-							for (var i = 0; i < PROJECTOBJ.animations.length; i++) {
-
-								idleAction = PROJECTOBJ.MM3D.threeJsAnimation.mixer.clipAction(p.obj.animations[i]);
-
-								idleAction.play();
-
-							};
-
-						};
-
-					},
-					2000
-
-				);
-			
+	
 			} else {
 				
 				type = infoJson.userData.type;
 				
 				extension = infoJson.userData.extension;
 				
-			}
+				PROJECTOBJ.userData.fromJson = true;
+				
+			};
 			
 			
 			PROJECTOBJ.userData.type = type;
@@ -1335,6 +1302,43 @@ const createEditor = () => {
 
 			PROJECTOBJ.userData.myCoords = { 'lng': MAP.p.actualCoords.lng, 'lat': MAP.p.actualCoords.lat, 'alt': MAP.p.actualCoords.alt };
 
+
+			// start animation //
+
+			setTimeout(
+
+				function () {
+
+					if (PROJECTOBJ.animations !== undefined) {
+
+						PROJECTOBJ.MM3D = {
+
+							threeJsAnimation: {
+
+								mixer: new THREE.AnimationMixer(PROJECTOBJ),
+
+								animations: PROJECTOBJ.animations
+
+							}
+
+						};
+
+						let idleAction;
+
+						for (var i = 0; i < PROJECTOBJ.animations.length; i++) {
+
+							idleAction = PROJECTOBJ.MM3D.threeJsAnimation.mixer.clipAction(p.obj.animations[i]);
+
+							idleAction.play();
+
+						};
+
+					};
+
+				},
+				2000
+
+			);
 
 			// aggiungi ombre //
 
@@ -1400,6 +1404,8 @@ const createEditor = () => {
 							w.obj.OBJECTS.myProject.add(PROJECTOBJ);
 							w.obj.OBJECTS.myProject.OBJECTS[PROJECTOBJ.name];
 						};
+						
+						PLY.p.selectedArea.userData.projectsList.push( PROJECTOBJ );
 
 					},
 					{}
@@ -1472,8 +1478,10 @@ const createEditor = () => {
 								// update user geoList //
 
 								UI.p.popup_login_data.p.data.geoareaList.push(
-
+									PLY.p.selectedArea
 								);
+								
+								PLY.p.selectedArea.userData.projectsList.push( PROJECTOBJ );
 
 							},
 							{}
@@ -1591,16 +1599,16 @@ const createEditor = () => {
 											"parameters": {
 												"width": p.obj.width * 0.01,
 												"height": p.obj.height * 0.01,
-											},
-											"position" : {
-												"x" : 0.0,
-												"y" : p.obj.height * 0.01 * 0.5,
-												"z" : 0.0
 											}
 										}
 									}
 								]
 
+							},
+							"position" : {
+								"x" : 0.0,
+								"y" : p.obj.height * 0.01 * 0.5,
+								"z" : 0.0
 							}
 
 						},
@@ -1657,16 +1665,16 @@ const createEditor = () => {
 											"parameters": {
 												"width": p.obj.width * 0.01,
 												"height": p.obj.height * 0.01,
-											},
-											"position" : {
-												"x" : 0.0,
-												"y" : p.obj.height * 0.01 * 0.5,
-												"z" : 0.0
 											}
 										}
 									}
 								]
 
+							},
+							"position" : {
+								"x" : 0.0,
+								"y" : p.obj.height * 0.01 * 0.5,
+								"z" : 0.0
 							}
 
 						},
@@ -1689,6 +1697,7 @@ const createEditor = () => {
 					console.log(p);
 
 					VARCO.f.addComplex(
+					
 						PLY.p.scene3D,
 						
 						{
@@ -1722,16 +1731,16 @@ const createEditor = () => {
 											"parameters": {
 												"width": 4,
 												"height": 2.5,
-											},
-											"position" : {
-												"x" : 0.0,
-												"y" : 1.3,
-												"z" : 0.0
 											}
 										}
 									}
 								]
 
+							},
+							"position" : {
+								"x" : 0.0,
+								"y" : 1.3,
+								"z" : 0.0
 							}
 
 						},
@@ -1754,11 +1763,16 @@ const createEditor = () => {
 					console.log(p);
 
 					VARCO.f.addComplex(
+					
 						PLY.p.scene3D,
+						
 						p.obj,
+						
 						function (q) {
 
 							PROJECTOBJ = q.obj;
+							
+							console.log( PROJECTOBJ );
 
 							objectReady( PROJECTOBJ, projectName, 'json', p.obj );
 
@@ -2302,6 +2316,24 @@ const createEditor = () => {
 		
 		console.log( PROJECTOBJ );
 		
+		const position = {
+			"x": PROJECTOBJ.position.x,
+			"y": PROJECTOBJ.position.y,
+			"z": PROJECTOBJ.position.z
+		};
+
+		const rotation = {
+			"x": VARCO.f.rad2deg( PROJECTOBJ.rotation.x ),
+			"y": VARCO.f.rad2deg( PROJECTOBJ.rotation.y ),
+			"z": VARCO.f.rad2deg( PROJECTOBJ.rotation.z )
+		};
+		
+		const scale = {
+			"x": PROJECTOBJ.scale.x,
+			"y": PROJECTOBJ.scale.y,
+			"z": PROJECTOBJ.scale.z
+		}
+		
 		const propImageObject = {
 			"name" : PROJECTOBJ.name,
 			"userData" : { "type" : "image", "extension" : PROJECTOBJ.userData.extension },
@@ -2340,21 +2372,9 @@ const createEditor = () => {
 				]
 				
 			},
-			"position": {
-				"x": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.x,
-				"y": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.y,
-				"z": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.z
-			},
-			"rotation": {
-				"x": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.x ),
-				"y": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.y ),
-				"z": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.z )
-			},
-			"scale": {
-				"x": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.x,
-				"y": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.y,
-				"z": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.z
-			}
+			"position": position,
+			"rotation": rotation,
+			"scale": scale
 
 		};
 		
@@ -2375,6 +2395,24 @@ const createEditor = () => {
 		console.log( 'EDITOR.f.exportVIDEO' );
 		
 		console.log( PROJECTOBJ );
+		
+		const position = {
+			"x": PROJECTOBJ.position.x,
+			"y": PROJECTOBJ.position.y,
+			"z": PROJECTOBJ.position.z
+		};
+
+		const rotation = {
+			"x": VARCO.f.rad2deg( PROJECTOBJ.rotation.x ),
+			"y": VARCO.f.rad2deg( PROJECTOBJ.rotation.y ),
+			"z": VARCO.f.rad2deg( PROJECTOBJ.rotation.z )
+		};
+		
+		const scale = {
+			"x": PROJECTOBJ.scale.x,
+			"y": PROJECTOBJ.scale.y,
+			"z": PROJECTOBJ.scale.z
+		}
 		
 		const propVideoObject = {
 			"name" : PROJECTOBJ.name,
@@ -2414,21 +2452,9 @@ const createEditor = () => {
 				]
 				
 			},
-			"position": {
-				"x": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.x,
-				"y": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.y,
-				"z": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.z
-			},
-			"rotation": {
-				"x": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.x ),
-				"y": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.y ),
-				"z": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.z )
-			},
-			"scale": {
-				"x": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.x,
-				"y": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.y,
-				"z": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.z
-			}
+			"position": position,
+			"rotation": rotation,
+			"scale": scale
 
 		};
 		
@@ -2449,6 +2475,26 @@ const createEditor = () => {
 		console.log( 'EDITOR.f.exportGLTF' );
 		
 		console.log( PROJECTOBJ );
+		
+
+		const position = {
+			"x": PROJECTOBJ.position.x,
+			"y": PROJECTOBJ.position.y,
+			"z": PROJECTOBJ.position.z
+		};
+
+		const rotation = {
+			"x": VARCO.f.rad2deg( PROJECTOBJ.rotation.x ),
+			"y": VARCO.f.rad2deg( PROJECTOBJ.rotation.y ),
+			"z": VARCO.f.rad2deg( PROJECTOBJ.rotation.z )
+		};
+		
+		const scale = {
+			"x": PROJECTOBJ.scale.x,
+			"y": PROJECTOBJ.scale.y,
+			"z": PROJECTOBJ.scale.z
+		}
+			
 		
 		const exporter = new GLTFExporter();
 		
@@ -2508,21 +2554,9 @@ const createEditor = () => {
 							}
 						]
 					},
-					"position": {
-						"x": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.x,
-						"y": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.y,
-						"z": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.z
-					},
-					"rotation": {
-						"x": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.x ),
-						"y": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.y ),
-						"z": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.z )
-					},
-					"scale": {
-						"x": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.x,
-						"y": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.y,
-						"z": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.z
-					}
+					"position": position,
+					"rotation": rotation,
+					"scale": scale
 					
 				};
 				

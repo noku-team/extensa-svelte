@@ -10,6 +10,7 @@ import { VARCO } from "../VARCO/helpers/VARCO.js";
 import RENDERERSingleton from '../functions/renderer.js';
 import { authStore } from '../store/AuthStore';
 import { projectStore } from '../store/ProjectStore';
+import executeFetchGeoareasByCoords from '../utils/dfinity/geoareas/methods/fetchGeoareas';
 import { getAnonymousIdentity } from '../utils/dfinity/identityAgent';
 import getDOMHeight from '../utils/dom/getDOMHeight.js';
 import { EDITOR, MAP, UI } from "./index.js";
@@ -839,55 +840,55 @@ const createPLY = () => {
 			};
 
 			// Fetch geoareas from canister
-			// executeFetchGeoareasByCoords(fetchParams).then((geoAreas) => {
-			// 	for (const geoData of geoAreas) {
-			// 		EDITOR.f.createGeoArea(
-			// 			geoData,
-			// 			(q) => {
-			// 				let GEOAREAOBJ = q.obj;
-			// 				for (const project of geoData.projectsList) {
-			// 					// CREATE PROJECTS CIRCLES //
-			// 					EDITOR.f.createProject(
-			// 						GEOAREAOBJ,
-			// 						project,
-			// 						() => { },
-			// 						{}
-			// 					);
-			// 				}
-			// 			},
-			// 			{}
-			// 		);
-			// 	}
-			// });
+			executeFetchGeoareasByCoords(fetchParams).then((geoAreas) => {
+				for (const geoData of geoAreas) {
+					EDITOR.f.createGeoArea(
+						geoData,
+						(q) => {
+							let GEOAREAOBJ = q.obj;
+							for (const project of geoData.projectsList) {
+								// CREATE PROJECTS CIRCLES //
+								EDITOR.f.createProject(
+									GEOAREAOBJ,
+									project,
+									() => { },
+									{}
+								);
+							}
+						},
+						{}
+					);
+				}
+			});
 
 			// carica il settore //
 			// TODO load all JSON sectors here
-			VARCO.f.loadJSON(
-				`TEST_GEOAREA/test_geoarea.json`,
-				(geoAreas) => {
-					for (const geoData of geoAreas) {
-						EDITOR.f.createGeoArea(
-							geoData,
-							(q) => {
-								let GEOAREAOBJ = q.obj;
-								for (const project of geoData.projectsList) {
-									// CREATE PROJECTS CIRCLES //
-									EDITOR.f.createProject(
-										GEOAREAOBJ,
-										project,
-										() => { },
-										{}
-									);
-								}
-							},
-							{}
-						);
-					}
-				},
-				(error) => {
-					console.error("Error while loading testing geoareas", error);
-				}
-			)
+			// VARCO.f.loadJSON(
+			// 	`TEST_GEOAREA/test_geoarea.json`,
+			// 	(geoAreas) => {
+			// 		for (const geoData of geoAreas) {
+			// 			EDITOR.f.createGeoArea(
+			// 				geoData,
+			// 				(q) => {
+			// 					let GEOAREAOBJ = q.obj;
+			// 					for (const project of geoData.projectsList) {
+			// 						// CREATE PROJECTS CIRCLES //
+			// 						EDITOR.f.createProject(
+			// 							GEOAREAOBJ,
+			// 							project,
+			// 							() => { },
+			// 							{}
+			// 						);
+			// 					}
+			// 				},
+			// 				{}
+			// 			);
+			// 		}
+			// 	},
+			// 	(error) => {
+			// 		console.error("Error while loading testing geoareas", error);
+			// 	}
+			// )
 
 		};
 

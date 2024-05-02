@@ -17,6 +17,8 @@ import { MAP, PLY } from "./index.js";
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js'; // <<<<<<<<<<<<<<<<
 import { SimplifyModifier } from 'three/addons/modifiers/SimplifyModifier.js'; // <<<<<<<<<<<<<<<<
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js'; // <<<<<<<<<<<<<<<<
+import { spinnerStore } from '../store/SpinnerStore';
+import createGeoareaAndLoadProjectInside from '../utils/dfinity/geoareas/helpers/createGeoareaAndLoadProjectInside';
 // import { MeshoptDecoder } from 'three/libs/meshopt_decoder.module'; // <<<<<<<<<<<<<<<<
 
 
@@ -815,216 +817,254 @@ const createEditor = () => {
 
 
 
-	EDITOR.f.saveProjectData = function (user, PROJECTOBJ) {
+	EDITOR.f.saveProjectData = async function (PROJECTOBJ) {
+		try {
+			spinnerStore.setLoading(true);
+			let projectData;
 
-		let projectData;
+			switch (PROJECTOBJ.userData.type) {
 
-		switch (PROJECTOBJ.userData.type) {
+				case '3d':
 
-			case '3d':
-
-				projectData = {
-					"name": PROJECTOBJ.name,
-					"parameters": {
-						"elementList": [
-							{
-								"type": "addFromFile",
-								"prop": {
-									"name": PROJECTOBJ.name,
-									"parameters": {
-										"type": "base64",
-										"url": PROJECTOBJ.userData.stringByte64,
-										"extension": PROJECTOBJ.userData.extension // "gltf"
+					projectData = {
+						"name": PROJECTOBJ.name,
+						"parameters": {
+							"elementList": [
+								{
+									"type": "addFromFile",
+									"prop": {
+										"name": PROJECTOBJ.name,
+										"parameters": {
+											"type": "base64",
+											"url": PROJECTOBJ.userData.stringByte64,
+											"extension": PROJECTOBJ.userData.extension // "gltf"
+										}
 									}
 								}
-							}
-						]
-					},
-					"position": {
-						"x": 0.0,
-						"y": 0.0,
-						"z": 0.0
-					},
-					"rotation": {
-						"x": 0.0,
-						"y": 0.0,
-						"z": 0.0
-					},
-					"scale": {
-						"x": 1.0,
-						"y": 1.0,
-						"z": 1.0
-					}
-				};
+							]
+						},
+						"position": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"rotation": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"scale": {
+							"x": 1.0,
+							"y": 1.0,
+							"z": 1.0
+						}
+					};
 
-				break;
+					break;
 
 
-			case 'glb':
+				case 'glb':
 
-				projectData = {
-					"name": PROJECTOBJ.name,
-					"parameters": {
-						"elementList": [
-							{
-								"type": "addFromFile",
-								"prop": {
-									"name": PROJECTOBJ.name,
-									"parameters": {
-										"type": "base64",
-										"url": PROJECTOBJ.userData.stringByte64,
-										"extension": PROJECTOBJ.userData.extension // "gltf"
+					projectData = {
+						"name": PROJECTOBJ.name,
+						"parameters": {
+							"elementList": [
+								{
+									"type": "addFromFile",
+									"prop": {
+										"name": PROJECTOBJ.name,
+										"parameters": {
+											"type": "base64",
+											"url": PROJECTOBJ.userData.stringByte64,
+											"extension": PROJECTOBJ.userData.extension // "gltf"
+										}
 									}
 								}
-							}
-						]
-					},
-					"position": {
-						"x": 0.0,
-						"y": 0.0,
-						"z": 0.0
-					},
-					"rotation": {
-						"x": 0.0,
-						"y": 0.0,
-						"z": 0.0
-					},
-					"scale": {
-						"x": 1.0,
-						"y": 1.0,
-						"z": 1.0
-					}
-				};
+							]
+						},
+						"position": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"rotation": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"scale": {
+							"x": 1.0,
+							"y": 1.0,
+							"z": 1.0
+						}
+					};
 
-				break;
+					break;
 
-			case 'image':
+				case 'image':
 
-				projectData = {
-					"name": PROJECTOBJ.name,
-					"parameters": {
-						"textureList": [
-							{
-								"name": PROJECTOBJ.name,
-								"type": "base64",
-								"url": PROJECTOBJ.userData.stringByte64
-							}
-						],
-						"materialList": [
-							{
-								"name": PROJECTOBJ.name,
-								"type": "MeshBasicMaterial",
-								"parameters": {
-									"textures": { "map": PROJECTOBJ.name },
-									"side": "THREE.DoubleSide"
-								}
-							}
-						],
-						"elementList": [
-							{
-								"type": "addMesh",
-								"prop": {
-									"type": "PlaneGeometry",
+					projectData = {
+						"name": PROJECTOBJ.name,
+						"parameters": {
+							"textureList": [
+								{
 									"name": PROJECTOBJ.name,
-									"materialList": [PROJECTOBJ.name],
-									"castShadow": true,
+									"type": "base64",
+									"url": PROJECTOBJ.userData.stringByte64
+								}
+							],
+							"materialList": [
+								{
+									"name": PROJECTOBJ.name,
+									"type": "MeshBasicMaterial",
 									"parameters": {
-										"width": 1,
-										"height": 1
+										"textures": { "map": PROJECTOBJ.name },
+										"side": "THREE.DoubleSide"
 									}
 								}
-							}
-						]
-
-					},
-					"position": {
-						"x": 0.0,
-						"y": 0.0,
-						"z": 0.0
-					},
-					"rotation": {
-						"x": 0.0,
-						"y": 0.0,
-						"z": 0.0
-					},
-					"scale": {
-						"x": PROJECTOBJ.scale.x,
-						"y": PROJECTOBJ.scale.y,
-						"z": PROJECTOBJ.scale.z
-					}
-
-				};
-
-				break;
-
-
-			case 'video':
-
-				projectData = {
-					"name": PROJECTOBJ.name,
-					"parameters": {
-						"textureList": [
-							{
-								"name": PROJECTOBJ.name,
-								"type": "videoBase64",
-								"url": PROJECTOBJ.userData.stringByte64
-							}
-						],
-						"materialList": [
-							{
-								"name": PROJECTOBJ.name,
-								"type": "MeshBasicMaterial",
-								"parameters": {
-									"textures": { "map": PROJECTOBJ.name },
-									"side": "THREE.DoubleSide"
-								}
-							}
-						],
-						"elementList": [
-							{
-								"type": "addMesh",
-								"prop": {
-									"type": "PlaneGeometry",
-									"name": PROJECTOBJ.name,
-									"materialList": [PROJECTOBJ.name],
-									"castShadow": true,
-									"parameters": {
-										"width": 1,
-										"height": 1
+							],
+							"elementList": [
+								{
+									"type": "addMesh",
+									"prop": {
+										"type": "PlaneGeometry",
+										"name": PROJECTOBJ.name,
+										"materialList": [PROJECTOBJ.name],
+										"castShadow": true,
+										"parameters": {
+											"width": 1,
+											"height": 1
+										}
 									}
 								}
-							}
-						]
+							]
 
+						},
+						"position": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"rotation": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"scale": {
+							"x": PROJECTOBJ.scale.x,
+							"y": PROJECTOBJ.scale.y,
+							"z": PROJECTOBJ.scale.z
+						}
+
+					};
+
+					break;
+
+
+				case 'video':
+
+					projectData = {
+						"name": PROJECTOBJ.name,
+						"parameters": {
+							"textureList": [
+								{
+									"name": PROJECTOBJ.name,
+									"type": "videoBase64",
+									"url": PROJECTOBJ.userData.stringByte64
+								}
+							],
+							"materialList": [
+								{
+									"name": PROJECTOBJ.name,
+									"type": "MeshBasicMaterial",
+									"parameters": {
+										"textures": { "map": PROJECTOBJ.name },
+										"side": "THREE.DoubleSide"
+									}
+								}
+							],
+							"elementList": [
+								{
+									"type": "addMesh",
+									"prop": {
+										"type": "PlaneGeometry",
+										"name": PROJECTOBJ.name,
+										"materialList": [PROJECTOBJ.name],
+										"castShadow": true,
+										"parameters": {
+											"width": 1,
+											"height": 1
+										}
+									}
+								}
+							]
+
+						},
+						"position": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"rotation": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"scale": {
+							"x": PROJECTOBJ.scale.x,
+							"y": PROJECTOBJ.scale.y,
+							"z": PROJECTOBJ.scale.z
+						}
+
+					};
+
+					break;
+
+			}
+
+			const textData = JSON.stringify(projectData);
+
+			const auth = get(authStore);
+			const identity = auth.identity;
+
+			if (identity) {
+				// geoarea
+				const geoAreaName = PLY.p.selectedArea.userData.geoAreaName;
+				const geoAreaCoords = PLY.p.selectedArea.userData.myCoords;
+
+				// projectF
+				// mocked for now
+				const projectType = "3D";
+				const projectPosition = projectData.position;
+				const projectOrientation = projectData.rotation;
+				const projectSize = projectData.scale;
+				const projectName = projectData.name;
+
+				await createGeoareaAndLoadProjectInside(
+					identity,
+					textData,
+					{
+						geoAreaName,
+						geoAreaCoords
 					},
-					"position": {
-						"x": 0.0,
-						"y": 0.0,
-						"z": 0.0
+					{
+						projectPosition,
+						projectOrientation,
+						projectSize,
+						projectType,
+						projectName
 					},
-					"rotation": {
-						"x": 0.0,
-						"y": 0.0,
-						"z": 0.0
-					},
-					"scale": {
-						"x": PROJECTOBJ.scale.x,
-						"y": PROJECTOBJ.scale.y,
-						"z": PROJECTOBJ.scale.z
-					}
+				);
+			} else {
+				alert("Login and try again!")
 
-				};
-
-				break;
-
+			}
+		} catch (e) {
+			console.error(e);
+		} finally {
+			console.error("---");
+			spinnerStore.setLoading(false);
 		}
-
-		const textData = JSON.stringify(projectData);
-
-		const nameFile = 'USER_DB/' + user + '/contents/' + projectData.name + '.json';
-
-		VARCO.f.saveInfo(textData, nameFile);
-
 	};
 
 
@@ -1095,14 +1135,10 @@ const createEditor = () => {
 			};
 
 
-			// save GEOAREA // 
-
-			const textData = JSON.stringify(geoAreaInfo);
-
-			const nameFile = 'USER_DB/' + PLY.p.selectedArea.userData.user + '/' + PLY.p.selectedArea.userData.geoAreaName + ".json";
+			// save GEOAREA //
 
 			// TODO EDIT PROJECT HERE AND SEND TO BLOCKCHAIN
-			projectStore.setGeoAreaToEdit(geoAreaInfo);
+			// projectStore.setGeoAreaToEdit(geoAreaInfo);
 
 
 		};
@@ -1761,10 +1797,10 @@ const createEditor = () => {
 												"width": 4,
 												"height": 2.5,
 											},
-											"position" : {
-												"x" : 0.0,
-												"y" : 1.3,
-												"z" : 0.0
+											"position": {
+												"x": 0.0,
+												"y": 1.3,
+												"z": 0.0
 											}
 										}
 									}
@@ -1795,11 +1831,8 @@ const createEditor = () => {
 						PLY.p.scene3D,
 						p.obj,
 						function (q) {
-
 							PROJECTOBJ = q.obj;
-
 							objectReady(PROJECTOBJ, projectName, 'json');
-
 						},
 						{}
 					)
@@ -1808,9 +1841,6 @@ const createEditor = () => {
 
 
 			};
-
-			// TODO call createGeoareaAndLoadProjectInside here
-			console.warn(p.data);
 		};
 	};
 
@@ -2444,7 +2474,7 @@ const createEditor = () => {
 
 				OBJ.userData.extension = 'gltf';
 
-				EDITOR.f.saveProjectData(UI.p.popup_login_data.p.data.user, OBJ);
+				EDITOR.f.saveProjectData(OBJ);
 
 			}
 

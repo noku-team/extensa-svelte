@@ -1,45 +1,61 @@
 import type { Identity } from "@dfinity/agent";
-import executeAddGeoarea from "../methods/addGeoarea";
+import executeAddGeoarea, { type XYZ } from "../methods/addGeoarea";
 import executeAddProject from "../methods/addProject";
 import executeAllocateNewFile from "../methods/allocateNewFiles";
 import storeCompleteFile from "./storeCompleteFile";
 
-type Options = {
+type GeoareaOptions = {
     geoAreaName: string;
-    fileSize: number;
+    geoAreaCoords: {
+        lat: number;
+        lng: number;
+        alt: number;
+    };
 };
 
-const createGeoareaAndLoadProjectInside = async (identity: Identity | null = null, options: Options) => {
+type ProjectOptions = {
+    projectPosition: XYZ;
+    projectOrientation: XYZ;
+    projectSize: XYZ;
+    projectType: string;
+    projectName: string;
+}
+
+const createGeoareaAndLoadProjectInside = async (
+    identity: Identity | null = null,
+    file = "",
+    geoarea: GeoareaOptions,
+    project: ProjectOptions) => {
     if (!identity) return;
     if (!process.env.CANISTER_ID_EXTENSA_BACKEND) return;
 
-    const { geoAreaName = "", fileSize = 0 } = options ?? {};
+    const { geoAreaName = "", geoAreaCoords } = geoarea ?? {};
+    const {
+        projectPosition,
+        projectOrientation,
+        projectSize,
+        projectType,
+        projectName
+    } = project ?? {};
 
     const geoareaId = await executeAddGeoarea({
         identity,
         canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
         name: geoAreaName,
-        coords: {
-            alt: 0,
-            lat: 45.64481184394597,
-            lng: 9.817726187892196,
-        },
+        coords: geoAreaCoords,
     });
 
+    const fileSize = file.length;
     // test file size for house 3d: 7485520
     const result = await executeAllocateNewFile({
         identity,
         canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
-        fileSize: 7485520,
+        fileSize,
     });
 
     const { fileId, numberOfChunks } = result ?? {};
 
     if (numberOfChunks && fileId) {
-        const testFile = await fetch("/USER_DB/test/contents/house.json");
-        const fileJson = await testFile.json();
-        const file = fileJson.parameters.elementList[0].prop.parameters.url;
-
         const resultStore = await storeCompleteFile(
             {
                 identity,
@@ -59,18 +75,14 @@ const createGeoareaAndLoadProjectInside = async (identity: Identity | null = nul
             identity,
             canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
             geoareaId,
-            type: "---",
-            name: "House",
-            position: {
-                x: -5.256669446825981,
-                y: 0.025,
-                z: 34.826631393283606,
-            },
-            orientation: { x: 0, y: 0, z: 0 },
-            size: { x: 1, y: 1, z: 1 },
+            type: projectType,
+            name: projectName,
+            position: projectPosition,
+            orientation: projectOrientation,
+            size: projectSize,
             fileId,
         });
-        console.warn("resultAddProject: ", resultAddProject);
+        console.warn(`+++ PROCEDURE FINISHED: ${resultAddProject} +++`);
     }
 };
 

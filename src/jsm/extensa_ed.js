@@ -661,6 +661,8 @@ const createEditor = () => {
 
 		const { project: _selectedProject } = get(projectStore); // leggi dato
 		
+		console.log( _selectedProject );
+		
 		let USER = _selectedProject.userData.linkedGeoArea.userData.user;
 		
 		let PROJECTNAME = _selectedProject.userData.name;
@@ -674,7 +676,7 @@ const createEditor = () => {
 
 				projectFile,
 
-				function init_projectData(projectData) {
+				function init_projectData( projectData ) {
 
 					const geoArea = _selectedProject.userData.linkedGeoArea
 
@@ -735,75 +737,7 @@ const createEditor = () => {
 
 				function project_loaded() {
 
-					// _selectedProject.userData.isLoaded = true;
-
-					const geoArea = _selectedProject.userData.linkedGeoArea
-
-					geoArea.OBJECTS.projects.children.forEach(
-						function (child) {
-							if (child.uuid == _selectedProject.uuid) {
-								child.userData.isLoaded = true;
-							}
-						}
-					);
-
-					VARCO.f.addFromFile(
-
-						_selectedProject.OBJECTS.myProject,
-
-						{
-							"name": _selectedProject.userData.name,
-							"parameters": {
-								"url": URL
-							},
-							"position": {
-								"x": 0,
-								"y": 0,
-								"z": 0
-							}
-						},
-						function ui_project_ready(q) {
-
-							let idleAction;
-
-							q.obj.traverse(function (child) {
-
-								if (child.material !== undefined) {
-
-									child.castShadow = true;
-
-								}
-							});
-
-							setTimeout(
-
-								function () {
-
-									if (q.obj.MM3D.threeJsAnimation !== undefined) {
-
-										for (var i = 0; i < q.obj.MM3D.threeJsAnimation.animations.length; i++) {
-
-											idleAction = q.obj.MM3D.threeJsAnimation.mixer.clipAction(q.obj.MM3D.threeJsAnimation.animations[i]);
-
-											idleAction.play();
-
-										}
-
-									}
-
-								},
-
-								2000
-
-							);
-
-						},
-						{}
-					);
-
-					// MOMENTANEO //
-					// MOMENTANEO //
-					// MOMENTANEO //
+					console.log( "ERRORE TO LOAD JSON PROJECT" );
 
 				}
 
@@ -823,6 +757,8 @@ const createEditor = () => {
 			
 			case '3d':
 			
+				console.log( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ] )
+			
 				projectData = {
 					"name": PROJECTOBJ.name,
 					"parameters": {
@@ -841,19 +777,19 @@ const createEditor = () => {
 						]
 					},
 					"position": {
-						"x": 0.0,
-						"y": 0.0,
-						"z": 0.0
+						"x": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.x,
+						"y": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.y,
+						"z": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.z
 					},
 					"rotation": {
-						"x": 0.0,
-						"y": 0.0,
-						"z": 0.0
+						"x": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.x ),
+						"y": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.y ),
+						"z": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.z )
 					},
 					"scale": {
-						"x": 1.0,
-						"y": 1.0,
-						"z": 1.0
+						"x": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.x,
+						"y": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.y,
+						"z": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.z
 					}
 				};
 				
@@ -862,6 +798,8 @@ const createEditor = () => {
 			
 			case 'glb':
 			
+				console.log( PROJECTOBJ )
+			
 				projectData = {
 					"name": PROJECTOBJ.name,
 					"parameters": {
@@ -880,25 +818,27 @@ const createEditor = () => {
 						]
 					},
 					"position": {
-						"x": 0.0,
-						"y": 0.0,
-						"z": 0.0
+						"x": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.x,
+						"y": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.y,
+						"z": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.z
 					},
 					"rotation": {
-						"x": 0.0,
-						"y": 0.0,
-						"z": 0.0
+						"x": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.x ),
+						"y": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.y ),
+						"z": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.z )
 					},
 					"scale": {
-						"x": 1.0,
-						"y": 1.0,
-						"z": 1.0
+						"x": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.x,
+						"y": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.y,
+						"z": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.z
 					}
 				};
 				
 			break;
 			
 			case 'image':
+			
+				console.log( PROJECTOBJ )
 		
 				projectData = {
 					"name" : PROJECTOBJ.name,
@@ -937,20 +877,20 @@ const createEditor = () => {
 						]
 						
 					},
-					"position" : {
-						"x" : 0.0,
-						"y" : 0.0,
-						"z" : 0.0
+					"position": {
+						"x": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.x,
+						"y": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.y,
+						"z": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.z
 					},
-					"rotation" : {
-						"x" : 0.0,
-						"y" : 0.0,
-						"z" : 0.0
+					"rotation": {
+						"x": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.x ),
+						"y": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.y ),
+						"z": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.z )
 					},
-					"scale" : {
-						"x" : PROJECTOBJ.scale.x,
-						"y" : PROJECTOBJ.scale.y,
-						"z" : PROJECTOBJ.scale.z
+					"scale": {
+						"x": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.x,
+						"y": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.y,
+						"z": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.z
 					}
 
 				};
@@ -959,6 +899,8 @@ const createEditor = () => {
 			
 			
 			case 'video':
+			
+				console.log( PROJECTOBJ )
 			
 				projectData = {
 					"name" : PROJECTOBJ.name,
@@ -997,20 +939,20 @@ const createEditor = () => {
 						]
 						
 					},
-					"position" : {
-						"x" : 0.0,
-						"y" : 0.0,
-						"z" : 0.0
+					"position": {
+						"x": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.x,
+						"y": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.y,
+						"z": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.z
 					},
-					"rotation" : {
-						"x" : 0.0,
-						"y" : 0.0,
-						"z" : 0.0
+					"rotation": {
+						"x": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.x ),
+						"y": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.y ),
+						"z": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.z )
 					},
-					"scale" : {
-						"x" : PROJECTOBJ.scale.x,
-						"y" : PROJECTOBJ.scale.y,
-						"z" : PROJECTOBJ.scale.z
+					"scale": {
+						"x": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.x,
+						"y": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.y,
+						"z": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.z
 					}
 
 				};
@@ -1018,6 +960,8 @@ const createEditor = () => {
 			break;
 			
 		}
+		
+		console.log( projectData )
 
 		const textData = JSON.stringify(projectData);
 
@@ -1323,7 +1267,9 @@ const createEditor = () => {
 
 	EDITOR.f.DROP_FILE = function (p) {
 
-		function objectReady(PROJECTOBJ, projectName, type) {
+		function objectReady(PROJECTOBJ, projectName, type, infoJson ) {
+			
+			console.log( PROJECTOBJ )
 
 			PROJECTOBJ.name = projectName;
 			
@@ -1372,8 +1318,15 @@ const createEditor = () => {
 
 				);
 			
-			};
-
+			} else {
+				
+				type = infoJson.userData.type;
+				
+				extension = infoJson.userData.extension;
+				
+			}
+			
+			
 			PROJECTOBJ.userData.type = type;
 
 			PROJECTOBJ.userData.fileName = projectName;
@@ -1417,7 +1370,7 @@ const createEditor = () => {
 					{
 						"type": type,
 						"name": projectName,
-						"url": "objects/" + projectName + "." + extension,
+						"url": "objects/" + projectName + "." + extension, // <<<<<<<<<<<<<<<
 						"urlLowres": "",
 						"myPosition": {
 							"x": myPosition.x - PLY.p.selectedArea.position.x,
@@ -1439,8 +1392,6 @@ const createEditor = () => {
 					function (w) {
 
 						// SHOW PROJECT //
-
-						// PLY.p.selectedProject = w.obj;
 
 						projectStore.setProject(w.obj); // scrivi dato
 
@@ -1547,7 +1498,7 @@ const createEditor = () => {
 
 		const projectName = p.name.split('.')[0];
 
-		const extension = p.name.split('.')[1];
+		let extension = p.name.split('.')[1];
 
 		const sectorName = EDITOR.f.findSector({ coords: { lng: MAP.p.actualCoords.lng, lat: MAP.p.actualCoords.lat } }).name;
 
@@ -1575,8 +1526,7 @@ const createEditor = () => {
 						name = name + '_due';
 
 					};
-
-
+					
 					objectReady(PROJECTOBJ, projectName, '3d');
 
 
@@ -1740,6 +1690,7 @@ const createEditor = () => {
 
 					VARCO.f.addComplex(
 						PLY.p.scene3D,
+						
 						{
 							"name": projectName,
 							"parameters": {
@@ -1809,7 +1760,7 @@ const createEditor = () => {
 
 							PROJECTOBJ = q.obj;
 
-							objectReady(PROJECTOBJ, projectName, 'json');
+							objectReady( PROJECTOBJ, projectName, 'json', p.obj );
 
 						},
 						{}
@@ -2345,28 +2296,29 @@ const createEditor = () => {
 
 
 
-
-	
-	EDITOR.f.exportVIDEO = function( OBJ ){
+	EDITOR.f.exportIMAGE = function( PROJECTOBJ, GEOAREAOBJ ){
 		
-		console.log( 'EDITOR.f.exportVIDEO' );
+		console.log( 'EDITOR.f.exportIMAGE' );
 		
-		const propVideoObject = {
-			"name" : OBJ.name,
+		console.log( PROJECTOBJ );
+		
+		const propImageObject = {
+			"name" : PROJECTOBJ.name,
+			"userData" : { "type" : "image", "extension" : PROJECTOBJ.userData.extension },
 			"parameters" : {
 				"textureList" : [
 					{
-						"name" : OBJ.name,
-						"type" : "videoBase64",
-						"url" : OBJ.TEXTURES[ OBJ.name ].source.data.currentSrc
+						"name" : PROJECTOBJ.name,
+						"type" : "Base64",
+						"url" : PROJECTOBJ.TEXTURES[ PROJECTOBJ.name ].source.data.currentSrc
 					}
 				],
 				"materialList" : [
 					{
-						"name" : OBJ.name,
+						"name" : PROJECTOBJ.name,
 						"type" : "MeshBasicMaterial",
 						"parameters" : {
-							"textures" : { "map" : OBJ.name },
+							"textures" : { "map" : PROJECTOBJ.name },
 							"side" : "THREE.DoubleSide"
 						}
 					}
@@ -2376,26 +2328,115 @@ const createEditor = () => {
 						"type" : "addMesh",
 						"prop" : {
 							"type" : "PlaneGeometry",
-							"name" : OBJ.name,
-							"materialList" : [ OBJ.name ],
+							"name" : PROJECTOBJ.name,
+							"materialList" : [ PROJECTOBJ.name ],
 							"castShadow" : true,
 							"parameters" : {
-								"width" : 1,
-								"height" : 1
+								"width" : PROJECTOBJ.TEXTURES[ PROJECTOBJ.name ].source.data.width * 0.01,
+								"height" : PROJECTOBJ.TEXTURES[ PROJECTOBJ.name ].source.data.height * 0.01
 							}
 						}
 					}
 				]
 				
+			},
+			"position": {
+				"x": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.x,
+				"y": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.y,
+				"z": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.z
+			},
+			"rotation": {
+				"x": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.x ),
+				"y": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.y ),
+				"z": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.z )
+			},
+			"scale": {
+				"x": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.x,
+				"y": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.y,
+				"z": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.z
 			}
 
-		}
+		};
+		
+		const textData = JSON.stringify( propImageObject );
+		
+		const user = GEOAREAOBJ.userData.user;
+
+		const nameFile = PROJECTOBJ.name + '.json';
+		
+		VARCO.f.saveInfo( textData, nameFile );
+		
+	};
+	
+	
+	
+	EDITOR.f.exportVIDEO = function( PROJECTOBJ, GEOAREAOBJ ){
+		
+		console.log( 'EDITOR.f.exportVIDEO' );
+		
+		console.log( PROJECTOBJ );
+		
+		const propVideoObject = {
+			"name" : PROJECTOBJ.name,
+			"userData" : { "type" : "video", "extension" : "mp4" },
+			"parameters" : {
+				"textureList" : [
+					{
+						"name" : PROJECTOBJ.name,
+						"type" : "videoBase64",
+						"url" : PROJECTOBJ.TEXTURES[ PROJECTOBJ.name ].source.data.currentSrc
+					}
+				],
+				"materialList" : [
+					{
+						"name" : PROJECTOBJ.name,
+						"type" : "MeshBasicMaterial",
+						"parameters" : {
+							"textures" : { "map" : PROJECTOBJ.name },
+							"side" : "THREE.DoubleSide"
+						}
+					}
+				],
+				"elementList" : [
+					{
+						"type" : "addMesh",
+						"prop" : {
+							"type" : "PlaneGeometry",
+							"name" : PROJECTOBJ.name,
+							"materialList" : [ PROJECTOBJ.name ],
+							"castShadow" : true,
+							"parameters" : {
+								"width" : 4,
+								"height" : 2.5
+							}
+						}
+					}
+				]
+				
+			},
+			"position": {
+				"x": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.x,
+				"y": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.y,
+				"z": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.z
+			},
+			"rotation": {
+				"x": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.x ),
+				"y": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.y ),
+				"z": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.z )
+			},
+			"scale": {
+				"x": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.x,
+				"y": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.y,
+				"z": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.z
+			}
+
+		};
 		
 		const textData = JSON.stringify( propVideoObject );
 		
-		const user = UI.p.popup_login_data.p.data.user;
+		const user = GEOAREAOBJ.userData.user;
 		
-		const nameFile = 'USER_DB/' + user + '/contents/' + OBJ.name + '.json';
+		const nameFile = PROJECTOBJ.name + '.json';
 		
 		VARCO.f.saveInfo( textData, nameFile );
 		
@@ -2403,9 +2444,11 @@ const createEditor = () => {
 
 
 
-	EDITOR.f.exportGLTF = function( OBJ ){
+	EDITOR.f.exportGLTF = function( PROJECTOBJ, GEOAREAOBJ ){
 		
 		console.log( 'EDITOR.f.exportGLTF' );
+		
+		console.log( PROJECTOBJ );
 		
 		const exporter = new GLTFExporter();
 		
@@ -2429,7 +2472,7 @@ const createEditor = () => {
 			
 			maxTextureSize: 4096,
 			
-			animations: OBJ.animations,
+			animations: PROJECTOBJ.animations,
 			
 			includeCustomExtensions: true
 			
@@ -2437,7 +2480,7 @@ const createEditor = () => {
 
 		exporter.parse(
 										
-			OBJ, 
+			PROJECTOBJ, 
 			
 			function ( result ) {
 
@@ -2447,13 +2490,49 @@ const createEditor = () => {
 				// Converti la stringa JSON in base64
 				const base64 = window.btoa(unescape(encodeURIComponent(sceneString)));
 				
-				OBJ.userData.type = '3d'
+				const projectData = {
+					"name": PROJECTOBJ.name,
+					"userData" : { "type" : "3d", "extension" : "gltf" },
+					"parameters": {
+						"elementList": [
+							{
+								"type": "addFromFile",
+								"prop": {
+									"name": PROJECTOBJ.name,
+									"parameters": {
+										"type": "base64",
+										"url": base64,
+										"extension": PROJECTOBJ.userData.extension // "gltf"
+									}
+								}
+							}
+						]
+					},
+					"position": {
+						"x": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.x,
+						"y": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.y,
+						"z": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].position.z
+					},
+					"rotation": {
+						"x": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.x ),
+						"y": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.y ),
+						"z": VARCO.f.rad2deg( PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].rotation.z )
+					},
+					"scale": {
+						"x": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.x,
+						"y": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.y,
+						"z": PROJECTOBJ.OBJECTS[ PROJECTOBJ.name ].scale.z
+					}
+					
+				};
 				
-				OBJ.userData.stringByte64 = base64;
+				const textData = JSON.stringify(projectData);
 				
-				OBJ.userData.extension = 'gltf';
-				
-				EDITOR.f.saveProjectData( UI.p.popup_login_data.p.data.user, OBJ );
+				const user = GEOAREAOBJ.userData.user;
+
+				const nameFile = PROJECTOBJ.name + '.json';
+
+				VARCO.f.saveInfo(textData, nameFile);
 				
 			}
 			
@@ -2462,82 +2541,92 @@ const createEditor = () => {
 	};
 	
 	
+	// EDITOR.f.exportJSON = function( PROJECTOBJ, GEOAREAOBJ ){
+		
+		// console.log( 'EDITOR.f.exportJSON' );
+		
+		// console.log( PROJECTOBJ );
+		
+		// console.log( GEOAREAOBJ );
+		
+	// }
 	
 	
-	EDITOR.f.exportGLB = function( OBJ ){
+	
+	// EDITOR.f.exportGLB = function( OBJ, GEOAREAOBJ ){
 		
-		console.log( 'EDITOR.f.exportGLB' );
+		// console.log( 'EDITOR.f.exportGLB' );
 		
-		const exporter = new GLTFExporter();
+		// const exporter = new GLTFExporter();
 		
-		exporter.parse(
-			  OBJ,
-			  function (result) {
-				saveArrayBuffer(result, "scene.glb");
-			  },
-			  // called when there is an error in the generation
-			  function ( error ) {
+		// exporter.parse(
+			  // OBJ,
+			  // function (result) {
+				// saveArrayBuffer(result, "scene.glb");
+			  // },
+			  // // called when there is an error in the generation
+			  // function ( error ) {
 
-				  console.log( 'An error happened' );
+				  // console.log( 'An error happened' );
 
-			  }, 
-			  { binary: true }
-			);
+			  // }, 
+			  // { binary: true }
+			// );
 		 
-		function saveArrayBuffer(buffer, filename) {
+		// function saveArrayBuffer(buffer, filename) {
 	
-			save(new Blob([buffer], { type: "application/octet-stream" }), filename);
+			// save(new Blob([buffer], { type: "application/octet-stream" }), filename);
 			
-		}
+		// }
 
-		const link = document.createElement("a");
-		link.style.display = "none";
-		document.body.appendChild(link); // Firefox workaround, see #6594
+		// const link = document.createElement("a");
+		// link.style.display = "none";
+		// document.body.appendChild(link); // Firefox workaround, see #6594
 
-		function save(blob, filename) {
+		// function save(blob, filename) {
 			
-			link.href = URL.createObjectURL(blob);
-			link.download = filename;
-			link.click();
-		}
+			// link.href = URL.createObjectURL(blob);
+			// link.download = filename;
+			// link.click();
+		// }
 		  
 
-	};
+	// };
 
 
 
-	EDITOR.f.exportUSDZ = function( OBJ ){
+	// EDITOR.f.exportUSDZ = function( OBJ, GEOAREAOBJ ){
 		
-		console.log( 'EDITOR.f.exportUSDZ' );
+		// console.log( 'EDITOR.f.exportUSDZ' );
 		
-		// USDZ
-		const exporter = new USDZExporter();
+		// // USDZ
+		// const exporter = new USDZExporter();
 
-		exporter.parse(
-			OBJ,
-			// called when the gltf has been generated
-			function ( arraybuffer ) {
+		// exporter.parse(
+			// OBJ,
+			// // called when the gltf has been generated
+			// function ( arraybuffer ) {
 
-				console.log( arraybuffer );
+				// console.log( arraybuffer );
 				
-				const blob = new Blob( [ arraybuffer ], { type: 'application/octet-stream' } );
+				// const blob = new Blob( [ arraybuffer ], { type: 'application/octet-stream' } );
 
-				const link = document.getElementById( 'link' );
+				// const link = document.getElementById( 'link' );
 				
-				link.href = URL.createObjectURL( blob );
+				// link.href = URL.createObjectURL( blob );
 
-			},
-			// called when there is an error in the generation
-			function ( error ) {
+			// },
+			// // called when there is an error in the generation
+			// function ( error ) {
 
-				console.log( 'An error happened' );
+				// console.log( 'An error happened' );
 
-			},
-			{}
-		);
+			// },
+			// {}
+		// );
 
 						
-	};
+	// };
 
 
 	return EDITOR;

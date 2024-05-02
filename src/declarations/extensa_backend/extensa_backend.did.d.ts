@@ -13,17 +13,17 @@ export interface File {
 }
 export interface GeoArea {
   'id' : bigint,
-  'name' : string,
   'user' : [Principal, [] | [Uint8Array | number[]]],
   'projectsList' : Array<Project>,
+  'geoAreaName' : string,
   'myCoords' : Coords,
 }
 export interface Project {
   'id' : bigint,
   'myPosition' : XYZ,
+  'name' : string,
   'type' : string,
   'mySize' : XYZ,
-  'geoAreaName' : string,
   'myOrientation' : XYZ,
   'file_id' : bigint,
 }
@@ -71,6 +71,7 @@ export interface _SERVICE {
     [[] | [[Principal, [] | [Uint8Array | number[]]]]],
     [] | [Array<GeoArea>]
   >,
+  'remove_project' : ActorMethod<[bigint, bigint], Result>,
   'store_chunk' : ActorMethod<[bigint, bigint, string], Result>,
 }
 export declare const idlFactory: IDL.InterfaceFactory;

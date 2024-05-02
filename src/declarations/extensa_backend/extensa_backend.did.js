@@ -29,17 +29,17 @@ export const idlFactory = ({ IDL }) => {
   const Project = IDL.Record({
     'id' : IDL.Nat64,
     'myPosition' : XYZ,
+    'name' : IDL.Text,
     'type' : IDL.Text,
     'mySize' : XYZ,
-    'geoAreaName' : IDL.Text,
     'myOrientation' : XYZ,
     'file_id' : IDL.Nat64,
   });
   const GeoArea = IDL.Record({
     'id' : IDL.Nat64,
-    'name' : IDL.Text,
     'user' : IDL.Tuple(IDL.Principal, IDL.Opt(IDL.Vec(IDL.Nat8))),
     'projectsList' : IDL.Vec(Project),
+    'geoAreaName' : IDL.Text,
     'myCoords' : Coords,
   });
   return IDL.Service({
@@ -93,6 +93,7 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Opt(IDL.Vec(GeoArea))],
         ['query'],
       ),
+    'remove_project' : IDL.Func([IDL.Nat64, IDL.Nat64], [Result], []),
     'store_chunk' : IDL.Func([IDL.Nat64, IDL.Nat64, IDL.Text], [Result], []),
   });
 };

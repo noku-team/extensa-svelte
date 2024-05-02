@@ -233,12 +233,12 @@
 </script>
 
 <div>
-	<button
+	<!-- <button
 		class="btn btn-primary"
 		on:click={onProjectClick}
 		disabled={!$authStore.identity}
 		>Click to create geoarea and house project inside!</button
-	>
+	> -->
 	<div id="canvas"></div>
 	<SelectedProject />
 	<EditProject />

@@ -4,6 +4,7 @@
 /* eslint-disable no-redeclare */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-duplicate-case */
+
 // UI MODULE
 import { get } from 'svelte/store';
 import * as THREE from 'three';
@@ -1509,8 +1510,6 @@ const createEditor = () => {
 				
 					PROJECTOBJ = p.obj;
 					
-					// alert( "glb" )
-		
 					stringByte64 = VARCO.f.arrayBufferToBase64( p.data ); 
 					
 					
@@ -1531,7 +1530,7 @@ const createEditor = () => {
 
 					console.log(p);
 
-					console.log(p.data.width);
+					console.log( p.obj.width );
 
 					VARCO.f.addComplex(
 						PLY.p.scene3D,
@@ -1564,8 +1563,13 @@ const createEditor = () => {
 											"materialList": [projectName],
 											"castShadow": true,
 											"parameters": {
-												"width": 1,
-												"height": 1
+												"width": p.obj.width * 0.01,
+												"height": p.obj.height * 0.01,
+											},
+											"position" : {
+												"x" : 0.0,
+												"y" : p.obj.height * 0.01 * 0.5,
+												"z" : 0.0
 											}
 										}
 									}
@@ -1592,7 +1596,7 @@ const createEditor = () => {
 					
 					console.log(p);
 
-					console.log(p.data.width);
+					console.log(p.obj.width);
 
 					VARCO.f.addComplex(
 						PLY.p.scene3D,
@@ -1625,8 +1629,13 @@ const createEditor = () => {
 											"materialList": [projectName],
 											"castShadow": true,
 											"parameters": {
-												"width": 1,
-												"height": 1
+												"width": p.obj.width * 0.01,
+												"height": p.obj.height * 0.01,
+											},
+											"position" : {
+												"x" : 0.0,
+												"y" : p.obj.height * 0.01 * 0.5,
+												"z" : 0.0
 											}
 										}
 									}
@@ -1684,8 +1693,13 @@ const createEditor = () => {
 											"materialList": [projectName],
 											"castShadow": true,
 											"parameters": {
-												"width": 1,
-												"height": 1
+												"width": p.obj.width * 0.01,
+												"height": p.obj.height * 0.01,
+											},
+											"position" : {
+												"x" : 0.0,
+												"y" : p.obj.height * 0.01 * 0.5,
+												"z" : 0.0
 											}
 										}
 									}

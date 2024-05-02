@@ -3781,6 +3781,66 @@ VARCO.f.addTexture = function (SCENE, prop, callBack, callBackProp) {
 	};
 
 
+	
+	let createBase64VideoTexture = function(){
+		
+		console.log( "createBase64VideoTexture" );
+		
+		TEXTURE = undefined;
+		
+		let videoParameters = {
+			name : "videoTexture",
+			url : "",
+			loop : false,
+			autoplay : false,
+			volume : 1.0,
+			speed : 1.0,
+			type : "map",
+			muted : false
+		};
+
+		videoParameters = VARCO.f.setParameters( videoParameters, prop );
+		
+		if( prop.url !== undefined ){
+			
+			var videoElement = document.createElement('video');
+
+			videoElement.id = videoParameters.name;
+			videoElement.src = prop.url;
+			videoElement.setAttribute( 'webkit-playsinline', 'webkit-playsinline' );
+			videoElement.setAttribute( 'playsinline', 'playsinline' );
+			videoElement.load();
+			videoElement.volume = videoParameters.volume;
+			videoElement.loop = videoParameters.loop;
+			videoElement.autoplay = videoParameters.autoplay;
+			videoElement.muted = videoParameters.muted;
+			videoElement.speed = videoParameters.speed;
+
+			if ( prop.parameters == undefined ){
+				prop.parameters = {};
+			};
+			
+			prop.parameters.minFilter = THREE.LinearFilter;
+			prop.parameters.magFilter = THREE.LinearFilter;
+			prop.parameters.format = THREE.RGBAFormat;
+			
+			TEXTURE = new THREE.VideoTexture( videoElement );
+			
+			TEXTURE.image.play();
+		
+			console.log( "texture videoBase64 caricata" );
+			
+			console.log( TEXTURE );
+			
+			setupTextureParameter( TEXTURE );
+				
+			return TEXTURE;
+			
+		};
+			
+	};
+	
+
 
 	let createVideoTexture = function () {
 
@@ -3869,6 +3929,13 @@ VARCO.f.addTexture = function (SCENE, prop, callBack, callBackProp) {
 			createVideoTexture();
 
 			break;
+			
+		case "videoBase64":
+		
+			createBase64VideoTexture();
+		
+			break;
+		
 
 		default:
 

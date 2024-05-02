@@ -2230,29 +2230,42 @@ const createUI = () => {
 		if ( _selectedProject.OBJECTS.myProject.children.length > 0 ){
 			
 			console.log( _selectedProject.userData.type );
+			
+			if ( _selectedProject.userData.type == "json" ){
+				
+				console.log( _selectedProject.OBJECTS.myProject.children[ 0 ].userData )
+				
+				_selectedProject.userData.type = _selectedProject.OBJECTS.myProject.children[ 0 ].userData.type
+				
+			}
 		
 			if ( _selectedProject.OBJECTS.myProjectCloned.children.length > 0 ){
 		
 				switch( _selectedProject.userData.type ){
 					
 					case "3d" : 
-						EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+						EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			
 					break;
 					
 					case "glb" : 
-						EDITOR.f.exportGLB( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+						EDITOR.f.exportGLB( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			
 					break;
 					
 					case "video":
-						EDITOR.f.exportVIDEO( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+						EDITOR.f.exportVIDEO( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+						
+					break;
+					
+					case "image":
+						EDITOR.f.exportIMAGE( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 						
 					break;
 					
 					default:
 					
-						EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+						EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			
 					break;
 				};
@@ -2263,23 +2276,28 @@ const createUI = () => {
 				switch( _selectedProject.userData.type ){
 					
 					case "3d" : 
-						EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProject.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+						EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProject.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			
 					break;
 					
 					case "glb" : 
-						EDITOR.f.exportGLB( _selectedProject.OBJECTS.myProject.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+						EDITOR.f.exportGLB( _selectedProject.OBJECTS.myProject.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			
 					break;
 					
 					case "video":
-						EDITOR.f.exportVIDEO( _selectedProject.OBJECTS.myProject.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+						EDITOR.f.exportVIDEO( _selectedProject.OBJECTS.myProject.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+						
+					break;
+					
+					case "image":
+						EDITOR.f.exportIMAGE( _selectedProject.OBJECTS.myProject.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 						
 					break;
 					
 					default:
 					
-						EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProject.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+						EDITOR.f.exportJSON( _selectedProject.OBJECTS.myProject.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			
 					break;
 					

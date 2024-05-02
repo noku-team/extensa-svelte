@@ -17,7 +17,6 @@ import { MAP, PLY } from "./index.js";
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js'; // <<<<<<<<<<<<<<<<
 import { SimplifyModifier } from 'three/addons/modifiers/SimplifyModifier.js'; // <<<<<<<<<<<<<<<<
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js'; // <<<<<<<<<<<<<<<<
-import { spinnerStore } from '../store/SpinnerStore';
 import createGeoareaAndLoadProjectInside from '../utils/dfinity/geoareas/helpers/createGeoareaAndLoadProjectInside';
 // import { MeshoptDecoder } from 'three/libs/meshopt_decoder.module'; // <<<<<<<<<<<<<<<<
 
@@ -432,6 +431,8 @@ const createEditor = () => {
 
 				// create MAP POI //
 
+				OBJ.userData.projectsList = [];
+
 				UI.f.createGeoArea_POI(OBJ);
 
 				if (callback !== undefined) {
@@ -663,6 +664,8 @@ const createEditor = () => {
 
 		const { project: _selectedProject } = get(projectStore); // leggi dato
 
+		console.log(_selectedProject);
+
 		let USER = _selectedProject.userData.linkedGeoArea.userData.user;
 
 		let PROJECTNAME = _selectedProject.userData.name;
@@ -737,75 +740,7 @@ const createEditor = () => {
 
 				function project_loaded() {
 
-					// _selectedProject.userData.isLoaded = true;
-
-					const geoArea = _selectedProject.userData.linkedGeoArea
-
-					geoArea.OBJECTS.projects.children.forEach(
-						function (child) {
-							if (child.uuid == _selectedProject.uuid) {
-								child.userData.isLoaded = true;
-							}
-						}
-					);
-
-					VARCO.f.addFromFile(
-
-						_selectedProject.OBJECTS.myProject,
-
-						{
-							"name": _selectedProject.userData.name,
-							"parameters": {
-								"url": URL
-							},
-							"position": {
-								"x": 0,
-								"y": 0,
-								"z": 0
-							}
-						},
-						function ui_project_ready(q) {
-
-							let idleAction;
-
-							q.obj.traverse(function (child) {
-
-								if (child.material !== undefined) {
-
-									child.castShadow = true;
-
-								}
-							});
-
-							setTimeout(
-
-								function () {
-
-									if (q.obj.MM3D.threeJsAnimation !== undefined) {
-
-										for (var i = 0; i < q.obj.MM3D.threeJsAnimation.animations.length; i++) {
-
-											idleAction = q.obj.MM3D.threeJsAnimation.mixer.clipAction(q.obj.MM3D.threeJsAnimation.animations[i]);
-
-											idleAction.play();
-
-										}
-
-									}
-
-								},
-
-								2000
-
-							);
-
-						},
-						{}
-					);
-
-					// MOMENTANEO //
-					// MOMENTANEO //
-					// MOMENTANEO //
+					console.log("ERRORE TO LOAD JSON PROJECT");
 
 				}
 
@@ -817,254 +752,270 @@ const createEditor = () => {
 
 
 
-	EDITOR.f.saveProjectData = async function (PROJECTOBJ) {
-		try {
-			spinnerStore.setLoading(true);
-			let projectData;
+	EDITOR.f.saveProjectData = async function (user, PROJECTOBJ) {
 
-			switch (PROJECTOBJ.userData.type) {
+		let projectData;
 
-				case '3d':
+		switch (PROJECTOBJ.userData.type) {
 
-					projectData = {
-						"name": PROJECTOBJ.name,
-						"parameters": {
-							"elementList": [
-								{
-									"type": "addFromFile",
-									"prop": {
-										"name": PROJECTOBJ.name,
-										"parameters": {
-											"type": "base64",
-											"url": PROJECTOBJ.userData.stringByte64,
-											"extension": PROJECTOBJ.userData.extension // "gltf"
-										}
-									}
-								}
-							]
-						},
-						"position": {
-							"x": 0.0,
-							"y": 0.0,
-							"z": 0.0
-						},
-						"rotation": {
-							"x": 0.0,
-							"y": 0.0,
-							"z": 0.0
-						},
-						"scale": {
-							"x": 1.0,
-							"y": 1.0,
-							"z": 1.0
-						}
-					};
+			case '3d':
 
-					break;
+				console.log(PROJECTOBJ.OBJECTS[PROJECTOBJ.name])
 
-
-				case 'glb':
-
-					projectData = {
-						"name": PROJECTOBJ.name,
-						"parameters": {
-							"elementList": [
-								{
-									"type": "addFromFile",
-									"prop": {
-										"name": PROJECTOBJ.name,
-										"parameters": {
-											"type": "base64",
-											"url": PROJECTOBJ.userData.stringByte64,
-											"extension": PROJECTOBJ.userData.extension // "gltf"
-										}
-									}
-								}
-							]
-						},
-						"position": {
-							"x": 0.0,
-							"y": 0.0,
-							"z": 0.0
-						},
-						"rotation": {
-							"x": 0.0,
-							"y": 0.0,
-							"z": 0.0
-						},
-						"scale": {
-							"x": 1.0,
-							"y": 1.0,
-							"z": 1.0
-						}
-					};
-
-					break;
-
-				case 'image':
-
-					projectData = {
-						"name": PROJECTOBJ.name,
-						"parameters": {
-							"textureList": [
-								{
+				projectData = {
+					"name": PROJECTOBJ.name,
+					"parameters": {
+						"elementList": [
+							{
+								"type": "addFromFile",
+								"prop": {
 									"name": PROJECTOBJ.name,
-									"type": "base64",
-									"url": PROJECTOBJ.userData.stringByte64
-								}
-							],
-							"materialList": [
-								{
-									"name": PROJECTOBJ.name,
-									"type": "MeshBasicMaterial",
 									"parameters": {
-										"textures": { "map": PROJECTOBJ.name },
-										"side": "THREE.DoubleSide"
+										"type": "base64",
+										"url": PROJECTOBJ.userData.stringByte64,
+										"extension": PROJECTOBJ.userData.extension // "gltf"
 									}
 								}
-							],
-							"elementList": [
-								{
-									"type": "addMesh",
-									"prop": {
-										"type": "PlaneGeometry",
-										"name": PROJECTOBJ.name,
-										"materialList": [PROJECTOBJ.name],
-										"castShadow": true,
-										"parameters": {
-											"width": 1,
-											"height": 1
-										}
-									}
-								}
-							]
+							}
+						]
+					},
+					"position": {
+						"x": PROJECTOBJ.OBJECTS[PROJECTOBJ.name].position.x,
+						"y": PROJECTOBJ.OBJECTS[PROJECTOBJ.name].position.y,
+						"z": PROJECTOBJ.OBJECTS[PROJECTOBJ.name].position.z
+					},
+					"rotation": {
+						"x": VARCO.f.rad2deg(PROJECTOBJ.OBJECTS[PROJECTOBJ.name].rotation.x),
+						"y": VARCO.f.rad2deg(PROJECTOBJ.OBJECTS[PROJECTOBJ.name].rotation.y),
+						"z": VARCO.f.rad2deg(PROJECTOBJ.OBJECTS[PROJECTOBJ.name].rotation.z)
+					},
+					"scale": {
+						"x": PROJECTOBJ.OBJECTS[PROJECTOBJ.name].scale.x,
+						"y": PROJECTOBJ.OBJECTS[PROJECTOBJ.name].scale.y,
+						"z": PROJECTOBJ.OBJECTS[PROJECTOBJ.name].scale.z
+					}
+				};
 
-						},
-						"position": {
-							"x": 0.0,
-							"y": 0.0,
-							"z": 0.0
-						},
-						"rotation": {
-							"x": 0.0,
-							"y": 0.0,
-							"z": 0.0
-						},
-						"scale": {
-							"x": PROJECTOBJ.scale.x,
-							"y": PROJECTOBJ.scale.y,
-							"z": PROJECTOBJ.scale.z
-						}
-
-					};
-
-					break;
+				break;
 
 
-				case 'video':
+			case 'glb':
 
-					projectData = {
-						"name": PROJECTOBJ.name,
-						"parameters": {
-							"textureList": [
-								{
+				console.log(PROJECTOBJ)
+
+				projectData = {
+					"name": PROJECTOBJ.name,
+					"parameters": {
+						"elementList": [
+							{
+								"type": "addFromFile",
+								"prop": {
 									"name": PROJECTOBJ.name,
-									"type": "videoBase64",
-									"url": PROJECTOBJ.userData.stringByte64
-								}
-							],
-							"materialList": [
-								{
-									"name": PROJECTOBJ.name,
-									"type": "MeshBasicMaterial",
 									"parameters": {
-										"textures": { "map": PROJECTOBJ.name },
-										"side": "THREE.DoubleSide"
+										"type": "base64",
+										"url": PROJECTOBJ.userData.stringByte64,
+										"extension": PROJECTOBJ.userData.extension // "gltf"
 									}
 								}
-							],
-							"elementList": [
-								{
-									"type": "addMesh",
-									"prop": {
-										"type": "PlaneGeometry",
-										"name": PROJECTOBJ.name,
-										"materialList": [PROJECTOBJ.name],
-										"castShadow": true,
-										"parameters": {
-											"width": 1,
-											"height": 1
-										}
+							}
+						]
+					},
+					"position": {
+						"x": PROJECTOBJ.OBJECTS[PROJECTOBJ.name].position.x,
+						"y": PROJECTOBJ.OBJECTS[PROJECTOBJ.name].position.y,
+						"z": PROJECTOBJ.OBJECTS[PROJECTOBJ.name].position.z
+					},
+					"rotation": {
+						"x": VARCO.f.rad2deg(PROJECTOBJ.OBJECTS[PROJECTOBJ.name].rotation.x),
+						"y": VARCO.f.rad2deg(PROJECTOBJ.OBJECTS[PROJECTOBJ.name].rotation.y),
+						"z": VARCO.f.rad2deg(PROJECTOBJ.OBJECTS[PROJECTOBJ.name].rotation.z)
+					},
+					"scale": {
+						"x": PROJECTOBJ.OBJECTS[PROJECTOBJ.name].scale.x,
+						"y": PROJECTOBJ.OBJECTS[PROJECTOBJ.name].scale.y,
+						"z": PROJECTOBJ.OBJECTS[PROJECTOBJ.name].scale.z
+					}
+				};
+
+				break;
+
+			case 'image':
+
+				console.log(PROJECTOBJ)
+
+				projectData = {
+					"name": PROJECTOBJ.name,
+					"parameters": {
+						"textureList": [
+							{
+								"name": PROJECTOBJ.name,
+								"type": "base64",
+								"url": PROJECTOBJ.userData.stringByte64
+							}
+						],
+						"materialList": [
+							{
+								"name": PROJECTOBJ.name,
+								"type": "MeshBasicMaterial",
+								"parameters": {
+									"textures": { "map": PROJECTOBJ.name },
+									"side": "THREE.DoubleSide"
+								}
+							}
+						],
+						"elementList": [
+							{
+								"type": "addMesh",
+								"prop": {
+									"type": "PlaneGeometry",
+									"name": PROJECTOBJ.name,
+									"materialList": [PROJECTOBJ.name],
+									"castShadow": true,
+									"parameters": {
+										"width": 1,
+										"height": 1
 									}
 								}
-							]
+							}
+						]
 
-						},
-						"position": {
-							"x": 0.0,
-							"y": 0.0,
-							"z": 0.0
-						},
-						"rotation": {
-							"x": 0.0,
-							"y": 0.0,
-							"z": 0.0
-						},
-						"scale": {
-							"x": PROJECTOBJ.scale.x,
-							"y": PROJECTOBJ.scale.y,
-							"z": PROJECTOBJ.scale.z
-						}
-
-					};
-
-					break;
-
-			}
-
-			const textData = JSON.stringify(projectData);
-
-			const auth = get(authStore);
-			const identity = auth.identity;
-
-			if (identity) {
-				// geoarea
-				const geoAreaName = PLY.p.selectedArea.userData.geoAreaName;
-				const geoAreaCoords = PLY.p.selectedArea.userData.myCoords;
-
-				// projectF
-				// mocked for now
-				const projectType = "3D";
-				const projectPosition = projectData.position;
-				const projectOrientation = projectData.rotation;
-				const projectSize = projectData.scale;
-				const projectName = projectData.name;
-
-				await createGeoareaAndLoadProjectInside(
-					identity,
-					textData,
-					{
-						geoAreaName,
-						geoAreaCoords
 					},
-					{
-						projectPosition,
-						projectOrientation,
-						projectSize,
-						projectType,
-						projectName
+					"position": {
+						"x": PROJECTOBJ.OBJECTS[PROJECTOBJ.name].position.x,
+						"y": PROJECTOBJ.OBJECTS[PROJECTOBJ.name].position.y,
+						"z": PROJECTOBJ.OBJECTS[PROJECTOBJ.name].position.z
 					},
-				);
-			} else {
-				alert("Login and try again!")
+					"rotation": {
+						"x": VARCO.f.rad2deg(PROJECTOBJ.OBJECTS[PROJECTOBJ.name].rotation.x),
+						"y": VARCO.f.rad2deg(PROJECTOBJ.OBJECTS[PROJECTOBJ.name].rotation.y),
+						"z": VARCO.f.rad2deg(PROJECTOBJ.OBJECTS[PROJECTOBJ.name].rotation.z)
+					},
+					"scale": {
+						"x": PROJECTOBJ.OBJECTS[PROJECTOBJ.name].scale.x,
+						"y": PROJECTOBJ.OBJECTS[PROJECTOBJ.name].scale.y,
+						"z": PROJECTOBJ.OBJECTS[PROJECTOBJ.name].scale.z
+					}
 
-			}
-		} catch (e) {
-			console.error(e);
-		} finally {
-			console.error("---");
-			spinnerStore.setLoading(false);
+				};
+
+				break;
+
+
+			case 'video':
+
+				console.log(PROJECTOBJ)
+
+				projectData = {
+					"name": PROJECTOBJ.name,
+					"parameters": {
+						"textureList": [
+							{
+								"name": PROJECTOBJ.name,
+								"type": "videoBase64",
+								"url": PROJECTOBJ.userData.stringByte64
+							}
+						],
+						"materialList": [
+							{
+								"name": PROJECTOBJ.name,
+								"type": "MeshBasicMaterial",
+								"parameters": {
+									"textures": { "map": PROJECTOBJ.name },
+									"side": "THREE.DoubleSide"
+								}
+							}
+						],
+						"elementList": [
+							{
+								"type": "addMesh",
+								"prop": {
+									"type": "PlaneGeometry",
+									"name": PROJECTOBJ.name,
+									"materialList": [PROJECTOBJ.name],
+									"castShadow": true,
+									"parameters": {
+										"width": 1,
+										"height": 1
+									}
+								}
+							}
+						]
+
+					},
+					"position": {
+						"x": PROJECTOBJ.OBJECTS[PROJECTOBJ.name].position.x,
+						"y": PROJECTOBJ.OBJECTS[PROJECTOBJ.name].position.y,
+						"z": PROJECTOBJ.OBJECTS[PROJECTOBJ.name].position.z
+					},
+					"rotation": {
+						"x": VARCO.f.rad2deg(PROJECTOBJ.OBJECTS[PROJECTOBJ.name].rotation.x),
+						"y": VARCO.f.rad2deg(PROJECTOBJ.OBJECTS[PROJECTOBJ.name].rotation.y),
+						"z": VARCO.f.rad2deg(PROJECTOBJ.OBJECTS[PROJECTOBJ.name].rotation.z)
+					},
+					"scale": {
+						"x": PROJECTOBJ.OBJECTS[PROJECTOBJ.name].scale.x,
+						"y": PROJECTOBJ.OBJECTS[PROJECTOBJ.name].scale.y,
+						"z": PROJECTOBJ.OBJECTS[PROJECTOBJ.name].scale.z
+					}
+
+				};
+
+				break;
+
 		}
+
+		console.log(projectData)
+
+		const textData = JSON.stringify(projectData);
+
+		const auth = get(authStore);
+		const identity = auth.identity;
+
+		if (identity) {
+			// geoarea
+			const geoAreaName = PLY.p.selectedArea.userData.geoAreaName;
+			const geoAreaCoords = PLY.p.selectedArea.userData.myCoords;
+
+			// projectF
+			// mocked for now
+			const projectType = "3D";
+			const projectPosition = projectData.position;
+			const projectOrientation = projectData.rotation;
+			const projectSize = projectData.scale;
+			const projectName = projectData.name;
+
+			await createGeoareaAndLoadProjectInside(
+				identity,
+				textData,
+				{
+					geoAreaName,
+					geoAreaCoords
+				},
+				{
+					projectPosition,
+					projectOrientation,
+					projectSize,
+					projectType,
+					projectName
+				},
+			);
+		} else {
+			alert("Login and try again!")
+
+		}
+
+	};
+
+
+
+	EDITOR.f.saveSector = function (sectorData) {
+
+		const textData = JSON.stringify(sectorData);
+
+		const nameFile = 'SECTOR_DB/' + sectorData.sectorName + ".json";
+
+		VARCO.f.saveInfo(textData, nameFile);
+
 	};
 
 
@@ -1135,7 +1086,11 @@ const createEditor = () => {
 			};
 
 
-			// save GEOAREA //
+			// save GEOAREA // 
+
+			const textData = JSON.stringify(geoAreaInfo);
+
+			const nameFile = 'USER_DB/' + PLY.p.selectedArea.userData.user + '/' + PLY.p.selectedArea.userData.geoAreaName + ".json";
 
 			// TODO EDIT PROJECT HERE AND SEND TO BLOCKCHAIN
 			// projectStore.setGeoAreaToEdit(geoAreaInfo);
@@ -1347,7 +1302,9 @@ const createEditor = () => {
 
 	EDITOR.f.DROP_FILE = function (p) {
 
-		function objectReady(PROJECTOBJ, projectName, type) {
+		function objectReady(PROJECTOBJ, projectName, type, infoJson) {
+
+			console.log(PROJECTOBJ)
 
 			PROJECTOBJ.name = projectName;
 
@@ -1359,44 +1316,16 @@ const createEditor = () => {
 
 				PROJECTOBJ.userData.stringByte64 = stringByte64;
 
-				// start animation //
+			} else {
 
-				setTimeout(
+				type = infoJson.userData.type;
 
-					function () {
+				extension = infoJson.userData.extension;
 
-						if (PROJECTOBJ.animations !== undefined) {
-
-							PROJECTOBJ.MM3D = {
-
-								threeJsAnimation: {
-
-									mixer: new THREE.AnimationMixer(PROJECTOBJ),
-
-									animations: PROJECTOBJ.animations
-
-								}
-
-							};
-
-							let idleAction;
-
-							for (var i = 0; i < PROJECTOBJ.animations.length; i++) {
-
-								idleAction = PROJECTOBJ.MM3D.threeJsAnimation.mixer.clipAction(p.obj.animations[i]);
-
-								idleAction.play();
-
-							};
-
-						};
-
-					},
-					2000
-
-				);
+				PROJECTOBJ.userData.fromJson = true;
 
 			};
+
 
 			PROJECTOBJ.userData.type = type;
 
@@ -1406,6 +1335,43 @@ const createEditor = () => {
 
 			PROJECTOBJ.userData.myCoords = { 'lng': MAP.p.actualCoords.lng, 'lat': MAP.p.actualCoords.lat, 'alt': MAP.p.actualCoords.alt };
 
+
+			// start animation //
+
+			setTimeout(
+
+				function () {
+
+					if (PROJECTOBJ.animations !== undefined) {
+
+						PROJECTOBJ.MM3D = {
+
+							threeJsAnimation: {
+
+								mixer: new THREE.AnimationMixer(PROJECTOBJ),
+
+								animations: PROJECTOBJ.animations
+
+							}
+
+						};
+
+						let idleAction;
+
+						for (var i = 0; i < PROJECTOBJ.animations.length; i++) {
+
+							idleAction = PROJECTOBJ.MM3D.threeJsAnimation.mixer.clipAction(p.obj.animations[i]);
+
+							idleAction.play();
+
+						};
+
+					};
+
+				},
+				2000
+
+			);
 
 			// aggiungi ombre //
 
@@ -1441,7 +1407,7 @@ const createEditor = () => {
 					{
 						"type": type,
 						"name": projectName,
-						"url": "objects/" + projectName + "." + extension,
+						"url": "objects/" + projectName + "." + extension, // <<<<<<<<<<<<<<<
 						"urlLowres": "",
 						"myPosition": {
 							"x": myPosition.x - PLY.p.selectedArea.position.x,
@@ -1464,8 +1430,6 @@ const createEditor = () => {
 
 						// SHOW PROJECT //
 
-						// PLY.p.selectedProject = w.obj;
-
 						projectStore.setProject(w.obj); // scrivi dato
 
 						if (PROJECTOBJ) {
@@ -1473,6 +1437,8 @@ const createEditor = () => {
 							w.obj.OBJECTS.myProject.add(PROJECTOBJ);
 							w.obj.OBJECTS.myProject.OBJECTS[PROJECTOBJ.name];
 						};
+
+						PLY.p.selectedArea.userData.projectsList.push(PROJECTOBJ);
 
 					},
 					{}
@@ -1484,14 +1450,10 @@ const createEditor = () => {
 				// crea nuova area ed inserisci nuovo progetto //
 
 				const geoAreaName = VARCO.f.generateUUID();
-				const auth = get(authStore);
-				const principal = auth.identity?.getPrincipal()?.toString();
-
-
 
 				EDITOR.f.createGeoArea(
 					{
-						"user": principal,
+						"user": UI.p.popup_login_data.p.data.user,
 						"geoAreaName": geoAreaName,
 						"sectorName": sectorName,
 						"myCoords": {
@@ -1548,10 +1510,11 @@ const createEditor = () => {
 
 								// update user geoList //
 
-								// TODO refresh geoareas List
-								// UI.p.popup_login_data.p.data.geoareaList.push(
+								UI.p.popup_login_data.p.data.geoareaList.push(
+									PLY.p.selectedArea
+								);
 
-								// );
+								PLY.p.selectedArea.userData.projectsList.push(PROJECTOBJ);
 
 							},
 							{}
@@ -1570,9 +1533,13 @@ const createEditor = () => {
 
 
 
+		const auth = get(authStore);
+
+		const principal = auth.identity?.getPrincipal()?.toString();
+
 		const projectName = p.name.split('.')[0];
 
-		const extension = p.name.split('.')[1];
+		let extension = p.name.split('.')[1];
 
 		const sectorName = EDITOR.f.findSector({ coords: { lng: MAP.p.actualCoords.lng, lat: MAP.p.actualCoords.lat } }).name;
 
@@ -1600,7 +1567,6 @@ const createEditor = () => {
 						name = name + '_due';
 
 					};
-
 
 					objectReady(PROJECTOBJ, projectName, '3d');
 
@@ -1666,16 +1632,16 @@ const createEditor = () => {
 											"parameters": {
 												"width": p.obj.width * 0.01,
 												"height": p.obj.height * 0.01,
-											},
-											"position": {
-												"x": 0.0,
-												"y": p.obj.height * 0.01 * 0.5,
-												"z": 0.0
 											}
 										}
 									}
 								]
 
+							},
+							"position": {
+								"x": 0.0,
+								"y": p.obj.height * 0.01 * 0.5,
+								"z": 0.0
 							}
 
 						},
@@ -1732,16 +1698,16 @@ const createEditor = () => {
 											"parameters": {
 												"width": p.obj.width * 0.01,
 												"height": p.obj.height * 0.01,
-											},
-											"position": {
-												"x": 0.0,
-												"y": p.obj.height * 0.01 * 0.5,
-												"z": 0.0
 											}
 										}
 									}
 								]
 
+							},
+							"position": {
+								"x": 0.0,
+								"y": p.obj.height * 0.01 * 0.5,
+								"z": 0.0
 							}
 
 						},
@@ -1764,7 +1730,9 @@ const createEditor = () => {
 					console.log(p);
 
 					VARCO.f.addComplex(
+
 						PLY.p.scene3D,
+
 						{
 							"name": projectName,
 							"parameters": {
@@ -1796,16 +1764,16 @@ const createEditor = () => {
 											"parameters": {
 												"width": 4,
 												"height": 2.5,
-											},
-											"position": {
-												"x": 0.0,
-												"y": 1.3,
-												"z": 0.0
 											}
 										}
 									}
 								]
 
+							},
+							"position": {
+								"x": 0.0,
+								"y": 1.3,
+								"z": 0.0
 							}
 
 						},
@@ -1828,11 +1796,19 @@ const createEditor = () => {
 					console.log(p);
 
 					VARCO.f.addComplex(
+
 						PLY.p.scene3D,
+
 						p.obj,
+
 						function (q) {
+
 							PROJECTOBJ = q.obj;
-							objectReady(PROJECTOBJ, projectName, 'json');
+
+							console.log(PROJECTOBJ);
+
+							objectReady(PROJECTOBJ, projectName, 'json', p.obj);
+
 						},
 						{}
 					)
@@ -1841,6 +1817,7 @@ const createEditor = () => {
 
 
 			};
+
 		};
 	};
 
@@ -2366,28 +2343,47 @@ const createEditor = () => {
 
 
 
+	EDITOR.f.exportIMAGE = function (PROJECTOBJ, GEOAREAOBJ) {
 
+		console.log('EDITOR.f.exportIMAGE');
 
-	EDITOR.f.exportVIDEO = function (OBJ) {
+		console.log(PROJECTOBJ);
 
-		console.log('EDITOR.f.exportVIDEO');
+		const position = {
+			"x": PROJECTOBJ.position.x,
+			"y": PROJECTOBJ.position.y,
+			"z": PROJECTOBJ.position.z
+		};
 
-		const propVideoObject = {
-			"name": OBJ.name,
+		const rotation = {
+			"x": VARCO.f.rad2deg(PROJECTOBJ.rotation.x),
+			"y": VARCO.f.rad2deg(PROJECTOBJ.rotation.y),
+			"z": VARCO.f.rad2deg(PROJECTOBJ.rotation.z)
+		};
+
+		const scale = {
+			"x": PROJECTOBJ.scale.x,
+			"y": PROJECTOBJ.scale.y,
+			"z": PROJECTOBJ.scale.z
+		}
+
+		const propImageObject = {
+			"name": PROJECTOBJ.name,
+			"userData": { "type": "image", "extension": PROJECTOBJ.userData.extension },
 			"parameters": {
 				"textureList": [
 					{
-						"name": OBJ.name,
-						"type": "videoBase64",
-						"url": OBJ.TEXTURES[OBJ.name].source.data.currentSrc
+						"name": PROJECTOBJ.name,
+						"type": "Base64",
+						"url": PROJECTOBJ.TEXTURES[PROJECTOBJ.name].source.data.currentSrc
 					}
 				],
 				"materialList": [
 					{
-						"name": OBJ.name,
+						"name": PROJECTOBJ.name,
 						"type": "MeshBasicMaterial",
 						"parameters": {
-							"textures": { "map": OBJ.name },
+							"textures": { "map": PROJECTOBJ.name },
 							"side": "THREE.DoubleSide"
 						}
 					}
@@ -2397,26 +2393,29 @@ const createEditor = () => {
 						"type": "addMesh",
 						"prop": {
 							"type": "PlaneGeometry",
-							"name": OBJ.name,
-							"materialList": [OBJ.name],
+							"name": PROJECTOBJ.name,
+							"materialList": [PROJECTOBJ.name],
 							"castShadow": true,
 							"parameters": {
-								"width": 1,
-								"height": 1
+								"width": PROJECTOBJ.TEXTURES[PROJECTOBJ.name].source.data.width * 0.01,
+								"height": PROJECTOBJ.TEXTURES[PROJECTOBJ.name].source.data.height * 0.01
 							}
 						}
 					}
 				]
 
-			}
+			},
+			"position": position,
+			"rotation": rotation,
+			"scale": scale
 
-		}
+		};
 
-		const textData = JSON.stringify(propVideoObject);
+		const textData = JSON.stringify(propImageObject);
 
-		const user = UI.p.popup_login_data.p.data.user;
+		const user = GEOAREAOBJ.userData.user;
 
-		const nameFile = 'USER_DB/' + user + '/contents/' + OBJ.name + '.json';
+		const nameFile = PROJECTOBJ.name + '.json';
 
 		VARCO.f.saveInfo(textData, nameFile);
 
@@ -2424,9 +2423,111 @@ const createEditor = () => {
 
 
 
-	EDITOR.f.exportGLTF = function (OBJ) {
+	EDITOR.f.exportVIDEO = function (PROJECTOBJ, GEOAREAOBJ) {
+
+		console.log('EDITOR.f.exportVIDEO');
+
+		console.log(PROJECTOBJ);
+
+		const position = {
+			"x": PROJECTOBJ.position.x,
+			"y": PROJECTOBJ.position.y,
+			"z": PROJECTOBJ.position.z
+		};
+
+		const rotation = {
+			"x": VARCO.f.rad2deg(PROJECTOBJ.rotation.x),
+			"y": VARCO.f.rad2deg(PROJECTOBJ.rotation.y),
+			"z": VARCO.f.rad2deg(PROJECTOBJ.rotation.z)
+		};
+
+		const scale = {
+			"x": PROJECTOBJ.scale.x,
+			"y": PROJECTOBJ.scale.y,
+			"z": PROJECTOBJ.scale.z
+		}
+
+		const propVideoObject = {
+			"name": PROJECTOBJ.name,
+			"userData": { "type": "video", "extension": "mp4" },
+			"parameters": {
+				"textureList": [
+					{
+						"name": PROJECTOBJ.name,
+						"type": "videoBase64",
+						"url": PROJECTOBJ.TEXTURES[PROJECTOBJ.name].source.data.currentSrc
+					}
+				],
+				"materialList": [
+					{
+						"name": PROJECTOBJ.name,
+						"type": "MeshBasicMaterial",
+						"parameters": {
+							"textures": { "map": PROJECTOBJ.name },
+							"side": "THREE.DoubleSide"
+						}
+					}
+				],
+				"elementList": [
+					{
+						"type": "addMesh",
+						"prop": {
+							"type": "PlaneGeometry",
+							"name": PROJECTOBJ.name,
+							"materialList": [PROJECTOBJ.name],
+							"castShadow": true,
+							"parameters": {
+								"width": 4,
+								"height": 2.5
+							}
+						}
+					}
+				]
+
+			},
+			"position": position,
+			"rotation": rotation,
+			"scale": scale
+
+		};
+
+		const textData = JSON.stringify(propVideoObject);
+
+		const user = GEOAREAOBJ.userData.user;
+
+		const nameFile = PROJECTOBJ.name + '.json';
+
+		VARCO.f.saveInfo(textData, nameFile);
+
+	};
+
+
+
+	EDITOR.f.exportGLTF = function (PROJECTOBJ, GEOAREAOBJ) {
 
 		console.log('EDITOR.f.exportGLTF');
+
+		console.log(PROJECTOBJ);
+
+
+		const position = {
+			"x": PROJECTOBJ.position.x,
+			"y": PROJECTOBJ.position.y,
+			"z": PROJECTOBJ.position.z
+		};
+
+		const rotation = {
+			"x": VARCO.f.rad2deg(PROJECTOBJ.rotation.x),
+			"y": VARCO.f.rad2deg(PROJECTOBJ.rotation.y),
+			"z": VARCO.f.rad2deg(PROJECTOBJ.rotation.z)
+		};
+
+		const scale = {
+			"x": PROJECTOBJ.scale.x,
+			"y": PROJECTOBJ.scale.y,
+			"z": PROJECTOBJ.scale.z
+		}
+
 
 		const exporter = new GLTFExporter();
 
@@ -2450,7 +2551,7 @@ const createEditor = () => {
 
 			maxTextureSize: 4096,
 
-			animations: OBJ.animations,
+			animations: PROJECTOBJ.animations,
 
 			includeCustomExtensions: true
 
@@ -2458,7 +2559,7 @@ const createEditor = () => {
 
 		exporter.parse(
 
-			OBJ,
+			PROJECTOBJ,
 
 			function (result) {
 
@@ -2468,13 +2569,37 @@ const createEditor = () => {
 				// Converti la stringa JSON in base64
 				const base64 = window.btoa(unescape(encodeURIComponent(sceneString)));
 
-				OBJ.userData.type = '3d'
+				const projectData = {
+					"name": PROJECTOBJ.name,
+					"userData": { "type": "3d", "extension": "gltf" },
+					"parameters": {
+						"elementList": [
+							{
+								"type": "addFromFile",
+								"prop": {
+									"name": PROJECTOBJ.name,
+									"parameters": {
+										"type": "base64",
+										"url": base64,
+										"extension": PROJECTOBJ.userData.extension // "gltf"
+									}
+								}
+							}
+						]
+					},
+					"position": position,
+					"rotation": rotation,
+					"scale": scale
 
-				OBJ.userData.stringByte64 = base64;
+				};
 
-				OBJ.userData.extension = 'gltf';
+				const textData = JSON.stringify(projectData);
 
-				EDITOR.f.saveProjectData(OBJ);
+				const user = GEOAREAOBJ.userData.user;
+
+				const nameFile = PROJECTOBJ.name + '.json';
+
+				VARCO.f.saveInfo(textData, nameFile);
 
 			}
 
@@ -2483,82 +2608,92 @@ const createEditor = () => {
 	};
 
 
+	// EDITOR.f.exportJSON = function( PROJECTOBJ, GEOAREAOBJ ){
 
+	// console.log( 'EDITOR.f.exportJSON' );
 
-	EDITOR.f.exportGLB = function (OBJ) {
+	// console.log( PROJECTOBJ );
 
-		console.log('EDITOR.f.exportGLB');
+	// console.log( GEOAREAOBJ );
 
-		const exporter = new GLTFExporter();
-
-		exporter.parse(
-			OBJ,
-			function (result) {
-				saveArrayBuffer(result, "scene.glb");
-			},
-			// called when there is an error in the generation
-			function (error) {
-
-				console.log('An error happened');
-
-			},
-			{ binary: true }
-		);
-
-		function saveArrayBuffer(buffer, filename) {
-
-			save(new Blob([buffer], { type: "application/octet-stream" }), filename);
-
-		}
-
-		const link = document.createElement("a");
-		link.style.display = "none";
-		document.body.appendChild(link); // Firefox workaround, see #6594
-
-		function save(blob, filename) {
-
-			link.href = URL.createObjectURL(blob);
-			link.download = filename;
-			link.click();
-		}
-
-
-	};
+	// }
 
 
 
-	EDITOR.f.exportUSDZ = function (OBJ) {
+	// EDITOR.f.exportGLB = function( OBJ, GEOAREAOBJ ){
 
-		console.log('EDITOR.f.exportUSDZ');
+	// console.log( 'EDITOR.f.exportGLB' );
 
-		// USDZ
-		const exporter = new USDZExporter();
+	// const exporter = new GLTFExporter();
 
-		exporter.parse(
-			OBJ,
-			// called when the gltf has been generated
-			function (arraybuffer) {
+	// exporter.parse(
+	// OBJ,
+	// function (result) {
+	// saveArrayBuffer(result, "scene.glb");
+	// },
+	// // called when there is an error in the generation
+	// function ( error ) {
 
-				console.log(arraybuffer);
+	// console.log( 'An error happened' );
 
-				const blob = new Blob([arraybuffer], { type: 'application/octet-stream' });
+	// }, 
+	// { binary: true }
+	// );
 
-				const link = document.getElementById('link');
+	// function saveArrayBuffer(buffer, filename) {
 
-				link.href = URL.createObjectURL(blob);
+	// save(new Blob([buffer], { type: "application/octet-stream" }), filename);
 
-			},
-			// called when there is an error in the generation
-			function (error) {
+	// }
 
-				console.log('An error happened');
+	// const link = document.createElement("a");
+	// link.style.display = "none";
+	// document.body.appendChild(link); // Firefox workaround, see #6594
 
-			},
-			{}
-		);
+	// function save(blob, filename) {
+
+	// link.href = URL.createObjectURL(blob);
+	// link.download = filename;
+	// link.click();
+	// }
 
 
-	};
+	// };
+
+
+
+	// EDITOR.f.exportUSDZ = function( OBJ, GEOAREAOBJ ){
+
+	// console.log( 'EDITOR.f.exportUSDZ' );
+
+	// // USDZ
+	// const exporter = new USDZExporter();
+
+	// exporter.parse(
+	// OBJ,
+	// // called when the gltf has been generated
+	// function ( arraybuffer ) {
+
+	// console.log( arraybuffer );
+
+	// const blob = new Blob( [ arraybuffer ], { type: 'application/octet-stream' } );
+
+	// const link = document.getElementById( 'link' );
+
+	// link.href = URL.createObjectURL( blob );
+
+	// },
+	// // called when there is an error in the generation
+	// function ( error ) {
+
+	// console.log( 'An error happened' );
+
+	// },
+	// {}
+	// );
+
+
+	// };
 
 
 	return EDITOR;

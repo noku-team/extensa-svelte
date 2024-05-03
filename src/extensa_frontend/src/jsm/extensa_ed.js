@@ -17,6 +17,8 @@ import { MAP, PLY } from "./index.js";
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js'; // <<<<<<<<<<<<<<<<
 import { SimplifyModifier } from 'three/addons/modifiers/SimplifyModifier.js'; // <<<<<<<<<<<<<<<<
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js'; // <<<<<<<<<<<<<<<<
+import downloadFileChunks from '../utils/dfinity/geoareas/helpers/downloadFileChunks';
+import executeGetFile from '../utils/dfinity/geoareas/methods/getFile';
 // import { MeshoptDecoder } from 'three/libs/meshopt_decoder.module'; // <<<<<<<<<<<<<<<<
 
 
@@ -671,92 +673,75 @@ const createEditor = () => {
 
 	// INPUT - OUTPUT 
 
-	EDITOR.f.loadProjectData = function () {
+	EDITOR.f.loadProjectData = async function () {
 		const { project: _selectedProject } = get(projectStore); // leggi dato
+		const { identity } = get(authStore);
 
 		console.log(_selectedProject);
 
-		let USER = _selectedProject.userData.linkedGeoArea.userData.user;
-
-		let PROJECTNAME = _selectedProject.userData.name;
-
 		if (_selectedProject !== null) {
+			const fileId = _selectedProject.userData.file_id;
+			const [file] = await executeGetFile({
+				canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
+				fileId,
+				identity: identity ?? anonymousIdentity,
+			});
 
-			// TODO load json from ICP canister
-			// load JSON file from canister 
-			
-			const projectFile = 'USER_DB/' + USER + '/contents/' + PROJECTNAME + '.json';
+			const { id, chunks } = file;
+			const numberOfChunks = chunks.length;
 
+			const finalFile = await downloadFileChunks(identity, process.env.CANISTER_ID_EXTENSA_BACKEND, id, numberOfChunks);
+			const projectData = JSON.parse(finalFile);
 
-			VARCO.f.loadJSON(
+			const geoArea = _selectedProject.userData.linkedGeoArea
 
-				projectFile,
+			geoArea.OBJECTS.projects.children.forEach(
+				function (child) {
+					if (child.uuid == _selectedProject.uuid) {
+						child.userData.isLoaded = true;
+					}
+				}
+			);
 
-				function init_projectData(projectData) {
+			VARCO.f.addComplex(
+				_selectedProject.OBJECTS.myProject,
+				projectData,
+				function (q) {
 
-					const geoArea = _selectedProject.userData.linkedGeoArea
+					let idleAction;
 
-					geoArea.OBJECTS.projects.children.forEach(
-						function (child) {
-							if (child.uuid == _selectedProject.uuid) {
-								child.userData.isLoaded = true;
-							}
+					q.obj.traverse(function (child) {
+
+						if (child.material !== undefined) {
+
+							child.castShadow = true;
+
 						}
-					);
+					});
 
 
-					VARCO.f.addComplex(
+					setTimeout(
 
-						_selectedProject.OBJECTS.myProject,
+						function () {
 
-						projectData,
+							if (q.obj.MM3D.threeJsAnimation !== undefined) {
 
-						function (q) {
+								for (var i = 0; i < q.obj.MM3D.threeJsAnimation.animations.length; i++) {
 
-							let idleAction;
+									idleAction = q.obj.MM3D.threeJsAnimation.mixer.clipAction(q.obj.MM3D.threeJsAnimation.animations[i]);
 
-							q.obj.traverse(function (child) {
-
-								if (child.material !== undefined) {
-
-									child.castShadow = true;
+									idleAction.play();
 
 								}
-							});
 
+							}
 
-							setTimeout(
+						},
 
-								function () {
+						2000
 
-									if (q.obj.MM3D.threeJsAnimation !== undefined) {
-
-										for (var i = 0; i < q.obj.MM3D.threeJsAnimation.animations.length; i++) {
-
-											idleAction = q.obj.MM3D.threeJsAnimation.mixer.clipAction(q.obj.MM3D.threeJsAnimation.animations[i]);
-
-											idleAction.play();
-
-										}
-
-									}
-
-								},
-
-								2000
-
-							);
-						}
 					);
-
-				},
-
-				function project_loaded() {
-
-					console.log("ERRORE TO LOAD JSON PROJECT");
-
 				}
-
 			);
 
 		}

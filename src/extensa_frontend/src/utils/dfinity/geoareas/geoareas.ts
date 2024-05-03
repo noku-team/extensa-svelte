@@ -20,9 +20,13 @@ export const createCanister = async ({
 	canister: ActorSubclass<_SERVICE>
 	agent: Agent
 }> => {
+	let _host = host;
+
+	if (isTestnet()) _host = `http://localhost:4943/`;
+
 	const agent = await createAgentWrapper({
 		identity,
-		host,
+		host: _host,
 	});
 
 	if (isTestnet()) await agent.fetchRootKey()

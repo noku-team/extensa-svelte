@@ -10,12 +10,14 @@
 	import "../VARCO/helpers/VARCO_webcam.js";
 	import "../VARCO/helpers/VARCO_xr.js";
 
+	import { useSendProjectWorker } from "../actions/sendProject.action.js";
 	import { EDITOR, MAP, PLY, UI } from "../jsm/index.js";
 	import getDOMHeight from "../utils/dom/getDOMHeight.js";
 	import EditProject from "./EditProject.svelte";
 	import SelectedProject from "./SelectedProject.svelte";
 
 	let renderer: any = null;
+	useSendProjectWorker();
 	onMount(() => {
 		renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 

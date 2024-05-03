@@ -17,8 +17,7 @@ import { MAP, PLY } from "./index.js";
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js'; // <<<<<<<<<<<<<<<<
 import { SimplifyModifier } from 'three/addons/modifiers/SimplifyModifier.js'; // <<<<<<<<<<<<<<<<
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js'; // <<<<<<<<<<<<<<<<
-import { spinnerStore } from '../store/SpinnerStore';
-import createGeoareaAndLoadProjectInside from '../utils/dfinity/geoareas/helpers/createGeoareaAndLoadProjectInside';
+import { sendProjectWorker } from '../actions/sendProject.action';
 // import { MeshoptDecoder } from 'three/libs/meshopt_decoder.module'; // <<<<<<<<<<<<<<<<
 
 
@@ -38,50 +37,19 @@ const createEditor = () => {
 
 
 	EDITOR.f.createGeoAreaHelpers = async (projectData) => {
-		debugger;
 		try {
-			spinnerStore.setLoading(true);
-			const textData = JSON.stringify(projectData);
-			const auth = get(authStore);
-			const identity = auth.identity;
+			sendProjectWorker.postMessage({
+				msg: 'executeSendProjectWorker',
+				data: {
+					file: JSON.stringify(projectData),
+					geoAreaName: PLY.p.selectedArea.userData.geoAreaName,
+					geoAreaCoords: PLY.p.selectedArea.userData.myCoords
 
-			if (identity) {
-				// geoarea
-				const geoAreaName = PLY.p.selectedArea.userData.geoAreaName;
-				const geoAreaCoords = PLY.p.selectedArea.userData.myCoords;
-
-				// projectF
-				// mocked for now
-				const projectType = "3D";
-				const projectPosition = projectData.position;
-				const projectOrientation = projectData.rotation;
-				const projectSize = projectData.scale;
-				const projectName = projectData.name;
-
-				await createGeoareaAndLoadProjectInside(
-					identity,
-					textData,
-					{
-						geoAreaName,
-						geoAreaCoords
-					},
-					{
-						projectPosition,
-						projectOrientation,
-						projectSize,
-						projectType,
-						projectName
-					},
-				);
-			} else {
-				alert("Login and try again!")
-			}
+				},
+			});
 		} catch (e) {
 			console.error(e);
-		} finally {
-			spinnerStore.setLoading(false);
 		}
-
 	};
 
 	EDITOR.f.loop = function () {
@@ -107,7 +75,6 @@ const createEditor = () => {
 
 
 	EDITOR.f.createProject = function (GEOAREAOBJ, prop, callback, callbackprop) {
-
 		console.log("createProject");
 
 		prop.linkedGeoArea = GEOAREAOBJ;
@@ -709,7 +676,6 @@ const createEditor = () => {
 	// INPUT - OUTPUT 
 
 	EDITOR.f.loadProjectData = function () {
-
 		const { project: _selectedProject } = get(projectStore); // leggi dato
 
 		console.log(_selectedProject);
@@ -1329,7 +1295,6 @@ const createEditor = () => {
 				PROJECTOBJ.userData.stringByte64 = stringByte64;
 
 			} else {
-
 				type = infoJson.userData.type;
 
 				extension = infoJson.userData.extension;

@@ -83,6 +83,7 @@ const createGeoareaAndLoadProjectInside = async (
             fileId,
         });
         console.warn(`+++ PROCEDURE FINISHED: ${resultAddProject} +++`);
+        return resultAddProject;
     }
 };
 

@@ -17,6 +17,7 @@ import { MAP, PLY } from "./index.js";
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js'; // <<<<<<<<<<<<<<<<
 import { SimplifyModifier } from 'three/addons/modifiers/SimplifyModifier.js'; // <<<<<<<<<<<<<<<<
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js'; // <<<<<<<<<<<<<<<<
+import { spinnerStore } from '../store/SpinnerStore';
 import createGeoareaAndLoadProjectInside from '../utils/dfinity/geoareas/helpers/createGeoareaAndLoadProjectInside';
 // import { MeshoptDecoder } from 'three/libs/meshopt_decoder.module'; // <<<<<<<<<<<<<<<<
 
@@ -35,6 +36,53 @@ const createEditor = () => {
 	};
 
 
+
+	EDITOR.f.createGeoAreaHelpers = async (projectData) => {
+		debugger;
+		try {
+			spinnerStore.setLoading(true);
+			const textData = JSON.stringify(projectData);
+			const auth = get(authStore);
+			const identity = auth.identity;
+
+			if (identity) {
+				// geoarea
+				const geoAreaName = PLY.p.selectedArea.userData.geoAreaName;
+				const geoAreaCoords = PLY.p.selectedArea.userData.myCoords;
+
+				// projectF
+				// mocked for now
+				const projectType = "3D";
+				const projectPosition = projectData.position;
+				const projectOrientation = projectData.rotation;
+				const projectSize = projectData.scale;
+				const projectName = projectData.name;
+
+				await createGeoareaAndLoadProjectInside(
+					identity,
+					textData,
+					{
+						geoAreaName,
+						geoAreaCoords
+					},
+					{
+						projectPosition,
+						projectOrientation,
+						projectSize,
+						projectType,
+						projectName
+					},
+				);
+			} else {
+				alert("Login and try again!")
+			}
+		} catch (e) {
+			console.error(e);
+		} finally {
+			spinnerStore.setLoading(false);
+		}
+
+	};
 
 	EDITOR.f.loop = function () {
 
@@ -968,42 +1016,6 @@ const createEditor = () => {
 
 		const textData = JSON.stringify(projectData);
 
-		const auth = get(authStore);
-		const identity = auth.identity;
-
-		if (identity) {
-			// geoarea
-			const geoAreaName = PLY.p.selectedArea.userData.geoAreaName;
-			const geoAreaCoords = PLY.p.selectedArea.userData.myCoords;
-
-			// projectF
-			// mocked for now
-			const projectType = "3D";
-			const projectPosition = projectData.position;
-			const projectOrientation = projectData.rotation;
-			const projectSize = projectData.scale;
-			const projectName = projectData.name;
-
-			await createGeoareaAndLoadProjectInside(
-				identity,
-				textData,
-				{
-					geoAreaName,
-					geoAreaCoords
-				},
-				{
-					projectPosition,
-					projectOrientation,
-					projectSize,
-					projectType,
-					projectName
-				},
-			);
-		} else {
-			alert("Login and try again!")
-
-		}
-
 	};
 
 
@@ -1453,7 +1465,6 @@ const createEditor = () => {
 
 				EDITOR.f.createGeoArea(
 					{
-						"user": UI.p.popup_login_data.p.data.user,
 						"geoAreaName": geoAreaName,
 						"sectorName": sectorName,
 						"myCoords": {
@@ -1510,9 +1521,9 @@ const createEditor = () => {
 
 								// update user geoList //
 
-								UI.p.popup_login_data.p.data.geoareaList.push(
-									PLY.p.selectedArea
-								);
+								// UI.p.popup_login_data.p.data.geoareaList.push(
+								// 	PLY.p.selectedArea
+								// );
 
 								PLY.p.selectedArea.userData.projectsList.push(PROJECTOBJ);
 
@@ -2343,8 +2354,7 @@ const createEditor = () => {
 
 
 
-	EDITOR.f.exportIMAGE = function (PROJECTOBJ, GEOAREAOBJ) {
-
+	EDITOR.f.exportIMAGE = async function (PROJECTOBJ, GEOAREAOBJ) {
 		console.log('EDITOR.f.exportIMAGE');
 
 		console.log(PROJECTOBJ);
@@ -2410,20 +2420,12 @@ const createEditor = () => {
 			"scale": scale
 
 		};
-
-		const textData = JSON.stringify(propImageObject);
-
-		const user = GEOAREAOBJ.userData.user;
-
-		const nameFile = PROJECTOBJ.name + '.json';
-
-		VARCO.f.saveInfo(textData, nameFile);
-
+		await EDITOR.f.createGeoAreaHelpers(propImageObject);
 	};
 
 
 
-	EDITOR.f.exportVIDEO = function (PROJECTOBJ, GEOAREAOBJ) {
+	EDITOR.f.exportVIDEO = async function (PROJECTOBJ) {
 
 		console.log('EDITOR.f.exportVIDEO');
 
@@ -2491,20 +2493,12 @@ const createEditor = () => {
 
 		};
 
-		const textData = JSON.stringify(propVideoObject);
-
-		const user = GEOAREAOBJ.userData.user;
-
-		const nameFile = PROJECTOBJ.name + '.json';
-
-		VARCO.f.saveInfo(textData, nameFile);
-
+		await EDITOR.f.createGeoAreaHelpers(projectData);
 	};
 
 
 
 	EDITOR.f.exportGLTF = function (PROJECTOBJ, GEOAREAOBJ) {
-
 		console.log('EDITOR.f.exportGLTF');
 
 		console.log(PROJECTOBJ);
@@ -2561,7 +2555,7 @@ const createEditor = () => {
 
 			PROJECTOBJ,
 
-			function (result) {
+			async function (result) {
 
 				// Converti l'oggetto scene in stringa JSON
 				const sceneString = JSON.stringify(result);
@@ -2593,14 +2587,7 @@ const createEditor = () => {
 
 				};
 
-				const textData = JSON.stringify(projectData);
-
-				const user = GEOAREAOBJ.userData.user;
-
-				const nameFile = PROJECTOBJ.name + '.json';
-
-				VARCO.f.saveInfo(textData, nameFile);
-
+				await EDITOR.f.createGeoAreaHelpers(projectData);
 			}
 
 		);

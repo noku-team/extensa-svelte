@@ -1000,21 +1000,6 @@ const createEditor = () => {
 
 
 
-	EDITOR.f.saveUserData = function (prop) {
-
-		// save USERDATA // 
-		// info in dowload folder:
-
-		const textData = JSON.stringify(prop);
-
-		const nameFile = 'USER_DB/' + prop.user + ".json";
-
-		VARCO.f.saveInfo(textData, nameFile);
-
-	};
-
-
-
 	EDITOR.f.SAVE_GEOAREA = function () {
 
 		if (PLY.p.selectedArea !== undefined) {
@@ -1068,9 +1053,9 @@ const createEditor = () => {
 
 			// save GEOAREA // 
 
-			const textData = JSON.stringify(geoAreaInfo);
+			// const textData = JSON.stringify(geoAreaInfo);
 
-			const nameFile = 'USER_DB/' + PLY.p.selectedArea.userData.user + '/' + PLY.p.selectedArea.userData.geoAreaName + ".json";
+			// const nameFile = 'USER_DB/' + PLY.p.selectedArea.userData.user + '/' + PLY.p.selectedArea.userData.geoAreaName + ".json";
 
 			// TODO EDIT PROJECT HERE AND SEND TO BLOCKCHAIN
 			// projectStore.setGeoAreaToEdit(geoAreaInfo);

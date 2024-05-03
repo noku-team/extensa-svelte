@@ -17,6 +17,7 @@ import { MAP, PLY } from "./index.js";
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js'; // <<<<<<<<<<<<<<<<
 import { SimplifyModifier } from 'three/addons/modifiers/SimplifyModifier.js'; // <<<<<<<<<<<<<<<<
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js'; // <<<<<<<<<<<<<<<<
+import { spinnerStore } from '../store/SpinnerStore';
 import downloadFileChunks from '../utils/dfinity/geoareas/helpers/downloadFileChunks';
 import executeGetFile from '../utils/dfinity/geoareas/methods/getFile';
 import { getProject, saveProject } from '../utils/indexedDB/getSaveEmpty';
@@ -675,88 +676,94 @@ const createEditor = () => {
 	// INPUT - OUTPUT 
 
 	EDITOR.f.loadProjectData = async function () {
-		const { project: _selectedProject } = get(projectStore); // leggi dato
-		const { identity } = get(authStore);
+		try {
+			spinnerStore.setLoading(true);
+			const { project: _selectedProject } = get(projectStore);
+			const { identity } = get(authStore);
 
-		console.log(_selectedProject);
+			console.log(_selectedProject);
 
-		if (_selectedProject !== null) {
-			const fileId = _selectedProject.userData.file_id;
-			const cachedProject = await getProject(`project-${fileId.toString()}`);
-			let finalFile = "";
+			if (_selectedProject !== null) {
+				const fileId = _selectedProject.userData.file_id;
+				const cachedProject = await getProject(`project-${fileId.toString()}`);
+				let finalFile = "";
 
-			if (!cachedProject) {
-				const [file] = await executeGetFile({
-					canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
-					fileId,
-					identity: identity ?? anonymousIdentity,
-				});
-
-				const { id, chunks } = file;
-				const numberOfChunks = chunks.length;
-
-				finalFile = await downloadFileChunks(identity, process.env.CANISTER_ID_EXTENSA_BACKEND, id, numberOfChunks);
-
-				// Layer of cash to avoid to download the file again from ICP network
-				await saveProject(`project-${fileId.toString()}`, finalFile);
-			} else finalFile = cachedProject;
-
-
-			const projectData = JSON.parse(finalFile);
-
-			const geoArea = _selectedProject.userData.linkedGeoArea
-
-			geoArea.OBJECTS.projects.children.forEach(
-				function (child) {
-					if (child.uuid == _selectedProject.uuid) {
-						child.userData.isLoaded = true;
-					}
-				}
-			);
-
-			VARCO.f.addComplex(
-				_selectedProject.OBJECTS.myProject,
-				projectData,
-				function (q) {
-
-					let idleAction;
-
-					q.obj.traverse(function (child) {
-
-						if (child.material !== undefined) {
-
-							child.castShadow = true;
-
-						}
+				if (!cachedProject) {
+					const [file] = await executeGetFile({
+						canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
+						fileId,
+						identity: identity ?? anonymousIdentity,
 					});
 
+					const { id, chunks } = file;
+					const numberOfChunks = chunks.length;
 
-					setTimeout(
+					finalFile = await downloadFileChunks(identity, process.env.CANISTER_ID_EXTENSA_BACKEND, id, numberOfChunks);
 
-						function () {
+					// Layer of cash to avoid to download the file again from ICP network
+					await saveProject(`project-${fileId.toString()}`, finalFile);
+				} else finalFile = cachedProject;
 
-							if (q.obj.MM3D.threeJsAnimation !== undefined) {
 
-								for (var i = 0; i < q.obj.MM3D.threeJsAnimation.animations.length; i++) {
+				const projectData = JSON.parse(finalFile);
 
-									idleAction = q.obj.MM3D.threeJsAnimation.mixer.clipAction(q.obj.MM3D.threeJsAnimation.animations[i]);
+				const geoArea = _selectedProject.userData.linkedGeoArea
 
-									idleAction.play();
+				geoArea.OBJECTS.projects.children.forEach(
+					function (child) {
+						if (child.uuid == _selectedProject.uuid) {
+							child.userData.isLoaded = true;
+						}
+					}
+				);
+
+				VARCO.f.addComplex(
+					_selectedProject.OBJECTS.myProject,
+					projectData,
+					function (q) {
+
+						let idleAction;
+
+						q.obj.traverse(function (child) {
+
+							if (child.material !== undefined) {
+
+								child.castShadow = true;
+
+							}
+						});
+
+
+						setTimeout(
+
+							function () {
+
+								if (q.obj.MM3D.threeJsAnimation !== undefined) {
+
+									for (var i = 0; i < q.obj.MM3D.threeJsAnimation.animations.length; i++) {
+
+										idleAction = q.obj.MM3D.threeJsAnimation.mixer.clipAction(q.obj.MM3D.threeJsAnimation.animations[i]);
+
+										idleAction.play();
+
+									}
 
 								}
 
-							}
+							},
 
-						},
+							2000
 
-						2000
+						);
+					}
+				);
 
-					);
-				}
-			);
-
+			}
+		} catch (e) {
+			console.error(e);
+		} finally {
+			spinnerStore.setLoading(false);
 		}
-
 	};
 
 

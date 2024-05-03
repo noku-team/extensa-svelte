@@ -282,7 +282,6 @@ const createEditor = () => {
 
 		let myPosition = MAP.f.getMapPosition(MAP.p.width, MAP.p.height, prop.myCoords.lng, prop.myCoords.lat, prop.myCoords.alt);
 
-		console.warn(principal, prop);
 		VARCO.f.addComplex(
 
 			PLY.p.scene3D.OBJECTS.geoArea,
@@ -683,6 +682,9 @@ const createEditor = () => {
 
 		if (_selectedProject !== null) {
 
+			// TODO load json from ICP canister
+			// load JSON file from canister 
+			
 			const projectFile = 'USER_DB/' + USER + '/contents/' + PROJECTNAME + '.json';
 
 

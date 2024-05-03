@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { sendProjectWorker } from "../actions/sendProject.action";
 	import { projectStore } from "../store/ProjectStore";
 	import Modal from "./Modal.svelte";
 
@@ -11,6 +12,18 @@
 	$: {
 		showModal = !!$projectStore.geoAreaToEdit;
 	}
+
+	const save = () => {
+		sendProjectWorker.postMessage({
+			msg: "executeSendProjectWorker",
+			data: {
+				file: JSON.stringify($projectStore.geoAreaToEdit?.projectsList[0]),
+				geoAreaName: $projectStore.geoAreaToEdit?.geoAreaName,
+				geoAreaCoords: $projectStore.geoAreaToEdit?.myCoords,
+			},
+		});
+		onModalClose();
+	};
 </script>
 
 <Modal bind:showModal title="Edit project" onClose={onModalClose}>
@@ -23,5 +36,5 @@
 			<span>LNG: {$projectStore.geoAreaToEdit?.myCoords?.lng}</span>
 		</div>
 	</div>
-    <button class="btn btn-primary">Save</button>
+	<button class="btn btn-primary" on:click={save}>Save</button>
 </Modal>

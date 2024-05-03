@@ -17,7 +17,6 @@ import { MAP, PLY } from "./index.js";
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js'; // <<<<<<<<<<<<<<<<
 import { SimplifyModifier } from 'three/addons/modifiers/SimplifyModifier.js'; // <<<<<<<<<<<<<<<<
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js'; // <<<<<<<<<<<<<<<<
-import { sendProjectWorker } from '../actions/sendProject.action';
 // import { MeshoptDecoder } from 'three/libs/meshopt_decoder.module'; // <<<<<<<<<<<<<<<<
 
 
@@ -38,15 +37,12 @@ const createEditor = () => {
 
 	EDITOR.f.createGeoAreaHelpers = async (projectData) => {
 		try {
-			sendProjectWorker.postMessage({
-				msg: 'executeSendProjectWorker',
-				data: {
-					file: JSON.stringify(projectData),
-					geoAreaName: PLY.p.selectedArea.userData.geoAreaName,
-					geoAreaCoords: PLY.p.selectedArea.userData.myCoords
-
-				},
-			});
+			const geoAreaDatas = {
+				projectsList: [projectData],
+				geoAreaName: PLY.p.selectedArea.userData.geoAreaName,
+				myCoords: PLY.p.selectedArea.userData.myCoords
+			}
+			projectStore.setGeoAreaToEdit(geoAreaDatas);
 		} catch (e) {
 			console.error(e);
 		}

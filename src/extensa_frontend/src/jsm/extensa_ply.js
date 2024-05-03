@@ -861,35 +861,6 @@ const createPLY = () => {
 				}
 			});
 
-			// carica il settore //
-			// TODO load all JSON sectors here
-			// VARCO.f.loadJSON(
-			// 	`TEST_GEOAREA/test_geoarea.json`,
-			// 	(geoAreas) => {
-			// 		for (const geoData of geoAreas) {
-			// 			EDITOR.f.createGeoArea(
-			// 				geoData,
-			// 				(q) => {
-			// 					let GEOAREAOBJ = q.obj;
-			// 					for (const project of geoData.projectsList) {
-			// 						// CREATE PROJECTS CIRCLES //
-			// 						EDITOR.f.createProject(
-			// 							GEOAREAOBJ,
-			// 							project,
-			// 							() => { },
-			// 							{}
-			// 						);
-			// 					}
-			// 				},
-			// 				{}
-			// 			);
-			// 		}
-			// 	},
-			// 	(error) => {
-			// 		console.error("Error while loading testing geoareas", error);
-			// 	}
-			// )
-
 		};
 
 	};

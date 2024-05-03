@@ -282,6 +282,7 @@ const createEditor = () => {
 
 		let myPosition = MAP.f.getMapPosition(MAP.p.width, MAP.p.height, prop.myCoords.lng, prop.myCoords.lat, prop.myCoords.alt);
 
+		console.warn(principal, prop);
 		VARCO.f.addComplex(
 
 			PLY.p.scene3D.OBJECTS.geoArea,
@@ -480,7 +481,6 @@ const createEditor = () => {
 
 
 	EDITOR.f.selectProject = function (p) {
-
 		console.log('EDITOR.f.selectProject');
 
 		const auth = get(authStore);
@@ -490,7 +490,8 @@ const createEditor = () => {
 
 			// controlla se utente e' lo stesso proprietario dell'area e quindi del progetto //
 
-			if (principal == p.obj.parent.userData.linkedGeoArea.userData.user) {
+			const _user = p.obj.parent.userData.linkedGeoArea.userData.user?.[0]?.toString() || p.obj.parent.userData.linkedGeoArea.userData.user?.toString();
+			if (principal == _user) {
 
 				EDITOR.f.deselectProjects();
 
@@ -1079,67 +1080,67 @@ const createEditor = () => {
 
 		// if (_selectedProject !== null) {
 
-			// if (_selectedProject.OBJECTS.myProject.children.length > 0) {
+		// if (_selectedProject.OBJECTS.myProject.children.length > 0) {
 
-				// // console.log( _selectedProject.userData.type );
+		// // console.log( _selectedProject.userData.type );
 
-				// if (_selectedProject.OBJECTS.myProjectCloned.children.length > 0) {
+		// if (_selectedProject.OBJECTS.myProjectCloned.children.length > 0) {
 
-					// switch (_selectedProject.userData.type) {
+		// switch (_selectedProject.userData.type) {
 
-						// case "3d":
-							// EDITOR.f.exportGLTF(_selectedProject.OBJECTS.myProjectCloned.children[0]); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		// case "3d":
+		// EDITOR.f.exportGLTF(_selectedProject.OBJECTS.myProjectCloned.children[0]); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-							// break;
+		// break;
 
-						// case "glb":
-							// EDITOR.f.exportGLB(_selectedProject.OBJECTS.myProjectCloned.children[0]); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		// case "glb":
+		// EDITOR.f.exportGLB(_selectedProject.OBJECTS.myProjectCloned.children[0]); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-							// break;
+		// break;
 
-						// case "video":
-							// EDITOR.f.exportVIDEO(_selectedProject.OBJECTS.myProjectCloned.children[0]); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		// case "video":
+		// EDITOR.f.exportVIDEO(_selectedProject.OBJECTS.myProjectCloned.children[0]); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-							// break;
+		// break;
 
-						// default:
+		// default:
 
-							// EDITOR.f.exportGLTF(_selectedProject.OBJECTS.myProjectCloned.children[0]); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		// EDITOR.f.exportGLTF(_selectedProject.OBJECTS.myProjectCloned.children[0]); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-							// break;
-					// };
+		// break;
+		// };
 
 
-				// } else {
+		// } else {
 
-					// switch (_selectedProject.userData.type) {
+		// switch (_selectedProject.userData.type) {
 
-						// case "3d":
-							// EDITOR.f.exportGLTF(_selectedProject.OBJECTS.myProject.children[0]); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		// case "3d":
+		// EDITOR.f.exportGLTF(_selectedProject.OBJECTS.myProject.children[0]); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-							// break;
+		// break;
 
-						// case "glb":
-							// EDITOR.f.exportGLB(_selectedProject.OBJECTS.myProject.children[0]); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		// case "glb":
+		// EDITOR.f.exportGLB(_selectedProject.OBJECTS.myProject.children[0]); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-							// break;
+		// break;
 
-						// case "video":
-							// EDITOR.f.exportVIDEO(_selectedProject.OBJECTS.myProject.children[0]); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		// case "video":
+		// EDITOR.f.exportVIDEO(_selectedProject.OBJECTS.myProject.children[0]); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-							// break;
+		// break;
 
-						// default:
+		// default:
 
-							// EDITOR.f.exportGLTF(_selectedProject.OBJECTS.myProject.children[0]); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		// EDITOR.f.exportGLTF(_selectedProject.OBJECTS.myProject.children[0]); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-							// break;
+		// break;
 
-					// };
+		// };
 
-				// }
+		// }
 
-			// };
+		// };
 
 		// };
 
@@ -1424,11 +1425,15 @@ const createEditor = () => {
 				// crea nuova area ed inserisci nuovo progetto //
 
 				const geoAreaName = VARCO.f.generateUUID();
+				const auth = get(authStore);
+				const principal = auth.identity?.getPrincipal();
+
 
 				EDITOR.f.createGeoArea(
 					{
 						"geoAreaName": geoAreaName,
 						"sectorName": sectorName,
+						"user": principal,
 						"myCoords": {
 							"lng": MAP.p.actualCoords.lng,
 							"lat": MAP.p.actualCoords.lat,

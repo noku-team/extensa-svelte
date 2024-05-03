@@ -842,7 +842,6 @@ const createPLY = () => {
 			// Fetch geoareas from canister
 			executeFetchGeoareasByCoords(fetchParams).then((geoAreas) => {
 				for (const geoData of geoAreas) {
-					console.warn("GEO", geoAreas);
 					EDITOR.f.createGeoArea(
 						geoData,
 						(q) => {

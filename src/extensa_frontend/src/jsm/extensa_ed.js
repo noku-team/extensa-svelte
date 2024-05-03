@@ -19,6 +19,7 @@ import { SimplifyModifier } from 'three/addons/modifiers/SimplifyModifier.js'; /
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js'; // <<<<<<<<<<<<<<<<
 import downloadFileChunks from '../utils/dfinity/geoareas/helpers/downloadFileChunks';
 import executeGetFile from '../utils/dfinity/geoareas/methods/getFile';
+import { getProject, saveProject } from '../utils/indexedDB/getSaveEmpty';
 // import { MeshoptDecoder } from 'three/libs/meshopt_decoder.module'; // <<<<<<<<<<<<<<<<
 
 
@@ -681,16 +682,26 @@ const createEditor = () => {
 
 		if (_selectedProject !== null) {
 			const fileId = _selectedProject.userData.file_id;
-			const [file] = await executeGetFile({
-				canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
-				fileId,
-				identity: identity ?? anonymousIdentity,
-			});
+			const cachedProject = await getProject(`project-${fileId.toString()}`);
+			let finalFile = "";
 
-			const { id, chunks } = file;
-			const numberOfChunks = chunks.length;
+			if (!cachedProject) {
+				const [file] = await executeGetFile({
+					canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
+					fileId,
+					identity: identity ?? anonymousIdentity,
+				});
 
-			const finalFile = await downloadFileChunks(identity, process.env.CANISTER_ID_EXTENSA_BACKEND, id, numberOfChunks);
+				const { id, chunks } = file;
+				const numberOfChunks = chunks.length;
+
+				finalFile = await downloadFileChunks(identity, process.env.CANISTER_ID_EXTENSA_BACKEND, id, numberOfChunks);
+
+				// Layer of cash to avoid to download the file again from ICP network
+				await saveProject(`project-${fileId.toString()}`, finalFile);
+			} else finalFile = cachedProject;
+
+
 			const projectData = JSON.parse(finalFile);
 
 			const geoArea = _selectedProject.userData.linkedGeoArea

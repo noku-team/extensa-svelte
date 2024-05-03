@@ -4,7 +4,7 @@
 	import EyeOffIcon from "/images/UI/eye-off.png";
 	import EyeIcon from "/images/UI/eye.png";
 
-	const onEyeClick = () => {
+	const onEyeClick = async () => {
 		EDITOR.f.loadProjectData();
 		projectStore.set3DVisible(true);
 	};

@@ -92,21 +92,21 @@ VARCO.f.checkCollisionOBB = function (objA, objB) {
 
 
 
-VARCO.f.generateUUID = function(){
+VARCO.f.generateUUID = function () {
 
-    var d = new Date().getTime();
-	
-    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-		
-        var r = (d + Math.random()*16)%16 | 0;
-		
-        d = Math.floor(d/16);
-		
-        return (c=='x' ? r : (r&0x3|0x8)).toString(16);
-		
-    });
-	
-    return uuid;
+	var d = new Date().getTime();
+
+	var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+
+		var r = (d + Math.random() * 16) % 16 | 0;
+
+		d = Math.floor(d / 16);
+
+		return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+
+	});
+
+	return uuid;
 
 };
 
@@ -1597,14 +1597,14 @@ VARCO.f.initMouseEvents = function () {
 
 	const canvas = document.getElementById('canvas');
 
-	if(canvas) {
+	if (canvas) {
 		canvas.addEventListener('mousemove', VARCO.f.tellMousePos, false);
 		canvas.addEventListener('mousedown', VARCO.f.tellMouseDown, false);
 		canvas.addEventListener('mouseup', VARCO.f.tellMouseUp, false);
 		canvas.addEventListener('mousewheel', VARCO.f.tellMouseWheel, false);
 		canvas.addEventListener('DOMMouseScroll', VARCO.f.tellMouseWheel_FF, false);
 		canvas.addEventListener('dblclick', VARCO.f.tellDoubleClick, false);
-	
+
 		canvas.addEventListener("contextmenu", function setContextMenuOff(e) {
 			e.preventDefault();
 		}, false);
@@ -1859,9 +1859,13 @@ VARCO.f.initTouchEvents = function () {
 	};
 
 
-	window.addEventListener('touchmove', VARCO.f.tellTouchPos, { passive: false });
-	window.addEventListener('touchstart', VARCO.f.tellTouchDown, { passive: false }); // { passive: false } );
-	window.addEventListener('touchend', VARCO.f.tellTouchUp, { passive: false }); //{ passive: false });
+	const canvas = document.getElementById('canvas');
+	if (canvas) {
+		canvas.addEventListener('touchmove', VARCO.f.tellTouchPos, { passive: false });
+		canvas.addEventListener('touchstart', VARCO.f.tellTouchDown, { passive: false }); // { passive: false } );
+		canvas.addEventListener('touchend', VARCO.f.tellTouchUp, { passive: false }); //{ passive: false });
+	}
+
 	//window.addEventListener('touchzoom', tellTouchUp, { passive: false } ); //{ passive: false });
 
 };
@@ -3286,22 +3290,22 @@ VARCO.f.addFromFile = function (SCENE, prop, callBack, callBackProp) {
 			loader = new GLTFLoader();
 
 			const dracoLoader = new DRACOLoader();
-			
-			if ( prop.parameters !== undefined ){
-				
-				if ( prop.parameters.setDecoderPath !== undefined ){
-					dracoLoader.setDecoderPath( prop.parameters.setDecoderPath );
-				};
-				
-				if ( prop.parameters.setDecoderConfig !== undefined ){
-					dracoLoader.setDecoderConfig( prop.parameters.setDecoderConfig );
+
+			if (prop.parameters !== undefined) {
+
+				if (prop.parameters.setDecoderPath !== undefined) {
+					dracoLoader.setDecoderPath(prop.parameters.setDecoderPath);
 				};
 
-				loader.setDRACOLoader( dracoLoader );
-				
+				if (prop.parameters.setDecoderConfig !== undefined) {
+					dracoLoader.setDecoderConfig(prop.parameters.setDecoderConfig);
+				};
+
+				loader.setDRACOLoader(dracoLoader);
+
 			};
-			
-			objectLoader( prop.parameters.url, callBack, callBackProp )
+
+			objectLoader(prop.parameters.url, callBack, callBackProp)
 
 			break;
 
@@ -3609,7 +3613,7 @@ VARCO.f.addTexture = function (SCENE, prop, callBack, callBackProp) {
 	let loadStandardTexture = function () {
 
 		loader = new THREE.TextureLoader();
-		
+
 		loader.load(
 			// resource URL
 			prop.url,
@@ -3626,7 +3630,7 @@ VARCO.f.addTexture = function (SCENE, prop, callBack, callBackProp) {
 
 			// onError callback
 			function callbackTextureError(err) {
-	
+
 				console.error('An error happened.');
 
 			}
@@ -3781,34 +3785,34 @@ VARCO.f.addTexture = function (SCENE, prop, callBack, callBackProp) {
 	};
 
 
-	
-	let createBase64VideoTexture = function(){
-		
-		console.log( "createBase64VideoTexture" );
-		
+
+	let createBase64VideoTexture = function () {
+
+		console.log("createBase64VideoTexture");
+
 		TEXTURE = undefined;
-		
+
 		let videoParameters = {
-			name : "videoTexture",
-			url : "",
-			loop : false,
-			autoplay : false,
-			volume : 1.0,
-			speed : 1.0,
-			type : "map",
-			muted : false
+			name: "videoTexture",
+			url: "",
+			loop: false,
+			autoplay: false,
+			volume: 1.0,
+			speed: 1.0,
+			type: "map",
+			muted: false
 		};
 
-		videoParameters = VARCO.f.setParameters( videoParameters, prop );
-		
-		if( prop.url !== undefined ){
-			
+		videoParameters = VARCO.f.setParameters(videoParameters, prop);
+
+		if (prop.url !== undefined) {
+
 			var videoElement = document.createElement('video');
 
 			videoElement.id = videoParameters.name;
 			videoElement.src = prop.url;
-			videoElement.setAttribute( 'webkit-playsinline', 'webkit-playsinline' );
-			videoElement.setAttribute( 'playsinline', 'playsinline' );
+			videoElement.setAttribute('webkit-playsinline', 'webkit-playsinline');
+			videoElement.setAttribute('playsinline', 'playsinline');
 			videoElement.load();
 			videoElement.volume = videoParameters.volume;
 			videoElement.loop = videoParameters.loop;
@@ -3816,30 +3820,30 @@ VARCO.f.addTexture = function (SCENE, prop, callBack, callBackProp) {
 			videoElement.muted = videoParameters.muted;
 			videoElement.speed = videoParameters.speed;
 
-			if ( prop.parameters == undefined ){
+			if (prop.parameters == undefined) {
 				prop.parameters = {};
 			};
-			
+
 			prop.parameters.minFilter = THREE.LinearFilter;
 			prop.parameters.magFilter = THREE.LinearFilter;
 			prop.parameters.format = THREE.RGBAFormat;
-			
-			TEXTURE = new THREE.VideoTexture( videoElement );
-			
+
+			TEXTURE = new THREE.VideoTexture(videoElement);
+
 			TEXTURE.image.play();
-		
-			console.log( "texture videoBase64 caricata" );
-			
-			console.log( TEXTURE );
-			
-			setupTextureParameter( TEXTURE );
-				
+
+			console.log("texture videoBase64 caricata");
+
+			console.log(TEXTURE);
+
+			setupTextureParameter(TEXTURE);
+
 			return TEXTURE;
-			
+
 		};
-			
+
 	};
-	
+
 
 
 	let createVideoTexture = function () {
@@ -3929,13 +3933,13 @@ VARCO.f.addTexture = function (SCENE, prop, callBack, callBackProp) {
 			createVideoTexture();
 
 			break;
-			
+
 		case "videoBase64":
-		
+
 			createBase64VideoTexture();
-		
+
 			break;
-		
+
 
 		default:
 
@@ -5881,7 +5885,7 @@ VARCO.f.doScriptList = function (scriptList) {
 					scriptProp.function = VARCO.f.stringToFunction(scriptProp.functionName);
 				}
 			}
-			
+
 			// console.log( scriptProp )
 
 			scriptProp.function(scriptProp.functionProp);

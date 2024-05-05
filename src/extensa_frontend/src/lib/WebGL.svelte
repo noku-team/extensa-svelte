@@ -116,13 +116,17 @@
 		// //////////////////////////////////////////////////////
 		// //////////////////////////////////////////////////////
 
-		window.addEventListener("resize", PLY.f.resizeScreen, false);
+		const canvas = document.querySelector("canvas");
 
-		document.body.addEventListener("mousedown", UI.f.clicked, false);
-		document.body.addEventListener("mouseup", UI.f.clickedEnd, false);
+		if (canvas) {
+			canvas.addEventListener("resize", PLY.f.resizeScreen, false);
 
-		document.body.addEventListener("touchstart", UI.f.tapped, false);
-		document.body.addEventListener("touchend", UI.f.tappedEnd, false);
+			canvas.addEventListener("mousedown", UI.f.clicked, false);
+			canvas.addEventListener("mouseup", UI.f.clickedEnd, false);
+
+			canvas.addEventListener("touchstart", UI.f.tapped, false);
+			canvas.addEventListener("touchend", UI.f.tappedEnd, false);
+		}
 
 		PLY.f.resizeScreen();
 

@@ -5,13 +5,8 @@
 
 	let showModal: boolean;
 
-	const onModalClose = () => {
-		projectStore.setGeoAreaToEdit(null);
-	};
-
-	$: {
-		showModal = !!$projectStore.geoAreaToEdit;
-	}
+	const onModalClose = () => projectStore.setGeoAreaToEdit(null);
+	$: showModal = !!$projectStore.geoAreaToEdit;
 
 	const save = () => {
 		sendProjectWorker.postMessage({

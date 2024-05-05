@@ -1,11 +1,8 @@
 import type { Identity } from "@dfinity/agent";
 import executeGetChunkByIndex from "../methods/getChunkByIndex";
 
-const downloadFileChunks = async (identity: Identity, canisterId: string, fileId: bigint, numChunks: bigint): Promise<string> => {
-    if (numChunks > BigInt(Number.MAX_SAFE_INTEGER)) throw new Error("numChunks is too large to handle as a number safely.");
-
-    const numChunksNumber = Number(numChunks);
-    const promises = Array.from({ length: numChunksNumber }, (_, index) =>
+const downloadFileChunks = async (identity: Identity, canisterId: string, fileId: bigint, numChunks: number): Promise<string> => {
+    const promises = Array.from({ length: numChunks }, (_, index) =>
         executeGetChunkByIndex({
             fileId,
             index: BigInt(index),

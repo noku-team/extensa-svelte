@@ -10,6 +10,7 @@
 	import "../VARCO/helpers/VARCO_webcam.js";
 	import "../VARCO/helpers/VARCO_xr.js";
 
+	import { useLoadProjectWorker } from "../actions/loadProject.action.js";
 	import { useSendProjectWorker } from "../actions/sendProject.action.js";
 	import { EDITOR, MAP, PLY, UI } from "../jsm/index.js";
 	import getDOMHeight from "../utils/dom/getDOMHeight.js";
@@ -18,6 +19,7 @@
 
 	let renderer: any = null;
 	useSendProjectWorker();
+	useLoadProjectWorker();
 	onMount(() => {
 		renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 

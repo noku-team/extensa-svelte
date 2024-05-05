@@ -17,10 +17,9 @@ import { MAP, PLY } from "./index.js";
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js'; // <<<<<<<<<<<<<<<<
 import { SimplifyModifier } from 'three/addons/modifiers/SimplifyModifier.js'; // <<<<<<<<<<<<<<<<
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js'; // <<<<<<<<<<<<<<<<
+import { loadProjectWorker } from '../actions/loadProject.action';
 import { spinnerStore } from '../store/SpinnerStore';
-import downloadFileChunks from '../utils/dfinity/geoareas/helpers/downloadFileChunks';
-import executeGetFile from '../utils/dfinity/geoareas/methods/getFile';
-import { getProject, saveProject } from '../utils/indexedDB/getSaveEmpty';
+import { getProject } from '../utils/indexedDB/getSaveEmpty';
 // import { MeshoptDecoder } from 'three/libs/meshopt_decoder.module'; // <<<<<<<<<<<<<<<<
 
 
@@ -484,6 +483,7 @@ const createEditor = () => {
 
 
 	EDITOR.f.selectProject = function (p) {
+		console.warn("here");
 		console.log('EDITOR.f.selectProject');
 
 		const auth = get(authStore);
@@ -675,34 +675,28 @@ const createEditor = () => {
 
 	// INPUT - OUTPUT 
 
-	EDITOR.f.loadProjectData = async function () {
+	EDITOR.f.loadProjectData = async function (overridedFile = "") {
 		try {
 			spinnerStore.setLoading(true);
 			const { project: _selectedProject } = get(projectStore);
-			const { identity } = get(authStore);
-
-			console.log(_selectedProject);
 
 			if (_selectedProject !== null) {
-				const fileId = _selectedProject.userData.file_id;
-				const cachedProject = await getProject(`project-${fileId.toString()}`);
 				let finalFile = "";
+				if (!overridedFile) {
+					const fileId = _selectedProject.userData.file_id;
+					const cachedProject = await getProject(`project-${fileId.toString()}`);
 
-				if (!cachedProject) {
-					const [file] = await executeGetFile({
-						canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
-						fileId,
-						identity: identity ?? anonymousIdentity,
-					});
-
-					const { id, chunks } = file;
-					const numberOfChunks = chunks.length;
-
-					finalFile = await downloadFileChunks(identity, process.env.CANISTER_ID_EXTENSA_BACKEND, id, numberOfChunks);
-
-					// Layer of cash to avoid to download the file again from ICP network
-					await saveProject(`project-${fileId.toString()}`, finalFile);
-				} else finalFile = cachedProject;
+					if (!cachedProject) {
+						loadProjectWorker.postMessage({
+							msg: "executeLoadProjectWorker",
+							data: {
+								fileId,
+							},
+						});
+					} else finalFile = cachedProject;
+				} else {
+					finalFile = overridedFile;
+				}
 
 
 				const projectData = JSON.parse(finalFile);
@@ -1267,526 +1261,533 @@ const createEditor = () => {
 
 
 	EDITOR.f.DROP_FILE = function (p) {
+		try {
+			spinnerStore.setLoading(true);
+			function objectReady(PROJECTOBJ, projectName, type, infoJson) {
 
-		function objectReady(PROJECTOBJ, projectName, type, infoJson) {
+				console.log(PROJECTOBJ)
 
-			console.log(PROJECTOBJ)
+				PROJECTOBJ.name = projectName;
 
-			PROJECTOBJ.name = projectName;
+				if (type !== "json") {
 
-			if (type !== "json") {
+					VARCO.f.setPropAndParameters(PROJECTOBJ, { "MM3D": {} });
 
-				VARCO.f.setPropAndParameters(PROJECTOBJ, { "MM3D": {} });
+					PROJECTOBJ.userData.data = p.data;
 
-				PROJECTOBJ.userData.data = p.data;
+					PROJECTOBJ.userData.stringByte64 = stringByte64;
 
-				PROJECTOBJ.userData.stringByte64 = stringByte64;
+				} else {
+					type = infoJson.userData.type;
 
-			} else {
-				type = infoJson.userData.type;
+					extension = infoJson.userData.extension;
 
-				extension = infoJson.userData.extension;
+					PROJECTOBJ.userData.fromJson = true;
 
-				PROJECTOBJ.userData.fromJson = true;
+				};
+
+
+				PROJECTOBJ.userData.type = type;
+
+				PROJECTOBJ.userData.fileName = projectName;
+
+				PROJECTOBJ.userData.extension = extension;
+
+				PROJECTOBJ.userData.myCoords = { 'lng': MAP.p.actualCoords.lng, 'lat': MAP.p.actualCoords.lat, 'alt': MAP.p.actualCoords.alt };
+
+
+				// start animation //
+
+				setTimeout(
+
+					function () {
+
+						if (PROJECTOBJ.animations !== undefined) {
+
+							PROJECTOBJ.MM3D = {
+
+								threeJsAnimation: {
+
+									mixer: new THREE.AnimationMixer(PROJECTOBJ),
+
+									animations: PROJECTOBJ.animations
+
+								}
+
+							};
+
+							let idleAction;
+
+							for (var i = 0; i < PROJECTOBJ.animations.length; i++) {
+
+								idleAction = PROJECTOBJ.MM3D.threeJsAnimation.mixer.clipAction(p.obj.animations[i]);
+
+								idleAction.play();
+
+							};
+
+						};
+
+					},
+					2000
+
+				);
+
+				// aggiungi ombre //
+
+				PROJECTOBJ.traverse(
+
+					function (child) {
+
+						if (child.material !== undefined) {
+
+							child.castShadow = true;
+
+						}
+
+					}
+
+				);
+
+
+				// CANCELLA E PREPARA NUOVO PROGETTO //
+
+				EDITOR.f.deselectProjects();
+
+				// ///////////////////////////////// //
+
+
+				// inserisci nuovo progetto in area gia' esistente //
+				if (PLY.p.selectedArea !== undefined) {
+
+					EDITOR.f.createProject(
+
+						PLY.p.selectedArea,
+
+						{
+							"type": type,
+							"name": projectName,
+							"url": "objects/" + projectName + "." + extension, // <<<<<<<<<<<<<<<
+							"urlLowres": "",
+							"myPosition": {
+								"x": myPosition.x - PLY.p.selectedArea.position.x,
+								"y": myPosition.y - PLY.p.selectedArea.position.y,
+								"z": myPosition.z - PLY.p.selectedArea.position.z
+							},
+							"myOrientation": {
+								"x": 0,
+								"y": 0,
+								"z": 0
+							},
+							"mySize": {
+								"x": 1,
+								"y": 1,
+								"z": 1
+							},
+							"previewImage": ""
+						},
+						function (w) {
+
+							// SHOW PROJECT //
+
+							projectStore.setProject(w.obj); // scrivi dato
+
+							if (PROJECTOBJ) {
+								w.obj.userData.isLoaded = true;
+								w.obj.OBJECTS.myProject.add(PROJECTOBJ);
+								w.obj.OBJECTS.myProject.OBJECTS[PROJECTOBJ.name];
+							};
+
+							PLY.p.selectedArea.userData.projectsList.push(PROJECTOBJ);
+
+						},
+						{}
+
+					);
+
+				} else {
+
+					// crea nuova area ed inserisci nuovo progetto //
+
+					const geoAreaName = VARCO.f.generateUUID();
+					const auth = get(authStore);
+					const principal = auth.identity?.getPrincipal();
+
+
+					EDITOR.f.createGeoArea(
+						{
+							"geoAreaName": geoAreaName,
+							"sectorName": sectorName,
+							"user": principal,
+							"myCoords": {
+								"lng": MAP.p.actualCoords.lng,
+								"lat": MAP.p.actualCoords.lat,
+								"alt": MAP.p.actualCoords.alt
+							}
+						},
+						function (q) {
+
+							// insert area in sector:
+
+							PLY.p.selectedArea = q.obj;
+
+							EDITOR.f.createProject(
+
+								PLY.p.selectedArea,
+
+								{
+									"type": type,
+									"name": projectName,
+									"url": "objects/" + projectName + "." + extension,
+									"urlLowres": "",
+									"myPosition": {
+										"x": myPosition.x - PLY.p.selectedArea.position.x,
+										"y": myPosition.y - PLY.p.selectedArea.position.y,
+										"z": myPosition.z - PLY.p.selectedArea.position.z
+									},
+									"myOrientation": {
+										"x": 0,
+										"y": 0,
+										"z": 0
+									},
+									"mySize": {
+										"x": 1,
+										"y": 1,
+										"z": 1
+									},
+									"previewImage": ""
+								},
+								function (w) {
+
+									// SHOW PROJECT //
+
+									// PLY.p.selectedProject = w.obj;
+
+									projectStore.setProject(w.obj); // scrivi dato
+
+									spinnerStore.setLoading(false);
+									if (PROJECTOBJ) {
+										w.obj.userData.isLoaded = true;
+										w.obj.OBJECTS.myProject.add(PROJECTOBJ);
+										w.obj.OBJECTS.myProject.OBJECTS[PROJECTOBJ.name];
+									};
+
+									// update user geoList //
+
+									// UI.p.popup_login_data.p.data.geoareaList.push(
+									// 	PLY.p.selectedArea
+									// );
+
+									PLY.p.selectedArea.userData.projectsList.push(PROJECTOBJ);
+
+								},
+								{}
+
+							);
+
+						},
+						{}
+					);
+
+				};
+
+				UI.p.menu_optimizer.f.open();
 
 			};
 
 
-			PROJECTOBJ.userData.type = type;
 
-			PROJECTOBJ.userData.fileName = projectName;
+			const auth = get(authStore);
 
-			PROJECTOBJ.userData.extension = extension;
+			const principal = auth.identity?.getPrincipal()?.toString();
 
-			PROJECTOBJ.userData.myCoords = { 'lng': MAP.p.actualCoords.lng, 'lat': MAP.p.actualCoords.lat, 'alt': MAP.p.actualCoords.alt };
+			const projectName = p.name.split('.')[0];
+
+			let extension = p.name.split('.')[1];
+
+			const sectorName = EDITOR.f.findSector({ coords: { lng: MAP.p.actualCoords.lng, lat: MAP.p.actualCoords.lat } }).name;
+
+			// creazione nome geoarea //
+
+			const myPosition = MAP.f.getMapPosition(MAP.p.width, MAP.p.height, MAP.p.actualCoords.lng, MAP.p.actualCoords.lat, MAP.p.actualCoords.alt);
 
 
-			// start animation //
+			let type, stringByte64, PROJECTOBJ;
 
-			setTimeout(
 
-				function () {
+			if (EDITOR.p.dragAndDrop) {
 
-					if (PROJECTOBJ.animations !== undefined) {
+				switch (extension) {
 
-						PROJECTOBJ.MM3D = {
+					case "gltf":
 
-							threeJsAnimation: {
+						PROJECTOBJ = p.obj;
 
-								mixer: new THREE.AnimationMixer(PROJECTOBJ),
+						stringByte64 = VARCO.f.arrayBufferToBase64(p.data);
 
-								animations: PROJECTOBJ.animations
 
-							}
+						if (PLY.p.scene3D.OBJECTS[name] !== undefined) {
 
-						};
-
-						let idleAction;
-
-						for (var i = 0; i < PROJECTOBJ.animations.length; i++) {
-
-							idleAction = PROJECTOBJ.MM3D.threeJsAnimation.mixer.clipAction(p.obj.animations[i]);
-
-							idleAction.play();
+							name = name + '_due';
 
 						};
 
-					};
-
-				},
-				2000
-
-			);
-
-			// aggiungi ombre //
-
-			PROJECTOBJ.traverse(
-
-				function (child) {
-
-					if (child.material !== undefined) {
-
-						child.castShadow = true;
-
-					}
-
-				}
-
-			);
+						objectReady(PROJECTOBJ, projectName, '3d');
 
 
-			// CANCELLA E PREPARA NUOVO PROGETTO //
+						break;
 
-			EDITOR.f.deselectProjects();
+					case "glb":
 
-			// ///////////////////////////////// //
+						PROJECTOBJ = p.obj;
+
+						stringByte64 = VARCO.f.arrayBufferToBase64(p.data);
 
 
-			// inserisci nuovo progetto in area gia' esistente //
-			if (PLY.p.selectedArea !== undefined) {
+						if (PLY.p.scene3D.OBJECTS[name] !== undefined) {
 
-				EDITOR.f.createProject(
+							name = name + '_due';
 
-					PLY.p.selectedArea,
-
-					{
-						"type": type,
-						"name": projectName,
-						"url": "objects/" + projectName + "." + extension, // <<<<<<<<<<<<<<<
-						"urlLowres": "",
-						"myPosition": {
-							"x": myPosition.x - PLY.p.selectedArea.position.x,
-							"y": myPosition.y - PLY.p.selectedArea.position.y,
-							"z": myPosition.z - PLY.p.selectedArea.position.z
-						},
-						"myOrientation": {
-							"x": 0,
-							"y": 0,
-							"z": 0
-						},
-						"mySize": {
-							"x": 1,
-							"y": 1,
-							"z": 1
-						},
-						"previewImage": ""
-					},
-					function (w) {
-
-						// SHOW PROJECT //
-
-						projectStore.setProject(w.obj); // scrivi dato
-
-						if (PROJECTOBJ) {
-							w.obj.userData.isLoaded = true;
-							w.obj.OBJECTS.myProject.add(PROJECTOBJ);
-							w.obj.OBJECTS.myProject.OBJECTS[PROJECTOBJ.name];
 						};
 
-						PLY.p.selectedArea.userData.projectsList.push(PROJECTOBJ);
 
-					},
-					{}
-
-				);
-
-			} else {
-
-				// crea nuova area ed inserisci nuovo progetto //
-
-				const geoAreaName = VARCO.f.generateUUID();
-				const auth = get(authStore);
-				const principal = auth.identity?.getPrincipal();
+						objectReady(PROJECTOBJ, projectName, 'glb');
 
 
-				EDITOR.f.createGeoArea(
-					{
-						"geoAreaName": geoAreaName,
-						"sectorName": sectorName,
-						"user": principal,
-						"myCoords": {
-							"lng": MAP.p.actualCoords.lng,
-							"lat": MAP.p.actualCoords.lat,
-							"alt": MAP.p.actualCoords.alt
-						}
-					},
-					function (q) {
+						break;
 
-						// insert area in sector:
 
-						PLY.p.selectedArea = q.obj;
+					case "png":
 
-						EDITOR.f.createProject(
+						console.log(p);
 
-							PLY.p.selectedArea,
+						console.log(p.obj.width);
 
+						VARCO.f.addComplex(
+							PLY.p.scene3D,
 							{
-								"type": type,
 								"name": projectName,
-								"url": "objects/" + projectName + "." + extension,
-								"urlLowres": "",
-								"myPosition": {
-									"x": myPosition.x - PLY.p.selectedArea.position.x,
-									"y": myPosition.y - PLY.p.selectedArea.position.y,
-									"z": myPosition.z - PLY.p.selectedArea.position.z
+								"parameters": {
+									"textureList": [
+										{
+											"name": projectName,
+											"type": "base64",
+											"url": p.data
+										}
+									],
+									"materialList": [
+										{
+											"name": projectName,
+											"type": "MeshBasicMaterial",
+											"parameters": {
+												"textures": { "map": projectName },
+												"side": "THREE.DoubleSide"
+											}
+										}
+									],
+									"elementList": [
+										{
+											"type": "addMesh",
+											"prop": {
+												"type": "PlaneGeometry",
+												"name": projectName,
+												"materialList": [projectName],
+												"castShadow": true,
+												"parameters": {
+													"width": p.obj.width * 0.01,
+													"height": p.obj.height * 0.01,
+												}
+											}
+										}
+									]
+
 								},
-								"myOrientation": {
-									"x": 0,
-									"y": 0,
-									"z": 0
-								},
-								"mySize": {
-									"x": 1,
-									"y": 1,
-									"z": 1
-								},
-								"previewImage": ""
+								"position": {
+									"x": 0.0,
+									"y": p.obj.height * 0.01 * 0.5,
+									"z": 0.0
+								}
+
 							},
-							function (w) {
+							function (q) {
 
-								// SHOW PROJECT //
+								PROJECTOBJ = q.obj;
 
-								// PLY.p.selectedProject = w.obj;
-
-								projectStore.setProject(w.obj); // scrivi dato
-
-								if (PROJECTOBJ) {
-									w.obj.userData.isLoaded = true;
-									w.obj.OBJECTS.myProject.add(PROJECTOBJ);
-									w.obj.OBJECTS.myProject.OBJECTS[PROJECTOBJ.name];
-								};
-
-								// update user geoList //
-
-								// UI.p.popup_login_data.p.data.geoareaList.push(
-								// 	PLY.p.selectedArea
-								// );
-
-								PLY.p.selectedArea.userData.projectsList.push(PROJECTOBJ);
+								objectReady(PROJECTOBJ, projectName, 'image');
 
 							},
 							{}
 
 						);
 
-					},
-					{}
-				);
+						break;
+
+
+					case "jpg":
+
+						console.log(p);
+
+						console.log(p.obj.width);
+
+						VARCO.f.addComplex(
+							PLY.p.scene3D,
+							{
+								"name": projectName,
+								"parameters": {
+									"textureList": [
+										{
+											"name": projectName,
+											"type": "base64",
+											"url": p.data
+										}
+									],
+									"materialList": [
+										{
+											"name": projectName,
+											"type": "MeshBasicMaterial",
+											"parameters": {
+												"textures": { "map": projectName },
+												"side": "THREE.DoubleSide"
+											}
+										}
+									],
+									"elementList": [
+										{
+											"type": "addMesh",
+											"prop": {
+												"type": "PlaneGeometry",
+												"name": projectName,
+												"materialList": [projectName],
+												"castShadow": true,
+												"parameters": {
+													"width": p.obj.width * 0.01,
+													"height": p.obj.height * 0.01,
+												}
+											}
+										}
+									]
+
+								},
+								"position": {
+									"x": 0.0,
+									"y": p.obj.height * 0.01 * 0.5,
+									"z": 0.0
+								}
+
+							},
+							function (q) {
+
+								PROJECTOBJ = q.obj;
+
+								objectReady(PROJECTOBJ, projectName, 'image');
+
+							},
+
+							{}
+
+						);
+
+						break;
+
+					case "mp4":
+
+						console.log(p);
+
+						VARCO.f.addComplex(
+
+							PLY.p.scene3D,
+
+							{
+								"name": projectName,
+								"parameters": {
+									"textureList": [
+										{
+											"name": projectName,
+											"type": "videoBase64",
+											"url": p.data
+										}
+									],
+									"materialList": [
+										{
+											"name": projectName,
+											"type": "MeshBasicMaterial",
+											"parameters": {
+												"textures": { "map": projectName },
+												"side": "THREE.DoubleSide"
+											}
+										}
+									],
+									"elementList": [
+										{
+											"type": "addMesh",
+											"prop": {
+												"type": "PlaneGeometry",
+												"name": projectName,
+												"materialList": [projectName],
+												"castShadow": true,
+												"parameters": {
+													"width": 4,
+													"height": 2.5,
+												}
+											}
+										}
+									]
+
+								},
+								"position": {
+									"x": 0.0,
+									"y": 1.3,
+									"z": 0.0
+								}
+
+							},
+							function (q) {
+
+								PROJECTOBJ = q.obj;
+
+								objectReady(PROJECTOBJ, projectName, 'video');
+
+							},
+							{}
+
+						);
+
+						break;
+
+
+					case "json":
+
+						console.log(p);
+
+						VARCO.f.addComplex(
+
+							PLY.p.scene3D,
+
+							p.obj,
+
+							function (q) {
+
+								PROJECTOBJ = q.obj;
+
+								console.log(PROJECTOBJ);
+
+								objectReady(PROJECTOBJ, projectName, 'json', p.obj);
+
+							},
+							{}
+						)
+
+						break;
+
+
+				};
 
 			};
-
-			UI.p.menu_optimizer.f.open();
-
-		};
-
-
-
-		const auth = get(authStore);
-
-		const principal = auth.identity?.getPrincipal()?.toString();
-
-		const projectName = p.name.split('.')[0];
-
-		let extension = p.name.split('.')[1];
-
-		const sectorName = EDITOR.f.findSector({ coords: { lng: MAP.p.actualCoords.lng, lat: MAP.p.actualCoords.lat } }).name;
-
-		// creazione nome geoarea //
-
-		const myPosition = MAP.f.getMapPosition(MAP.p.width, MAP.p.height, MAP.p.actualCoords.lng, MAP.p.actualCoords.lat, MAP.p.actualCoords.alt);
-
-
-		let type, stringByte64, PROJECTOBJ;
-
-
-		if (EDITOR.p.dragAndDrop) {
-
-			switch (extension) {
-
-				case "gltf":
-
-					PROJECTOBJ = p.obj;
-
-					stringByte64 = VARCO.f.arrayBufferToBase64(p.data);
-
-
-					if (PLY.p.scene3D.OBJECTS[name] !== undefined) {
-
-						name = name + '_due';
-
-					};
-
-					objectReady(PROJECTOBJ, projectName, '3d');
-
-
-					break;
-
-				case "glb":
-
-					PROJECTOBJ = p.obj;
-
-					stringByte64 = VARCO.f.arrayBufferToBase64(p.data);
-
-
-					if (PLY.p.scene3D.OBJECTS[name] !== undefined) {
-
-						name = name + '_due';
-
-					};
-
-
-					objectReady(PROJECTOBJ, projectName, 'glb');
-
-
-					break;
-
-
-				case "png":
-
-					console.log(p);
-
-					console.log(p.obj.width);
-
-					VARCO.f.addComplex(
-						PLY.p.scene3D,
-						{
-							"name": projectName,
-							"parameters": {
-								"textureList": [
-									{
-										"name": projectName,
-										"type": "base64",
-										"url": p.data
-									}
-								],
-								"materialList": [
-									{
-										"name": projectName,
-										"type": "MeshBasicMaterial",
-										"parameters": {
-											"textures": { "map": projectName },
-											"side": "THREE.DoubleSide"
-										}
-									}
-								],
-								"elementList": [
-									{
-										"type": "addMesh",
-										"prop": {
-											"type": "PlaneGeometry",
-											"name": projectName,
-											"materialList": [projectName],
-											"castShadow": true,
-											"parameters": {
-												"width": p.obj.width * 0.01,
-												"height": p.obj.height * 0.01,
-											}
-										}
-									}
-								]
-
-							},
-							"position": {
-								"x": 0.0,
-								"y": p.obj.height * 0.01 * 0.5,
-								"z": 0.0
-							}
-
-						},
-						function (q) {
-
-							PROJECTOBJ = q.obj;
-
-							objectReady(PROJECTOBJ, projectName, 'image');
-
-						},
-						{}
-
-					);
-
-					break;
-
-
-				case "jpg":
-
-					console.log(p);
-
-					console.log(p.obj.width);
-
-					VARCO.f.addComplex(
-						PLY.p.scene3D,
-						{
-							"name": projectName,
-							"parameters": {
-								"textureList": [
-									{
-										"name": projectName,
-										"type": "base64",
-										"url": p.data
-									}
-								],
-								"materialList": [
-									{
-										"name": projectName,
-										"type": "MeshBasicMaterial",
-										"parameters": {
-											"textures": { "map": projectName },
-											"side": "THREE.DoubleSide"
-										}
-									}
-								],
-								"elementList": [
-									{
-										"type": "addMesh",
-										"prop": {
-											"type": "PlaneGeometry",
-											"name": projectName,
-											"materialList": [projectName],
-											"castShadow": true,
-											"parameters": {
-												"width": p.obj.width * 0.01,
-												"height": p.obj.height * 0.01,
-											}
-										}
-									}
-								]
-
-							},
-							"position": {
-								"x": 0.0,
-								"y": p.obj.height * 0.01 * 0.5,
-								"z": 0.0
-							}
-
-						},
-						function (q) {
-
-							PROJECTOBJ = q.obj;
-
-							objectReady(PROJECTOBJ, projectName, 'image');
-
-						},
-
-						{}
-
-					);
-
-					break;
-
-				case "mp4":
-
-					console.log(p);
-
-					VARCO.f.addComplex(
-
-						PLY.p.scene3D,
-
-						{
-							"name": projectName,
-							"parameters": {
-								"textureList": [
-									{
-										"name": projectName,
-										"type": "videoBase64",
-										"url": p.data
-									}
-								],
-								"materialList": [
-									{
-										"name": projectName,
-										"type": "MeshBasicMaterial",
-										"parameters": {
-											"textures": { "map": projectName },
-											"side": "THREE.DoubleSide"
-										}
-									}
-								],
-								"elementList": [
-									{
-										"type": "addMesh",
-										"prop": {
-											"type": "PlaneGeometry",
-											"name": projectName,
-											"materialList": [projectName],
-											"castShadow": true,
-											"parameters": {
-												"width": 4,
-												"height": 2.5,
-											}
-										}
-									}
-								]
-
-							},
-							"position": {
-								"x": 0.0,
-								"y": 1.3,
-								"z": 0.0
-							}
-
-						},
-						function (q) {
-
-							PROJECTOBJ = q.obj;
-
-							objectReady(PROJECTOBJ, projectName, 'video');
-
-						},
-						{}
-
-					);
-
-					break;
-
-
-				case "json":
-
-					console.log(p);
-
-					VARCO.f.addComplex(
-
-						PLY.p.scene3D,
-
-						p.obj,
-
-						function (q) {
-
-							PROJECTOBJ = q.obj;
-
-							console.log(PROJECTOBJ);
-
-							objectReady(PROJECTOBJ, projectName, 'json', p.obj);
-
-						},
-						{}
-					)
-
-					break;
-
-
-			};
-
-		};
+		} catch (e) {
+			console.error(e);
+
+		} finally {
+		}
 	};
 
 
@@ -2383,6 +2384,7 @@ const createEditor = () => {
 
 
 	EDITOR.f.exportVIDEO = async function (PROJECTOBJ) {
+		spinnerStore.setLoading(true);
 
 		console.log('EDITOR.f.exportVIDEO');
 
@@ -2449,6 +2451,7 @@ const createEditor = () => {
 			"scale": scale
 
 		};
+		spinnerStore.setLoading(false);
 
 		await EDITOR.f.createGeoAreaHelpers(projectData);
 	};
@@ -2456,6 +2459,7 @@ const createEditor = () => {
 
 
 	EDITOR.f.exportGLTF = function (PROJECTOBJ, GEOAREAOBJ) {
+		spinnerStore.setLoading(true);
 		console.log('EDITOR.f.exportGLTF');
 
 		console.log(PROJECTOBJ);
@@ -2544,6 +2548,7 @@ const createEditor = () => {
 
 				};
 
+				spinnerStore.setLoading(false);
 				await EDITOR.f.createGeoAreaHelpers(projectData);
 			}
 

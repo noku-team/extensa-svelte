@@ -10,10 +10,15 @@ export type PostMessageRequest =
 	| 'nnsStartSendProjectsTimer'
 	| 'nnsStopSendProjectsTimer'
 	| 'executeSendProjectWorker'
+	| 'executeLoadProjectWorker'
 	| 'startSendProject'
+	| 'startLoadProject'
+	| 'syncLoadProject'
+	| 'syncErrorLoadProject'
 
 export type PostMessageResponse =
 	| 'startSendProject'
+	| 'startLoadProject'
 	| 'nnsSignOut'
 	| 'nnsSyncMetrics'
 	| 'nnsSyncCanister'
@@ -22,6 +27,9 @@ export type PostMessageResponse =
 	| 'nnsSyncErrorTransactions'
 	| 'syncSendProject'
 	| 'syncErrorSendProject'
+	| 'syncStatus'
+	| 'syncLoadProject'
+	| 'syncErrorLoadProject'
 	| 'syncStatus'
 
 export interface PostMessage<T extends PostMessageData> {

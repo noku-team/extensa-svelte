@@ -33,8 +33,8 @@ const emitResponse = (postMessageResponse: PostMessageDataResponseSendProject) =
 const syncSendProjects = async (params: BaseWorkerUtilsJobData<PostMessageDataRequestSendProject>) => {
     try {
         startToFetch();
-        const { data, identity } = params;
-        const { geoAreaCoords, geoAreaName, file } = data;
+        const { data, identity } = params ?? {};
+        const { geoAreaCoords, geoAreaName, file } = data ?? {};
 
         const fileObj = JSON.parse(file);
 

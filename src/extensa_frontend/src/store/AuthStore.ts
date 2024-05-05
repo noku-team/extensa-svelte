@@ -45,9 +45,13 @@ const initAuthStore = (): AuthStore => {
                 loadWebGLUserData(principal);
             }
 
-            set({
-                identity: isAuthenticated ? authClient?.getIdentity() : null,
-            });
+            const identity = isAuthenticated ? authClient?.getIdentity() : null;
+            if (!identity) {
+                // Clear all cached projects from the indexedDB.
+                await clearProjects();
+            }
+
+            set({ identity });
         },
         mockLogin: async () => {
             update((state: AuthStoreData) => {

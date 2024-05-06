@@ -152,6 +152,8 @@ const createPLY = () => {
 		if (PLY.p.flagSTVOn) {
 
 			if (PLY.p.flagDesktop) {
+				console.warn(4)
+				// TODO change pano size here to consider also the new header
 
 				PLY.p.pano.size = {
 					name: 'PANO',

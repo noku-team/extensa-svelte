@@ -1,7 +1,10 @@
 import type { Identity } from '@dfinity/agent';
+import type { Principal } from '@dfinity/principal';
 import type { GeoArea } from '../../../../../../declarations/extensa_backend/extensa_backend.did';
 import mapCanisterId from '../../mapCanisterId';
 import { createCanister } from '../geoareas';
+
+type IdentityType = [] | [[Principal, [] | [Uint8Array | number[]]]];
 
 export interface FetchGeoareasParams {
 	identity: Identity;
@@ -28,12 +31,18 @@ export const executeFetchGeoareasByCoords = async ({
 	} = await createCanister({ identity, canisterId: mapCanisterId(canisterId) })
 
 	const principal = identity?.getPrincipal();
+
+	let _identity: IdentityType;
+
+	if (principal) _identity = [[principal, []]];
+	else _identity = [];
+
 	const receipt = await get_geoarea_by_coords(
 		coords.topLeft.lng,
 		coords.bottomRight.lng,
 		coords.topLeft.lat,
 		coords.bottomRight.lat,
-		[[principal, []]]
+		_identity,
 	);
 
 	const [geoareas] = receipt;

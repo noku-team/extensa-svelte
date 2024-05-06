@@ -13,6 +13,7 @@
 	import { useLoadProjectWorker } from "../actions/loadProject.action.js";
 	import { useSendProjectWorker } from "../actions/sendProject.action.js";
 	import { EDITOR, MAP, PLY, UI } from "../jsm/index.js";
+	import { projectStore } from "../store/ProjectStore.js";
 	import getDOMHeight from "../utils/dom/getDOMHeight.js";
 	import EditProject from "./EditProject.svelte";
 	import SelectedProject from "./SelectedProject.svelte";
@@ -165,6 +166,13 @@
 
 <div>
 	<div id="canvas"></div>
+	{#if $projectStore.sendProjectProgress > 0}
+		<progress
+			class="progress progress-primary w-56 fixed bottom-[150px] z-[1000] left-1/2 transform -translate-x-1/2"
+			value={$projectStore.sendProjectProgress}
+			max="100"
+		></progress>
+	{/if}
 	<SelectedProject />
 	<EditProject />
 </div>

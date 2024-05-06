@@ -21,7 +21,7 @@
 	};
 </script>
 
-<Modal bind:showModal title="Edit project" onClose={onModalClose}>
+<Modal id='modal-edit-project' bind:showModal title="Edit project" onClose={onModalClose}>
 	<div class="text-lg font-medium mb-1">Geoarea name</div>
 	<div class="mb-2">{$projectStore.geoAreaToEdit?.geoAreaName}</div>
 	<div>

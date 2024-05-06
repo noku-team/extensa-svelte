@@ -3,6 +3,7 @@
 
 	export let showModal: boolean;
 	export let top = false;
+	export let id = "modal";
 	export let title: string;
 	export let onClose: () => void;
 
@@ -19,7 +20,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <dialog
-	id="my_modal_3"
+	{id}
 	class={cx("modal", {
 		"modal-top": top,
 	})}

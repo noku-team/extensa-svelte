@@ -2660,9 +2660,10 @@ const createPLY = () => {
 		PLY.p.STREETVIEW_MARKER.position.z = p.results.point.z;
 
 		const { project: _selectedProject } = get(projectStore); // leggi dato
+		const auth = get(authStore);
+		const { identity = null } = auth ?? {};
 
-
-		if (UI.p.popup_login_data.p.data !== undefined) { 	/////// XLUCA da cambiare con info se e' loggato l'utente
+		if (!!identity) {
 
 			let wPos;
 

@@ -483,7 +483,6 @@ const createEditor = () => {
 
 
 	EDITOR.f.selectProject = function (p) {
-		console.warn("here");
 		console.log('EDITOR.f.selectProject');
 
 		const auth = get(authStore);

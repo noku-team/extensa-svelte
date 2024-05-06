@@ -1,5 +1,6 @@
 import type { Identity } from "@dfinity/agent";
-import executeAddGeoarea, { type XYZ } from "../methods/addGeoarea";
+import type { XYZ } from "../../../../../../declarations/extensa_backend/extensa_backend.did";
+import executeAddGeoarea from "../methods/addGeoarea";
 import executeAddProject from "../methods/addProject";
 import executeAllocateNewFile from "../methods/allocateNewFiles";
 import storeCompleteFile from "./storeCompleteFile";

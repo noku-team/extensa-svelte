@@ -1,13 +1,7 @@
 import type { Identity } from '@dfinity/agent';
 import mapCanisterId from '../../mapCanisterId';
 import { createCanister } from '../geoareas';
-
-
-export interface XYZ {
-    x: number;
-    y: number;
-    z: number;
-}
+import type { XYZ } from '../../../../../../declarations/extensa_backend/extensa_backend.did';
 
 export interface FetchGeoareasParams {
     identity: Identity;

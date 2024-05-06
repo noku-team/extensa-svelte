@@ -6,27 +6,30 @@ import { createCanister } from '../geoareas';
 export interface FetchGeoareasParams {
     identity: Identity;
     canisterId: string;
+    id: bigint;
     name: string;
     coords: Coords;
 }
 
-export const executeAddGeoarea = async ({
+export const executeEditGeoarea = async ({
     identity,
     canisterId,
+    id,
     name,
     coords
 }: FetchGeoareasParams): Promise<bigint | undefined> => {
     const {
-        canister: { add_geoarea },
-    } = await createCanister({ identity, canisterId: mapCanisterId(canisterId) })
+        canister: { edit_geoarea },
+    } = await createCanister({ identity, canisterId: mapCanisterId(canisterId) });
 
-    const receipt = await add_geoarea(
-        name,
-        coords
+    const receipt = await edit_geoarea(
+        id,
+        [name],
+        [coords]
     );
 
     if ('Ok' in receipt) return receipt.Ok;
     else if ('Err' in receipt) throw new Error(Object.keys(receipt.Err).join(','));
 }
 
-export default executeAddGeoarea;
+export default executeEditGeoarea;

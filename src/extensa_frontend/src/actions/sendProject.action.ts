@@ -1,4 +1,5 @@
 import { onDestroy, onMount } from "svelte";
+import { messageStore } from "../store/MessageStore";
 import { spinnerStore } from "../store/SpinnerStore";
 import type { PostMessageDataResponseSendProject } from "../types/workers/post-message.sendProject";
 import type { PostMessageDataResponseSync } from "../types/workers/post-message.sync";
@@ -9,7 +10,17 @@ export type SendProjectCallback = (data: PostMessageDataResponseSendProject) => 
 export const sendProjectWorker = new Worker(new URL('../workers/sendProject.worker', import.meta.url), { type: "module" });
 
 const sendProjectCallback = (data: PostMessageDataResponseSendProject): void => {
-  console.warn("Finished sending project with file ID:", data.fileId);
+  if (data.fileId) {
+    messageStore.setMessage(
+      'Project sent successfully',
+      'success',
+    );
+  } else {
+    messageStore.setMessage(
+      'Error sending project',
+      'error',
+    );
+  }
   spinnerStore.setLoading(false);
 };
 

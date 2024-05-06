@@ -18,6 +18,7 @@ import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js'; // <<<<<<
 import { SimplifyModifier } from 'three/addons/modifiers/SimplifyModifier.js'; // <<<<<<<<<<<<<<<<
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js'; // <<<<<<<<<<<<<<<<
 import { loadProjectWorker } from '../actions/loadProject.action';
+import { messageStore } from '../store/MessageStore';
 import { spinnerStore } from '../store/SpinnerStore';
 import { getProject } from '../utils/indexedDB/getSaveEmpty';
 // import { MeshoptDecoder } from 'three/libs/meshopt_decoder.module'; // <<<<<<<<<<<<<<<<
@@ -1263,235 +1264,239 @@ const createEditor = () => {
 		try {
 			spinnerStore.setLoading(true);
 			function objectReady(PROJECTOBJ, projectName, type, infoJson) {
+				try {
+					console.log(PROJECTOBJ)
 
-				console.log(PROJECTOBJ)
+					PROJECTOBJ.name = projectName;
 
-				PROJECTOBJ.name = projectName;
+					if (type !== "json") {
 
-				if (type !== "json") {
+						VARCO.f.setPropAndParameters(PROJECTOBJ, { "MM3D": {} });
 
-					VARCO.f.setPropAndParameters(PROJECTOBJ, { "MM3D": {} });
+						PROJECTOBJ.userData.data = p.data;
 
-					PROJECTOBJ.userData.data = p.data;
+						PROJECTOBJ.userData.stringByte64 = stringByte64;
 
-					PROJECTOBJ.userData.stringByte64 = stringByte64;
+					} else {
+						type = infoJson.userData.type;
 
-				} else {
-					type = infoJson.userData.type;
+						extension = infoJson.userData.extension;
 
-					extension = infoJson.userData.extension;
+						PROJECTOBJ.userData.fromJson = true;
 
-					PROJECTOBJ.userData.fromJson = true;
-
-				};
-
-
-				PROJECTOBJ.userData.type = type;
-
-				PROJECTOBJ.userData.fileName = projectName;
-
-				PROJECTOBJ.userData.extension = extension;
-
-				PROJECTOBJ.userData.myCoords = { 'lng': MAP.p.actualCoords.lng, 'lat': MAP.p.actualCoords.lat, 'alt': MAP.p.actualCoords.alt };
+					};
 
 
-				// start animation //
+					PROJECTOBJ.userData.type = type;
 
-				setTimeout(
+					PROJECTOBJ.userData.fileName = projectName;
 
-					function () {
+					PROJECTOBJ.userData.extension = extension;
 
-						if (PROJECTOBJ.animations !== undefined) {
+					PROJECTOBJ.userData.myCoords = { 'lng': MAP.p.actualCoords.lng, 'lat': MAP.p.actualCoords.lat, 'alt': MAP.p.actualCoords.alt };
 
-							PROJECTOBJ.MM3D = {
 
-								threeJsAnimation: {
+					// start animation //
 
-									mixer: new THREE.AnimationMixer(PROJECTOBJ),
+					setTimeout(
 
-									animations: PROJECTOBJ.animations
+						function () {
 
-								}
+							if (PROJECTOBJ.animations !== undefined) {
+
+								PROJECTOBJ.MM3D = {
+
+									threeJsAnimation: {
+
+										mixer: new THREE.AnimationMixer(PROJECTOBJ),
+
+										animations: PROJECTOBJ.animations
+
+									}
+
+								};
+
+								let idleAction;
+
+								for (var i = 0; i < PROJECTOBJ.animations.length; i++) {
+
+									idleAction = PROJECTOBJ.MM3D.threeJsAnimation.mixer.clipAction(p.obj.animations[i]);
+
+									idleAction.play();
+
+								};
 
 							};
 
-							let idleAction;
+						},
+						2000
 
-							for (var i = 0; i < PROJECTOBJ.animations.length; i++) {
+					);
 
-								idleAction = PROJECTOBJ.MM3D.threeJsAnimation.mixer.clipAction(p.obj.animations[i]);
+					// aggiungi ombre //
 
-								idleAction.play();
+					PROJECTOBJ.traverse(
 
-							};
+						function (child) {
 
-						};
+							if (child.material !== undefined) {
 
-					},
-					2000
+								child.castShadow = true;
 
-				);
-
-				// aggiungi ombre //
-
-				PROJECTOBJ.traverse(
-
-					function (child) {
-
-						if (child.material !== undefined) {
-
-							child.castShadow = true;
+							}
 
 						}
 
-					}
-
-				);
-
-
-				// CANCELLA E PREPARA NUOVO PROGETTO //
-
-				EDITOR.f.deselectProjects();
-
-				// ///////////////////////////////// //
-
-
-				// inserisci nuovo progetto in area gia' esistente //
-				if (PLY.p.selectedArea !== undefined) {
-
-					EDITOR.f.createProject(
-
-						PLY.p.selectedArea,
-
-						{
-							"type": type,
-							"name": projectName,
-							"url": "objects/" + projectName + "." + extension, // <<<<<<<<<<<<<<<
-							"urlLowres": "",
-							"myPosition": {
-								"x": myPosition.x - PLY.p.selectedArea.position.x,
-								"y": myPosition.y - PLY.p.selectedArea.position.y,
-								"z": myPosition.z - PLY.p.selectedArea.position.z
-							},
-							"myOrientation": {
-								"x": 0,
-								"y": 0,
-								"z": 0
-							},
-							"mySize": {
-								"x": 1,
-								"y": 1,
-								"z": 1
-							},
-							"previewImage": ""
-						},
-						function (w) {
-
-							// SHOW PROJECT //
-
-							projectStore.setProject(w.obj); // scrivi dato
-
-							if (PROJECTOBJ) {
-								w.obj.userData.isLoaded = true;
-								w.obj.OBJECTS.myProject.add(PROJECTOBJ);
-								w.obj.OBJECTS.myProject.OBJECTS[PROJECTOBJ.name];
-							};
-
-							PLY.p.selectedArea.userData.projectsList.push(PROJECTOBJ);
-
-						},
-						{}
-
 					);
 
-				} else {
 
-					// crea nuova area ed inserisci nuovo progetto //
+					// CANCELLA E PREPARA NUOVO PROGETTO //
 
-					const geoAreaName = VARCO.f.generateUUID();
-					const auth = get(authStore);
-					const principal = auth.identity?.getPrincipal();
+					EDITOR.f.deselectProjects();
+
+					// ///////////////////////////////// //
 
 
-					EDITOR.f.createGeoArea(
-						{
-							"geoAreaName": geoAreaName,
-							"sectorName": sectorName,
-							"user": principal,
-							"myCoords": {
-								"lng": MAP.p.actualCoords.lng,
-								"lat": MAP.p.actualCoords.lat,
-								"alt": MAP.p.actualCoords.alt
-							}
-						},
-						function (q) {
+					// inserisci nuovo progetto in area gia' esistente //
+					if (PLY.p.selectedArea !== undefined) {
 
-							// insert area in sector:
+						EDITOR.f.createProject(
 
-							PLY.p.selectedArea = q.obj;
+							PLY.p.selectedArea,
 
-							EDITOR.f.createProject(
-
-								PLY.p.selectedArea,
-
-								{
-									"type": type,
-									"name": projectName,
-									"url": "objects/" + projectName + "." + extension,
-									"urlLowres": "",
-									"myPosition": {
-										"x": myPosition.x - PLY.p.selectedArea.position.x,
-										"y": myPosition.y - PLY.p.selectedArea.position.y,
-										"z": myPosition.z - PLY.p.selectedArea.position.z
-									},
-									"myOrientation": {
-										"x": 0,
-										"y": 0,
-										"z": 0
-									},
-									"mySize": {
-										"x": 1,
-										"y": 1,
-										"z": 1
-									},
-									"previewImage": ""
+							{
+								"type": type,
+								"name": projectName,
+								"url": "objects/" + projectName + "." + extension, // <<<<<<<<<<<<<<<
+								"urlLowres": "",
+								"myPosition": {
+									"x": myPosition.x - PLY.p.selectedArea.position.x,
+									"y": myPosition.y - PLY.p.selectedArea.position.y,
+									"z": myPosition.z - PLY.p.selectedArea.position.z
 								},
-								function (w) {
-
-									// SHOW PROJECT //
-
-									// PLY.p.selectedProject = w.obj;
-
-									projectStore.setProject(w.obj); // scrivi dato
-
-									spinnerStore.setLoading(false);
-									if (PROJECTOBJ) {
-										w.obj.userData.isLoaded = true;
-										w.obj.OBJECTS.myProject.add(PROJECTOBJ);
-										w.obj.OBJECTS.myProject.OBJECTS[PROJECTOBJ.name];
-									};
-
-									// update user geoList //
-
-									// UI.p.popup_login_data.p.data.geoareaList.push(
-									// 	PLY.p.selectedArea
-									// );
-
-									PLY.p.selectedArea.userData.projectsList.push(PROJECTOBJ);
-
+								"myOrientation": {
+									"x": 0,
+									"y": 0,
+									"z": 0
 								},
-								{}
+								"mySize": {
+									"x": 1,
+									"y": 1,
+									"z": 1
+								},
+								"previewImage": ""
+							},
+							function (w) {
 
-							);
+								// SHOW PROJECT //
 
-						},
-						{}
-					);
+								projectStore.setProject(w.obj); // scrivi dato
 
-				};
+								if (PROJECTOBJ) {
+									w.obj.userData.isLoaded = true;
+									w.obj.OBJECTS.myProject.add(PROJECTOBJ);
+									w.obj.OBJECTS.myProject.OBJECTS[PROJECTOBJ.name];
+								};
 
-				UI.p.menu_optimizer.f.open();
+								PLY.p.selectedArea.userData.projectsList.push(PROJECTOBJ);
 
+							},
+							{}
+
+						);
+
+					} else {
+
+						// crea nuova area ed inserisci nuovo progetto //
+
+						const geoAreaName = VARCO.f.generateUUID();
+						const auth = get(authStore);
+						const principal = auth.identity?.getPrincipal();
+
+
+						EDITOR.f.createGeoArea(
+							{
+								"geoAreaName": geoAreaName,
+								"sectorName": sectorName,
+								"user": principal,
+								"myCoords": {
+									"lng": MAP.p.actualCoords.lng,
+									"lat": MAP.p.actualCoords.lat,
+									"alt": MAP.p.actualCoords.alt
+								}
+							},
+							function (q) {
+
+								// insert area in sector:
+
+								PLY.p.selectedArea = q.obj;
+
+								EDITOR.f.createProject(
+
+									PLY.p.selectedArea,
+
+									{
+										"type": type,
+										"name": projectName,
+										"url": "objects/" + projectName + "." + extension,
+										"urlLowres": "",
+										"myPosition": {
+											"x": myPosition.x - PLY.p.selectedArea.position.x,
+											"y": myPosition.y - PLY.p.selectedArea.position.y,
+											"z": myPosition.z - PLY.p.selectedArea.position.z
+										},
+										"myOrientation": {
+											"x": 0,
+											"y": 0,
+											"z": 0
+										},
+										"mySize": {
+											"x": 1,
+											"y": 1,
+											"z": 1
+										},
+										"previewImage": ""
+									},
+									function (w) {
+
+										// SHOW PROJECT //
+
+										// PLY.p.selectedProject = w.obj;
+
+										projectStore.setProject(w.obj); // scrivi dato
+
+										spinnerStore.setLoading(false);
+										if (PROJECTOBJ) {
+											w.obj.userData.isLoaded = true;
+											w.obj.OBJECTS.myProject.add(PROJECTOBJ);
+											w.obj.OBJECTS.myProject.OBJECTS[PROJECTOBJ.name];
+										};
+
+										// update user geoList //
+
+										// UI.p.popup_login_data.p.data.geoareaList.push(
+										// 	PLY.p.selectedArea
+										// );
+
+										PLY.p.selectedArea.userData.projectsList.push(PROJECTOBJ);
+
+									},
+									{}
+
+								);
+
+							},
+							{}
+						);
+
+					};
+
+					UI.p.menu_optimizer.f.open();
+				} catch (e) {
+					console.error(e);
+					messageStore.setMessage('The uploaded file format is not supported. Please choose a valid file format.', 'error');
+					spinnerStore.setLoading(false);
+				}
 			};
 
 
@@ -1784,8 +1789,8 @@ const createEditor = () => {
 			};
 		} catch (e) {
 			console.error(e);
-
-		} finally {
+			messageStore.setMessage('The uploaded file format is not supported. Please choose a valid file format.', 'error');
+			spinnerStore.setLoading(false);
 		}
 	};
 

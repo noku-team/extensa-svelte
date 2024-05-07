@@ -8,7 +8,7 @@
 	>
 		<span class="text-sm font-light"> Sending project... </span>
 		<progress
-			class="progress progress-primary w-56"
+			class="progress progress-primary w-56 extensa-progress"
 			value={$projectStore.sendProjectProgress}
 			max="100"
 		></progress>
@@ -25,3 +25,9 @@
 		></progress>
 	</div>
 {/if}
+
+<style>
+	.progress {
+		transition: width 5s linear;
+	}
+</style>

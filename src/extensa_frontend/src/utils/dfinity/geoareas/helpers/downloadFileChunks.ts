@@ -23,7 +23,9 @@ const downloadFileChunks = async (
 
     const { callbackForProgress } = options;
 
-    const promisesWithProgress = promises.map((promise, index) => promiseWithProgress(promise, callbackForProgress, index + 1, numChunks));
+    const resolvedPromisesCounter = [0];
+
+    const promisesWithProgress = promises.map((promise) => promiseWithProgress(promise, callbackForProgress, numChunks, resolvedPromisesCounter));
 
     const results = await Promise.allSettled(promisesWithProgress);
 

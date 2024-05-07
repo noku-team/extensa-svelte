@@ -40,7 +40,11 @@ const storeCompleteFile = async (dfinityOptions: StoreCompleteFileParams, storeC
         });
     });
 
-    const promisesWithProgress = promises.map((promise, index) => promiseWithProgress(promise, callbackForProgress, index + 1, numberOfChunks));
+    const resolvedPromisesCounter = [0];
+
+    const promisesWithProgress = promises.map((promise) => {
+        return promiseWithProgress(promise, callbackForProgress, numberOfChunks, resolvedPromisesCounter);
+    });
 
     const errors: { error: string, index: number }[] = [];
     const response = await Promise.allSettled(promisesWithProgress);

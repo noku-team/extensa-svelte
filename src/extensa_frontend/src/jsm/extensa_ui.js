@@ -731,17 +731,17 @@ const createUI = () => {
 
 		const { project: _selectedProject } = get(projectStore); // leggi dato
 
-		if (PLY.p.selectedArea !== undefined) {
-
-			EDITOR.p.action = 'DRAG_area';
-
+		if (EDITOR.p.action == 'DRAG_project' || EDITOR.p.action == 'DRAG_area') {
+			EDITOR.p.action = '';
+		} else {
+			if (PLY.p.selectedArea !== undefined) {
+				EDITOR.p.action = 'DRAG_area';
+			};
+			if (_selectedProject !== undefined) {
+				EDITOR.p.action = 'DRAG_project';
+			};
 		};
 
-		if (_selectedProject !== null) {
-
-			EDITOR.p.action = 'DRAG_project';
-
-		};
 
 		PLY.p.flagPlayerOn = false;
 
@@ -749,21 +749,19 @@ const createUI = () => {
 
 
 	UI.p.menu_editor.f.ROTATE = function () { /////// JJ
+		const { project: _selectedProject } = get(projectStore); // leggi dato
 
 		console.log('UI.p.menu_editor.f.ROTATE')
 
-		if (PLY.p.selectedArea !== undefined) {
-
-			EDITOR.p.action = 'ROTATE_area';
-
-		};
-
-		const { project: _selectedProject } = get(projectStore); // leggi dato
-
-		if (_selectedProject !== null) {
-
-			EDITOR.p.action = 'ROTATE_project';
-
+		if (EDITOR.p.action == 'ROTATE_project' || EDITOR.p.action == 'ROTATE_area') {
+			EDITOR.p.action = '';
+		} else {
+			if (PLY.p.selectedArea !== undefined) {
+				EDITOR.p.action = 'ROTATE_area';
+			};
+			if (_selectedProject !== undefined) {
+				EDITOR.p.action = 'ROTATE_project';
+			};
 		};
 
 		PLY.p.flagPlayerOn = false;
@@ -772,23 +770,20 @@ const createUI = () => {
 
 
 	UI.p.menu_editor.f.SCALE = function () { /////// JJ
+		const { project: _selectedProject } = get(projectStore); // leggi dato
 
 		console.log('UI.p.menu_editor.f.SCALE')
 
-		if (PLY.p.selectedArea !== undefined) {
-
-			EDITOR.p.action = 'SCALE_area';
-
+		if (EDITOR.p.action == 'SCALE_project' || EDITOR.p.action == 'SCALE_area') {
+			EDITOR.p.action = '';
+		} else {
+			if (PLY.p.selectedArea !== undefined) {
+				EDITOR.p.action = 'SCALE_area';
+			};
+			if (_selectedProject !== undefined) {
+				EDITOR.p.action = 'SCALE_project';
+			};
 		};
-
-		const { project: _selectedProject } = get(projectStore); // leggi dato
-
-		if (_selectedProject !== null) {
-
-			EDITOR.p.action = 'SCALE_project';
-
-		};
-
 		PLY.p.flagPlayerOn = false;
 
 	};

@@ -996,6 +996,7 @@ const createEditor = () => {
 
 	EDITOR.f.SAVE_GEOAREA = function () {
 
+		debugger;
 		if (PLY.p.selectedArea !== undefined) {
 
 			let projectsList = [];

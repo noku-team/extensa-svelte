@@ -32,6 +32,7 @@ const emitProgress = (progress: number) => {
 
 const syncSendProjects = async (params: BaseWorkerUtilsJobData<PostMessageDataRequestSendProject>) => {
     try {
+        emitProgress(1);
         const { data, identity } = params ?? {};
         const { geoAreaCoords, geoAreaName, file } = data ?? {};
 

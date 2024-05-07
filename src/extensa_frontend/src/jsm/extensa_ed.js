@@ -996,6 +996,7 @@ const createEditor = () => {
 
 	EDITOR.f.SAVE_GEOAREA = function () {
 
+		debugger;
 		if (PLY.p.selectedArea !== undefined) {
 
 			let projectsList = [];
@@ -1058,8 +1059,12 @@ const createEditor = () => {
 		};
 
 
-		UI.p.menu_optimizer.f.button_save_gltf();
-
+		const { project: _selectedProject } = get(projectStore);
+		
+		if ( _selectedProject !== null ){
+			UI.p.menu_optimizer.f.button_save_gltf();
+		};
+		
 		// const { project: _selectedProject } = get(projectStore); // leggi dato
 
 		// if (_selectedProject !== null) {

@@ -416,8 +416,6 @@ fn remove_project(geoarea_id: GeoAreaId, project_id: ProjectId) -> Result<Projec
     }
 }
 
-//todo funzione per rimuovere i progetti da una geoarea
-
 /// Allocates a new file with the specified size. This function is a core operation within the system, responsible for
 /// initializing a new file entry, dividing it into manageable chunks, and associating it with the caller as the file's owner.
 /// 

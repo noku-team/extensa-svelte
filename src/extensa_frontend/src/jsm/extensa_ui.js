@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 // UI MODULE
 
 import { get } from 'svelte/store';
@@ -799,15 +798,9 @@ const createUI = () => {
 		console.log( 'UI.p.menu_editor.f.TOOLS' )
 		
 		const { project: _selectedProject } = get(projectStore); // leggi dato
-<<<<<<< HEAD
-		
-		if ( _selectedProject !== null ){
-			
-=======
 
 		if (_selectedProject !== null || PLY.p.selectedArea !== undefined) {
 
->>>>>>> 955f34174cd41adaf67a971b59e3bf7340add87c
 			UI.p.menu_optimizer.f.open();
 		
 		}

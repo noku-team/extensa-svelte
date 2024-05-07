@@ -684,7 +684,7 @@ const createEditor = () => {
 				if (!overridedFile) {
 					const fileId = _selectedProject?.userData?.file_id;
 					if (fileId) {
-						projectStore.setLoadProjectProgress(20);
+						projectStore.setLoadProjectProgress(1);
 						const cachedProject = await getProject(`project-${fileId.toString()}`);
 
 						if (!cachedProject) {

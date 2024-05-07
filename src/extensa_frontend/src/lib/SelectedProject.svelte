@@ -84,6 +84,8 @@
 					<button
 						class="btn btn-error btn-circle cursor-pointer btn-sm ml-auto"
 						on:click={onDelete}
+						disabled={$projectStore.sendProjectProgress > 0 ||
+							$projectStore.loadProjectProgress > 0}
 					>
 						<svg
 							width="24"
@@ -132,6 +134,8 @@
 				<button
 					class="btn btn-primary btn-circle cursor-pointer btn-sm"
 					on:click={onClose}
+					disabled={$projectStore.sendProjectProgress > 0 ||
+						$projectStore.loadProjectProgress > 0}
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"

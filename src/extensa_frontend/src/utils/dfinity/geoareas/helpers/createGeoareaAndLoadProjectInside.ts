@@ -65,7 +65,7 @@ const createGeoareaAndLoadProjectInside = async (
     const { fileId, numberOfChunks } = result ?? {};
 
     if (numberOfChunks && fileId) {
-        const resultStore = await storeCompleteFile(
+        await storeCompleteFile(
             {
                 identity,
                 canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
@@ -77,7 +77,6 @@ const createGeoareaAndLoadProjectInside = async (
             },
             { callbackForProgress }
         );
-        console.warn("finished store file: ", resultStore);
     }
 
     if (fileId && geoareaId) {
@@ -92,7 +91,6 @@ const createGeoareaAndLoadProjectInside = async (
             size: projectSize,
             fileId,
         });
-        console.warn(`+++ PROCEDURE FINISHED: ${resultAddProject} +++`);
         return resultAddProject;
     }
 };

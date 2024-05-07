@@ -16,7 +16,6 @@ const loadProjectCallback = async (data: PostMessageDataResponseLoadProject): Pr
   await saveProject(`project-${fileId.toString()}`, file);
 
   await EDITOR.f.loadProjectData(file);
-  spinnerStore.setLoading(false);
   projectStore.setLoadProjectProgress(0);
 };
 

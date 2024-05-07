@@ -16,12 +16,12 @@ type BaseWorkerUtilsJobData<T> = {
 
 const worker = new BaseWorker();
 
-const startToFetch = () => {
-    worker.postMsg({
-        msg: 'startLoadProject',
-        data: {},
-    })
-};
+// const startToFetch = () => {
+//     worker.postMsg({
+//         msg: 'startLoadProject',
+//         data: {},
+//     })
+// };
 
 const emitResponse = (postMessageResponse: PostMessageDataResponseLoadProject) => {
     const data: PostMessageDataResponseLoadProject = { ...postMessageResponse }
@@ -45,7 +45,6 @@ const syncLoadProjects = async (params: BaseWorkerUtilsJobData<PostMessageDataRe
             emitProgress(1);
             const { data, identity } = params ?? {};
             const { fileId } = data ?? {};
-            startToFetch();
 
             const [file] = await executeGetFile({
                 canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND ?? "",

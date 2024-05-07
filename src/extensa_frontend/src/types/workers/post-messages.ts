@@ -15,6 +15,7 @@ export type PostMessageRequest =
 	| 'syncLoadProject'
 	| 'syncErrorLoadProject'
 	| 'receiveProgressSendProject'
+	| 'receiveProgressLoadProject'
 
 export type PostMessageResponse =
 	| 'startLoadProject'
@@ -31,6 +32,7 @@ export type PostMessageResponse =
 	| 'syncErrorLoadProject'
 	| 'syncStatus'
 	| 'receiveProgressSendProject'
+	| 'receiveProgressLoadProject'
 
 export interface PostMessage<T extends PostMessageData> {
 	msg: PostMessageRequest | PostMessageResponse

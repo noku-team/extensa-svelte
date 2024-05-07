@@ -677,7 +677,6 @@ const createEditor = () => {
 
 	EDITOR.f.loadProjectData = async function (overridedFile = "") {
 		try {
-			spinnerStore.setLoading(true);
 			const { project: _selectedProject } = get(projectStore);
 
 			if (_selectedProject !== null) {
@@ -685,6 +684,7 @@ const createEditor = () => {
 				if (!overridedFile) {
 					const fileId = _selectedProject?.userData?.file_id;
 					if (fileId) {
+						projectStore.setLoadProjectProgress(20);
 						const cachedProject = await getProject(`project-${fileId.toString()}`);
 
 						if (!cachedProject) {
@@ -695,7 +695,14 @@ const createEditor = () => {
 								},
 							});
 							return;
-						} else finalFile = cachedProject;
+						} else {
+							finalFile = cachedProject;
+							projectStore.setLoadProjectProgress(100);
+							setTimeout(() => {
+								projectStore.setLoadProjectProgress(0);
+
+							}, 1000);
+						}
 					}
 				} else {
 					finalFile = overridedFile;

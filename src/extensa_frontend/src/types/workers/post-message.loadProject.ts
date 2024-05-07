@@ -13,3 +13,8 @@ export type PostMessageDataResponseLoadProject = {
 	file: string;
 	fileId: bigint;
 }
+
+
+export interface PostMessageDataReceiveProgressLoadProject extends PostMessageData {
+	progress: number
+}

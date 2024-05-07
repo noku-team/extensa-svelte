@@ -32,13 +32,21 @@ const emitResponse = (postMessageResponse: PostMessageDataResponseLoadProject) =
     })
 }
 
+const emitProgress = (progress: number) => {
+    worker.postMsg({
+        msg: 'receiveProgressLoadProject',
+        data: { progress },
+    })
+}
+
 const syncLoadProjects = async (params: BaseWorkerUtilsJobData<PostMessageDataRequestLoadProject>) => {
     try {
         if (process.env.CANISTER_ID_EXTENSA_BACKEND) {
+            emitProgress(1);
             const { data, identity } = params ?? {};
             const { fileId } = data ?? {};
             startToFetch();
-            
+
             const [file] = await executeGetFile({
                 canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND ?? "",
                 fileId,
@@ -48,8 +56,20 @@ const syncLoadProjects = async (params: BaseWorkerUtilsJobData<PostMessageDataRe
             const { id, chunks } = file ?? {} as File;
             const numberOfChunks = chunks.length;
 
-            const finalFile = await downloadFileChunks(identity, process.env.CANISTER_ID_EXTENSA_BACKEND, id, numberOfChunks);
-
+            const finalFile = await downloadFileChunks(
+                identity,
+                process.env.CANISTER_ID_EXTENSA_BACKEND,
+                id,
+                numberOfChunks,
+                {
+                    callbackForProgress: (_progress: number) => {
+                        worker.postMsg({
+                            msg: 'receiveProgressLoadProject',
+                            data: { progress: _progress },
+                        })
+                    }
+                }
+            );
 
             emitResponse({ accountIdentifier: params.identity.getPrincipal().toString(), file: finalFile, fileId })
         }

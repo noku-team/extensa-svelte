@@ -1,7 +1,8 @@
 import { onDestroy, onMount } from "svelte";
 import { EDITOR } from "../jsm";
+import { projectStore } from "../store/ProjectStore";
 import { spinnerStore } from "../store/SpinnerStore";
-import type { PostMessageDataResponseLoadProject } from "../types/workers/post-message.loadProject";
+import type { PostMessageDataReceiveProgressLoadProject, PostMessageDataResponseLoadProject } from "../types/workers/post-message.loadProject";
 import type { PostMessageDataResponseSync } from "../types/workers/post-message.sync";
 import type { PostMessage } from "../types/workers/post-messages";
 import { saveProject } from "../utils/indexedDB/getSaveEmpty";
@@ -16,14 +17,31 @@ const loadProjectCallback = async (data: PostMessageDataResponseLoadProject): Pr
 
   await EDITOR.f.loadProjectData(file);
   spinnerStore.setLoading(false);
+  projectStore.setLoadProjectProgress(0);
 };
+
+const receiveProgress = (data: PostMessageDataReceiveProgressLoadProject) => {
+  const { progress } = data;
+  projectStore.setLoadProjectProgress(progress);
+};
+
 
 export const useLoadProjectWorker = () => {
   onMount(async () => {
-    loadProjectWorker.onmessage = async ({ data }: MessageEvent<PostMessage<PostMessageDataResponseLoadProject | PostMessageDataResponseSync>>) => {
+    loadProjectWorker.onmessage = async ({ data }:
+      MessageEvent<
+        PostMessage<
+          PostMessageDataResponseLoadProject |
+          PostMessageDataResponseSync |
+          PostMessageDataReceiveProgressLoadProject
+        >
+      >) => {
       const { msg } = data
 
       switch (msg) {
+        case 'receiveProgressLoadProject':
+          receiveProgress(data.data as PostMessageDataReceiveProgressLoadProject);
+          return;
         case 'startLoadProject':
           spinnerStore.setLoading(true);
           return;

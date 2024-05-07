@@ -1,5 +1,6 @@
 import type { Identity } from "@dfinity/agent";
-import executeAddGeoarea, { type XYZ } from "../methods/addGeoarea";
+import type { XYZ } from "../../../../../../declarations/extensa_backend/extensa_backend.did";
+import executeAddGeoarea from "../methods/addGeoarea";
 import executeAddProject from "../methods/addProject";
 import executeAllocateNewFile from "../methods/allocateNewFiles";
 import storeCompleteFile from "./storeCompleteFile";
@@ -21,13 +22,21 @@ type ProjectOptions = {
     projectName: string;
 }
 
+type CreateGeoAreaOptions = {
+    callbackForProgress: (progress: number) => void;
+}
+
 const createGeoareaAndLoadProjectInside = async (
     identity: Identity | null = null,
     file = "",
     geoarea: GeoareaOptions,
-    project: ProjectOptions) => {
+    project: ProjectOptions,
+    options: CreateGeoAreaOptions = {} as CreateGeoAreaOptions
+) => {
     if (!identity) return;
     if (!process.env.CANISTER_ID_EXTENSA_BACKEND) return;
+
+    const { callbackForProgress } = options;
 
     const { geoAreaName = "", geoAreaCoords } = geoarea ?? {};
     const {
@@ -46,7 +55,7 @@ const createGeoareaAndLoadProjectInside = async (
     });
 
     const fileSize = file.length;
-    // test file size for house 3d: 7485520
+
     const result = await executeAllocateNewFile({
         identity,
         canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
@@ -65,7 +74,8 @@ const createGeoareaAndLoadProjectInside = async (
                 fileId,
                 numberOfChunks,
                 file,
-            }
+            },
+            { callbackForProgress }
         );
         console.warn("finished store file: ", resultStore);
     }

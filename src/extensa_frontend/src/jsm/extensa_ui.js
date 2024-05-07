@@ -452,40 +452,40 @@ const createUI = () => {
 	// TODO bring this function in svelte after the login is done
 	UI.p.popup_login_data.f.button_login_ok = function () {
 
-		UI.f.remove_menu_popups();
+		// UI.f.remove_menu_popups();
 
-		const accountToLoad = 'USER_DB/' + UI.p.popup_login_data.p.user + '.json';
-		VARCO.f.loadJSON(
+		// const accountToLoad = 'USER_DB/' + UI.p.popup_login_data.p.user + '.json';
+		// VARCO.f.loadJSON(
 
-			accountToLoad,
+		// 	accountToLoad,
 
-			function init_sectorData(logInData) {
+		// 	function init_sectorData(logInData) {
 
-				// refresh preview object //
+		// 		// refresh preview object //
 
-				if (UI.p.scene.OBJECTS.previewProject !== undefined) {
+		// 		if (UI.p.scene.OBJECTS.previewProject !== undefined) {
 
-					VARCO.f.deleteElement(UI.p.scene, UI.p.scene.OBJECTS.previewProject);
+		// 			VARCO.f.deleteElement(UI.p.scene, UI.p.scene.OBJECTS.previewProject);
 
-				}
+		// 		}
 
-				UI.p.popup_login_data.p.data = logInData;
+		// 		UI.p.popup_login_data.p.data = logInData;
 
-				UI.p.menu_editor.f.open();
+		// 		UI.p.menu_editor.f.open();
 
-				PLY.f.SECTOR_UPDATE();
+		// 		PLY.f.SECTOR_UPDATE();
 				
-				// PLY.p.geoMapSectors.oldSectHV = [0, 0];
+		// 		// PLY.p.geoMapSectors.oldSectHV = [0, 0];
 
-			},
+		// 	},
 
-			function error_login() {
+		// 	function error_login() {
 
-				alert('the account not exist')
+		// 		alert('the account not exist')
 
-			}
+		// 	}
 
-		);
+		// );
 
 	};
 
@@ -532,16 +532,6 @@ const createUI = () => {
 
 				console.log('registered');
 
-				const userProp = {
-					"user": UI.p.popup_register.p.user,
-					"name": UI.p.popup_register.p.name,
-					"surname": UI.p.popup_register.p.surname,
-					"wallet": UI.p.popup_register.p.wallet,
-					"email": UI.p.popup_register.p.email,
-					"geoareaList": []
-				};
-
-				EDITOR.f.saveUserData(userProp);
 
 			} else {
 

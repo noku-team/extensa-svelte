@@ -5,6 +5,7 @@ export interface ProjectStoreData {
     geoAreas: GeoArea[];
     geoAreaToEdit: GeoArea | null;
     project: Project | null;
+    sendProjectProgress: number;
 }
 
 export interface ProjectStore extends Readable<ProjectStoreData> {
@@ -12,6 +13,7 @@ export interface ProjectStore extends Readable<ProjectStoreData> {
     setProject: (project: Project | null) => void;
     set3DVisible: (is3DVisible: boolean) => void;
     setGeoAreaToEdit: (geoarea: GeoArea | null) => void;
+    setSendProjectProgress: (progress: number) => void;
     resetState: () => void;
 }
 
@@ -19,6 +21,7 @@ const initState: ProjectStoreData = {
     geoAreas: [],
     geoAreaToEdit: null,
     project: null,
+    sendProjectProgress: 0
 };
 
 const initProjectStore = (): ProjectStore => {
@@ -52,6 +55,14 @@ const initProjectStore = (): ProjectStore => {
             update((state) => {
                 if (state.project) state.geoAreaToEdit = geoarea;
                 return state;
+            });
+        },
+        setSendProjectProgress: (progress: number) => {
+            update((state) => {
+                return {
+                    ...state,
+                    sendProjectProgress: progress
+                };
             });
         },
         resetState: () => (set(initState))

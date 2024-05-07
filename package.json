@@ -16,7 +16,9 @@
 		"prebuild": "dfx generate",
 		"dev": "cd src/extensa_frontend && npm run dev",
 		"prestart": "dfx generate",
-		"build:extensa": "dfx deploy && candid-extractor target/wasm32-unknown-unknown/release/extensa_backend.wasm > src/extensa_backend/extensa_backend.did"
+		"build:extensa": "dfx deploy && candid-extractor target/wasm32-unknown-unknown/release/extensa_backend.wasm > src/extensa_backend/extensa_backend.did",
+		"build:extensa:prod": "dfx deploy --network=ic && candid-extractor target/wasm32-unknown-unknown/release/extensa_backend.wasm > src/extensa_backend/extensa_backend.did",
+		"update:install:frontend": "dfx build --network ic extensa_frontend && dfx canister --network ic install extensa_frontend --mode upgrade"
 	},
 	"dependencies": {
 		"@dfinity/agent": "^1.2.1"

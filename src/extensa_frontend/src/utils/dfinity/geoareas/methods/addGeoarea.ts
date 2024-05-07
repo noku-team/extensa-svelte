@@ -3,13 +3,6 @@ import type { Coords } from '../../../../../../declarations/extensa_backend/exte
 import mapCanisterId from '../../mapCanisterId';
 import { createCanister } from '../geoareas';
 
-
-export interface XYZ {
-    x: number;
-    y: number;
-    z: number;
-}
-
 export interface FetchGeoareasParams {
     identity: Identity;
     canisterId: string;

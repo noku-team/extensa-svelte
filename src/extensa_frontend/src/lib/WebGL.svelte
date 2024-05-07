@@ -10,14 +10,17 @@
 	import "../VARCO/helpers/VARCO_webcam.js";
 	import "../VARCO/helpers/VARCO_xr.js";
 
+	import { useLoadProjectWorker } from "../actions/loadProject.action.js";
 	import { useSendProjectWorker } from "../actions/sendProject.action.js";
 	import { EDITOR, MAP, PLY, UI } from "../jsm/index.js";
+	import { projectStore } from "../store/ProjectStore.js";
 	import getDOMHeight from "../utils/dom/getDOMHeight.js";
 	import EditProject from "./EditProject.svelte";
 	import SelectedProject from "./SelectedProject.svelte";
 
 	let renderer: any = null;
 	useSendProjectWorker();
+	useLoadProjectWorker();
 	onMount(() => {
 		renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 
@@ -116,13 +119,17 @@
 		// //////////////////////////////////////////////////////
 		// //////////////////////////////////////////////////////
 
-		window.addEventListener("resize", PLY.f.resizeScreen, false);
+		const canvas = document.querySelector("canvas");
 
-		document.body.addEventListener("mousedown", UI.f.clicked, false);
-		document.body.addEventListener("mouseup", UI.f.clickedEnd, false);
+		if (canvas) {
+			canvas.addEventListener("resize", PLY.f.resizeScreen, false);
 
-		document.body.addEventListener("touchstart", UI.f.tapped, false);
-		document.body.addEventListener("touchend", UI.f.tappedEnd, false);
+			canvas.addEventListener("mousedown", UI.f.clicked, false);
+			canvas.addEventListener("mouseup", UI.f.clickedEnd, false);
+
+			canvas.addEventListener("touchstart", UI.f.tapped, false);
+			canvas.addEventListener("touchend", UI.f.tappedEnd, false);
+		}
 
 		PLY.f.resizeScreen();
 
@@ -159,6 +166,13 @@
 
 <div>
 	<div id="canvas"></div>
+	{#if $projectStore.sendProjectProgress > 0}
+		<progress
+			class="progress progress-primary w-56 fixed bottom-[150px] z-[1000] left-1/2 transform -translate-x-1/2"
+			value={$projectStore.sendProjectProgress}
+			max="100"
+		></progress>
+	{/if}
 	<SelectedProject />
 	<EditProject />
 </div>

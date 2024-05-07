@@ -14,13 +14,6 @@ type BaseWorkerUtilsJobData<T> = {
 
 const worker = new BaseWorker();
 
-const startToFetch = () => {
-    worker.postMsg({
-        msg: 'startSendProject',
-        data: {},
-    })
-};
-
 const emitResponse = (postMessageResponse: PostMessageDataResponseSendProject) => {
     const data: PostMessageDataResponseSendProject = { ...postMessageResponse }
 
@@ -28,13 +21,19 @@ const emitResponse = (postMessageResponse: PostMessageDataResponseSendProject) =
         msg: 'syncSendProject',
         data,
     })
+};
+
+const emitProgress = (progress: number) => {
+    worker.postMsg({
+        msg: 'receiveProgressSendProject',
+        data: { progress },
+    })
 }
 
 const syncSendProjects = async (params: BaseWorkerUtilsJobData<PostMessageDataRequestSendProject>) => {
     try {
-        startToFetch();
-        const { data, identity } = params;
-        const { geoAreaCoords, geoAreaName, file } = data;
+        const { data, identity } = params ?? {};
+        const { geoAreaCoords, geoAreaName, file } = data ?? {};
 
         const fileObj = JSON.parse(file);
 
@@ -59,6 +58,14 @@ const syncSendProjects = async (params: BaseWorkerUtilsJobData<PostMessageDataRe
                 projectType,
                 projectName
             },
+            {
+                callbackForProgress: (_progress: number) => {
+                    worker.postMsg({
+                        msg: 'receiveProgressSendProject',
+                        data: { progress: _progress },
+                    })
+                }
+            }
         );
 
         emitResponse({ accountIdentifier: params.identity.getPrincipal().toString(), fileId: response })

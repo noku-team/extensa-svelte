@@ -1,4 +1,5 @@
 import type { Identity } from "@dfinity/agent";
+import promiseWithProgress from "../../../promises/promiseAllWithProgress";
 import splitStringIntoChunks from "../../../splitStringIntoChunks";
 import executeStoreFileChunk from "../methods/storeFileChunk";
 
@@ -13,8 +14,13 @@ export interface StoreChunkOptions {
     fileId: bigint;
 }
 
-const storeCompleteFile = async (dfinityOptions: StoreCompleteFileParams, storeChunkOptions: StoreChunkOptions) => {
+interface StoreCompleteFileOptions {
+    callbackForProgress: (progress: number) => void;
+}
+
+const storeCompleteFile = async (dfinityOptions: StoreCompleteFileParams, storeChunkOptions: StoreChunkOptions, options: StoreCompleteFileOptions) => {
     const { identity, canisterId } = dfinityOptions;
+    const { callbackForProgress } = options;
     const {
         file,
         numberOfChunks,
@@ -34,8 +40,10 @@ const storeCompleteFile = async (dfinityOptions: StoreCompleteFileParams, storeC
         });
     });
 
+    const promisesWithProgress = promises.map((promise, index) => promiseWithProgress(promise, callbackForProgress, index + 1, numberOfChunks));
+
     const errors: { error: string, index: number }[] = [];
-    const response = await Promise.allSettled(promises);
+    const response = await Promise.allSettled(promisesWithProgress);
     response.map((res, index) => {
         if (res.status === 'rejected') errors.push({ error: res.reason, index });
     });

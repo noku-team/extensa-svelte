@@ -1,7 +1,8 @@
 import { onDestroy, onMount } from "svelte";
-import { spinnerStore } from "../store/SpinnerStore";
+import { messageStore } from "../store/MessageStore";
+import { projectStore } from "../store/ProjectStore";
 import type { PostMessageDataResponseSendProject } from "../types/workers/post-message.sendProject";
-import type { PostMessageDataResponseSync } from "../types/workers/post-message.sync";
+import type { PostMessageDataReceiveProgressSendProject, PostMessageDataResponseSync } from "../types/workers/post-message.sync";
 import type { PostMessage } from "../types/workers/post-messages";
 
 export type SendProjectCallback = (data: PostMessageDataResponseSendProject) => void
@@ -9,18 +10,40 @@ export type SendProjectCallback = (data: PostMessageDataResponseSendProject) => 
 export const sendProjectWorker = new Worker(new URL('../workers/sendProject.worker', import.meta.url), { type: "module" });
 
 const sendProjectCallback = (data: PostMessageDataResponseSendProject): void => {
-  console.warn("Finished sending project with file ID:", data.fileId);
-  spinnerStore.setLoading(false);
+  // Reset svelte store
+  projectStore.setSendProjectProgress(0);
+
+  if (data.fileId) {
+    messageStore.setMessage(
+      'Project sent successfully',
+      'success',
+    );
+  } else {
+    messageStore.setMessage(
+      'Error sending project',
+      'error',
+    );
+  }
+};
+
+const receiveProgress = (data: PostMessageDataReceiveProgressSendProject) => {
+  const { progress } = data;
+  projectStore.setSendProjectProgress(progress);
 };
 
 export const useSendProjectWorker = () => {
   onMount(() => {
-    sendProjectWorker.onmessage = async ({ data }: MessageEvent<PostMessage<PostMessageDataResponseSendProject | PostMessageDataResponseSync>>) => {
+    sendProjectWorker.onmessage = async ({ data }: MessageEvent<
+      PostMessage<
+        PostMessageDataResponseSendProject
+        | PostMessageDataResponseSync
+        | PostMessageDataReceiveProgressSendProject>
+    >) => {
       const { msg } = data
 
       switch (msg) {
-        case 'startSendProject':
-          spinnerStore.setLoading(true);
+        case 'receiveProgressSendProject':
+          receiveProgress(data.data as PostMessageDataReceiveProgressSendProject);
           return;
         case 'syncSendProject':
           sendProjectCallback?.(data.data as PostMessageDataResponseSendProject)

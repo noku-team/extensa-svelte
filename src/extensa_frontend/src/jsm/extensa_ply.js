@@ -152,6 +152,8 @@ const createPLY = () => {
 		if (PLY.p.flagSTVOn) {
 
 			if (PLY.p.flagDesktop) {
+				console.warn(4)
+				// TODO change pano size here to consider also the new header
 
 				PLY.p.pano.size = {
 					name: 'PANO',
@@ -842,7 +844,6 @@ const createPLY = () => {
 			// Fetch geoareas from canister
 			executeFetchGeoareasByCoords(fetchParams).then((geoAreas) => {
 				for (const geoData of geoAreas) {
-					console.warn("GEO", geoAreas);
 					EDITOR.f.createGeoArea(
 						geoData,
 						(q) => {
@@ -861,35 +862,6 @@ const createPLY = () => {
 					);
 				}
 			});
-
-			// carica il settore //
-			// TODO load all JSON sectors here
-			// VARCO.f.loadJSON(
-			// 	`TEST_GEOAREA/test_geoarea.json`,
-			// 	(geoAreas) => {
-			// 		for (const geoData of geoAreas) {
-			// 			EDITOR.f.createGeoArea(
-			// 				geoData,
-			// 				(q) => {
-			// 					let GEOAREAOBJ = q.obj;
-			// 					for (const project of geoData.projectsList) {
-			// 						// CREATE PROJECTS CIRCLES //
-			// 						EDITOR.f.createProject(
-			// 							GEOAREAOBJ,
-			// 							project,
-			// 							() => { },
-			// 							{}
-			// 						);
-			// 					}
-			// 				},
-			// 				{}
-			// 			);
-			// 		}
-			// 	},
-			// 	(error) => {
-			// 		console.error("Error while loading testing geoareas", error);
-			// 	}
-			// )
 
 		};
 
@@ -2690,9 +2662,10 @@ const createPLY = () => {
 		PLY.p.STREETVIEW_MARKER.position.z = p.results.point.z;
 
 		const { project: _selectedProject } = get(projectStore); // leggi dato
+		const auth = get(authStore);
+		const { identity = null } = auth ?? {};
 
-
-		if (UI.p.popup_login_data.p.data !== undefined) { 	/////// XLUCA da cambiare con info se e' loggato l'utente
+		if (!!identity) {
 
 			let wPos;
 

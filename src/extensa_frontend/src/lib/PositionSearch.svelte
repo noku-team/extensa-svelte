@@ -5,6 +5,10 @@
 
 	export let showModal: boolean;
 
+	type GMapsResult = {
+		description: string;
+	};
+
 	let searchText = "";
 	let autocompleteItems: string[] = [];
 
@@ -24,12 +28,14 @@
 		const { value } = e.target as HTMLInputElement;
 
 		if (value) {
-			const gMapsService = new window.google.maps.places.AutocompleteService();
+			const gMapsService = new (
+				window as any
+			).google.maps.places.AutocompleteService();
 			gMapsService.getQueryPredictions(
 				{
 					input: value,
 				},
-				(result) => {
+				(result: GMapsResult[]) => {
 					const formattedPlaces = (result ?? []).map((r) => r.description);
 					autocompleteItems = formattedPlaces;
 				}
@@ -40,7 +46,12 @@
 	};
 </script>
 
-<Modal bind:showModal title="Search location" onClose={onModalClose}>
+<Modal
+	id="modal-position-search"
+	bind:showModal
+	title="Search location"
+	onClose={onModalClose}
+>
 	<div class="flex gap-3">
 		<div class="dropdown flex-1">
 			<input

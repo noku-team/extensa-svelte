@@ -2,9 +2,9 @@
 	import { Link, useRouter } from "svelte-routing";
 	import { authStore } from "../store/AuthStore";
 	import PositionSearch from "./PositionSearch.svelte";
-	import ExtensaLogo from "/images/UI/Logo_Extensa_2.png";
 	import ProfilePicture from "/images/UI/profile.png";
 	import ICP from "/images/blockchain/ICP.png";
+	import ExtensaLogo from "/images/logo.png";
 
 	let currentRoute = "";
 

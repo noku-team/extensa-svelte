@@ -2,6 +2,7 @@
 	import { onMount } from "svelte";
 	import { Route, Router } from "svelte-routing";
 	import ExtensaHeader from "./lib/Header.svelte";
+	import Message from "./lib/Message.svelte";
 	import User from "./lib/User.svelte";
 	import WebGl from "./lib/WebGL.svelte";
 	import { authStore } from "./store/AuthStore";
@@ -16,6 +17,7 @@
 </script>
 
 <Router {url}>
+	<Message />
 	<main class="font-inter">
 		<div id="header">
 			<ExtensaHeader />
@@ -44,7 +46,12 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		background-color: rgba(63, 55, 55, 0.5); /* Sfondo bianco semi-trasparente */
+		background-color: rgba(
+			63,
+			55,
+			55,
+			0.5
+		); /* Sfondo bianco semi-trasparente */
 		z-index: 1000; /* Assicura che la schermata di loading sia sopra tutto */
 	}
 	.loading-overlay.active {

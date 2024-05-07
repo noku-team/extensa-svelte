@@ -2456,51 +2456,59 @@ const createPLY = () => {
 
 												const propScale = 1.1;
 												let img_scale_x, img_scale_y;
+												
+												if ( VARCO.p.DEVICES.WEBCAM !== undefined ) {
+													
+													if ( VARCO.p.DEVICES.WEBCAM.stream_width !== undefined ) {
 
-												if (VARCO.p.DEVICES.isSafari) {
-													VARCO.p.DEVICES.WEBCAM.stream_width = 640;
-													VARCO.p.DEVICES.WEBCAM.stream_height = 480;
-												}
+														if (VARCO.p.DEVICES.isSafari) {
+															VARCO.p.DEVICES.WEBCAM.stream_width = 640;
+															VARCO.p.DEVICES.WEBCAM.stream_height = 480;
+														};
 
-												let imageProp = VARCO.p.DEVICES.WEBCAM.stream_width / VARCO.p.DEVICES.WEBCAM.stream_height;
+														let imageProp = VARCO.p.DEVICES.WEBCAM.stream_width / VARCO.p.DEVICES.WEBCAM.stream_height;
 
-												//console.log( imageProp );
+														//console.log( imageProp );
 
-												if (VARCO.p.DEVICES.isSafari) {
-													if (window.innerWidth < window.innerHeight) {
+														if (VARCO.p.DEVICES.isSafari) {
+															if (window.innerWidth < window.innerHeight) {
 
-														imageProp = VARCO.p.DEVICES.WEBCAM.stream_height / VARCO.p.DEVICES.WEBCAM.stream_width;
-														img_scale_x = window.innerHeight * imageProp;
-														img_scale_y = window.innerHeight;
+																imageProp = VARCO.p.DEVICES.WEBCAM.stream_height / VARCO.p.DEVICES.WEBCAM.stream_width;
+																img_scale_x = window.innerHeight * imageProp;
+																img_scale_y = window.innerHeight;
 
-													} else {
+															} else {
 
-														imageProp = VARCO.p.DEVICES.WEBCAM.stream_width / VARCO.p.DEVICES.WEBCAM.stream_height;
-														img_scale_x = window.innerWidth * imageProp;
-														img_scale_y = window.innerWidth;
+																imageProp = VARCO.p.DEVICES.WEBCAM.stream_width / VARCO.p.DEVICES.WEBCAM.stream_height;
+																img_scale_x = window.innerWidth * imageProp;
+																img_scale_y = window.innerWidth;
 
-													}
+															}
 
-												} else {
+														} else {
 
-													if (window.innerWidth < window.innerHeight) {
+															if (window.innerWidth < window.innerHeight) {
 
-														imageProp = VARCO.p.DEVICES.WEBCAM.stream_height / VARCO.p.DEVICES.WEBCAM.stream_width;
-														img_scale_x = window.innerHeight * imageProp;
-														img_scale_y = window.innerHeight;
+																imageProp = VARCO.p.DEVICES.WEBCAM.stream_height / VARCO.p.DEVICES.WEBCAM.stream_width;
+																img_scale_x = window.innerHeight * imageProp;
+																img_scale_y = window.innerHeight;
 
-													} else {
+															} else {
 
-														imageProp = VARCO.p.DEVICES.WEBCAM.stream_width / VARCO.p.DEVICES.WEBCAM.stream_height;
-														img_scale_x = window.innerWidth * imageProp;
-														img_scale_y = window.innerWidth;
+																imageProp = VARCO.p.DEVICES.WEBCAM.stream_width / VARCO.p.DEVICES.WEBCAM.stream_height;
+																img_scale_x = window.innerWidth * imageProp;
+																img_scale_y = window.innerWidth;
 
-													}
+															}
 
-												}
+														}
 
-												p.obj.scale.x = img_scale_x * propScale * 1.8;
-												p.obj.scale.y = img_scale_y * propScale * 1.8;
+														p.obj.scale.x = img_scale_x * propScale * 1.8;
+														p.obj.scale.y = img_scale_y * propScale * 1.8;
+													
+													};
+													
+												};
 
 											},
 											"functionProp": {},
@@ -2624,8 +2632,8 @@ const createPLY = () => {
 
 		PLY.p.sfondoBKG.OBJECTS.sfondoBKG_mesh.needsUpdate = true;
 
-		PLY.p.flagWebCamera = true;
-
+		// PLY.p.flagWebCamera = true;
+		
 	};
 
 

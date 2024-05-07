@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { Link, useRouter } from "svelte-routing";
+	import cx from "classnames";
+	import { useRouter } from "svelte-routing";
 	import { authStore } from "../store/AuthStore";
 	import PositionSearch from "./PositionSearch.svelte";
 	import ProfilePicture from "/images/UI/profile.png";
@@ -83,7 +84,13 @@
 		<div class="dropdown dropdown-end" style="z-index: 11">
 			<div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
 				<div class="w-10 rounded-full">
-					<img alt="Tailwind CSS Navbar component" src={ProfilePicture} />
+					<img
+						alt="Tailwind CSS Navbar component"
+						src={ProfilePicture}
+						class={cx({
+							blackandwhite: !$authStore.identity,
+						})}
+					/>
 				</div>
 			</div>
 			<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
@@ -119,4 +126,7 @@
 </div>
 
 <style>
+	.blackandwhite {
+		filter: grayscale(100%);
+	}
 </style>

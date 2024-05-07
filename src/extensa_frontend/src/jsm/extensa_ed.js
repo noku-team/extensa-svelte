@@ -683,17 +683,20 @@ const createEditor = () => {
 			if (_selectedProject !== null) {
 				let finalFile = "";
 				if (!overridedFile) {
-					const fileId = _selectedProject.userData.file_id;
-					const cachedProject = await getProject(`project-${fileId.toString()}`);
+					const fileId = _selectedProject?.userData?.file_id;
+					if (fileId) {
+						const cachedProject = await getProject(`project-${fileId.toString()}`);
 
-					if (!cachedProject) {
-						loadProjectWorker.postMessage({
-							msg: "executeLoadProjectWorker",
-							data: {
-								fileId,
-							},
-						});
-					} else finalFile = cachedProject;
+						if (!cachedProject) {
+							loadProjectWorker.postMessage({
+								msg: "executeLoadProjectWorker",
+								data: {
+									fileId,
+								},
+							});
+							return;
+						} else finalFile = cachedProject;
+					}
 				} else {
 					finalFile = overridedFile;
 				}
@@ -1394,7 +1397,7 @@ const createEditor = () => {
 
 								// SHOW PROJECT //
 
-								projectStore.setProject({ ...w.obj, notYetSaved: true }); // scrivi dato
+								projectStore.setProject({ ...w.obj, notYetSaved: true, is3DVisible: true }); // scrivi dato
 
 								if (PROJECTOBJ) {
 									w.obj.userData.isLoaded = true;
@@ -1467,7 +1470,7 @@ const createEditor = () => {
 
 										// PLY.p.selectedProject = w.obj;
 
-										projectStore.setProject({ ...w.obj, notYetSaved: true }); // scrivi dato
+										projectStore.setProject({ ...w.obj, notYetSaved: true, is3DVisible: true }); // scrivi dato
 
 										spinnerStore.setLoading(false);
 										if (PROJECTOBJ) {

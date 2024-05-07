@@ -2302,7 +2302,7 @@ const createUI = () => {
 					
 					default:
 					
-						EDITOR.f.exportJSON( _selectedProject.OBJECTS.myProject.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+						EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProject.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			
 					break;
 					

@@ -2242,75 +2242,6 @@ const createUI = () => {
 				_selectedProject.userData.type = _selectedProject.OBJECTS.myProject.children[ 0 ].userData.type
 				
 			}
-<<<<<<< HEAD
-		
-			if ( _selectedProject.OBJECTS.myProjectCloned.children.length > 0 ){
-		
-				switch( _selectedProject.userData.type ){
-					
-					case "3d" : 
-						EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			
-					break;
-					
-					case "glb" : 
-						EDITOR.f.exportGLB( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			
-					break;
-					
-					case "video":
-						EDITOR.f.exportVIDEO( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-						
-					break;
-					
-					case "image":
-						EDITOR.f.exportIMAGE( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-						
-					break;
-					
-					default:
-					
-						EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			
-					break;
-				};
-		
-				
-			} else {
-				
-				switch( _selectedProject.userData.type ){
-					
-					case "3d" : 
-						EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProject.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			
-					break;
-					
-					case "glb" : 
-						EDITOR.f.exportGLB( _selectedProject.OBJECTS.myProject.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			
-					break;
-					
-					case "video":
-						EDITOR.f.exportVIDEO( _selectedProject.OBJECTS.myProject.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-						
-					break;
-					
-					case "image":
-						EDITOR.f.exportIMAGE( _selectedProject.OBJECTS.myProject.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-						
-					break;
-					
-					default:
-					
-						EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProject.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			
-					break;
-					
-				};
-				
-			}
-										
-=======
 
 			// if (_selectedProject.OBJECTS.myProjectCloned.children.length > 0) {
 
@@ -2377,7 +2308,6 @@ const createUI = () => {
 
 			// }
 
->>>>>>> 955f34174cd41adaf67a971b59e3bf7340add87c
 		};
 		
 	};

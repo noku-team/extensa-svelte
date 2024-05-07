@@ -74,7 +74,7 @@ const createEditor = () => {
 
 
 
-	EDITOR.f.createProject = function (GEOAREAOBJ, prop, callback, callbackprop) {
+	EDITOR.f.createProject = function ( GEOAREAOBJ, prop, callback, callbackprop) {
 		console.log("createProject");
 
 		prop.linkedGeoArea = GEOAREAOBJ;

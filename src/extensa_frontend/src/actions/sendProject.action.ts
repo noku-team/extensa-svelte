@@ -12,6 +12,7 @@ export const sendProjectWorker = new Worker(new URL('../workers/sendProject.work
 const sendProjectCallback = (data: PostMessageDataResponseSendProject): void => {
   // Reset svelte store
   projectStore.setSendProjectProgress(0);
+  projectStore.setNotYetSaved(false);
 
   if (data.fileId) {
     messageStore.setMessage(

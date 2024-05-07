@@ -38,5 +38,6 @@ export interface GeoArea extends Group {
 }
 export interface Project extends Group {
     is3DVisible: boolean;
+    notYetSaved?: boolean;
     isEditMode: boolean;
 }

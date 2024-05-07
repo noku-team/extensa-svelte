@@ -46,8 +46,6 @@ export const executeFetchGeoareasByCoords = async ({
 		_identity,
 	);
 
-	console.warn(receipt);
-
 	const [geoareas] = receipt;
 	return geoareas;
 }

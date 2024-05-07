@@ -1394,7 +1394,7 @@ const createEditor = () => {
 
 								// SHOW PROJECT //
 
-								projectStore.setProject(w.obj); // scrivi dato
+								projectStore.setProject({ ...w.obj, notYetSaved: true }); // scrivi dato
 
 								if (PROJECTOBJ) {
 									w.obj.userData.isLoaded = true;
@@ -1467,7 +1467,7 @@ const createEditor = () => {
 
 										// PLY.p.selectedProject = w.obj;
 
-										projectStore.setProject(w.obj); // scrivi dato
+										projectStore.setProject({ ...w.obj, notYetSaved: true }); // scrivi dato
 
 										spinnerStore.setLoading(false);
 										if (PROJECTOBJ) {

@@ -152,7 +152,6 @@ const createPLY = () => {
 		if (PLY.p.flagSTVOn) {
 
 			if (PLY.p.flagDesktop) {
-				console.warn(4)
 				// TODO change pano size here to consider also the new header
 
 				PLY.p.pano.size = {
@@ -1719,7 +1718,7 @@ const createPLY = () => {
 					"textureList": [
 						{
 							"name": "compass_txt",
-							"url": "images/UI/compass.png"
+							"url": "images/object_target.png"
 						},
 						{
 							"name": "arrow_txt",
@@ -1732,9 +1731,9 @@ const createPLY = () => {
 							"type": "MeshBasicMaterial",
 							"name": "compass_mat",
 							"parameters": {
-								"color": { "r": 1.0, "g": 1.0, "b": 1.0 },
+								"color": { "r": 0.0, "g": 0.0, "b": 1.0 },
 								"transparent": true,
-								"alphaTest": 0.5,
+								// "alphaTest": 0.5,
 								"depthTest": false,
 								"depthWrite": false,
 								"opacity": 0.6,
@@ -1752,7 +1751,8 @@ const createPLY = () => {
 								"depthTest": false,
 								"depthWrite": false,
 								"opacity": 0.6,
-								"textures": { "map": "arrow_txt" }
+								"textures": { "map": "arrow_txt" },
+								"visible": false
 							}
 						}
 					],
@@ -1776,7 +1776,7 @@ const createPLY = () => {
 									"z": 0
 								},
 								"parameters": {
-									"radius": 3,
+									"radius": 1,
 									"height": 15
 								}
 							}
@@ -2211,6 +2211,16 @@ const createPLY = () => {
 			},
 			function initScene(p) {
 				PLY.p.sceneMAP = p.obj;
+				VARCO.f.addTexture(PLY.p.sceneMAP,
+					{
+						"name": "sky",
+						"url": "images/sky.png"
+					},
+					function (t) {
+						PLY.p.sceneMAP.background = t.obj;
+						PLY.p.sceneMAP.background.mapping = THREE.EquirectangularReflectionMapping;
+					}
+				);
 			}
 
 		);
@@ -2270,8 +2280,8 @@ const createPLY = () => {
 				parameters: {
 					actualCoords: { lng: MAP.p.actualCoords.lng, lat: MAP.p.actualCoords.lat, alt: 0 },
 					mapType: type,
-					mapNumH: 3,
-					mapNumV: 3,
+					mapNumH: 8,
+					mapNumV: 8,
 					width: 40075016.686,
 					height: 40075016.686,
 					events: {

@@ -54,6 +54,7 @@
 		<span>ID: {$projectStore.project.uuid}</span>
 		<div class="flex">
 			<button
+				disabled={$projectStore.project.notYetSaved}
 				on:click={!$projectStore.project.is3DVisible
 					? onEyeClick
 					: onEyeOffClick}

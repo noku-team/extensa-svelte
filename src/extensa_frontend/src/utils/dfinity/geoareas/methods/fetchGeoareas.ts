@@ -34,7 +34,8 @@ export const executeFetchGeoareasByCoords = async ({
 
 	let _identity: IdentityType;
 
-	if (principal) _identity = [[principal, []]];
+	// If the user is not logged in, we need to pass an empty identity
+	if (!principal.isAnonymous()) _identity = [[principal, []]];
 	else _identity = [];
 
 	const receipt = await get_geoarea_by_coords(

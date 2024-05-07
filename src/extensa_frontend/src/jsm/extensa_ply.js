@@ -2456,10 +2456,10 @@ const createPLY = () => {
 
 												const propScale = 1.1;
 												let img_scale_x, img_scale_y;
-												
-												if ( VARCO.p.DEVICES.WEBCAM !== undefined ) {
-													
-													if ( VARCO.p.DEVICES.WEBCAM.stream_width !== undefined ) {
+
+												if (VARCO.p.DEVICES.WEBCAM !== undefined) {
+
+													if (VARCO.p.DEVICES.WEBCAM.stream_width !== undefined) {
 
 														if (VARCO.p.DEVICES.isSafari) {
 															VARCO.p.DEVICES.WEBCAM.stream_width = 640;
@@ -2505,9 +2505,9 @@ const createPLY = () => {
 
 														p.obj.scale.x = img_scale_x * propScale * 1.8;
 														p.obj.scale.y = img_scale_y * propScale * 1.8;
-													
+
 													};
-													
+
 												};
 
 											},
@@ -2633,7 +2633,7 @@ const createPLY = () => {
 		PLY.p.sfondoBKG.OBJECTS.sfondoBKG_mesh.needsUpdate = true;
 
 		// PLY.p.flagWebCamera = true;
-		
+
 	};
 
 

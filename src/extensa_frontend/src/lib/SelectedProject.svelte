@@ -39,14 +39,16 @@
 
 {#if !!$projectStore.project}
 	<div
-		class="flex flex-col gap-3 fixed top-20 left-1/2 transform -translate-x-1/2 p-5 bg-base-100 z-10 rounded-xl justify-center items-center min-w-44"
+		class="
+		flex
+		flex-col gap-3 fixed top-20 left-1/2 transform -translate-x-1/2 p-5 bg-base-100 z-10 rounded-xl justify-center items-center min-w-44 max-w-72 overflow-hidden"
 	>
 		{#if $authStore.identity}
 			<button class="absolute top-4 right-4 cursor-pointer" on:click={onClose}>
 				✕
 			</button>
 		{/if}
-		<span class="font-bold text-2xl"
+		<span class="font-bold text-2xl truncate max-w-full"
 			>{$projectStore.project?.name?.toUpperCase()}</span
 		>
 		<span>ID: {$projectStore.project.uuid}</span>

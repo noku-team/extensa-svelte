@@ -276,12 +276,6 @@ fn get_geoarea_by_coords(lng_1: Coordinate, lng_2: Coordinate, lat_1: Coordinate
     Some(matching_values)
 }
 
-//workaroud to remove user from the call arguments
-#[ic_cdk::query]
-fn get_geoarea_by_coords_without_user(lng_1: Coordinate, lng_2: Coordinate, lat_1: Coordinate, lat_2: Coordinate) -> Option<Vec<GeoArea>> {
-    get_geoarea_by_coords(lng_1, lng_2, lat_1, lat_2, None)
-}
-
 
 #[ic_cdk::query]
 fn get_geoarea_by_user(user: Option<Account>) -> Option<Vec<GeoArea>> {

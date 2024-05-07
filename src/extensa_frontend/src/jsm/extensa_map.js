@@ -607,8 +607,8 @@ const createMAP = () => {
 			mapType: "GIS", // "GM", // "OSM"
 			opacity: 1,
 			zoomMap: 1,
-			mapNumH: 20,
-			mapNumV: 20,
+			mapNumH: 2,
+			mapNumV: 2,
 			actualMapTiles: [],
 			actualMapSectorName: "",
 			enabledZoomChanges: true,

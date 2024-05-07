@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { VARCO } from "../VARCO/helpers/VARCO";
 	import { EDITOR, PLY, UI } from "../jsm";
+	import { authStore } from "../store/AuthStore";
 	import { projectStore } from "../store/ProjectStore";
 	import EyeOffIcon from "/images/UI/eye-off.png";
 	import EyeIcon from "/images/UI/eye.png";
@@ -40,12 +41,11 @@
 	<div
 		class="flex flex-col gap-3 fixed top-20 left-1/2 transform -translate-x-1/2 p-5 bg-base-100 z-10 rounded-xl justify-center items-center min-w-44"
 	>
-		<button
-			class="absolute top-4 right-4 cursor-pointer"
-			on:click={onClose}
-		>
-			✕
-		</button>
+		{#if $authStore.identity}
+			<button class="absolute top-4 right-4 cursor-pointer" on:click={onClose}>
+				✕
+			</button>
+		{/if}
 		<span class="font-bold text-2xl"
 			>{$projectStore.project?.name?.toUpperCase()}</span
 		>

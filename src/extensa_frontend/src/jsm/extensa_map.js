@@ -22,7 +22,7 @@ const createMAP = () => {
 	let MAP = {
 
 		p: {
-			actualCoords: { lng: 9.81967547515417, lat: 45.650907937236446, alt: 0.0 },
+			actualCoords: { lng: 8.9511, lat: 46.0037, alt: 0.0 },
 			actualMapAltitude: 1000.0,
 			position: { x: 0.0, y: 3450.0, z: 0.0 },
 			type: 'map'

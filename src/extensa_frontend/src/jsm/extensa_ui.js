@@ -800,7 +800,7 @@ const createUI = () => {
 
 		const { project: _selectedProject } = get(projectStore); // leggi dato
 
-		if (_selectedProject !== null) {
+		if (_selectedProject !== null || PLY.p.selectedArea !== undefined) {
 
 			UI.p.menu_optimizer.f.open();
 
@@ -2244,70 +2244,70 @@ const createUI = () => {
 
 			}
 
-			if (_selectedProject.OBJECTS.myProjectCloned.children.length > 0) {
+			// if (_selectedProject.OBJECTS.myProjectCloned.children.length > 0) {
 
-				switch (_selectedProject.userData.type) {
+			// 	switch (_selectedProject.userData.type) {
 
-					case "3d":
-						EDITOR.f.exportGLTF(_selectedProject.OBJECTS.myProjectCloned.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			// 		case "3d":
+			// 			EDITOR.f.exportGLTF(_selectedProject.OBJECTS.myProjectCloned.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-						break;
+			// 			break;
 
-					case "glb":
-						EDITOR.f.exportGLB(_selectedProject.OBJECTS.myProjectCloned.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			// 		case "glb":
+			// 			EDITOR.f.exportGLB(_selectedProject.OBJECTS.myProjectCloned.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-						break;
+			// 			break;
 
-					case "video":
-						EDITOR.f.exportVIDEO(_selectedProject.OBJECTS.myProjectCloned.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			// 		case "video":
+			// 			EDITOR.f.exportVIDEO(_selectedProject.OBJECTS.myProjectCloned.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-						break;
+			// 			break;
 
-					case "image":
-						EDITOR.f.exportIMAGE(_selectedProject.OBJECTS.myProjectCloned.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			// 		case "image":
+			// 			EDITOR.f.exportIMAGE(_selectedProject.OBJECTS.myProjectCloned.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-						break;
+			// 			break;
 
-					default:
+			// 		default:
 
-						EDITOR.f.exportGLTF(_selectedProject.OBJECTS.myProjectCloned.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			// 			EDITOR.f.exportGLTF(_selectedProject.OBJECTS.myProjectCloned.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-						break;
-				};
+			// 			break;
+			// 	};
 
 
-			} else {
+			// } else {
 
-				switch (_selectedProject.userData.type) {
-					case "3d":
-						EDITOR.f.exportGLTF(_selectedProject.OBJECTS.myProject.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			switch (_selectedProject.userData.type) {
+				case "3d":
+					EDITOR.f.exportGLTF(_selectedProject.OBJECTS.myProject.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-						break;
+					break;
 
-					case "glb":
-						EDITOR.f.exportGLB(_selectedProject.OBJECTS.myProject.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				case "glb":
+					EDITOR.f.exportGLB(_selectedProject.OBJECTS.myProject.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-						break;
+					break;
 
-					case "video":
-						EDITOR.f.exportVIDEO(_selectedProject.OBJECTS.myProject.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				case "video":
+					EDITOR.f.exportVIDEO(_selectedProject.OBJECTS.myProject.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-						break;
+					break;
 
-					case "image":
-						EDITOR.f.exportIMAGE(_selectedProject.OBJECTS.myProject.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				case "image":
+					EDITOR.f.exportIMAGE(_selectedProject.OBJECTS.myProject.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-						break;
+					break;
 
-					default:
+				default:
 
-						EDITOR.f.exportGLTF(_selectedProject.OBJECTS.myProject.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+					EDITOR.f.exportGLTF(_selectedProject.OBJECTS.myProject.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-						break;
+					break;
 
-				};
+			};
 
-			}
+			// }
 
 		};
 

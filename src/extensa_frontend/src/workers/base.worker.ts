@@ -1,4 +1,4 @@
-import type { Identity } from '@dfinity/agent'
+import { AnonymousIdentity, type Identity } from '@dfinity/agent'
 import type { PostMessageResponse } from '../types/workers/post-messages'
 import type { SyncState } from '../types/workers/sync'
 import { loadIdentity } from '../utils/auth/loadIdentity'
@@ -25,13 +25,9 @@ export class BaseWorker {
             return
         }
 
-        const identity: Identity | undefined = await loadIdentity()
+        let identity: Identity | undefined = await loadIdentity()
 
-        if (!identity) {
-            // We do nothing if no identity
-            console.error('Attempted to initiate a worker without an authenticated identity.')
-            return
-        }
+        if (!identity) identity = new AnonymousIdentity();
 
         await this.executeJob<T>({ identity, ...params })
     }

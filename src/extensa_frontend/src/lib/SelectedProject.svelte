@@ -44,9 +44,26 @@
 		flex-col gap-3 fixed top-20 left-1/2 transform -translate-x-1/2 p-5 bg-base-100 z-10 rounded-xl justify-center items-center min-w-44 max-w-72 overflow-hidden"
 	>
 		{#if $authStore.identity}
-			<button class="absolute top-4 right-4 cursor-pointer" on:click={onClose}>
-				✕
-			</button>
+			<div class="w-full flex justify-end">
+				<button
+					class="btn btn-circle cursor-pointer btn-sm"
+					on:click={onClose}
+				>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						class="h-6 w-6"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+						><path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M6 18L18 6M6 6l12 12"
+						/></svg
+					>
+				</button>
+			</div>
 		{/if}
 		<span class="font-bold text-2xl truncate max-w-full"
 			>{$projectStore.project?.name?.toUpperCase()}</span

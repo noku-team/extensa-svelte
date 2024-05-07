@@ -167,11 +167,16 @@
 <div>
 	<div id="canvas"></div>
 	{#if $projectStore.sendProjectProgress > 0}
-		<progress
-			class="progress progress-primary w-56 fixed bottom-[150px] z-[1000] left-1/2 transform -translate-x-1/2"
-			value={$projectStore.sendProjectProgress}
-			max="100"
-		></progress>
+		<div
+			class="bg-base-100 fixed bottom-[100px] z-[1000] left-1/2 transform -translate-x-1/2 p-3 rounded-xl flex flex-col items-center gap-2"
+		>
+			<span class="text-sm font-light">Sending project...</span>
+			<progress
+				class="progress progress-primary w-56"
+				value={$projectStore.sendProjectProgress}
+				max="100"
+			></progress>
+		</div>
 	{/if}
 	<SelectedProject />
 	<EditProject />

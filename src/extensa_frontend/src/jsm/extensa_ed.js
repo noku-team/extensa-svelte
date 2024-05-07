@@ -2574,6 +2574,43 @@ const createEditor = () => {
 
 	};
 
+	EDITOR.f.deleteProject = function (PROJECTOBJ) {
+		const AREAOBJ = PROJECTOBJ.userData.linkedGeoArea;
+		for (var num = 0; num < AREAOBJ.OBJECTS.projects.children.length; num += 1) {
+			if (PROJECTOBJ.uuid == AREAOBJ.OBJECTS.projects.children[num].uuid) {
+				// rimuovi AREA //    
+				VARCO.f.deleteElement(AREAOBJ.OBJECTS.projects, AREAOBJ.OBJECTS.projects.children[num]);
+				projectStore.setProject(null);
+				// scrivere qui' codice per togliere progetto ( PROJECTOBJ ) dalla BLOCKCHAIN    
+				//    
+				//
+				//
+				break;
+			}
+		};
+
+	};
+
+	EDITOR.f.deleteArea = function (AREAOBJ) {
+		for (var num = 0; num < PLY.p.scene3D.OBJECTS.geoArea.children.length; num += 1) {
+			if (AREAOBJ.uuid == PLY.p.scene3D.OBJECTS.geoArea.children[num].uuid) {
+				// rimuovi POI //    for (var numA = 0; numA < UI.p.scene.OBJECTS.poi.children.length; numA += 1) {
+				if (AREAOBJ.uuid == UI.p.scene.OBJECTS.poi.children[numA].userData.linkedObj.uuid) {
+					VARCO.f.deleteElement(UI.p.scene.OBJECTS.poi, UI.p.scene.OBJECTS.poi.children[numA]);
+				};
+			};
+
+			// rimuovi AREA //    VARCO.f.deleteElement(PLY.p.scene3D.OBJECTS.geoArea, PLY.p.scene3D.OBJECTS.geoArea.children[ num ]);
+			PLY.p.selectedArea = undefined;
+			// scrivere qui' codice per togliere la geoarea AREAOBJ dalla BLOCKCHAIN
+			//
+			//
+			//
+
+			break;
+		}
+	};
+
 
 	// EDITOR.f.exportJSON = function( PROJECTOBJ, GEOAREAOBJ ){
 

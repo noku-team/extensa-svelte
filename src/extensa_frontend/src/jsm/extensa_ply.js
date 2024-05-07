@@ -152,14 +152,12 @@ const createPLY = () => {
 		if (PLY.p.flagSTVOn) {
 
 			if (PLY.p.flagDesktop) {
-				// TODO change pano size here to consider also the new header
-
 				PLY.p.pano.size = {
 					name: 'PANO',
 					position: 'absolute',
 					left: (window.innerWidth - 800),
 					right: window.innerWidth,
-					top: 0,
+					top: 69,
 					bottom: 800,
 					zIndex: 5
 				};
@@ -307,6 +305,10 @@ const createPLY = () => {
 		VARCO.f.onMainWindowResize(renderer, PLY.p.sceneBKG, PLY.p.cameraBKG, PLY.p.map.viewPort);
 		VARCO.f.onMainWindowResize(renderer, PLY.p.sceneMAP, PLY.p.cameraMAP, PLY.p.map.viewPort);
 		VARCO.f.onMainWindowResize(renderer, PLY.p.scene3D, PLY.p.camera3D, PLY.p.map.viewPort);
+
+		PLY.p.pano.viewPort.height += 69;
+		PLY.p.pano.viewPort.bottom += 69
+
 		VARCO.f.onMainWindowResize(renderer, PLY.p.scene3D, PLY.p.cameraSTV, PLY.p.pano.viewPort);
 		VARCO.f.onMainWindowResize(renderer, UI.p.scene, UI.p.camera, PLY.p.ui.viewPort);
 

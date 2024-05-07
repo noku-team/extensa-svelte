@@ -37,6 +37,7 @@ export const executeFetchGeoareasByCoords = async ({
 	if (principal) _identity = [[principal, []]];
 	else _identity = [];
 
+	console.warn(_identity);
 	const receipt = await get_geoarea_by_coords(
 		coords.topLeft.lng,
 		coords.bottomRight.lng,

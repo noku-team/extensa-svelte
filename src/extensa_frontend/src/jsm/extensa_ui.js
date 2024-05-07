@@ -22,7 +22,7 @@ const UISingleton = (function () {
 
 
 const createUI = () => {
-
+	
 	const UI = {
 
 		p: {
@@ -239,37 +239,37 @@ const createUI = () => {
 
 	// UI.p.previewProject.f.open = function (GEOAREAOBJ, PROJECTOBJ) {
 
-	// if (UI.p.scene.OBJECTS.previewProject !== undefined) {
+		// if (UI.p.scene.OBJECTS.previewProject !== undefined) {
 
-	// VARCO.f.deleteElement(UI.p.scene, UI.p.scene.OBJECTS.previewProject);
+			// VARCO.f.deleteElement(UI.p.scene, UI.p.scene.OBJECTS.previewProject);
 
-	// }
+		// }
 
-	// UI.f.remove_menu_popups();
+		// UI.f.remove_menu_popups();
 
-	// VARCO.f.loadComplex(
+		// VARCO.f.loadComplex(
 
-	// UI.p.scene,
+			// UI.p.scene,
 
-	// 'json/previewProject.json',
+			// 'json/previewProject.json',
 
-	// undefined,
+			// undefined,
 
-	// function init_previewProject(q) {
+			// function init_previewProject(q) {
 
-	// console.log(PROJECTOBJ.name);
+				// console.log(PROJECTOBJ.name);
+				
+				// q.obj.visible = false;
 
-	// q.obj.visible = false;
+				// UI.p.previewProject.p.infoArea = GEOAREAOBJ.userData;
 
-	// UI.p.previewProject.p.infoArea = GEOAREAOBJ.userData;
+				// UI.p.previewProject.p.infoProject = PROJECTOBJ.userData;
 
-	// UI.p.previewProject.p.infoProject = PROJECTOBJ.userData;
+				// PLY.f.resizeScreen();
 
-	// PLY.f.resizeScreen();
+			// }
 
-	// }
-
-	// );
+		// );
 
 	// };
 
@@ -277,9 +277,9 @@ const createUI = () => {
 
 	// UI.p.previewProject.f.close = function () {
 
-	// console.log("UI.p.previewProject.f.close");
+		// console.log("UI.p.previewProject.f.close");
 
-	// UI.f.remove_menu_popups();
+		// UI.f.remove_menu_popups();
 
 	// };
 
@@ -296,12 +296,12 @@ const createUI = () => {
 
 
 	UI.f.previewProjectFeedBackLoop = function (p) {
-
+		
 		const { project: _selectedProject } = get(projectStore); // leggi dato
 
-		if (_selectedProject !== null) {
+		if ( _selectedProject !== null) {
 
-			if (_selectedProject.userData.isLoaded) {
+			if ( _selectedProject.userData.isLoaded) {
 
 				if (UI.p.scene.OBJECTS.previewProject !== undefined) {
 
@@ -336,19 +336,19 @@ const createUI = () => {
 		console.log("button_removeProject");
 
 		if (p) p.obj.userData.pressed = false;
-
+		
 		const { project: _selectedProject } = get(projectStore); // leggi dato
 
-		if (_selectedProject.OBJECTS.myProject.children.length > 0) {
+		if ( _selectedProject.OBJECTS.myProject.children.length > 0) {
 
-			VARCO.f.deleteElement(_selectedProject.OBJECTS.myProject, _selectedProject.OBJECTS.myProject.children[0]);
+			VARCO.f.deleteElement( _selectedProject.OBJECTS.myProject,  _selectedProject.OBJECTS.myProject.children[0]);
 
 			_selectedProject.userData.isLoaded = false;
-
+			
 			var newSelPrj = _selectedProject;
-
+			
 			newSelPrj.userData.isLoaded = false;
-
+			
 			projectStore.setProject(newSelPrj); // scrivi dato
 
 		}
@@ -474,7 +474,7 @@ const createUI = () => {
 		// 		UI.p.menu_editor.f.open();
 
 		// 		PLY.f.SECTOR_UPDATE();
-
+				
 		// 		// PLY.p.geoMapSectors.oldSectHV = [0, 0];
 
 		// 	},
@@ -602,7 +602,7 @@ const createUI = () => {
 		EDITOR.f.deselectProjects();
 
 		EDITOR.f.deselectGeoArea();
-
+		
 		PLY.f.SECTOR_UPDATE();
 
 		// PLY.p.geoMapSectors.oldSectHV = [0, 0];
@@ -724,86 +724,92 @@ const createUI = () => {
 	};
 
 
-
-	UI.p.menu_editor.f.DRAG = function () { /////// JJ
-
-		console.log('UI.p.menu_editor.f.DRAG')
-
+	
+	UI.p.menu_editor.f.DRAG = function(){ /////// JJ
+		
+		console.log( 'UI.p.menu_editor.f.DRAG' )
+		
 		const { project: _selectedProject } = get(projectStore); // leggi dato
 
-		if (PLY.p.selectedArea !== undefined) {
-
+		if ( PLY.p.selectedArea !== undefined ){
+		
 			EDITOR.p.action = 'DRAG_area';
-
+			
 		};
-
-		if (_selectedProject !== null) {
-
+		
+		if ( _selectedProject !== null ){
+		
 			EDITOR.p.action = 'DRAG_project';
-
+			
 		};
-
+		
 		PLY.p.flagPlayerOn = false;
-
+		
 	};
 
 
-	UI.p.menu_editor.f.ROTATE = function () { /////// JJ
-
-		console.log('UI.p.menu_editor.f.ROTATE')
-
-		if (PLY.p.selectedArea !== undefined) {
-
+	UI.p.menu_editor.f.ROTATE = function(){ /////// JJ
+		
+		console.log( 'UI.p.menu_editor.f.ROTATE' )
+		
+		if ( PLY.p.selectedArea !== undefined ){
+		
 			EDITOR.p.action = 'ROTATE_area';
-
+			
 		};
-
+		
 		const { project: _selectedProject } = get(projectStore); // leggi dato
-
-		if (_selectedProject !== null) {
-
+		
+		if ( _selectedProject !== null ){
+		
 			EDITOR.p.action = 'ROTATE_project';
-
+			
 		};
-
+		
 		PLY.p.flagPlayerOn = false;
-
+		
 	};
 
 
-	UI.p.menu_editor.f.SCALE = function () { /////// JJ
-
-		console.log('UI.p.menu_editor.f.SCALE')
-
-		if (PLY.p.selectedArea !== undefined) {
-
+	UI.p.menu_editor.f.SCALE = function(){ /////// JJ
+		
+		console.log( 'UI.p.menu_editor.f.SCALE' )
+		
+		if ( PLY.p.selectedArea !== undefined ){
+		
 			EDITOR.p.action = 'SCALE_area';
-
+			
 		};
-
+		
 		const { project: _selectedProject } = get(projectStore); // leggi dato
-
-		if (_selectedProject !== null) {
-
+		
+		if ( _selectedProject !== null ){
+		
 			EDITOR.p.action = 'SCALE_project';
-
+			
 		};
-
+		
 		PLY.p.flagPlayerOn = false;
-
+		
 	};
 
 
-	UI.p.menu_editor.f.TOOLS = function () {
-
-		console.log('UI.p.menu_editor.f.TOOLS')
-
+	UI.p.menu_editor.f.TOOLS = function(){ 
+		
+		console.log( 'UI.p.menu_editor.f.TOOLS' )
+		
 		const { project: _selectedProject } = get(projectStore); // leggi dato
+<<<<<<< HEAD
+		
+		if ( _selectedProject !== null ){
+			
+=======
 
 		if (_selectedProject !== null || PLY.p.selectedArea !== undefined) {
 
+>>>>>>> 955f34174cd41adaf67a971b59e3bf7340add87c
 			UI.p.menu_optimizer.f.open();
-
+		
 		}
 
 	};
@@ -811,82 +817,82 @@ const createUI = () => {
 
 
 
-	UI.p.menu_editor.f.feedback = function (p) {  // JJ
-
-		if (EDITOR.p.dragAndDrop) {
-
+	UI.p.menu_editor.f.feedback = function( p ){  // JJ
+		
+		if ( EDITOR.p.dragAndDrop ){
+			
 			p.obj.OBJECTS.button_import.material.color.r = 1.0;
 			p.obj.OBJECTS.button_import.material.color.g = 1.0;
 			p.obj.OBJECTS.button_import.material.color.b = 0.0;
-
+			
 		} else {
-
+			
 			p.obj.OBJECTS.button_import.material.color.r = 1.0;
 			p.obj.OBJECTS.button_import.material.color.g = 1.0;
 			p.obj.OBJECTS.button_import.material.color.b = 1.0;
-
+			
 		};
-
-
-
+		
+		
+		
 		p.obj.OBJECTS.button_drag.material.color.r = 1.0;
 		p.obj.OBJECTS.button_drag.material.color.g = 1.0;
 		p.obj.OBJECTS.button_drag.material.color.b = 1.0;
-
+		
 		p.obj.OBJECTS.button_rotate.material.color.r = 1.0;
 		p.obj.OBJECTS.button_rotate.material.color.g = 1.0;
 		p.obj.OBJECTS.button_rotate.material.color.b = 1.0;
-
+		
 		p.obj.OBJECTS.button_scale.material.color.r = 1.0;
 		p.obj.OBJECTS.button_scale.material.color.g = 1.0;
 		p.obj.OBJECTS.button_scale.material.color.b = 1.0;
-
-		switch (EDITOR.p.action) {
-
+		
+		switch ( EDITOR.p.action ){
+			
 			case 'DRAG_project':
-
+				
 				p.obj.OBJECTS.button_drag.material.color.r = 1.0;
 				p.obj.OBJECTS.button_drag.material.color.g = 1.0;
 				p.obj.OBJECTS.button_drag.material.color.b = 0.0;
-
-				break;
-
+				
+			break;
+			
 			case 'ROTATE_project':
 
 				p.obj.OBJECTS.button_rotate.material.color.r = 1.0;
 				p.obj.OBJECTS.button_rotate.material.color.g = 1.0;
 				p.obj.OBJECTS.button_rotate.material.color.b = 0.0;
 
-				break;
-
+			break;
+			
 			case 'SCALE_project':
-
+				
 				p.obj.OBJECTS.button_scale.material.color.r = 1.0;
 				p.obj.OBJECTS.button_scale.material.color.g = 1.0;
 				p.obj.OBJECTS.button_scale.material.color.b = 0.0;
-
-				break;
+				
+			break;
 		};
-
-		switch (EDITOR.p.action) {
-
+		
+		switch ( EDITOR.p.action ){
+			
 			case 'DRAG_area':
-
+				
 				p.obj.OBJECTS.button_drag.material.color.r = 1.0;
 				p.obj.OBJECTS.button_drag.material.color.g = 1.0;
 				p.obj.OBJECTS.button_drag.material.color.b = 0.0;
-
-				break;
-
+				
+			break;
+			
 			case 'ROTATE_project':
 
-				break;
-
+			break;
+			
 			case 'SCALE_project':
-
-				break;
+				
+			break;
 		};
-
+		
 	};
 
 	// ///////////////////////////////////////////////// //
@@ -1102,18 +1108,18 @@ const createUI = () => {
 		if (MAP.p.OBJ.OBJECTS.tilesList.visible) {
 
 			// switch on camera //
-
+			
 			setTimeout(
-
-				function () {
-
-					VARCO.f.initWebCamera('environment', 640, 480);
-
+			
+				function(){
+					
+					VARCO.f.initWebCamera( 'environment', 640, 480 );
+					
 					PLY.p.flagWebCamera = true;
-
+					
 				},
 				1000
-
+				
 			);
 
 			PLY.p.sfondoBKG.MATERIALS.sfondoBKG_mat.visible = true;
@@ -1157,7 +1163,7 @@ const createUI = () => {
 		} else {
 
 			console.log("torna alla mappa");
-
+			
 			VARCO.f.webcamStreamingStop();
 
 			UI.p.menu_bottom_OBJ.OBJECTS.button_AR.visible = false;
@@ -1973,8 +1979,8 @@ const createUI = () => {
 	// ///////////////////////////////////////////////// //
 	// ///////////////////////////////////////////////// //
 
-
-
+	
+	
 	// ///////////////////////////////////////////////// //
 	// ///////////////////////////////////////////////// //
 
@@ -1982,267 +1988,336 @@ const createUI = () => {
 
 
 	UI.p.menu_optimizer = {
-		f: {},
-		p: {
-			flagTextures: false,
-			flagGeometry: false,
-			flagDrawCalls: false,
-			valueTextures: 1.0,
-			valueGeometry: 1.0,
-			valueDrawCalls: 1.0
-
+		f : {},
+		p : {
+			flagTextures : false,
+			flagGeometry : false,
+			flagDrawCalls : false,
+			valueTextures : 1.0,
+			valueGeometry : 1.0,
+			valueDrawCalls : 1.0
+			
 		}
 	}
 
 
-	UI.p.menu_optimizer.f.open = function () {
-
-		console.log('UI.p.menu_optimizer.f.open');
-
-		if (UI.p.scene.OBJECTS.menu_optimizer == undefined) {
+	UI.p.menu_optimizer.f.open = function(){
+		
+		console.log( 'UI.p.menu_optimizer.f.open' );
+		
+		if ( UI.p.scene.OBJECTS.menu_optimizer == undefined ){
 
 			UI.f.remove_menu_popups();
-
+			
 			UI.p.scene.OBJECTS.menu_optimizer = true;
 
 			VARCO.f.loadComplex(
-
+			
 				UI.p.scene,
-
+				
 				'json/menu_optimizer.json',
-
+				
 				undefined,
-
-				function init_menu_optimizer(p) {
-
+				
+				function init_menu_optimizer ( p ){
+					
 					PLY.f.resizeScreen();
-
+					
 				}
 			);
-
+		
 		};
-
+		
 	};
 
 
-	UI.p.menu_optimizer.f.close = function () {
-
-		console.log('UI.p.menu_optimizer.f.close');
-
-		if (UI.p.scene.OBJECTS.menu_optimizer !== undefined) {
-
-			VARCO.f.deleteElement(UI.p.scene, UI.p.scene.OBJECTS.menu_optimizer);
-
+	UI.p.menu_optimizer.f.close = function(){
+		
+		console.log( 'UI.p.menu_optimizer.f.close' );
+		
+		if ( UI.p.scene.OBJECTS.menu_optimizer !== undefined ){
+			
+			VARCO.f.deleteElement( UI.p.scene, UI.p.scene.OBJECTS.menu_optimizer );
+			
 		};
-
+		
 	};
 
 
-	UI.p.menu_optimizer.f.button_textures = function () {
-
-		console.log('UI.p.menu_optimizer.f.button_textures_onOff');
-
-		if (UI.p.menu_optimizer.p.flagTextures) {
-
+	UI.p.menu_optimizer.f.button_textures = function(){
+		
+		console.log( 'UI.p.menu_optimizer.f.button_textures_onOff' );
+		
+		if ( UI.p.menu_optimizer.p.flagTextures ){
+			
 			UI.p.menu_optimizer.p.flagTextures = false;
-
+			
 		} else {
-
+			
 			UI.p.menu_optimizer.p.flagTextures = true;
-
+			
 		};
-
+		
 	};
 
 
-	UI.p.menu_optimizer.f.slider_texture_down = function (p) {
-
-		if (UI.p.menu_optimizer.p.flagTextures) {
-
+	UI.p.menu_optimizer.f.slider_texture_down = function( p ){
+		
+		if ( UI.p.menu_optimizer.p.flagTextures ){
+				
 			UI.p.menu_optimizer.p.valueTextures = p.results.uv.x;
-
-			UI.p.scene.OBJECTS.menu_optimizer.OBJECTS.slider_textures.OBJECTS.slider_marker.position.x = (200 * UI.p.menu_optimizer.p.valueTextures) - 100;
-
+			
+			UI.p.scene.OBJECTS.menu_optimizer.OBJECTS.slider_textures.OBJECTS.slider_marker.position.x = ( 200 * UI.p.menu_optimizer.p.valueTextures ) - 100;
+			
 		};
-
+		
 	};
 
 
-	UI.p.menu_optimizer.f.slider_texture_move = function (p) {
-
-		if (UI.p.menu_optimizer.p.flagTextures) {
-
-			if (VARCO.p.DEVICES.mouse.clickDown) {
-
+	UI.p.menu_optimizer.f.slider_texture_move = function( p ){
+		
+		if ( UI.p.menu_optimizer.p.flagTextures ){
+			
+			if ( VARCO.p.DEVICES.mouse.clickDown ){
+				
 				UI.p.menu_optimizer.p.valueTextures = p.results.uv.x;
-
-				UI.p.scene.OBJECTS.menu_optimizer.OBJECTS.slider_textures.OBJECTS.slider_marker.position.x = (200 * UI.p.menu_optimizer.p.valueTextures) - 100;
-
+			
+				UI.p.scene.OBJECTS.menu_optimizer.OBJECTS.slider_textures.OBJECTS.slider_marker.position.x = ( 200 * UI.p.menu_optimizer.p.valueTextures ) - 100;
+				
 			};
-
+		
 		};
-
+		
 	};
 
 
-	UI.p.menu_optimizer.f.button_geometry = function () {
-
-		console.log('UI.p.menu_optimizer.f.button_geometry_onOff');
-
-		if (UI.p.menu_optimizer.p.flagGeometry) {
-
+	UI.p.menu_optimizer.f.button_geometry = function(){
+		
+		console.log( 'UI.p.menu_optimizer.f.button_geometry_onOff' );
+		
+		if ( UI.p.menu_optimizer.p.flagGeometry ){
+			
 			UI.p.menu_optimizer.p.flagGeometry = false;
-
+			
 		} else {
-
+			
 			UI.p.menu_optimizer.p.flagGeometry = true;
-
+			
 		};
-
+		
 	};
 
 
-	UI.p.menu_optimizer.f.slider_geometry_down = function (p) {
-
-		if (UI.p.menu_optimizer.p.flagGeometry) {
-
+	UI.p.menu_optimizer.f.slider_geometry_down = function( p ){
+		
+		if ( UI.p.menu_optimizer.p.flagGeometry ){
+			
 			UI.p.menu_optimizer.p.valueGeometry = p.results.uv.x;
-
-			UI.p.scene.OBJECTS.menu_optimizer.OBJECTS.slider_geometry.OBJECTS.slider_marker.position.x = (200 * UI.p.menu_optimizer.p.valueGeometry) - 100;
-
+			
+			UI.p.scene.OBJECTS.menu_optimizer.OBJECTS.slider_geometry.OBJECTS.slider_marker.position.x = ( 200 * UI.p.menu_optimizer.p.valueGeometry ) - 100;
+			
 		};
-
+		
 	};
+	
 
-
-	UI.p.menu_optimizer.f.slider_geometry_move = function (p) {
-
-		if (UI.p.menu_optimizer.p.flagGeometry) {
-
-			if (VARCO.p.DEVICES.mouse.clickDown) {
-
+	UI.p.menu_optimizer.f.slider_geometry_move = function( p ){
+		
+		if ( UI.p.menu_optimizer.p.flagGeometry ){
+			
+			if ( VARCO.p.DEVICES.mouse.clickDown ){
+				
 				UI.p.menu_optimizer.p.valueGeometry = p.results.uv.x;
-
-				UI.p.scene.OBJECTS.menu_optimizer.OBJECTS.slider_geometry.OBJECTS.slider_marker.position.x = (200 * UI.p.menu_optimizer.p.valueGeometry) - 100;
-
+			
+				UI.p.scene.OBJECTS.menu_optimizer.OBJECTS.slider_geometry.OBJECTS.slider_marker.position.x = ( 200 * UI.p.menu_optimizer.p.valueGeometry ) - 100;
+				
 			};
-
+			
 		};
-
+		
 	};
 
 
-	UI.p.menu_optimizer.f.button_drawCalls = function () {
-
-		console.log('UI.p.menu_optimizer.f.button_drawCalls_onOff');
-
-		if (UI.p.menu_optimizer.p.flagDrawCalls) {
-
+	UI.p.menu_optimizer.f.button_drawCalls = function(){
+		
+		console.log( 'UI.p.menu_optimizer.f.button_drawCalls_onOff' );
+		
+		if ( UI.p.menu_optimizer.p.flagDrawCalls ){
+			
 			UI.p.menu_optimizer.p.flagDrawCalls = false;
-
+			
 		} else {
-
+			
 			UI.p.menu_optimizer.p.flagDrawCalls = true;
-
+			
 		};
-
+		
 	};
 
 
-	UI.p.menu_optimizer.f.slider_drawCalls_down = function (p) {
-
-		if (UI.p.menu_optimizer.p.flagDrawCalls) {
-
+	UI.p.menu_optimizer.f.slider_drawCalls_down = function( p ){
+		
+		if ( UI.p.menu_optimizer.p.flagDrawCalls ){
+			
 			UI.p.menu_optimizer.p.valueDrawCalls = p.results.uv.x;
-
-			UI.p.scene.OBJECTS.menu_optimizer.OBJECTS.slider_drawCalls.OBJECTS.slider_marker.position.x = (200 * UI.p.menu_optimizer.p.valueDrawCalls) - 100;
-
+			
+			UI.p.scene.OBJECTS.menu_optimizer.OBJECTS.slider_drawCalls.OBJECTS.slider_marker.position.x = ( 200 * UI.p.menu_optimizer.p.valueDrawCalls ) - 100;
+			
 		};
-
+		
 	};
 
 
-	UI.p.menu_optimizer.f.slider_drawCalls_move = function (p) {
-
-		if (UI.p.menu_optimizer.p.flagDrawCalls) {
-
-			if (VARCO.p.DEVICES.mouse.clickDown) {
-
+	UI.p.menu_optimizer.f.slider_drawCalls_move = function( p ){
+		
+		if ( UI.p.menu_optimizer.p.flagDrawCalls ){
+				
+			if ( VARCO.p.DEVICES.mouse.clickDown ){
+				
 				UI.p.menu_optimizer.p.valueDrawCalls = p.results.uv.x;
-
-				UI.p.scene.OBJECTS.menu_optimizer.OBJECTS.slider_drawCalls.OBJECTS.slider_marker.position.x = (200 * UI.p.menu_optimizer.p.valueDrawCalls) - 100;
-
+			
+				UI.p.scene.OBJECTS.menu_optimizer.OBJECTS.slider_drawCalls.OBJECTS.slider_marker.position.x = ( 200 * UI.p.menu_optimizer.p.valueDrawCalls ) - 100;
+				
 			};
-
+			
 		};
-
+		
 	};
 
 
-	UI.p.menu_optimizer.f.button_optimizer = function () {
-
-		console.log('UI.p.menu_optimizer.f.button_optimizer');
-
+	UI.p.menu_optimizer.f.button_optimizer = function(){
+		
+		console.log( 'UI.p.menu_optimizer.f.button_optimizer' );
+		
 		const { project: _selectedProject } = get(projectStore); // leggi dato
-
-		if (_selectedProject.OBJECTS.myProject.children.length > 0) {
-
-			if (UI.p.menu_optimizer.p.valueTextures < 1.0) {
-
-				EDITOR.f.optimizerTextures(_selectedProject.OBJECTS.myProject.children[0], UI.p.menu_optimizer.p.valueTextures);
-
+		
+		if ( _selectedProject.OBJECTS.myProject.children.length > 0 ){
+			
+			if ( UI.p.menu_optimizer.p.valueTextures < 1.0 ){
+			
+				EDITOR.f.optimizerTextures( _selectedProject.OBJECTS.myProject.children[ 0 ], UI.p.menu_optimizer.p.valueTextures );
+		
 			};
-
-			if (UI.p.menu_optimizer.p.valueGeometry < 1.0) {
-
-				EDITOR.f.optimizerGeometry(_selectedProject.OBJECTS.myProject.children[0], UI.p.menu_optimizer.p.valueGeometry);
-
+			
+			if ( UI.p.menu_optimizer.p.valueGeometry < 1.0 ){
+			
+				EDITOR.f.optimizerGeometry( _selectedProject.OBJECTS.myProject.children[ 0 ], UI.p.menu_optimizer.p.valueGeometry );
+		
 			};
-
-			if (UI.p.menu_optimizer.p.valueDrawCalls < 1.0) {
-
-				EDITOR.f.optimizerDrawCalls(_selectedProject.OBJECTS.myProject.children[0], UI.p.menu_optimizer.p.valueDrawCalls);
-
+			
+			if ( UI.p.menu_optimizer.p.valueDrawCalls < 1.0 ){
+			
+				EDITOR.f.optimizerDrawCalls( _selectedProject.OBJECTS.myProject.children[ 0 ], UI.p.menu_optimizer.p.valueDrawCalls );
+		
 			};
-
+			
 		}
+		
+	}; 
 
-	};
 
-
-	UI.p.menu_optimizer.f.button_save_area = function () {
-
+	UI.p.menu_optimizer.f.button_save_area = function(){
+		
 		EDITOR.f.SAVE_GEOAREA();
-
+		
+	};
+	
+	
+	UI.p.menu_optimizer.f.button_save_glb = function(){
+		
+		const { project: _selectedProject } = get(projectStore); // leggi dato
+		
+		EDITOR.f.exportGLB( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ] ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			
 	};
 
 
-	UI.p.menu_optimizer.f.button_save_glb = function () {
-
+	UI.p.menu_optimizer.f.button_save_gltf = function(){
+		
+		console.log( 'UI.p.menu_optimizer.f.button_save_gltf' );
+		
 		const { project: _selectedProject } = get(projectStore); // leggi dato
-
-		EDITOR.f.exportGLB(_selectedProject.OBJECTS.myProjectCloned.children[0]); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-	};
-
-
-	UI.p.menu_optimizer.f.button_save_gltf = function () {
-
-		console.log('UI.p.menu_optimizer.f.button_save_gltf');
-
-		const { project: _selectedProject } = get(projectStore); // leggi dato
-
-		if (_selectedProject?.OBJECTS?.myProject?.children?.length > 0) {
-
-			console.log(_selectedProject.userData.type);
-
-			if (_selectedProject.userData.type == "json") {
-
-				console.log(_selectedProject.OBJECTS.myProject.children[0].userData)
-
-				_selectedProject.userData.type = _selectedProject.OBJECTS.myProject.children[0].userData.type
-
+		
+		if ( _selectedProject.OBJECTS.myProject.children.length > 0 ){
+			
+			console.log( _selectedProject.userData.type );
+			
+			if ( _selectedProject.userData.type == "json" ){
+				
+				console.log( _selectedProject.OBJECTS.myProject.children[ 0 ].userData )
+				
+				_selectedProject.userData.type = _selectedProject.OBJECTS.myProject.children[ 0 ].userData.type
+				
 			}
+<<<<<<< HEAD
+		
+			if ( _selectedProject.OBJECTS.myProjectCloned.children.length > 0 ){
+		
+				switch( _selectedProject.userData.type ){
+					
+					case "3d" : 
+						EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			
+					break;
+					
+					case "glb" : 
+						EDITOR.f.exportGLB( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			
+					break;
+					
+					case "video":
+						EDITOR.f.exportVIDEO( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+						
+					break;
+					
+					case "image":
+						EDITOR.f.exportIMAGE( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+						
+					break;
+					
+					default:
+					
+						EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProjectCloned.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			
+					break;
+				};
+		
+				
+			} else {
+				
+				switch( _selectedProject.userData.type ){
+					
+					case "3d" : 
+						EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProject.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			
+					break;
+					
+					case "glb" : 
+						EDITOR.f.exportGLB( _selectedProject.OBJECTS.myProject.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			
+					break;
+					
+					case "video":
+						EDITOR.f.exportVIDEO( _selectedProject.OBJECTS.myProject.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+						
+					break;
+					
+					case "image":
+						EDITOR.f.exportIMAGE( _selectedProject.OBJECTS.myProject.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+						
+					break;
+					
+					default:
+					
+						EDITOR.f.exportGLTF( _selectedProject.OBJECTS.myProject.children[ 0 ], _selectedProject.userData.linkedGeoArea ); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			
+					break;
+					
+				};
+				
+			}
+										
+=======
 
 			// if (_selectedProject.OBJECTS.myProjectCloned.children.length > 0) {
 
@@ -2309,57 +2384,58 @@ const createUI = () => {
 
 			// }
 
+>>>>>>> 955f34174cd41adaf67a971b59e3bf7340add87c
 		};
-
+		
 	};
 
 
-	UI.p.menu_optimizer.f.feedback = function (p) {  // JJ
+	UI.p.menu_optimizer.f.feedback = function( p ){  // JJ
 
 		// sliders //
-
-		if (UI.p.menu_optimizer.p.flagTextures) {
-
+		
+		if ( UI.p.menu_optimizer.p.flagTextures ){
+			
 			p.obj.OBJECTS.button_textures.material.color.r = 1.0;
 			p.obj.OBJECTS.button_textures.material.color.g = 1.0;
 			p.obj.OBJECTS.button_textures.material.color.b = 0.0;
-
+			
 		} else {
-
+			
 			p.obj.OBJECTS.button_textures.material.color.r = 1.0;
 			p.obj.OBJECTS.button_textures.material.color.g = 1.0;
 			p.obj.OBJECTS.button_textures.material.color.b = 1.0;
-
+			
 		};
-
-		if (UI.p.menu_optimizer.p.flagGeometry) {
-
+		
+		if ( UI.p.menu_optimizer.p.flagGeometry ){
+			
 			p.obj.OBJECTS.button_geometry.material.color.r = 1.0;
 			p.obj.OBJECTS.button_geometry.material.color.g = 1.0;
 			p.obj.OBJECTS.button_geometry.material.color.b = 0.0;
-
+			
 		} else {
-
+			
 			p.obj.OBJECTS.button_geometry.material.color.r = 1.0;
 			p.obj.OBJECTS.button_geometry.material.color.g = 1.0;
 			p.obj.OBJECTS.button_geometry.material.color.b = 1.0;
-
+			
 		};
-
-		if (UI.p.menu_optimizer.p.flagDrawCalls) {
-
+		
+		if ( UI.p.menu_optimizer.p.flagDrawCalls ){
+			
 			p.obj.OBJECTS.button_drawCalls.material.color.r = 1.0;
 			p.obj.OBJECTS.button_drawCalls.material.color.g = 1.0;
 			p.obj.OBJECTS.button_drawCalls.material.color.b = 0.0;
-
+			
 		} else {
-
+			
 			p.obj.OBJECTS.button_drawCalls.material.color.r = 1.0;
 			p.obj.OBJECTS.button_drawCalls.material.color.g = 1.0;
 			p.obj.OBJECTS.button_drawCalls.material.color.b = 1.0;
-
+			
 		};
-
+		
 	};
 
 

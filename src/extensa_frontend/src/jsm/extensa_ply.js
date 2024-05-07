@@ -2211,6 +2211,21 @@ const createPLY = () => {
 			},
 			function initScene(p) {
 				PLY.p.sceneMAP = p.obj;
+				
+				// TODO NOW //
+			
+				VARCO.f.addTexture(
+					PLY.p.sceneMAP,
+					{
+						"name" : "sky",
+						"url" : "images/sky.png"
+					},
+					function( t ){
+						PLY.p.sceneMAP.background = t.obj;
+						PLY.p.sceneMAP.background.mapping = THREE.EquirectangularReflectionMapping;
+					}
+				);
+			
 			}
 
 		);
@@ -2270,8 +2285,8 @@ const createPLY = () => {
 				parameters: {
 					actualCoords: { lng: MAP.p.actualCoords.lng, lat: MAP.p.actualCoords.lat, alt: 0 },
 					mapType: type,
-					mapNumH: 1,
-					mapNumV: 1,
+					mapNumH: 8,
+					mapNumV: 8,
 					width: 40075016.686,
 					height: 40075016.686,
 					events: {

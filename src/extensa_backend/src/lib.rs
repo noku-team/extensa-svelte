@@ -258,7 +258,7 @@ fn get_geoarea_by_id(id: GeoAreaId) -> Option<GeoArea> {
 }
 
 #[ic_cdk::query]
-fn get_geoarea_by_coords(lng_1: Coordinate, lng_2: Coordinate, lat_1: f64, lat_2: f64, user: Option<Account>) -> Option<Vec<GeoArea>> {
+fn get_geoarea_by_coords(lng_1: Coordinate, lng_2: Coordinate, lat_1: Coordinate, lat_2: Coordinate, user: Option<Account>) -> Option<Vec<GeoArea>> {
     let mut matching_values = Vec::new();
     GEOAREAS_MAP.with(|p| {
         p.borrow().iter().for_each(|(_key, geoarea)| {
@@ -275,6 +275,13 @@ fn get_geoarea_by_coords(lng_1: Coordinate, lng_2: Coordinate, lat_1: f64, lat_2
     });
     Some(matching_values)
 }
+
+//workaroud to remove user from the call arguments
+#[ic_cdk::query]
+fn get_geoarea_by_coords_without_user(lng_1: Coordinate, lng_2: Coordinate, lat_1: Coordinate, lat_2: Coordinate) -> Option<Vec<GeoArea>> {
+    get_geoarea_by_coords(lng_1, lng_2, lat_1, lat_2, None)
+}
+
 
 #[ic_cdk::query]
 fn get_geoarea_by_user(user: Option<Account>) -> Option<Vec<GeoArea>> {
@@ -415,8 +422,6 @@ fn remove_project(geoarea_id: GeoAreaId, project_id: ProjectId) -> Result<Projec
         }
     }
 }
-
-//todo funzione per rimuovere i progetti da una geoarea
 
 /// Allocates a new file with the specified size. This function is a core operation within the system, responsible for
 /// initializing a new file entry, dividing it into manageable chunks, and associating it with the caller as the file's owner.

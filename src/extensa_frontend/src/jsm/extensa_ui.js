@@ -799,9 +799,15 @@ const createUI = () => {
 		console.log( 'UI.p.menu_editor.f.TOOLS' )
 		
 		const { project: _selectedProject } = get(projectStore); // leggi dato
+<<<<<<< HEAD
 		
 		if ( _selectedProject !== null ){
 			
+=======
+
+		if (_selectedProject !== null || PLY.p.selectedArea !== undefined) {
+
+>>>>>>> 955f34174cd41adaf67a971b59e3bf7340add87c
 			UI.p.menu_optimizer.f.open();
 		
 		}
@@ -2243,6 +2249,7 @@ const createUI = () => {
 				_selectedProject.userData.type = _selectedProject.OBJECTS.myProject.children[ 0 ].userData.type
 				
 			}
+<<<<<<< HEAD
 		
 			if ( _selectedProject.OBJECTS.myProjectCloned.children.length > 0 ){
 		
@@ -2310,6 +2317,74 @@ const createUI = () => {
 				
 			}
 										
+=======
+
+			// if (_selectedProject.OBJECTS.myProjectCloned.children.length > 0) {
+
+			// 	switch (_selectedProject.userData.type) {
+
+			// 		case "3d":
+			// 			EDITOR.f.exportGLTF(_selectedProject.OBJECTS.myProjectCloned.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+			// 			break;
+
+			// 		case "glb":
+			// 			EDITOR.f.exportGLB(_selectedProject.OBJECTS.myProjectCloned.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+			// 			break;
+
+			// 		case "video":
+			// 			EDITOR.f.exportVIDEO(_selectedProject.OBJECTS.myProjectCloned.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+			// 			break;
+
+			// 		case "image":
+			// 			EDITOR.f.exportIMAGE(_selectedProject.OBJECTS.myProjectCloned.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+			// 			break;
+
+			// 		default:
+
+			// 			EDITOR.f.exportGLTF(_selectedProject.OBJECTS.myProjectCloned.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+			// 			break;
+			// 	};
+
+
+			// } else {
+
+			switch (_selectedProject.userData.type) {
+				case "3d":
+					EDITOR.f.exportGLTF(_selectedProject.OBJECTS.myProject.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+					break;
+
+				case "glb":
+					EDITOR.f.exportGLB(_selectedProject.OBJECTS.myProject.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+					break;
+
+				case "video":
+					EDITOR.f.exportVIDEO(_selectedProject.OBJECTS.myProject.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+					break;
+
+				case "image":
+					EDITOR.f.exportIMAGE(_selectedProject.OBJECTS.myProject.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+					break;
+
+				default:
+
+					EDITOR.f.exportGLTF(_selectedProject.OBJECTS.myProject.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+					break;
+
+			};
+
+			// }
+
+>>>>>>> 955f34174cd41adaf67a971b59e3bf7340add87c
 		};
 		
 	};

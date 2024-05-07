@@ -51,6 +51,9 @@ service : {
       float64,
       opt record { principal; opt blob },
     ) -> (opt vec GeoArea) query;
+  get_geoarea_by_coords_without_user : (float64, float64, float64, float64) -> (
+      opt vec GeoArea,
+    ) query;
   get_geoarea_by_id : (nat64) -> (opt GeoArea) query;
   get_geoarea_by_user : (opt record { principal; opt blob }) -> (
       opt vec GeoArea,

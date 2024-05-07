@@ -74,7 +74,7 @@ const createEditor = () => {
 
 
 
-	EDITOR.f.createProject = function ( GEOAREAOBJ, prop, callback, callbackprop) {
+	EDITOR.f.createProject = function (GEOAREAOBJ, prop, callback, callbackprop) {
 		console.log("createProject");
 
 		prop.linkedGeoArea = GEOAREAOBJ;
@@ -577,7 +577,7 @@ const createEditor = () => {
 		const principal = auth.identity?.getPrincipal()?.toString();
 
 		if (principal) {
-			if (principal == p.obj.parent.userData.user) {
+			if (principal == p.obj.parent.userData.user?.[0]?.toString()) {
 
 				// diseleziona progetti in geoArea diversa da quella attuale
 				const { project: _selectedProject } = get(projectStore); // leggi dato
@@ -996,7 +996,6 @@ const createEditor = () => {
 
 	EDITOR.f.SAVE_GEOAREA = function () {
 
-		debugger;
 		if (PLY.p.selectedArea !== undefined) {
 
 			let projectsList = [];
@@ -1059,12 +1058,21 @@ const createEditor = () => {
 		};
 
 
+<<<<<<< HEAD
 		const { project: _selectedProject } = get(projectStore);
 		
 		if ( _selectedProject !== null ){
 			UI.p.menu_optimizer.f.button_save_gltf();
 		};
 		
+=======
+		// UI.p.menu_optimizer.f.button_save_gltf();
+
+		const { project: _selectedProject } = get(projectStore); // leggi dato
+		if (_selectedProject !== null) {
+			UI.p.menu_optimizer.f.button_save_gltf();
+		}
+>>>>>>> 955f34174cd41adaf67a971b59e3bf7340add87c
 		// const { project: _selectedProject } = get(projectStore); // leggi dato
 
 		// if (_selectedProject !== null) {

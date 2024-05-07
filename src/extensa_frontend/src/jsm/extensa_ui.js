@@ -1102,6 +1102,19 @@ const createUI = () => {
 		if (MAP.p.OBJ.OBJECTS.tilesList.visible) {
 
 			// switch on camera //
+			
+			setTimeout(
+			
+				function(){
+					
+					VARCO.f.initWebCamera( 'environment', 640, 480 );
+					
+					PLY.p.flagWebCamera = true;
+					
+				},
+				1000
+				
+			);
 
 			PLY.p.sfondoBKG.MATERIALS.sfondoBKG_mat.visible = true;
 
@@ -1144,6 +1157,8 @@ const createUI = () => {
 		} else {
 
 			console.log("torna alla mappa");
+			
+			VARCO.f.webcamStreamingStop();
 
 			UI.p.menu_bottom_OBJ.OBJECTS.button_AR.visible = false;
 

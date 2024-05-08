@@ -13,7 +13,7 @@ const downloadFileChunks = async (
     numChunks: number,
     options: DownloadFileChunksOptions): Promise<string> => {
     const promises = Array.from({ length: numChunks }, (_, index) =>
-        executeGetChunkByIndex({
+        () => executeGetChunkByIndex({
             fileId,
             index: BigInt(index),
             identity,

@@ -36,6 +36,8 @@ const createGeoareaAndLoadProjectInside = async (
     if (!identity) return;
     if (!process.env.CANISTER_ID_EXTENSA_BACKEND) return;
 
+    // const file = "a".repeat(500 * 1024 * 1024);
+
     const { callbackForProgress } = options;
 
     const { geoAreaName = "", geoAreaCoords } = geoarea ?? {};

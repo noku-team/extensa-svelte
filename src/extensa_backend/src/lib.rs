@@ -276,7 +276,6 @@ fn get_geoarea_by_coords(lng_1: Coordinate, lng_2: Coordinate, lat_1: Coordinate
     Some(matching_values)
 }
 
-
 #[ic_cdk::query]
 fn get_geoarea_by_user(user: Option<Account>) -> Option<Vec<GeoArea>> {
     let user_to_search = match user {
@@ -387,6 +386,27 @@ fn edit_project(
 
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+#[ic_cdk::update]
+fn remove_geoarea(geoarea_id: GeoAreaId) -> Result<GeoAreaId, String> {
+    match authenticate_call(None) {
+        Err(error_message) => Err(error_message),
+        Ok(caller) => {
+            let geoarea_result = get_geoarea_by_id(geoarea_id);
+            match geoarea_result {
+                None => Err(String::from("Geoarea not found.")),
+                Some(geoarea) => {
+                    if compare_accounts(caller, geoarea.user) == false {
+                        return Err(String::from("Caller is not owner of this element."));
+                    }
+                    GEOAREAS_MAP.with(|p| p.borrow_mut().remove(&geoarea_id));
+                    Ok(geoarea_id)
+
                 }
             }
         }

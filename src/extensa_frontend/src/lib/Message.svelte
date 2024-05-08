@@ -1,11 +1,14 @@
 <script lang="ts">
+	import cx from "classnames";
 	import { messageStore } from "../store/MessageStore";
 </script>
 
 {#if $messageStore.message && $messageStore.type}
 	<div
 		role="alert"
-		class={`alert alert-${$messageStore.type} fixed top-[75px] right-2 w-1/5 z-50`}
+		class={cx("fixed top-[75px] right-2 w-1/5 z-50 alert", {
+			[`alert-${$messageStore.type}`]: true,
+		})}
 	>
 		{#if $messageStore.type === "error"}
 			<svg

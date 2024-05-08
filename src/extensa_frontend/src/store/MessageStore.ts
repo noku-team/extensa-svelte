@@ -8,8 +8,13 @@ export interface MessageStoreData {
     setMessage: (message: string, type: MessageType) => void;
 }
 
+const initStore = {
+    message: '',
+    type: '' as MessageType,
+}
+
 const createMessageStore = () => {
-    const { subscribe, set, update } = writable<{ message: string; type: MessageType }>({ message: '', type: '' });
+    const { subscribe, set } = writable<{ message: string; type: MessageType }>(initStore);
 
     const setMessage = (message: string, type: MessageType) => {
         set({ message, type });

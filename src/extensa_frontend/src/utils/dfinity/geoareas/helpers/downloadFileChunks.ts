@@ -1,5 +1,5 @@
 import type { Identity } from "@dfinity/agent";
-import promiseWithProgress from "../../../promises/promiseAllWithProgress";
+import promiseAllWithErrorsRetry from "../../../promises/promiseAllWithErrorsRetry";
 import executeGetChunkByIndex from "../methods/getChunkByIndex";
 
 type DownloadFileChunksOptions = {
@@ -23,20 +23,15 @@ const downloadFileChunks = async (
 
     const { callbackForProgress } = options;
 
-    const resolvedPromisesCounter = [0];
-
-    const promisesWithProgress = promises.map((promise) => promiseWithProgress(promise, callbackForProgress, numChunks, resolvedPromisesCounter));
-
-    const results = await Promise.allSettled(promisesWithProgress);
-
-    const finalFile = (results ?? []).reduce((acc, result) => {
-        if (result.status === 'fulfilled' && typeof result.value === 'string') {
-            return acc + result.value; // Accumula il contenuto dei chunk
-        } else {
-            return acc; // Continua senza aggiungere nulla se c'è un errore
+    const results = await promiseAllWithErrorsRetry(promises, {
+        progress: {
+            useProgress: true,
+            callbackForProgress,
+            totalPromises: numChunks
         }
-    }, '');
+    });
 
+    const finalFile = (results ?? []).reduce((acc, result) => acc + result, '');
     return finalFile;
 };
 

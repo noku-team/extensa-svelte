@@ -1,5 +1,5 @@
 import type { Identity } from "@dfinity/agent";
-import promiseWithProgress from "../../../promises/promiseAllWithProgress";
+import promiseAllWithErrorsRetry from "../../../promises/promiseAllWithErrorsRetry";
 import splitStringIntoChunks from "../../../splitStringIntoChunks";
 import executeStoreFileChunk from "../methods/storeFileChunk";
 
@@ -40,21 +40,14 @@ const storeCompleteFile = async (dfinityOptions: StoreCompleteFileParams, storeC
         });
     });
 
-    const resolvedPromisesCounter = [0];
-
-    const promisesWithProgress = promises.map((promise) => {
-        return promiseWithProgress(promise, callbackForProgress, numberOfChunks, resolvedPromisesCounter);
-    });
-
-    const errors: { error: string, index: number }[] = [];
-    const response = await Promise.allSettled(promisesWithProgress);
-    response.map((res, index) => {
-        if (res.status === 'rejected') errors.push({ error: res.reason, index });
-    });
-
-    if (errors.length) {
-        throw new Error(errors.map(({ error, index }) => `Error at index ${index}: ${error}`).join(', '));
-    }
+    await promiseAllWithErrorsRetry(promises, {
+        progress: {
+            useProgress: true,
+            callbackForProgress,
+            totalPromises: numberOfChunks,
+        },
+        retry: 2,
+    })
     return fileId;
 };
 

@@ -606,10 +606,10 @@ fn authenticate_call(subaccount: Option<Subaccount>) -> Result<Account, String> 
     // The anonymous principal is not allowed to interact with canister.
     if caller == Principal::anonymous() {
         // enable this instruction to debug without identity
-        Ok((caller, subaccount))
-        // Err(String::from(
-        //     "Anonymous principal not allowed to make calls.",
-        // ))
+        // Ok((caller, subaccount))
+        Err(String::from(
+            "Anonymous principal not allowed to make calls.",
+        ))
     } else {
         Ok((caller, subaccount))
     }

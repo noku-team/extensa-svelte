@@ -1,10 +1,11 @@
 import type { Identity } from "@dfinity/agent";
-import { AuthClient } from "@dfinity/auth-client";
+import { AuthClient, type AuthClientLoginOptions } from "@dfinity/auth-client";
 import type { Readable } from "svelte/store";
 import { writable } from "svelte/store";
 import { AUTH_SESSION_DURATION } from "../constants/ttl";
 import { UI } from "../jsm";
 import getIdentityProviderUrl from "../utils/dfinity/getIdentityProvider";
+import isTestnet from "../utils/dfinity/isTestnet";
 import { clearProjects } from "../utils/indexedDB/getSaveEmpty";
 import loadWebGLUserData from "../utils/loadWebGLUserData";
 
@@ -69,11 +70,7 @@ const initAuthStore = (): AuthStore => {
         signIn: async (onError: (error?: string) => void) => {
             authClient = authClient ?? (await createAuthClient());
 
-            // if (!isTestnet())
-            // 	loginParams.derivationOrigin =
-            // 		"https://qi7am-naaaa-aaaam-ab46a-cai.icp0.io";
-
-            await authClient?.login({
+            const loginParams = {
                 identityProvider: getIdentityProviderUrl(),
                 maxTimeToLive: AUTH_SESSION_DURATION,
                 onSuccess: () => {
@@ -88,7 +85,11 @@ const initAuthStore = (): AuthStore => {
                     });
                 },
                 onError,
-            });
+            } as AuthClientLoginOptions;
+
+            if (!isTestnet()) loginParams.derivationOrigin = 'https://thobk-ryaaa-aaaam-acldq-cai.icp0.io/'
+
+            await authClient?.login(loginParams);
         },
 
         signOut: async () => {

@@ -1,7 +1,7 @@
 {
 	"canisters": {
 		"extensa_frontend": {
-			"source": ["src/extensa_frontend/dist"],
+			"source": ["src/extensa_frontend/dist", "src/extensa_frontend/src/assets"],
 			"type": "assets"
 		},
 		"extensa_backend": {

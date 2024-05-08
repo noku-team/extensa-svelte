@@ -101,7 +101,7 @@ const MAX_FILE_SIZE: u32 = 1 * GB; //1GB
 /// The maximum size, in bytes, of the type when serialized.
 const MAX_STORABLE_CHUNK_SIZE: u32 = MAX_CHUNK_SIZE; //the same as MAX_CHUNK_LENGTH
 const MAX_STORABLE_FILE_SIZE: u32 = 100 * KB; //100KB
-const MAX_STORABLE_GEOAREA_SIZE: u32 = 100 * KB; //100KB
+const MAX_STORABLE_GEOAREA_SIZE: u32 = 1 * MB; //1MB
 
 /*
     SECTION 4: SERIALIZATION

@@ -17,7 +17,7 @@ use std::cell::RefCell; // For converting the hash to a hexadecimal representati
 */
 
 type Subaccount = [u8; 32];
-type Account = (Principal, Option<Subaccount>); //unused at the moment
+type Account = (Principal, Option<Subaccount>);
 type ChunkId = u64;
 type FileId = u64;
 type Coordinate = f64;

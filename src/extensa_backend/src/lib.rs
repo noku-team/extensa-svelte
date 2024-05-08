@@ -90,13 +90,13 @@ const GEOAREAS_MEM_ID: MemoryId = MemoryId::new(4);
 const LAST_GEOAREA_ID_MEM_ID: MemoryId = MemoryId::new(5);
 const LAST_PROJECT_ID_MEM_ID: MemoryId = MemoryId::new(6);
 
-const MAX_CHUNK_LENGTH: u32 = 2 * 1024 * 1024;
+const MAX_CHUNK_LENGTH: u32 = (2 * 1024 * 1024) - (100 * 1024);
 const MAX_FILE_LENGTH: u32 = 1 * 1024 * 1024 * 1024;
 
 /// The maximum size, in bytes, of the type when serialized.
 const MAX_STORABLE_CHUNK_SIZE: u32 = 2 * 1024 * 1024; //2MB
-const MAX_STORABLE_FILE_SIZE: u32 = 1024;
-const MAX_STORABLE_GEOAREA_SIZE: u32 = 1024;
+const MAX_STORABLE_FILE_SIZE: u32 = 1024 * 100;
+const MAX_STORABLE_GEOAREA_SIZE: u32 = 1024 * 100;
 
 /*
     SECTION 4: SERIALIZATION

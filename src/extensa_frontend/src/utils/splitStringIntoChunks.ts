@@ -6,6 +6,7 @@ const splitStringIntoChunks = (longString: string, numChunks: number): string[] 
         chunks.push(longString.slice(i, i + chunkSize));
     }
 
+    console.warn(chunks[0].length);
     return chunks;
 }
 

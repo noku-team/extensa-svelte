@@ -66,15 +66,12 @@ export interface _SERVICE {
     ],
     [] | [Array<GeoArea>]
   >,
-  'get_geoarea_by_coords_without_user' : ActorMethod<
-    [number, number, number, number],
-    [] | [Array<GeoArea>]
-  >,
   'get_geoarea_by_id' : ActorMethod<[bigint], [] | [GeoArea]>,
   'get_geoarea_by_user' : ActorMethod<
     [[] | [[Principal, [] | [Uint8Array | number[]]]]],
     [] | [Array<GeoArea>]
   >,
+  'remove_geoarea' : ActorMethod<[bigint], Result>,
   'remove_project' : ActorMethod<[bigint, bigint], Result>,
   'store_chunk' : ActorMethod<[bigint, bigint, string], Result>,
 }

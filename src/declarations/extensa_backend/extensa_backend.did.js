@@ -87,17 +87,13 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Opt(IDL.Vec(GeoArea))],
         ['query'],
       ),
-    'get_geoarea_by_coords_without_user' : IDL.Func(
-        [IDL.Float64, IDL.Float64, IDL.Float64, IDL.Float64],
-        [IDL.Opt(IDL.Vec(GeoArea))],
-        ['query'],
-      ),
     'get_geoarea_by_id' : IDL.Func([IDL.Nat64], [IDL.Opt(GeoArea)], ['query']),
     'get_geoarea_by_user' : IDL.Func(
         [IDL.Opt(IDL.Tuple(IDL.Principal, IDL.Opt(IDL.Vec(IDL.Nat8))))],
         [IDL.Opt(IDL.Vec(GeoArea))],
         ['query'],
       ),
+    'remove_geoarea' : IDL.Func([IDL.Nat64], [Result], []),
     'remove_project' : IDL.Func([IDL.Nat64, IDL.Nat64], [Result], []),
     'store_chunk' : IDL.Func([IDL.Nat64, IDL.Nat64, IDL.Text], [Result], []),
   });

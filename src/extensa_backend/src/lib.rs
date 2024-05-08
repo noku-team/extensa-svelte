@@ -90,13 +90,18 @@ const GEOAREAS_MEM_ID: MemoryId = MemoryId::new(4);
 const LAST_GEOAREA_ID_MEM_ID: MemoryId = MemoryId::new(5);
 const LAST_PROJECT_ID_MEM_ID: MemoryId = MemoryId::new(6);
 
-const MAX_CHUNK_LENGTH: u32 = (2 * 1024 * 1024) - (100 * 1024);
-const MAX_FILE_LENGTH: u32 = 1 * 1024 * 1024 * 1024;
+//units
+const KB: u32 = 1 * 1024;
+const MB: u32 = 1 * 1024 * 1024;
+const GB: u32 = 1 * 1024 * 1024 * 1024;
+
+const MAX_CHUNK_SIZE: u32 = (2 * MB) - (100 * KB); //2MB - 100KB (2MB is the max http call to icp server. 100KB max headers size estimated. 1 byte per character is assumed)
+const MAX_FILE_SIZE: u32 = 1 * GB; //1GB
 
 /// The maximum size, in bytes, of the type when serialized.
-const MAX_STORABLE_CHUNK_SIZE: u32 = 2 * 1024 * 1024; //2MB
-const MAX_STORABLE_FILE_SIZE: u32 = 1024 * 100;
-const MAX_STORABLE_GEOAREA_SIZE: u32 = 1024 * 100;
+const MAX_STORABLE_CHUNK_SIZE: u32 = MAX_CHUNK_SIZE; //the same as MAX_CHUNK_LENGTH
+const MAX_STORABLE_FILE_SIZE: u32 = 100 * KB; //100KB
+const MAX_STORABLE_GEOAREA_SIZE: u32 = 100 * KB; //100KB
 
 /*
     SECTION 4: SERIALIZATION
@@ -464,14 +469,14 @@ fn remove_project(geoarea_id: GeoAreaId, project_id: ProjectId) -> Result<Projec
 /// is crucial to ensure that only authorized users can allocate new files.
 #[ic_cdk::update]
 fn allocate_new_file(file_size: u32) -> Result<(FileId, u32, u32), String> {
-    if file_size > MAX_FILE_LENGTH {
+    if file_size > MAX_FILE_SIZE {
         return Err(String::from("File too big."));
     }
 
     match authenticate_call(None) {
         Ok(caller) => {
             let file_id = get_new_file_id();
-            let number_of_chunks = (file_size / MAX_CHUNK_LENGTH) + 1;
+            let number_of_chunks = (file_size / MAX_CHUNK_SIZE) + 1;
             let mut chunks = Vec::new();
 
             for _ in 0..number_of_chunks {
@@ -490,7 +495,7 @@ fn allocate_new_file(file_size: u32) -> Result<(FileId, u32, u32), String> {
                     },
                 )
             });
-            Ok((file_id, number_of_chunks, MAX_CHUNK_LENGTH))
+            Ok((file_id, number_of_chunks, MAX_CHUNK_SIZE))
         }
         Err(error_message) => Err(error_message),
     }

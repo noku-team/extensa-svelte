@@ -30,6 +30,16 @@ Apertura nel Browser: Una volta avviato il server, apri il tuo browser preferito
 
 Questo ti porterà alla nostra fantastica applicazione!
 
+## DFX
+
+1. Installare dfxvm: <https://github.com/dfinity/dfxvm/tree/main>
+
+2. usare la versione di dfx 0.19.0
+
+  ```bash
+  dfxvm install 0.19.0 
+  ```
+
 ## Contribuire
 
 Se vuoi contribuire a questo progetto, ecco cosa puoi fare:

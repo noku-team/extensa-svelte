@@ -21,6 +21,26 @@ dfx help
 dfx canister --help
 ```
 
+## Configure the environment
+
+1. Install Rust
+
+  ```bash
+  curl https://sh.rustup.rs -sSf | sh
+  ```
+
+2. Install wasm2 target
+
+  ```bash
+  rustup target add wasm32-unknown-unknown
+  ```
+
+3. Install candid-extractor
+
+  ```bash
+  cargo install candid-extractor
+  ```
+
 ## Running the project locally
 
 If you want to test your project locally, you can use the following commands:

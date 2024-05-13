@@ -1,4 +1,5 @@
 import { onDestroy, onMount } from "svelte";
+import { PLY } from "../jsm";
 import { messageStore } from "../store/MessageStore";
 import { projectStore } from "../store/ProjectStore";
 import type { PostMessageDataResponseSendProject } from "../types/workers/post-message.sendProject";
@@ -10,11 +11,16 @@ export type SendProjectCallback = (data: PostMessageDataResponseSendProject) => 
 export const sendProjectWorker = new Worker(new URL('../workers/sendProject.worker', import.meta.url), { type: "module" });
 
 const sendProjectCallback = (data: PostMessageDataResponseSendProject): void => {
+
+  const { fileId, geoareaId } = data ?? {};
   // Reset svelte store
   projectStore.setSendProjectProgress(0);
-  projectStore.setFileId(data.fileId);
+  projectStore.setFileId(fileId);
+  projectStore.setProjectId(geoareaId);
   projectStore.setNotYetSaved(false);
 
+  // Update geoarea id in selected area
+  PLY.p.selectedArea.userData.id = geoareaId;
 
   if (data.fileId) {
     messageStore.setMessage(

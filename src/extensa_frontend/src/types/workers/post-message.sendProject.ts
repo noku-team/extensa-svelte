@@ -15,6 +15,7 @@ export interface PostMessageDataResponseSendProjects extends PostMessageData {
 }
 
 export type PostMessageDataResponseSendProject = {
-	accountIdentifier: string
-	fileId?: bigint
+	accountIdentifier: string;
+	fileId?: bigint;
+	geoareaId?: bigint;
 }

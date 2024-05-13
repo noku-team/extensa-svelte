@@ -93,7 +93,7 @@ const createGeoareaAndLoadProjectInside = async (
             size: projectSize,
             fileId,
         });
-        return resultAddProject;
+        return { addProjectResult: resultAddProject, geoareaId };
     }
 };
 

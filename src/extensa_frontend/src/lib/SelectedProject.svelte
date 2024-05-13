@@ -5,6 +5,7 @@
 	import { messageStore } from "../store/MessageStore";
 	import { projectStore } from "../store/ProjectStore";
 	import { spinnerStore } from "../store/SpinnerStore";
+	import executeDeleteGeoarea from "../utils/dfinity/geoareas/methods/deleteGeoarea";
 	import executeDeleteProject from "../utils/dfinity/geoareas/methods/deleteProject";
 	import EyeOffIcon from "/images/UI/eye-off.png";
 	import EyeIcon from "/images/UI/eye.png";
@@ -24,6 +25,10 @@
 			if (confirm("Are you sure you want to delete this project?")) {
 				spinnerStore.setLoading(true);
 
+				console.warn(
+					PLY.p?.selectedArea?.userData?.id,
+					$projectStore.project?.userData.id
+				);
 				if (
 					PLY.p?.selectedArea?.userData?.id &&
 					process.env.CANISTER_ID_EXTENSA_BACKEND &&
@@ -36,7 +41,14 @@
 						projectId: $projectStore.project?.userData.id,
 						geoareaId: PLY.p.selectedArea.userData.id,
 					});
+					await executeDeleteGeoarea({
+						identity: $authStore.identity,
+						canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
+						geoareaId: PLY.p.selectedArea.userData.id,
+					});
+
 					EDITOR.f.deleteProject($projectStore.project);
+					EDITOR.f.deleteGeoArea();
 				} else {
 					throw new Error();
 				}
@@ -46,6 +58,7 @@
 				"Oops! There was a problem removing the project. Please try again.",
 				"error"
 			);
+			console.error(e);
 		} finally {
 			spinnerStore.setLoading(false);
 		}

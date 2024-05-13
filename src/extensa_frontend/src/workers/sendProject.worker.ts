@@ -45,7 +45,7 @@ const syncSendProjects = async (params: BaseWorkerUtilsJobData<PostMessageDataRe
         const projectSize = fileObj.scale;
         const projectName = fileObj.name;
 
-        const response = await createGeoareaAndLoadProjectInside(
+        const { addProjectResult, geoareaId } = await createGeoareaAndLoadProjectInside(
             identity,
             file,
             {
@@ -67,9 +67,13 @@ const syncSendProjects = async (params: BaseWorkerUtilsJobData<PostMessageDataRe
                     })
                 }
             }
-        );
+        ) ?? {};
 
-        emitResponse({ accountIdentifier: params.identity.getPrincipal().toString(), fileId: response })
+        emitResponse({
+            accountIdentifier: params.identity.getPrincipal().toString(),
+            fileId: addProjectResult,
+            geoareaId
+        })
     } catch (err: unknown) {
         worker.postMsg({
             msg: 'syncErrorSendProject',

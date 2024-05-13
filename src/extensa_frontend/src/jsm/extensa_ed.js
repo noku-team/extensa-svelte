@@ -655,7 +655,7 @@ const createEditor = () => {
 			// rimuovi POI //
 			for (var numA = 0; numA < UI.p.scene.OBJECTS.poi.children.length; numA += 1) {
 
-				if (EDITOR.p.selectedArea.uuid == UI.p.scene.OBJECTS.poi.children[numA].userData.linkedObj.uuid) {
+				if (EDITOR.p.selectedArea?.uuid == UI.p.scene.OBJECTS.poi.children[numA].userData.linkedObj?.uuid) {
 
 					VARCO.f.deleteElement(UI.p.scene.OBJECTS.poi, UI.p.scene.OBJECTS.poi.children[numA]);
 

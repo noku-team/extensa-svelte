@@ -762,7 +762,7 @@ const createPLY = () => {
 			console.log(centLng, centLat)
 
 			console.log(lngA, latA)
-			console.log(lngB, latB)
+			console.log(lngA, latA, lngB, latB)
 
 			// CHIAMA DB geoAree passando lngA, latA, lngB, latB
 

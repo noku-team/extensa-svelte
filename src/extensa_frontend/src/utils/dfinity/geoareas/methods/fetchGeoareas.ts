@@ -47,6 +47,9 @@ export const executeFetchGeoareasByCoords = async ({
 	);
 
 	const [geoareas] = receipt;
+	// console.warn(`Formatted for visual BB: ${coords.topLeft.lng}, ${coords.topLeft.lat}, ${coords.bottomRight.lng}, ${coords.bottomRight.lat}`);
+	// console.warn(`Formatted for Canister: ${coords.topLeft.lng}, ${coords.bottomRight.lng}, ${coords.topLeft.lat}, ${coords.bottomRight.lat}`);
+	// console.warn('Geoareas Length', geoareas?.length);
 	return geoareas;
 }
 

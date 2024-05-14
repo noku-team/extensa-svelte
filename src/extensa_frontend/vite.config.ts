@@ -11,7 +11,9 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://127.0.0.1:4943",
+        target: !!process.env.USE_REMOTE_CANISTER_IDS ?
+          "https://icp-api.io" :
+          "http://127.0.0.1:4943",
         changeOrigin: true,
       },
     },

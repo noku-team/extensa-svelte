@@ -87,7 +87,7 @@ const initAuthStore = (): AuthStore => {
                 onError,
             } as AuthClientLoginOptions;
 
-            if (!isTestnet()) loginParams.derivationOrigin = 'https://thobk-ryaaa-aaaam-acldq-cai.icp0.io/'
+            if (!isTestnet() && !process.env.USE_REMOTE_CANISTER_IDS) loginParams.derivationOrigin = 'https://thobk-ryaaa-aaaam-acldq-cai.icp0.io/'
 
             await authClient?.login(loginParams);
         },

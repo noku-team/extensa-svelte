@@ -577,7 +577,12 @@ const createEditor = () => {
 		const principal = auth.identity?.getPrincipal()?.toString();
 
 		if (principal) {
+			
+			console.log( " OK principal " );
+			
 			if (principal == p.obj.parent.userData.user?.[0]?.toString()) {
+				
+				console.log( " OK principal bis " );
 
 				// diseleziona progetti in geoArea diversa da quella attuale
 				const { project: _selectedProject } = get(projectStore); // leggi dato
@@ -595,6 +600,9 @@ const createEditor = () => {
 				EDITOR.f.deselectGeoArea();
 
 				PLY.p.selectedArea = p.obj.parent;
+				
+				console.log( " OK selectedArea " );
+				console.log( PLY.p.selectedArea );
 
 				PLY.p.selectedArea.MATERIALS.geoAreaKernel_mat.color.r = 1.0;
 

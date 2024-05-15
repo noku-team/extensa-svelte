@@ -19,7 +19,7 @@
 			},
 			{
 				"name" : "button_save_gltf",
-				"url" : "images/UI/button_save_gltf.png"
+				"url" : "images/UI/button_save_prj.png"
 			},
 			{
 				"name" : "button_save_glb",
@@ -27,7 +27,7 @@
 			},
 			{
 				"name" : "button_save_area",
-				"url" : "images/UI/button_save_area.png"
+				"url" : "images/UI/button_save_all.png"
 			},
 			{
 				"name" : "button_optimizer",
@@ -305,7 +305,7 @@
 				"prop" : {
 					"type" : "PlaneGeometry",
 					"name" : "button_optimizer",
-					"visible" : true,
+					"visible" : false,
 					"materialList" : [ "button_optimizer" ],
 					"parameters" : {
 						"width" : 128,
@@ -337,7 +337,7 @@
 				"prop" : {
 					"type" : "PlaneGeometry",
 					"name" : "button_save_glb",
-					"visible" : true,
+					"visible" : false,
 					"materialList" : [ "button_save_glb" ],
 					"parameters" : {
 						"width" : 128,

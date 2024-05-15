@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { UI } from "../../jsm";
+	import { PLY, UI } from "../../jsm";
 	import { authStore } from "../../store/AuthStore";
+	import { projectStore } from "../../store/ProjectStore";
 	import Button from "./Button.svelte";
 	import Drop from "/images/UI/buttons/Arhive_load.png";
 	import Enlarge from "/images/UI/buttons/Center_pick_alt.png";
@@ -24,9 +25,9 @@
 
 		switch (id) {
 			case "Drop":
-				UI.p.menu_area_button_dragAndDrop();
+				UI.p.menu_editor.f.button_import();
 				break;
-			case "Move":
+			case "Folder":
 				console.warn("Not implemented yet!");
 				break;
 			case "Enlarge":
@@ -35,7 +36,7 @@
 			case "Rotate":
 				UI.p.menu_editor.f.ROTATE();
 				break;
-			case "Folder":
+			case "Move":
 				UI.p.menu_editor.f.SCALE();
 				break;
 			case "Settings":
@@ -47,7 +48,7 @@
 
 {#if $authStore.identity}
 	<div
-		class="fixed left-24 top-1/2 transform -translate-y-1/2 z-[1000] flex flex-col gap-1"
+		class="fixed left-2 top-1/2 transform -translate-y-1/2 z-[1000] flex flex-col gap-1"
 	>
 		<Button
 			src={Drop}
@@ -60,26 +61,31 @@
 			alt="Folder"
 			active={activeId === "Folder"}
 			toggleActive={() => toggleActive("Folder")}
+			disabled
 		/>
 		<Button
+			disabled={!$projectStore.project && !PLY.p.selectedArea}
 			src={Rotate}
 			alt="Rotate"
 			active={activeId === "Rotate"}
 			toggleActive={() => toggleActive("Rotate")}
 		/>
 		<Button
+			disabled={!$projectStore.project && !PLY.p.selectedArea}
 			src={Move}
 			alt="Move"
 			active={activeId === "Move"}
 			toggleActive={() => toggleActive("Move")}
 		/>
 		<Button
+			disabled={!$projectStore.project && !PLY.p.selectedArea}
 			src={Enlarge}
 			alt="Enlarge"
 			active={activeId === "Enlarge"}
 			toggleActive={() => toggleActive("Enlarge")}
 		/>
 		<Button
+			disabled={!$projectStore.project && !PLY.p.selectedArea}
 			src={Settings}
 			alt="Settings"
 			active={activeId === "Settings"}

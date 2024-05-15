@@ -655,7 +655,7 @@ const createEditor = () => {
 			// rimuovi POI //
 			for (var numA = 0; numA < UI.p.scene.OBJECTS.poi.children.length; numA += 1) {
 
-				if (EDITOR.p.selectedArea?.uuid == UI.p.scene.OBJECTS.poi.children[numA].userData.linkedObj?.uuid) {
+				if (PLY.p.selectedArea?.uuid == UI.p.scene.OBJECTS.poi.children[numA].userData.linkedObj?.uuid) {
 
 					VARCO.f.deleteElement(UI.p.scene.OBJECTS.poi, UI.p.scene.OBJECTS.poi.children[numA]);
 					
@@ -664,10 +664,10 @@ const createEditor = () => {
 				};
 
 			};
+			
+			VARCO.f.deleteElement( PLY.p.scene3D.OBJECTS.geoArea, PLY.p.selectedArea );
 
-			VARCO.f.deleteElement(PLY.p.scene3D.OBJECTS.geoArea, EDITOR.p.selectedArea);
-
-			EDITOR.p.selectedArea = undefined;
+			PLY.p.selectedArea = undefined;
 
 		};
 

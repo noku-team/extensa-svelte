@@ -658,14 +658,14 @@ const createEditor = () => {
 				if (PLY.p.selectedArea?.uuid == UI.p.scene.OBJECTS.poi.children[numA].userData.linkedObj?.uuid) {
 
 					VARCO.f.deleteElement(UI.p.scene.OBJECTS.poi, UI.p.scene.OBJECTS.poi.children[numA]);
-					
+
 					break;
 
 				};
 
 			};
-			
-			VARCO.f.deleteElement( PLY.p.scene3D.OBJECTS.geoArea, PLY.p.selectedArea );
+
+			VARCO.f.deleteElement(PLY.p.scene3D.OBJECTS.geoArea, PLY.p.selectedArea);
 
 			PLY.p.selectedArea = undefined;
 
@@ -1007,7 +1007,7 @@ const createEditor = () => {
 
 
 	EDITOR.f.SAVE_GEOAREA = function () {
-		
+
 		// console.log( EDITOR.f.SAVE_GEOAREA );
 
 		if (PLY.p.selectedArea !== undefined) {
@@ -1018,6 +1018,8 @@ const createEditor = () => {
 
 				projectsList.push(
 					{
+						"id": PLY.p.selectedArea.OBJECTS.projects.children[i].userData.id,
+						"file_id": PLY.p.selectedArea.OBJECTS.projects.children[i].userData.file_id,
 						"type": PLY.p.selectedArea.OBJECTS.projects.children[i].userData.type,
 						"name": PLY.p.selectedArea.OBJECTS.projects.children[i].name,
 						"url": PLY.p.selectedArea.OBJECTS.projects.children[i].userData.url,
@@ -1042,7 +1044,7 @@ const createEditor = () => {
 				)
 
 			}
-			
+
 			// console.log( projectsList );
 
 			const geoAreaInfo = {
@@ -1068,7 +1070,7 @@ const createEditor = () => {
 			// const nameFile = 'USER_DB/' + PLY.p.selectedArea.userData.user + '/' + PLY.p.selectedArea.userData.geoAreaName + ".json";
 
 			// TODO EDIT PROJECT HERE AND SEND TO BLOCKCHAIN
-			// projectStore.setGeoAreaToEdit(geoAreaInfo);
+			projectStore.setGeoAreaToEdit(geoAreaInfo);
 
 
 		};

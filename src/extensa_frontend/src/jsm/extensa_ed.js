@@ -658,6 +658,8 @@ const createEditor = () => {
 				if (EDITOR.p.selectedArea?.uuid == UI.p.scene.OBJECTS.poi.children[numA].userData.linkedObj?.uuid) {
 
 					VARCO.f.deleteElement(UI.p.scene.OBJECTS.poi, UI.p.scene.OBJECTS.poi.children[numA]);
+					
+					break;
 
 				};
 

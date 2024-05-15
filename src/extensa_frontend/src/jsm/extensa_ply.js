@@ -71,7 +71,8 @@ const createPLY = () => {
 				sectNumH: 1, // 1 + 1 + 1
 				sectNumV: 1, // 1 + 1 + 1
 				lngLatA: { lng: -180.0, lat: 90.0 },
-				lngLatB: { lng: 180.0, lat: -90.0 }
+				lngLatB: { lng: 180.0, lat: -90.0 },
+				oldPosition : new THREE.Vector3()
 			},
 
 			splitScreenValue: 0.4,
@@ -722,154 +723,279 @@ const createPLY = () => {
 
 
 	PLY.f.SECTOR_UPDATE = function () {
+		
+		
+		if ( PLY.p.cameraMapAxis !== undefined ){
+			
+			PLY.p.geoMapSectors.oldPosition.y = PLY.p.cameraMapAxis.position.y;
 
-		// grandezza settore dinamica //
-		PLY.p.geoMapSectors.maxNumSectH = (MAP.p.zoomMap + 1) * 1000;
+			let checkDistance = PLY.p.cameraMapAxis.position.distanceTo( PLY.p.geoMapSectors.oldPosition ) ;
+			
+			let maxDistance = 3000; // settore dinamico di 3000 mt x 3000 mt
+			
+			if ( checkDistance > maxDistance ){
+				PLY.p.geoMapSectors.oldPosition.x = PLY.p.cameraMapAxis.position.x;
+				PLY.p.geoMapSectors.oldPosition.y = PLY.p.cameraMapAxis.position.y;
+				PLY.p.geoMapSectors.oldPosition.z = PLY.p.cameraMapAxis.position.z;
+				
+	
+				let latA = MAP.p.actualCoords.lat + 0.2; // 0.2 da modificare dinamicamente in seguito
+				let latB = MAP.p.actualCoords.lat - 0.2;
+				let lngA = MAP.p.actualCoords.lng - 0.2;
+				let lngB = MAP.p.actualCoords.lng + 0.2;
+				
+				console.log( "SECTOR UPDATE" );
+				console.log( MAP.p.actualCoords );
+				console.log( lngA, latA, lngB, latB )
+				
+				// cancella vecchie geoAree //
+				let listGeoAreaToDelete = [];
 
-		PLY.p.geoMapSectors.maxNumSectV = (MAP.p.zoomMap + 1) * 1000 * 0.5;
-
-		const numBaseSectorsH = 1;
-
-		const numBaseSectorsV = 1;
-
-		const stepLng = (360.0 / PLY.p.geoMapSectors.maxNumSectH) * numBaseSectorsH;
-
-		const stepLat = (180.0 / PLY.p.geoMapSectors.maxNumSectV) * numBaseSectorsV;
-
-
-		PLY.p.geoMapSectors.actualSectHV = PLY.f.findGeoAreaSector(MAP.p.actualCoords.lng, MAP.p.actualCoords.lat, PLY.p.geoMapSectors.maxNumSectH, PLY.p.geoMapSectors.maxNumSectV);
-
-		const lngA = (stepLng * PLY.p.geoMapSectors.actualSectHV[0]) - 180.0;
-
-		const lngB = lngA + stepLng;
-
-		const latA = 90.0 - (stepLat * PLY.p.geoMapSectors.actualSectHV[1]);
-
-		const latB = latA - stepLat;
-
-		const centLng = (lngA + lngB) * 0.5;
-
-		const centLat = (latA + latB) * 0.5;
-
-
-		if (PLY.p.geoMapSectors.actualSectHV[0] !== PLY.p.geoMapSectors.oldSectHV[0] || PLY.p.geoMapSectors.actualSectHV[1] !== PLY.p.geoMapSectors.oldSectHV[1]) {
-
-			PLY.p.geoMapSectors.oldSectHV = PLY.p.geoMapSectors.actualSectHV;
-
-			console.log('SECTOR_UPDATE');
-
-			console.log('center')
-			console.log(centLng, centLat)
-
-			console.log(lngA, latA)
-			console.log(lngA, latA, lngB, latB)
-
-			// CHIAMA DB geoAree passando lngA, latA, lngB, latB
-
-			// >>>>>>>>>>>>>>>>>>>>>>
-
-			// ///////////////////////
+				for (var num = 0; num < PLY.p.scene3D.OBJECTS.geoArea.children.length; num += 1) {
+					listGeoAreaToDelete.push(PLY.p.scene3D.OBJECTS.geoArea.children[num]);
+				};
 
 
-			// cancella vecchie geoAree //
-			let listGeoAreaToDelete = [];
-
-			for (var num = 0; num < PLY.p.scene3D.OBJECTS.geoArea.children.length; num += 1) {
-				listGeoAreaToDelete.push(PLY.p.scene3D.OBJECTS.geoArea.children[num]);
-			};
+				// controlla geoAree presenti nella nuova chiamata e toglile dalla listGeoAreaToDelete
 
 
+				// cancella vecchi POI geoAree //
+				let listPOIToDelete = [];
 
-
-			// controlla geoAree presenti nella nuova chiamata e toglile dalla listGeoAreaToDelete
-
-
-			// cancella vecchi POI geoAree //
-			let listPOIToDelete = [];
-
-			for (var numA = 0; numA < UI.p.scene.OBJECTS.poi.children.length; numA += 1) {
-				for (var numB = 0; numB < listGeoAreaToDelete.length; numB += 1) {
-					if (listGeoAreaToDelete[numB].uuid == UI.p.scene.OBJECTS.poi.children[numA].userData.linkedObj.uuid) {
-						listPOIToDelete.push(UI.p.scene.OBJECTS.poi.children[numA]);
-					};
-				}
-			}
-
-			// cancella solo le geoAree visibili sulla mappa ma non piu' presenti nel settore
-
-			for (var num = 0; num < listPOIToDelete.length; num += 1) {
-				VARCO.f.deleteElement(PLY.p.scene3D.OBJECTS.geoArea, listPOIToDelete[num]);
-			}
-
-
-			// cancella vecchi POI delle geoAree non piu' presenti //
-
-
-
-
-			for (var num = 0; num < listGeoAreaToDelete.length; num += 1) {
-				VARCO.f.deleteElement(UI.p.scene.OBJECTS.poi, listGeoAreaToDelete[num]);
-			}
-
-			if (UI.p.popup_login_data.p.data == undefined) { // DA CONTROLLARE SE UTENTE E' LOGGATO OPPURE NO
-
-				PLY.p.selectedArea = undefined;
-
-				projectStore.setProject(null); // scrivi dato NULL
-
-			}
-
-			listGeoAreaToDelete = undefined;
-
-
-			const auth = get(authStore);
-			const { identity = null } = auth ?? {};
-
-			const anonymousIdentity = getAnonymousIdentity();
-
-			const fetchParams = {
-				identity: identity ?? anonymousIdentity,
-				canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
-				coords: {
-					topLeft: {
-						lat: latA,
-						lng: lngA
-					},
-					bottomRight: {
-						lat: latB,
-						lng: lngB
+				for (var numA = 0; numA < UI.p.scene.OBJECTS.poi.children.length; numA += 1) {
+					for (var numB = 0; numB < listGeoAreaToDelete.length; numB += 1) {
+						if (listGeoAreaToDelete[numB].uuid == UI.p.scene.OBJECTS.poi.children[numA].userData.linkedObj.uuid) {
+							listPOIToDelete.push(UI.p.scene.OBJECTS.poi.children[numA]);
+						};
 					}
 				}
-			};
 
-			// Fetch geoareas from canister
-			executeFetchGeoareasByCoords(fetchParams).then((geoAreas) => {
-				for (const geoData of geoAreas) {
-					//filter for non yours empty geoareas
-					if (!geoData.projectsList.length && geoData.user?.[0]?.toString() !== identity?.getPrincipal()?.toString()) {
-						continue;
-					}
+				// cancella solo le geoAree visibili sulla mappa ma non piu' presenti nel settore
 
-					EDITOR.f.createGeoArea(
-						geoData,
-						(q) => {
-							let GEOAREAOBJ = q.obj;
-							for (const project of geoData.projectsList) {
-								// CREATE PROJECTS CIRCLES //
-								EDITOR.f.createProject(
-									GEOAREAOBJ,
-									project,
-									() => { },
-									{}
-								);
-							}
+				for (var num = 0; num < listPOIToDelete.length; num += 1) {
+					VARCO.f.deleteElement(PLY.p.scene3D.OBJECTS.geoArea, listPOIToDelete[num]);
+				}
+
+
+				// cancella vecchi POI delle geoAree non piu' presenti //
+
+
+
+
+				for (var num = 0; num < listGeoAreaToDelete.length; num += 1) {
+					VARCO.f.deleteElement(UI.p.scene.OBJECTS.poi, listGeoAreaToDelete[num]);
+				}
+
+				if (UI.p.popup_login_data.p.data == undefined) { // DA CONTROLLARE SE UTENTE E' LOGGATO OPPURE NO
+
+					PLY.p.selectedArea = undefined;
+
+					projectStore.setProject(null); // scrivi dato NULL
+
+				}
+
+				listGeoAreaToDelete = undefined;
+
+
+				const auth = get(authStore);
+				const { identity = null } = auth ?? {};
+
+				const anonymousIdentity = getAnonymousIdentity();
+
+				const fetchParams = {
+					identity: identity ?? anonymousIdentity,
+					canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
+					coords: {
+						topLeft: {
+							lat: latA,
+							lng: lngA
 						},
-						{}
-					);
-				}
-			});
+						bottomRight: {
+							lat: latB,
+							lng: lngB
+						}
+					}
+				};
 
+				// Fetch geoareas from canister
+				executeFetchGeoareasByCoords(fetchParams).then((geoAreas) => {
+					for (const geoData of geoAreas) {
+						//filter for non yours empty geoareas
+						if (!geoData.projectsList.length && geoData.user?.[0]?.toString() !== identity?.getPrincipal()?.toString()) {
+							continue;
+						}
+
+						EDITOR.f.createGeoArea(
+							geoData,
+							(q) => {
+								let GEOAREAOBJ = q.obj;
+								for (const project of geoData.projectsList) {
+									// CREATE PROJECTS CIRCLES //
+									EDITOR.f.createProject(
+										GEOAREAOBJ,
+										project,
+										() => { },
+										{}
+									);
+								}
+							},
+							{}
+						);
+					}
+				});
+				
+				
+			};
+		
 		};
+
+		// // grandezza settore dinamica //
+		// PLY.p.geoMapSectors.maxNumSectH = (MAP.p.zoomMap + 1) * 1000;
+
+		// PLY.p.geoMapSectors.maxNumSectV = (MAP.p.zoomMap + 1) * 1000 * 0.5;
+
+		// const numBaseSectorsH = 1;
+
+		// const numBaseSectorsV = 1;
+
+		// const stepLng = (360.0 / PLY.p.geoMapSectors.maxNumSectH) * numBaseSectorsH;
+
+		// const stepLat = (180.0 / PLY.p.geoMapSectors.maxNumSectV) * numBaseSectorsV;
+
+
+		// PLY.p.geoMapSectors.actualSectHV = PLY.f.findGeoAreaSector(MAP.p.actualCoords.lng, MAP.p.actualCoords.lat, PLY.p.geoMapSectors.maxNumSectH, PLY.p.geoMapSectors.maxNumSectV);
+
+		// const lngA = (stepLng * PLY.p.geoMapSectors.actualSectHV[0]) - 180.0;
+
+		// const lngB = lngA + stepLng;
+
+		// const latA = 90.0 - (stepLat * PLY.p.geoMapSectors.actualSectHV[1]);
+
+		// const latB = latA - stepLat;
+
+		// const centLng = (lngA + lngB) * 0.5;
+
+		// const centLat = (latA + latB) * 0.5;
+
+
+		// if (PLY.p.geoMapSectors.actualSectHV[0] !== PLY.p.geoMapSectors.oldSectHV[0] || PLY.p.geoMapSectors.actualSectHV[1] !== PLY.p.geoMapSectors.oldSectHV[1]) {
+
+			// PLY.p.geoMapSectors.oldSectHV = PLY.p.geoMapSectors.actualSectHV;
+
+			// console.log('SECTOR_UPDATE');
+
+			// console.log('center')
+			// console.log(centLng, centLat)
+
+			// console.log(lngA, latA)
+			// console.log(lngA, latA, lngB, latB)
+
+			// // CHIAMA DB geoAree passando lngA, latA, lngB, latB
+
+			// // >>>>>>>>>>>>>>>>>>>>>>
+
+			// // ///////////////////////
+
+
+			// // cancella vecchie geoAree //
+			// let listGeoAreaToDelete = [];
+
+			// for (var num = 0; num < PLY.p.scene3D.OBJECTS.geoArea.children.length; num += 1) {
+				// listGeoAreaToDelete.push(PLY.p.scene3D.OBJECTS.geoArea.children[num]);
+			// };
+
+
+
+
+			// // controlla geoAree presenti nella nuova chiamata e toglile dalla listGeoAreaToDelete
+
+
+			// // cancella vecchi POI geoAree //
+			// let listPOIToDelete = [];
+
+			// for (var numA = 0; numA < UI.p.scene.OBJECTS.poi.children.length; numA += 1) {
+				// for (var numB = 0; numB < listGeoAreaToDelete.length; numB += 1) {
+					// if (listGeoAreaToDelete[numB].uuid == UI.p.scene.OBJECTS.poi.children[numA].userData.linkedObj.uuid) {
+						// listPOIToDelete.push(UI.p.scene.OBJECTS.poi.children[numA]);
+					// };
+				// }
+			// }
+
+			// // cancella solo le geoAree visibili sulla mappa ma non piu' presenti nel settore
+
+			// for (var num = 0; num < listPOIToDelete.length; num += 1) {
+				// VARCO.f.deleteElement(PLY.p.scene3D.OBJECTS.geoArea, listPOIToDelete[num]);
+			// }
+
+
+			// // cancella vecchi POI delle geoAree non piu' presenti //
+
+
+
+
+			// for (var num = 0; num < listGeoAreaToDelete.length; num += 1) {
+				// VARCO.f.deleteElement(UI.p.scene.OBJECTS.poi, listGeoAreaToDelete[num]);
+			// }
+
+			// if (UI.p.popup_login_data.p.data == undefined) { // DA CONTROLLARE SE UTENTE E' LOGGATO OPPURE NO
+
+				// PLY.p.selectedArea = undefined;
+
+				// projectStore.setProject(null); // scrivi dato NULL
+
+			// }
+
+			// listGeoAreaToDelete = undefined;
+
+
+			// const auth = get(authStore);
+			// const { identity = null } = auth ?? {};
+
+			// const anonymousIdentity = getAnonymousIdentity();
+
+			// const fetchParams = {
+				// identity: identity ?? anonymousIdentity,
+				// canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
+				// coords: {
+					// topLeft: {
+						// lat: latA,
+						// lng: lngA
+					// },
+					// bottomRight: {
+						// lat: latB,
+						// lng: lngB
+					// }
+				// }
+			// };
+
+			// // Fetch geoareas from canister
+			// executeFetchGeoareasByCoords(fetchParams).then((geoAreas) => {
+				// for (const geoData of geoAreas) {
+					// //filter for non yours empty geoareas
+					// if (!geoData.projectsList.length && geoData.user?.[0]?.toString() !== identity?.getPrincipal()?.toString()) {
+						// continue;
+					// }
+
+					// EDITOR.f.createGeoArea(
+						// geoData,
+						// (q) => {
+							// let GEOAREAOBJ = q.obj;
+							// for (const project of geoData.projectsList) {
+								// // CREATE PROJECTS CIRCLES //
+								// EDITOR.f.createProject(
+									// GEOAREAOBJ,
+									// project,
+									// () => { },
+									// {}
+								// );
+							// }
+						// },
+						// {}
+					// );
+				// }
+			// });
+
+		// };
 
 	};
 

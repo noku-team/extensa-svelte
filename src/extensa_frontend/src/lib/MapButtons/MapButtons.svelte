@@ -17,6 +17,7 @@
 		| "Rotate"
 		| "Folder"
 		| "Settings";
+
 	let activeId: ActiveId | null = null;
 
 	const toggleActive = (id: ActiveId) => {
@@ -31,13 +32,13 @@
 				console.warn("Not implemented yet!");
 				break;
 			case "Enlarge":
-				UI.p.menu_editor.f.DRAG();
+				UI.p.menu_editor.f.SCALE();
 				break;
 			case "Rotate":
 				UI.p.menu_editor.f.ROTATE();
 				break;
 			case "Move":
-				UI.p.menu_editor.f.SCALE();
+				UI.p.menu_editor.f.DRAG();
 				break;
 			case "Settings":
 				UI.p.menu_editor.f.TOOLS();

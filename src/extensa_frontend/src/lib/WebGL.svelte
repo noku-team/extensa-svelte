@@ -15,6 +15,7 @@
 	import { EDITOR, MAP, PLY, UI } from "../jsm/index.js";
 	import getDOMHeight from "../utils/dom/getDOMHeight.js";
 	import EditProject from "./EditProject.svelte";
+	import MapButtons from "./MapButtons/MapButtons.svelte";
 	import Progress from "./Progress.svelte";
 	import SelectedProject from "./SelectedProject.svelte";
 
@@ -168,6 +169,7 @@
 	<div id="canvas"></div>
 	<Progress />
 	<SelectedProject />
+	<MapButtons />
 	<EditProject />
 </div>
 

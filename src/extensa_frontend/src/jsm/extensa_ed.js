@@ -281,9 +281,11 @@ const createEditor = () => {
 		let colorGeoArea = { r: 0.0, g: 0.0, b: 0.0 };
 
 		if (principal) {
-			colorGeoArea = { r: 1.0, g: 0.0, b: 0.0 };
-		}
-
+			if (principal == prop.user?.[0]?.toString()) {
+				colorGeoArea = { r: 1.0, g: 0.0, b: 0.0 };
+			}
+		};
+		
 		let myPosition = MAP.f.getMapPosition(MAP.p.width, MAP.p.height, prop.myCoords.lng, prop.myCoords.lat, prop.myCoords.alt);
 
 		VARCO.f.addComplex(
@@ -494,6 +496,7 @@ const createEditor = () => {
 			// controlla se utente e' lo stesso proprietario dell'area e quindi del progetto //
 
 			const _user = p.obj.parent.userData.linkedGeoArea.userData.user?.[0]?.toString() || p.obj.parent.userData.linkedGeoArea.userData.user?.toString();
+			
 			if (principal == _user) {
 
 				EDITOR.f.deselectProjects();
@@ -1292,11 +1295,12 @@ const createEditor = () => {
 		try {
 			spinnerStore.setLoading(true);
 			function objectReady(PROJECTOBJ, projectName, type, infoJson) {
+				
 				try {
 					console.log(PROJECTOBJ)
 
 					PROJECTOBJ.name = projectName;
-
+					
 					if (type !== "json") {
 
 						VARCO.f.setPropAndParameters(PROJECTOBJ, { "MM3D": {} });
@@ -2484,7 +2488,7 @@ const createEditor = () => {
 		};
 		spinnerStore.setLoading(false);
 
-		await EDITOR.f.createGeoAreaHelpers(projectData);
+		await EDITOR.f.createGeoAreaHelpers(propVideoObject);
 	};
 
 

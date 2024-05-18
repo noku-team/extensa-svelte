@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { UI } from "../../jsm";
+	import { PLY, UI } from "../../jsm";
+	import { authStore } from "../../store/AuthStore";
+	import { projectStore } from "../../store/ProjectStore";
 	import Button from "./Button.svelte";
 	import Drop from "/images/UI/buttons/Arhive_load.png";
 	import Enlarge from "/images/UI/buttons/Center_pick_alt.png";
@@ -15,6 +17,7 @@
 		| "Rotate"
 		| "Folder"
 		| "Settings";
+
 	let activeId: ActiveId | null = null;
 
 	const toggleActive = (id: ActiveId) => {
@@ -22,65 +25,72 @@
 		else activeId = id;
 
 		switch (id) {
-			case "Move":
-				console.log("Move");
-				break;
 			case "Drop":
-				UI.p.menu_area_button_dragAndDrop();
-				break;
-			case "Enlarge":
-				console.log("Enlarge");
-				break;
-			case "Rotate":
-				console.log("Rotate");
+				UI.p.menu_editor.f.button_import();
 				break;
 			case "Folder":
-				console.log("Folder");
+				console.warn("Not implemented yet!");
+				break;
+			case "Enlarge":
+				UI.p.menu_editor.f.SCALE();
+				break;
+			case "Rotate":
+				UI.p.menu_editor.f.ROTATE();
+				break;
+			case "Move":
+				UI.p.menu_editor.f.DRAG();
 				break;
 			case "Settings":
-				console.log("Settings");
+				UI.p.menu_editor.f.TOOLS();
 				break;
 		}
 	};
 </script>
 
-<div
-	class="fixed left-24 top-1/2 transform -translate-y-1/2 z-[1000] flex flex-col gap-1"
->
-	<Button
-		src={Drop}
-		alt="Drop"
-		active={activeId === "Drop"}
-		toggleActive={() => toggleActive("Drop")}
-	/>
-	<Button
-		src={Folder}
-		alt="Folder"
-		active={activeId === "Folder"}
-		toggleActive={() => toggleActive("Folder")}
-	/>
-	<Button
-		src={Enlarge}
-		alt="Enlarge"
-		active={activeId === "Enlarge"}
-		toggleActive={() => toggleActive("Enlarge")}
-	/>
-	<Button
-		src={Rotate}
-		alt="Rotate"
-		active={activeId === "Rotate"}
-		toggleActive={() => toggleActive("Rotate")}
-	/>
-	<Button
-		src={Move}
-		alt="Move"
-		active={activeId === "Move"}
-		toggleActive={() => toggleActive("Move")}
-	/>
-	<Button
-		src={Settings}
-		alt="Settings"
-		active={activeId === "Settings"}
-		toggleActive={() => toggleActive("Settings")}
-	/>
-</div>
+{#if $authStore.identity}
+	<div
+		class="fixed left-2 top-1/2 transform -translate-y-1/2 z-[1000] flex flex-col gap-1"
+	>
+		<Button
+			src={Drop}
+			alt="Drop"
+			active={activeId === "Drop"}
+			toggleActive={() => toggleActive("Drop")}
+		/>
+		<Button
+			src={Folder}
+			alt="Folder"
+			active={activeId === "Folder"}
+			toggleActive={() => toggleActive("Folder")}
+			disabled
+		/>
+		<Button
+			disabled={!$projectStore.project && !PLY.p.selectedArea}
+			src={Rotate}
+			alt="Rotate"
+			active={activeId === "Rotate"}
+			toggleActive={() => toggleActive("Rotate")}
+		/>
+		<Button
+			disabled={!$projectStore.project && !PLY.p.selectedArea}
+			src={Move}
+			alt="Move"
+			active={activeId === "Move"}
+			toggleActive={() => toggleActive("Move")}
+		/>
+		<Button
+			disabled={!$projectStore.project && !PLY.p.selectedArea}
+			src={Enlarge}
+			alt="Enlarge"
+			active={activeId === "Enlarge"}
+			toggleActive={() => toggleActive("Enlarge")}
+		/>
+		<Button
+			disabled={!$projectStore.project && !PLY.p.selectedArea}
+			src={Settings}
+			alt="Settings"
+			active={activeId === "Settings"}
+			toggleActive={() => toggleActive("Settings")}
+		/>
+	</div>
+{/if}

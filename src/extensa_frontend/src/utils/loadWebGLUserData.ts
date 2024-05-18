@@ -7,7 +7,7 @@ const loadWebGLUserData = (principal?: string) => {
         if (UI.p.scene.OBJECTS.previewProject !== undefined) {
             _VARCO_F.deleteElement(UI.p.scene, UI.p.scene.OBJECTS.previewProject);
         }
-        UI.p.menu_editor.f.open();
+        // UI.p.menu_editor.f.open();
         PLY.p.geoMapSectors.oldSectHV = [0, 0];
     }
 };

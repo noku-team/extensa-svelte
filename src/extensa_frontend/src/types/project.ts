@@ -7,6 +7,8 @@ export interface Coordinates {
 }
 
 export interface GeoAreaProject {
+    id?: bigint;
+    file_id?: bigint;
     type: string;
     name: string;
     url: string;

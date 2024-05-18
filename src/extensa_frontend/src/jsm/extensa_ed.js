@@ -1016,7 +1016,7 @@ const createEditor = () => {
 
 	EDITOR.f.SAVE_GEOAREA = function () {
 		
-		// console.log( EDITOR.f.SAVE_GEOAREA );
+		console.log( EDITOR.f.SAVE_GEOAREA );
 
 		if (PLY.p.selectedArea !== undefined) {
 

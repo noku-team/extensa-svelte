@@ -731,7 +731,7 @@ const createPLY = () => {
 
 			let checkDistance = PLY.p.cameraMapAxis.position.distanceTo( PLY.p.geoMapSectors.oldPosition ) ;
 			
-			let maxDistance = 3000; // settore dinamico di 3000 mt x 3000 mt
+			let maxDistance = 3000 + (  PLY.p.cameraMapAxis.position.y * 2 ); // settore dinamico di 3000 mt x 3000 mt
 			
 			if ( checkDistance > maxDistance ){
 				PLY.p.geoMapSectors.oldPosition.x = PLY.p.cameraMapAxis.position.x;
@@ -1195,19 +1195,19 @@ const createPLY = () => {
 			}
 
 
-			if (PLY.p.camera3DAxis.userData.orbitRadius < 8.0) {
+			// if (PLY.p.camera3DAxis.userData.orbitRadius < 8.0) {
 
-				PLY.p.camera3DAxis.userData.minAngX = -189.0;
+				// PLY.p.camera3DAxis.userData.minAngX = -189.0;
 
-				PLY.p.camera3DAxis.userData.maxAngX = 189.0;
+				// PLY.p.camera3DAxis.userData.maxAngX = 189.0;
 
-			} else {
+			// } else {
 
-				PLY.p.camera3DAxis.userData.minAngX = 0.25;
+			PLY.p.camera3DAxis.userData.minAngX = 0.25;
 
-				PLY.p.camera3DAxis.userData.maxAngX = 189.0;
+			PLY.p.camera3DAxis.userData.maxAngX = 189.0;
 
-			}
+			// }
 
 			if (PLY.p.cameraSTVAxis.userData.angX < PLY.p.cameraSTVAxis.userData.minAngX) {
 

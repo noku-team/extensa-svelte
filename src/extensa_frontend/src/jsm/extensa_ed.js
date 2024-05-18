@@ -1323,7 +1323,6 @@ const createEditor = () => {
 
 					PROJECTOBJ.userData.myCoords = { 'lng': MAP.p.actualCoords.lng, 'lat': MAP.p.actualCoords.lat, 'alt': MAP.p.actualCoords.alt };
 
-
 					// start animation //
 
 					setTimeout(
@@ -2637,7 +2636,104 @@ const createEditor = () => {
 	// }
 
 
+	EDITOR.f.exportGLB = function (PROJECTOBJ, GEOAREAOBJ) {
+		spinnerStore.setLoading(true);
+		console.log('EDITOR.f.exportGLTF');
 
+		console.log(PROJECTOBJ);
+
+
+		const position = {
+			"x": PROJECTOBJ.position.x,
+			"y": PROJECTOBJ.position.y,
+			"z": PROJECTOBJ.position.z
+		};
+
+		const rotation = {
+			"x": VARCO.f.rad2deg(PROJECTOBJ.rotation.x),
+			"y": VARCO.f.rad2deg(PROJECTOBJ.rotation.y),
+			"z": VARCO.f.rad2deg(PROJECTOBJ.rotation.z)
+		};
+
+		const scale = {
+			"x": PROJECTOBJ.scale.x,
+			"y": PROJECTOBJ.scale.y,
+			"z": PROJECTOBJ.scale.z
+		}
+
+
+		const exporter = new GLTFExporter();
+
+
+		// Funzione per convertire un ArrayBuffer in base64
+		function arrayBufferToBase64(buffer) {
+			let binary = '';
+			const bytes = new Uint8Array(buffer);
+			const len = bytes.byteLength;
+			for (let i = 0; i < len; i++) {
+				binary += String.fromCharCode(bytes[i]);
+			}
+			return window.btoa(binary);
+		}
+
+
+		// Instantiate a exporter
+		const options = {
+
+			binary: false,
+
+			maxTextureSize: 4096,
+
+			animations: PROJECTOBJ.animations,
+
+			includeCustomExtensions: true
+
+		};
+
+		exporter.parse(
+
+			PROJECTOBJ,
+
+			async function (result) {
+
+				// Converti l'oggetto scene in stringa JSON
+				const sceneString = JSON.stringify(result);
+
+				// Converti la stringa JSON in base64
+				const base64 = window.btoa(unescape(encodeURIComponent(sceneString)));
+
+				const projectData = {
+					"name": PROJECTOBJ.name,
+					"userData": { "type": "3d", "extension": "gltf" },
+					"parameters": {
+						"elementList": [
+							{
+								"type": "addFromFile",
+								"prop": {
+									"name": PROJECTOBJ.name,
+									"parameters": {
+										"type": "base64",
+										"url": base64,
+										"extension": PROJECTOBJ.userData.extension // "gltf"
+									}
+								}
+							}
+						]
+					},
+					"position": position,
+					"rotation": rotation,
+					"scale": scale
+
+				};
+
+				spinnerStore.setLoading(false);
+				await EDITOR.f.createGeoAreaHelpers(projectData);
+			}
+
+		);
+
+	};
+	
 	// EDITOR.f.exportGLB = function( OBJ, GEOAREAOBJ ){
 
 	// console.log( 'EDITOR.f.exportGLB' );

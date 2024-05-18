@@ -546,11 +546,15 @@ const createMAP = () => {
 
 					if (MAP.p.actualMapSectorName !== MAP.p.newMapSectorName) {
 						// delay before to change tiles ( to reduce tiles map downloads )
-						if ((MAP.p.timer - MAP.p.startTimer) > (MAP.p.timerStep * 0.2)) {
-							MAP.p.actualMapSectorName = MAP.p.newMapSectorName;
-							MAP.p.startTimer = MAP.p.timer;
-							MAP.f.updateMap();
-						}
+						if ( VARCO.p.DEVICES.mouse.zoom == 0 || VARCO.p.DEVICES.touch.zoom == 0 ){
+							if ( VARCO.p.DEVICES.mouse.clickDown == false || VARCO.p.DEVICES.touch.clickDown == false ){
+								if ((MAP.p.timer - MAP.p.startTimer) > (MAP.p.timerStep * 0.2)) {
+									MAP.p.actualMapSectorName = MAP.p.newMapSectorName;
+									MAP.p.startTimer = MAP.p.timer;
+									MAP.f.updateMap();
+								};
+							};
+						};
 					} else {
 
 						// clean the map when user stop to move to refresh the memory
@@ -558,7 +562,6 @@ const createMAP = () => {
 							if (MAP.p.actualZoomMap !== MAP.p.zoomMap) {
 
 								// console.log( "DELETE DIFFERENT ZOOMLEVEL"  );
-
 								MAP.p.actualZoomMap = MAP.p.zoomMap;
 								MAP.f.cleanMap();
 							}

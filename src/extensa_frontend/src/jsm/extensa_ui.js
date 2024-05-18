@@ -2237,41 +2237,7 @@ const createUI = () => {
 
 				_selectedProject.userData.type = _selectedProject.OBJECTS.myProject.children[0].userData.type
 
-			}
-
-			// if (_selectedProject.OBJECTS.myProjectCloned.children.length > 0) {
-
-			// 	switch (_selectedProject.userData.type) {
-
-			// 		case "3d":
-			// 			EDITOR.f.exportGLTF(_selectedProject.OBJECTS.myProjectCloned.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-			// 			break;
-
-			// 		case "glb":
-			// 			EDITOR.f.exportGLB(_selectedProject.OBJECTS.myProjectCloned.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-			// 			break;
-
-			// 		case "video":
-			// 			EDITOR.f.exportVIDEO(_selectedProject.OBJECTS.myProjectCloned.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-			// 			break;
-
-			// 		case "image":
-			// 			EDITOR.f.exportIMAGE(_selectedProject.OBJECTS.myProjectCloned.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-			// 			break;
-
-			// 		default:
-
-			// 			EDITOR.f.exportGLTF(_selectedProject.OBJECTS.myProjectCloned.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-			// 			break;
-			// 	};
-
-
-			// } else {
+			};
 
 			switch (_selectedProject.userData.type) {
 				case "3d":
@@ -2302,8 +2268,7 @@ const createUI = () => {
 
 			};
 
-			// }
-
+			
 		};
 
 	};

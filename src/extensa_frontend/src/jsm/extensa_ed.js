@@ -1088,7 +1088,10 @@ const createEditor = () => {
 		// UI.p.menu_optimizer.f.button_save_gltf();
 
 		const { project: _selectedProject } = get(projectStore); // leggi dato
-		if (_selectedProject !== null) {
+		
+		console.log( _selectedProject );
+		
+		if (_selectedProject !== null && _selectedProject !== undefined) {
 			UI.p.menu_optimizer.f.button_save_gltf();
 		}
 		// const { project: _selectedProject } = get(projectStore); // leggi dato
@@ -2641,8 +2644,10 @@ const createEditor = () => {
 
 
 	EDITOR.f.exportGLB = function (PROJECTOBJ, GEOAREAOBJ) {
+		
 		spinnerStore.setLoading(true);
-		console.log('EDITOR.f.exportGLTF');
+		
+		console.log('EDITOR.f.exportGLB');
 
 		console.log(PROJECTOBJ);
 
@@ -2717,8 +2722,8 @@ const createEditor = () => {
 									"name": PROJECTOBJ.name,
 									"parameters": {
 										"type": "base64",
-										"url": base64,
-										"extension": PROJECTOBJ.userData.extension // "gltf"
+										"url": PROJECTOBJ.userData.stringByte64,
+										"extension": "gltf"
 									}
 								}
 							}
@@ -2729,6 +2734,8 @@ const createEditor = () => {
 					"scale": scale
 
 				};
+				
+				console.log( projectData )
 
 				spinnerStore.setLoading(false);
 				await EDITOR.f.createGeoAreaHelpers(projectData);

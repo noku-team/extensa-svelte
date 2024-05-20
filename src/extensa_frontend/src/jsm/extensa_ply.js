@@ -2843,11 +2843,15 @@ const createPLY = () => {
 								EDITOR.p.mousePivotOffset.z = wPos.z - EDITOR.p.mousePivotPoint.z;
 
 							};
+							
+							if ( PLY.p.selectedArea !== undefined ){
 
-							_selectedProject.position.x = (p.results.point.x - PLY.p.selectedArea.position.x) + EDITOR.p.mousePivotOffset.x;
+								_selectedProject.position.x = (p.results.point.x - PLY.p.selectedArea.position.x) + EDITOR.p.mousePivotOffset.x;
 
-							_selectedProject.position.z = (p.results.point.z - PLY.p.selectedArea.position.z) + EDITOR.p.mousePivotOffset.z;
+								_selectedProject.position.z = (p.results.point.z - PLY.p.selectedArea.position.z) + EDITOR.p.mousePivotOffset.z;
 
+							};
+							
 						};
 
 						if (VARCO.p.DEVICES.mouse.buttonNum == 2) {

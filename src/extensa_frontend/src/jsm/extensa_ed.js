@@ -1052,7 +1052,7 @@ const createEditor = () => {
 					}
 				)
 
-			}
+			};
 			
 			// console.log( projectsList );
 
@@ -1075,9 +1075,7 @@ const createEditor = () => {
 			// save GEOAREA // 
 
 			// const textData = JSON.stringify(geoAreaInfo);
-
 			// const nameFile = 'USER_DB/' + PLY.p.selectedArea.userData.user + '/' + PLY.p.selectedArea.userData.geoAreaName + ".json";
-
 			// TODO EDIT PROJECT HERE AND SEND TO BLOCKCHAIN
 			// projectStore.setGeoAreaToEdit(geoAreaInfo);
 

@@ -25,7 +25,7 @@
 				if ($authStore.identity && process.env.CANISTER_ID_EXTENSA_BACKEND) {
 					projectStore.setGeoAreaToEdit(null);
 					spinnerStore.setLoading(true);
-debugger;
+						
 					await executeEditProject({
 						identity: $authStore.identity,
 						canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,

@@ -249,10 +249,10 @@
 		content: "";
 		position: absolute;
 		z-index: -1;
-		left: 4px;
-		top: 4px;
-		width: calc(100% - 8px);
-		height: calc(100% - 8px);
+		left: 8px;
+		top: 8px;
+		width: calc(100% - 16px);
+		height: calc(100% - 16px);
 		background: theme(colors.base-100);
 		border-radius: 10px;
 	}

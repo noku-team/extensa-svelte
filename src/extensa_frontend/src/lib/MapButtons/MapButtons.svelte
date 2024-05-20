@@ -10,32 +10,17 @@
 	import Rotate from "/images/UI/buttons/circle_left.png";
 	import Settings from "/images/UI/buttons/settings.png";
 
-	// type ActiveId =
-	// 	| "Move"
-	// 	| "Drop"
-	// 	| "Enlarge"
-	// 	| "Rotate"
-	// 	| "Folder"
-	// 	| "Settings";
-
-	enum ActiveId {
-		Move = "Move",
-		Drop = "Drop",
-		Enlarge = "Enlarge",
-		Rotate = "Rotate",
-		Folder = "Folder",
-		Settings = "Settings",
-	}
+	type ActiveId = "Move" | "Drop" | "Enlarge" | "Rotate" | "Folder" | "Settings";
 
 	let activeId: ActiveId | null = null;
 
 	const buttons = [
-		{ src: Drop, alt: "Drop", id: ActiveId.Drop },
-		{ src: Folder, alt: "Folder", id: ActiveId.Folder, disabled: true },
-		{ src: Rotate, alt: "Rotate", id: ActiveId.Rotate },
-		{ src: Move, alt: "Move", id: ActiveId.Move },
-		{ src: Enlarge, alt: "Enlarge", id: ActiveId.Enlarge },
-		{ src: Settings, alt: "Settings", id: ActiveId.Settings },
+		{ src: Drop, alt: "Drop", id: "Drop" },
+		{ src: Folder, alt: "Folder", id: "Folder", disabled: true },
+		{ src: Rotate, alt: "Rotate", id: "Rotate" },
+		{ src: Move, alt: "Move", id: "Move" },
+		{ src: Enlarge, alt: "Enlarge", id: "Enlarge" },
+		{ src: Settings, alt: "Settings", id: "Settings" },
 	];
 
 	const toggleActive = (id: ActiveId) => {
@@ -65,9 +50,7 @@
 </script>
 
 {#if $authStore.identity}
-	<div
-		class="fixed left-2 top-1/2 transform -translate-y-1/2 z-[1000] flex flex-col gap-1"
-	>
+	<div class="fixed left-2 top-1/2 transform -translate-y-1/2 z-[1000] flex flex-col gap-1">
 		{#each buttons as { src, alt, id, disabled = false }}
 			<Button
 				{src}

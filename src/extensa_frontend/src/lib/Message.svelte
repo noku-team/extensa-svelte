@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { messageStore } from "../store/MessageStore";
-	console.warn($messageStore.type);
 </script>
 
 {#if $messageStore.message}

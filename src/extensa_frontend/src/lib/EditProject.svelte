@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { sendProjectWorker } from "../actions/sendProject.action";
 	import { authStore } from "../store/AuthStore";
+	import { messageStore } from "../store/MessageStore";
 	import { projectStore } from "../store/ProjectStore";
 	import { spinnerStore } from "../store/SpinnerStore";
 	import executeEditGeoarea from "../utils/dfinity/geoareas/methods/editGeoarea";
@@ -13,48 +14,60 @@
 	$: showModal = !!$projectStore.geoAreaToEdit;
 
 	const save = async () => {
-		if (
-			$projectStore?.geoAreaToEdit?.id &&
-			$projectStore?.geoAreaToEdit.projectsList[0].id
-		) {
-			if ($authStore.identity && process.env.CANISTER_ID_EXTENSA_BACKEND) {
-				spinnerStore.setLoading(true);
-				await executeEditProject({
-					identity: $authStore.identity,
-					canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
-					geoareaId: BigInt($projectStore.geoAreaToEdit.id),
-					projectId: $projectStore?.geoAreaToEdit.projectsList[0].id,
-					type: $projectStore?.geoAreaToEdit.projectsList[0].type ?? "---",
-					name: $projectStore?.geoAreaToEdit.projectsList[0].name,
-					position: $projectStore?.geoAreaToEdit.projectsList[0].myPosition,
-					orientation:
-						$projectStore?.geoAreaToEdit.projectsList[0].myOrientation,
-					size: $projectStore?.geoAreaToEdit.projectsList[0].mySize,
-					fileId: $projectStore?.geoAreaToEdit.projectsList[0].file_id,
-				});
+		try {
+			const geoAreaCopy = { ...$projectStore?.geoAreaToEdit } ?? {};
+			if (
+				geoAreaCopy?.id &&
+				geoAreaCopy?.projectsList?.[0]?.id &&
+				geoAreaCopy?.geoAreaName &&
+				geoAreaCopy?.myCoords
+			) {
+				if ($authStore.identity && process.env.CANISTER_ID_EXTENSA_BACKEND) {
+					projectStore.setGeoAreaToEdit(null);
+					spinnerStore.setLoading(true);
 
-				await executeEditGeoarea({
-					identity: $authStore.identity,
-					canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
-					id: BigInt($projectStore.geoAreaToEdit.id),
-					name: $projectStore.geoAreaToEdit.geoAreaName,
-					coords: $projectStore.geoAreaToEdit.myCoords,
-				});
+					await executeEditProject({
+						identity: $authStore.identity,
+						canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
+						geoareaId: BigInt(geoAreaCopy.id),
+						projectId: geoAreaCopy.projectsList[0].id,
+						type: $projectStore?.geoAreaToEdit?.projectsList[0].type ?? "---",
+						name: $projectStore?.geoAreaToEdit?.projectsList[0].name,
+						position: $projectStore?.geoAreaToEdit?.projectsList[0].myPosition,
+						orientation:
+							$projectStore?.geoAreaToEdit?.projectsList[0].myOrientation,
+						size: $projectStore?.geoAreaToEdit?.projectsList[0].mySize,
+						fileId: $projectStore?.geoAreaToEdit?.projectsList[0].file_id,
+					});
 
-				spinnerStore.setLoading(false);
+					await executeEditGeoarea({
+						identity: $authStore.identity,
+						canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
+						id: BigInt(geoAreaCopy.id),
+						name: geoAreaCopy.geoAreaName,
+						coords: geoAreaCopy.myCoords,
+					});
+
+					spinnerStore.setLoading(false);
+					messageStore.setMessage("Project saved successfully", "success");
+				}
+			} else {
+				sendProjectWorker.postMessage({
+					msg: "executeSendProjectWorker",
+					data: {
+						file: JSON.stringify($projectStore.geoAreaToEdit?.projectsList[0]),
+						geoAreaName: $projectStore.geoAreaToEdit?.geoAreaName,
+						geoAreaCoords: $projectStore.geoAreaToEdit?.myCoords,
+					},
+				});
 			}
-		} else {
-			sendProjectWorker.postMessage({
-				msg: "executeSendProjectWorker",
-				data: {
-					file: JSON.stringify($projectStore.geoAreaToEdit?.projectsList[0]),
-					geoAreaName: $projectStore.geoAreaToEdit?.geoAreaName,
-					geoAreaCoords: $projectStore.geoAreaToEdit?.myCoords,
-				},
-			});
-		}
 
-		onModalClose();
+			onModalClose();
+		} catch (e) {
+			console.error("Error while saving project", e);
+		} finally {
+			spinnerStore.setLoading(false);
+		}
 	};
 </script>
 

@@ -285,7 +285,7 @@ const createEditor = () => {
 				colorGeoArea = { r: 1.0, g: 0.0, b: 0.0 };
 			}
 		};
-		
+
 		let myPosition = MAP.f.getMapPosition(MAP.p.width, MAP.p.height, prop.myCoords.lng, prop.myCoords.lat, prop.myCoords.alt);
 
 		VARCO.f.addComplex(
@@ -496,7 +496,7 @@ const createEditor = () => {
 			// controlla se utente e' lo stesso proprietario dell'area e quindi del progetto //
 
 			const _user = p.obj.parent.userData.linkedGeoArea.userData.user?.[0]?.toString() || p.obj.parent.userData.linkedGeoArea.userData.user?.toString();
-			
+
 			if (principal == _user) {
 
 				EDITOR.f.deselectProjects();
@@ -580,12 +580,12 @@ const createEditor = () => {
 		const principal = auth.identity?.getPrincipal()?.toString();
 
 		if (principal) {
-			
-			console.log( " OK principal " );
-			
+
+			console.log(" OK principal ");
+
 			if (principal == p.obj.parent.userData.user?.[0]?.toString()) {
-				
-				console.log( " OK principal bis " );
+
+				console.log(" OK principal bis ");
 
 				// diseleziona progetti in geoArea diversa da quella attuale
 				const { project: _selectedProject } = get(projectStore); // leggi dato
@@ -603,9 +603,9 @@ const createEditor = () => {
 				EDITOR.f.deselectGeoArea();
 
 				PLY.p.selectedArea = p.obj.parent;
-				
-				console.log( " OK selectedArea " );
-				console.log( PLY.p.selectedArea );
+
+				console.log(" OK selectedArea ");
+				console.log(PLY.p.selectedArea);
 
 				PLY.p.selectedArea.MATERIALS.geoAreaKernel_mat.color.r = 1.0;
 
@@ -669,14 +669,14 @@ const createEditor = () => {
 				if (PLY.p.selectedArea?.uuid == UI.p.scene.OBJECTS.poi.children[numA].userData.linkedObj?.uuid) {
 
 					VARCO.f.deleteElement(UI.p.scene.OBJECTS.poi, UI.p.scene.OBJECTS.poi.children[numA]);
-					
+
 					break;
 
 				};
 
 			};
-			
-			VARCO.f.deleteElement( PLY.p.scene3D.OBJECTS.geoArea, PLY.p.selectedArea );
+
+			VARCO.f.deleteElement(PLY.p.scene3D.OBJECTS.geoArea, PLY.p.selectedArea);
 
 			PLY.p.selectedArea = undefined;
 
@@ -1018,15 +1018,9 @@ const createEditor = () => {
 
 
 	EDITOR.f.SAVE_GEOAREA = function () {
-		
-		console.log( EDITOR.f.SAVE_GEOAREA );
-
 		if (PLY.p.selectedArea !== undefined) {
-
 			let projectsList = [];
-
 			for (var i = 0; i < PLY.p.selectedArea.OBJECTS.projects.children.length; i += 1) {
-
 				projectsList.push(
 					{
 						"type": PLY.p.selectedArea.OBJECTS.projects.children[i].userData.type,
@@ -1048,16 +1042,16 @@ const createEditor = () => {
 							"y": PLY.p.selectedArea.OBJECTS.projects.children[i].scale.y,
 							"z": PLY.p.selectedArea.OBJECTS.projects.children[i].scale.z
 						},
-						"previewImage": PLY.p.selectedArea.OBJECTS.projects.children[i].userData.previewImage
+						"previewImage": PLY.p.selectedArea.OBJECTS.projects.children[i].userData.previewImage,
+						"id": PLY.p.selectedArea.OBJECTS.projects.children[i]?.userData?.id,
+						"file_id": PLY.p.selectedArea.OBJECTS.projects.children[i]?.userData?.file_id,
 					}
 				)
-
 			}
-			
+
 			// console.log( projectsList );
 
 			const geoAreaInfo = {
-
 				"id": PLY.p.selectedArea.userData.id,
 				"user": PLY.p.selectedArea.userData.user,
 				"geoAreaName": PLY.p.selectedArea.userData.geoAreaName,
@@ -1068,7 +1062,6 @@ const createEditor = () => {
 					"alt": PLY.p.selectedArea.userData.myCoords.alt,
 				},
 				"projectsList": projectsList
-
 			};
 
 
@@ -1079,7 +1072,7 @@ const createEditor = () => {
 			// const nameFile = 'USER_DB/' + PLY.p.selectedArea.userData.user + '/' + PLY.p.selectedArea.userData.geoAreaName + ".json";
 
 			// TODO EDIT PROJECT HERE AND SEND TO BLOCKCHAIN
-			// projectStore.setGeoAreaToEdit(geoAreaInfo);
+			projectStore.setGeoAreaToEdit(geoAreaInfo);
 
 
 		};
@@ -1088,9 +1081,9 @@ const createEditor = () => {
 		// UI.p.menu_optimizer.f.button_save_gltf();
 
 		const { project: _selectedProject } = get(projectStore); // leggi dato
-		
-		console.log( _selectedProject );
-		
+
+		console.log(_selectedProject);
+
 		if (_selectedProject !== null && _selectedProject !== undefined) {
 			UI.p.menu_optimizer.f.button_save_gltf();
 		}
@@ -1298,12 +1291,12 @@ const createEditor = () => {
 		try {
 			spinnerStore.setLoading(true);
 			function objectReady(PROJECTOBJ, projectName, type, infoJson) {
-				
+
 				try {
 					console.log(PROJECTOBJ)
 
 					PROJECTOBJ.name = projectName;
-					
+
 					if (type !== "json") {
 
 						VARCO.f.setPropAndParameters(PROJECTOBJ, { "MM3D": {} });
@@ -2644,9 +2637,9 @@ const createEditor = () => {
 
 
 	EDITOR.f.exportGLB = function (PROJECTOBJ, GEOAREAOBJ) {
-		
+
 		spinnerStore.setLoading(true);
-		
+
 		console.log('EDITOR.f.exportGLB');
 
 		console.log(PROJECTOBJ);
@@ -2734,8 +2727,8 @@ const createEditor = () => {
 					"scale": scale
 
 				};
-				
-				console.log( projectData )
+
+				console.log(projectData)
 
 				spinnerStore.setLoading(false);
 				await EDITOR.f.createGeoAreaHelpers(projectData);
@@ -2744,7 +2737,7 @@ const createEditor = () => {
 		);
 
 	};
-	
+
 	// EDITOR.f.exportGLB = function( OBJ, GEOAREAOBJ ){
 
 	// console.log( 'EDITOR.f.exportGLB' );

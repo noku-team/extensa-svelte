@@ -2,6 +2,7 @@
 	import { sendProjectWorker } from "../actions/sendProject.action";
 	import { authStore } from "../store/AuthStore";
 	import { projectStore } from "../store/ProjectStore";
+	import { spinnerStore } from "../store/SpinnerStore";
 	import executeEditGeoarea from "../utils/dfinity/geoareas/methods/editGeoarea";
 	import executeEditProject from "../utils/dfinity/geoareas/methods/editProject";
 	import Modal from "./Modal.svelte";
@@ -12,34 +13,35 @@
 	$: showModal = !!$projectStore.geoAreaToEdit;
 
 	const save = async () => {
-		if ($projectStore?.geoAreaToEdit?.id) {
+		if (
+			$projectStore?.geoAreaToEdit?.id &&
+			$projectStore?.geoAreaToEdit.projectsList[0].id
+		) {
 			if ($authStore.identity && process.env.CANISTER_ID_EXTENSA_BACKEND) {
-				if (
-					!!$projectStore.project &&
-					$projectStore?.geoAreaToEdit.projectsList[0]?.id
-				) {
-					await executeEditProject({
-						identity: $authStore.identity,
-						canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
-						geoareaId: BigInt($projectStore.geoAreaToEdit.id),
-						projectId: $projectStore?.geoAreaToEdit.projectsList[0].id,
-						type: $projectStore?.geoAreaToEdit.projectsList[0].type ?? "---",
-						name: $projectStore?.geoAreaToEdit.projectsList[0].name,
-						position: $projectStore?.geoAreaToEdit.projectsList[0].myPosition,
-						orientation:
-							$projectStore?.geoAreaToEdit.projectsList[0].myOrientation,
-						size: $projectStore?.geoAreaToEdit.projectsList[0].mySize,
-						fileId: $projectStore?.geoAreaToEdit.projectsList[0].file_id,
-					});
-				} else {
-					await executeEditGeoarea({
-						identity: $authStore.identity,
-						canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
-						id: BigInt($projectStore.geoAreaToEdit.id),
-						name: $projectStore.geoAreaToEdit.geoAreaName,
-						coords: $projectStore.geoAreaToEdit.myCoords,
-					});
-				}
+				spinnerStore.setLoading(true);
+				await executeEditProject({
+					identity: $authStore.identity,
+					canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
+					geoareaId: BigInt($projectStore.geoAreaToEdit.id),
+					projectId: $projectStore?.geoAreaToEdit.projectsList[0].id,
+					type: $projectStore?.geoAreaToEdit.projectsList[0].type ?? "---",
+					name: $projectStore?.geoAreaToEdit.projectsList[0].name,
+					position: $projectStore?.geoAreaToEdit.projectsList[0].myPosition,
+					orientation:
+						$projectStore?.geoAreaToEdit.projectsList[0].myOrientation,
+					size: $projectStore?.geoAreaToEdit.projectsList[0].mySize,
+					fileId: $projectStore?.geoAreaToEdit.projectsList[0].file_id,
+				});
+
+				await executeEditGeoarea({
+					identity: $authStore.identity,
+					canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
+					id: BigInt($projectStore.geoAreaToEdit.id),
+					name: $projectStore.geoAreaToEdit.geoAreaName,
+					coords: $projectStore.geoAreaToEdit.myCoords,
+				});
+
+				spinnerStore.setLoading(false);
 			}
 		} else {
 			sendProjectWorker.postMessage({
@@ -58,7 +60,7 @@
 
 <Modal
 	id="modal-edit-project"
-	bind:showModal
+	showModal={true}
 	title="Edit project"
 	onClose={onModalClose}
 >

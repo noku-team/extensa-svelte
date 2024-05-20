@@ -820,6 +820,7 @@ const createPLY = () => {
 				// Fetch geoareas from canister
 				executeFetchGeoareasByCoords(fetchParams).then((geoAreas) => {
 					for (const geoData of geoAreas) {
+						window.ggg = (geoData);
 						//filter for non yours empty geoareas
 						if (!geoData.projectsList.length && geoData.user?.[0]?.toString() !== identity?.getPrincipal()?.toString()) {
 							continue;

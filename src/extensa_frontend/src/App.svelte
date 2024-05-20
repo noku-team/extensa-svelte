@@ -6,7 +6,6 @@
 	import User from "./lib/User.svelte";
 	import WebGl from "./lib/WebGL.svelte";
 	import { authStore } from "./store/AuthStore";
-	import { spinnerStore } from "./store/SpinnerStore";
 
 	export let url = "";
 
@@ -29,7 +28,7 @@
 			</div>
 		</div>
 		<div id="footer"></div>
-		<div class="loading-overlay" class:active={$spinnerStore.isLoading}>
+		<div class="loading-overlay" class:active={true}>
 			<span class="loading loading-spinner loading-lg"></span>
 		</div>
 	</main>

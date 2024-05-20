@@ -601,6 +601,7 @@ const createPLY = () => {
 	// CODE LOOP :
 
 	PLY.f.GEOAREA_MANAGER = function () {
+		
 		let dist;
 		let distMin = 1000;
 		let distMax = PLY.p.geoAreaSize;
@@ -612,8 +613,18 @@ const createPLY = () => {
 		let vetPrjPos = new THREE.Vector3();
 
 		// controlla la distanza con i progetti attivi nella geoarea piu' vicina:
+		
+		const auth = get(authStore);
+		const principal = auth.identity?.getPrincipal()?.toString();
 
-		if (EDITOR.p.STATE == false) {
+		if (principal) {
+			
+			
+		} else {
+
+			// controlla se utente e' lo stesso proprietario dell'area e quindi del progetto //
+
+			// if (EDITOR.p.STATE == false) {
 
 			for (var numG = 0; numG < PLY.p.scene3D.OBJECTS.geoArea.children.length; numG += 1) {
 
@@ -687,7 +698,7 @@ const createPLY = () => {
 				PLY.p.selectedGeoAreaName = '';
 
 			}
-
+	
 		}
 
 	};

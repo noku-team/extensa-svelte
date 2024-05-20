@@ -124,7 +124,8 @@
 							class="btn btn-error btn-circle cursor-pointer btn-sm ml-auto"
 							on:click={onDelete}
 							disabled={$projectStore.sendProjectProgress > 0 ||
-								$projectStore.loadProjectProgress > 0}
+								$projectStore.loadProjectProgress > 0 ||
+								!$projectStore.project?.userData?.id}
 						>
 							<svg
 								width="24"

@@ -25,19 +25,19 @@
 				if ($authStore.identity && process.env.CANISTER_ID_EXTENSA_BACKEND) {
 					projectStore.setGeoAreaToEdit(null);
 					spinnerStore.setLoading(true);
-
+debugger;
 					await executeEditProject({
 						identity: $authStore.identity,
 						canisterId: process.env.CANISTER_ID_EXTENSA_BACKEND,
 						geoareaId: BigInt(geoAreaCopy.id),
 						projectId: geoAreaCopy.projectsList[0].id,
-						type: $projectStore?.geoAreaToEdit?.projectsList[0].type ?? "---",
-						name: $projectStore?.geoAreaToEdit?.projectsList[0].name,
-						position: $projectStore?.geoAreaToEdit?.projectsList[0].myPosition,
+						type: geoAreaCopy?.projectsList[0].type ?? "---",
+						name: geoAreaCopy?.projectsList[0].name,
+						position: geoAreaCopy?.projectsList[0].myPosition,
 						orientation:
-							$projectStore?.geoAreaToEdit?.projectsList[0].myOrientation,
-						size: $projectStore?.geoAreaToEdit?.projectsList[0].mySize,
-						fileId: $projectStore?.geoAreaToEdit?.projectsList[0].file_id,
+						geoAreaCopy?.projectsList[0].myOrientation,
+						size: geoAreaCopy?.projectsList[0].mySize,
+						fileId: geoAreaCopy?.projectsList[0].file_id,
 					});
 
 					await executeEditGeoarea({

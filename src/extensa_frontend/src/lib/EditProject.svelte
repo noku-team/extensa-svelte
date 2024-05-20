@@ -12,7 +12,6 @@
 	$: showModal = !!$projectStore.geoAreaToEdit;
 
 	const save = async () => {
-		debugger;
 		if ($projectStore?.geoAreaToEdit?.id) {
 			if ($authStore.identity && process.env.CANISTER_ID_EXTENSA_BACKEND) {
 				if (

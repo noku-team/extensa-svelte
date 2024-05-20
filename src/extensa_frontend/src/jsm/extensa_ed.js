@@ -484,7 +484,6 @@ const createEditor = () => {
 	};
 
 
-
 	EDITOR.f.selectProject = function (p) {
 		console.log('EDITOR.f.selectProject');
 

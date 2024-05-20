@@ -732,6 +732,12 @@ const createPLY = () => {
 	};
 
 
+	PLY.f.refreshSector = function(){
+		PLY.p.geoMapSectors.oldPosition.x = 0;
+		PLY.p.geoMapSectors.oldPosition.y = 0;
+		PLY.p.geoMapSectors.oldPosition.z = 0;
+	};
+	
 
 	PLY.f.SECTOR_UPDATE = function () {
 		
@@ -830,6 +836,7 @@ const createPLY = () => {
 
 				// Fetch geoareas from canister
 				executeFetchGeoareasByCoords(fetchParams).then((geoAreas) => {
+			
 					for (const geoData of geoAreas) {
 						window.ggg = (geoData);
 						//filter for non yours empty geoareas

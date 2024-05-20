@@ -806,6 +806,7 @@ const createPLY = () => {
 				if (UI.p.popup_login_data.p.data == undefined) { // DA CONTROLLARE SE UTENTE E' LOGGATO OPPURE NO
 
 					PLY.p.selectedArea = undefined;
+					projectStore.setSelectedGeoarea(PLY.p.selectedArea);
 
 					projectStore.setProject(null); // scrivi dato NULL
 
@@ -838,7 +839,6 @@ const createPLY = () => {
 				executeFetchGeoareasByCoords(fetchParams).then((geoAreas) => {
 			
 					for (const geoData of geoAreas) {
-						window.ggg = (geoData);
 						//filter for non yours empty geoareas
 						if (!geoData.projectsList.length && geoData.user?.[0]?.toString() !== identity?.getPrincipal()?.toString()) {
 							continue;

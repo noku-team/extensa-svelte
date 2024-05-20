@@ -3,7 +3,7 @@ import { AuthClient, type AuthClientLoginOptions } from "@dfinity/auth-client";
 import type { Readable } from "svelte/store";
 import { writable } from "svelte/store";
 import { AUTH_SESSION_DURATION } from "../constants/ttl";
-import { UI } from "../jsm";
+import { PLY, UI } from "../jsm";
 import getIdentityProviderUrl from "../utils/dfinity/getIdentityProvider";
 import isTestnet from "../utils/dfinity/isTestnet";
 import { clearProjects } from "../utils/indexedDB/getSaveEmpty";
@@ -83,6 +83,7 @@ const initAuthStore = (): AuthStore => {
                             identity: authClient?.getIdentity(),
                         }
                     });
+                    PLY.f.refreshSector();
                 },
                 onError,
             } as AuthClientLoginOptions;
@@ -112,6 +113,7 @@ const initAuthStore = (): AuthStore => {
                 ...state,
                 identity: null,
             }));
+            PLY.f.refreshSector();
         },
     };
 };

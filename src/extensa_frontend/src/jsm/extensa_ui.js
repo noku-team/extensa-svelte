@@ -1725,6 +1725,7 @@ const createUI = () => {
 			false,
 			function (p) {
 				PLY.p.selectedArea = p.obj;
+				projectStore.setSelectedGeoarea(PLY.p.selectedArea);
 			},
 			{}
 		);
@@ -2239,6 +2240,7 @@ const createUI = () => {
 
 			};
 
+			if (_selectedProject.userData.id) return;
 			switch (_selectedProject.userData.type) {
 				case "3d":
 					EDITOR.f.exportGLTF(_selectedProject.OBJECTS.myProject.children[0], _selectedProject.userData.linkedGeoArea); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -2268,7 +2270,7 @@ const createUI = () => {
 
 			};
 
-			
+
 		};
 
 	};

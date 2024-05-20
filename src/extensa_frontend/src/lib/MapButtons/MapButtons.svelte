@@ -45,6 +45,8 @@
 				break;
 		}
 	};
+
+	// TODO if u wanna make reactive PLY.p.selectedArea use $projectStore.selectedGeoarea in the conditions below
 </script>
 
 {#if $authStore.identity}

@@ -522,6 +522,8 @@ const createEditor = () => {
 
 					PLY.p.selectedArea.MATERIALS.geoAreaKernel_mat.color.b = 0.0;
 
+					projectStore.setSelectedGeoarea(PLY.p.selectedArea);
+
 				}
 
 
@@ -613,6 +615,7 @@ const createEditor = () => {
 				PLY.p.selectedArea.MATERIALS.geoAreaKernel_mat.color.b = 0.0;
 
 
+				projectStore.setSelectedGeoarea(PLY.p.selectedArea);
 				PLY.p.flagPlayerOn = false;
 
 
@@ -647,6 +650,7 @@ const createEditor = () => {
 		}
 
 		PLY.p.selectedArea = undefined;
+		projectStore.setSelectedGeoarea(PLY.p.selectedArea);
 
 	};
 
@@ -678,6 +682,7 @@ const createEditor = () => {
 			VARCO.f.deleteElement(PLY.p.scene3D.OBJECTS.geoArea, PLY.p.selectedArea);
 
 			PLY.p.selectedArea = undefined;
+			projectStore.setSelectedGeoarea(PLY.p.selectedArea);
 
 		};
 
@@ -1048,7 +1053,7 @@ const createEditor = () => {
 				)
 
 			};
-			
+
 			// console.log( projectsList );
 
 			const geoAreaInfo = {
@@ -1063,7 +1068,6 @@ const createEditor = () => {
 				},
 				"projectsList": projectsList
 			};
-
 
 			// save GEOAREA // 
 
@@ -1455,6 +1459,7 @@ const createEditor = () => {
 								// insert area in sector:
 
 								PLY.p.selectedArea = q.obj;
+								projectStore.setSelectedGeoarea(PLY.p.selectedArea);
 
 								EDITOR.f.createProject(
 
@@ -2481,7 +2486,6 @@ const createEditor = () => {
 
 		};
 		spinnerStore.setLoading(false);
-
 		await EDITOR.f.createGeoAreaHelpers(propVideoObject);
 	};
 
@@ -2613,6 +2617,7 @@ const createEditor = () => {
 
 			// rimuovi AREA //    VARCO.f.deleteElement(PLY.p.scene3D.OBJECTS.geoArea, PLY.p.scene3D.OBJECTS.geoArea.children[ num ]);
 			PLY.p.selectedArea = undefined;
+			projectStore.setSelectedGeoarea(PLY.p.selectedArea);
 			// scrivere qui' codice per togliere la geoarea AREAOBJ dalla BLOCKCHAIN
 			//
 			//

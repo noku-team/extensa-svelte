@@ -1,11 +1,22 @@
 <script lang="ts">
 	import cx from "classnames";
+	import { beforeUpdate } from "svelte";
 
 	export let src: string;
 	export let alt: string;
 	export let active: boolean;
 	export let disabled = false;
 	export let toggleActive: () => void;
+	export let deselectBtn: () => void;
+
+	let wasDisabled = disabled;
+
+	beforeUpdate(() => {
+		if (wasDisabled !== disabled) {
+			deselectBtn();
+			wasDisabled = disabled;
+		}
+	});
 </script>
 
 <button

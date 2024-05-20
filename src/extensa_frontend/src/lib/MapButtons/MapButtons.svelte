@@ -10,19 +10,36 @@
 	import Rotate from "/images/UI/buttons/circle_left.png";
 	import Settings from "/images/UI/buttons/settings.png";
 
-	type ActiveId =
-		| "Move"
-		| "Drop"
-		| "Enlarge"
-		| "Rotate"
-		| "Folder"
-		| "Settings";
+	// type ActiveId =
+	// 	| "Move"
+	// 	| "Drop"
+	// 	| "Enlarge"
+	// 	| "Rotate"
+	// 	| "Folder"
+	// 	| "Settings";
+
+	enum ActiveId {
+		Move = "Move",
+		Drop = "Drop",
+		Enlarge = "Enlarge",
+		Rotate = "Rotate",
+		Folder = "Folder",
+		Settings = "Settings",
+	}
 
 	let activeId: ActiveId | null = null;
 
+	const buttons = [
+		{ src: Drop, alt: "Drop", id: ActiveId.Drop },
+		{ src: Folder, alt: "Folder", id: ActiveId.Folder, disabled: true },
+		{ src: Rotate, alt: "Rotate", id: ActiveId.Rotate },
+		{ src: Move, alt: "Move", id: ActiveId.Move },
+		{ src: Enlarge, alt: "Enlarge", id: ActiveId.Enlarge },
+		{ src: Settings, alt: "Settings", id: ActiveId.Settings },
+	];
+
 	const toggleActive = (id: ActiveId) => {
-		if (activeId === id) activeId = null;
-		else activeId = id;
+		activeId = activeId === id ? null : id;
 
 		switch (id) {
 			case "Drop":
@@ -45,54 +62,21 @@
 				break;
 		}
 	};
-
-	// TODO if u wanna make reactive PLY.p.selectedArea use $projectStore.selectedGeoarea in the conditions below
 </script>
 
 {#if $authStore.identity}
 	<div
 		class="fixed left-2 top-1/2 transform -translate-y-1/2 z-[1000] flex flex-col gap-1"
 	>
-		<Button
-			src={Drop}
-			alt="Drop"
-			active={activeId === "Drop"}
-			toggleActive={() => toggleActive("Drop")}
-		/>
-		<Button
-			src={Folder}
-			alt="Folder"
-			active={activeId === "Folder"}
-			toggleActive={() => toggleActive("Folder")}
-			disabled
-		/>
-		<Button
-			disabled={!$projectStore.project && !PLY.p.selectedArea}
-			src={Rotate}
-			alt="Rotate"
-			active={activeId === "Rotate"}
-			toggleActive={() => toggleActive("Rotate")}
-		/>
-		<Button
-			disabled={!$projectStore.project && !PLY.p.selectedArea}
-			src={Move}
-			alt="Move"
-			active={activeId === "Move"}
-			toggleActive={() => toggleActive("Move")}
-		/>
-		<Button
-			disabled={!$projectStore.project && !PLY.p.selectedArea}
-			src={Enlarge}
-			alt="Enlarge"
-			active={activeId === "Enlarge"}
-			toggleActive={() => toggleActive("Enlarge")}
-		/>
-		<Button
-			disabled={!$projectStore.project && !PLY.p.selectedArea}
-			src={Settings}
-			alt="Settings"
-			active={activeId === "Settings"}
-			toggleActive={() => toggleActive("Settings")}
-		/>
+		{#each buttons as { src, alt, id, disabled = false }}
+			<Button
+				{src}
+				{alt}
+				active={activeId === id}
+				toggleActive={() => toggleActive(id)}
+				deselectBtn={() => (activeId = null)}
+				disabled={!disabled && !$projectStore.project && !PLY.p.selectedArea}
+			/>
+		{/each}
 	</div>
 {/if}

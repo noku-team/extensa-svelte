@@ -60,7 +60,7 @@
 
 <Modal
 	id="modal-edit-project"
-	showModal={true}
+	bind:showModal
 	title="Edit project"
 	onClose={onModalClose}
 >

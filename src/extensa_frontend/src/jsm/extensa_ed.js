@@ -1047,8 +1047,9 @@ const createEditor = () => {
 						"file_id": PLY.p.selectedArea.OBJECTS.projects.children[i]?.userData?.file_id,
 					}
 				)
-			}
 
+			};
+			
 			// console.log( projectsList );
 
 			const geoAreaInfo = {
@@ -1068,9 +1069,7 @@ const createEditor = () => {
 			// save GEOAREA // 
 
 			// const textData = JSON.stringify(geoAreaInfo);
-
 			// const nameFile = 'USER_DB/' + PLY.p.selectedArea.userData.user + '/' + PLY.p.selectedArea.userData.geoAreaName + ".json";
-
 			// TODO EDIT PROJECT HERE AND SEND TO BLOCKCHAIN
 			projectStore.setGeoAreaToEdit(geoAreaInfo);
 

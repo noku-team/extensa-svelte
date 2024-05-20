@@ -17,6 +17,7 @@ export interface ProjectStore extends Readable<ProjectStoreData> {
     set3DVisible: (is3DVisible: boolean) => void;
     setFileId: (fileId?: bigint) => void;
     setProjectId: (projectId?: bigint) => void;
+    setProjectUser: (projectUser: string) => void;
     setNotYetSaved: (isNotYetSaved: boolean) => void;
     setGeoAreaToEdit: (geoarea: GeoArea | null) => void;
     setSendProjectProgress: (progress: number) => void;
@@ -63,6 +64,12 @@ const initProjectStore = (): ProjectStore => {
                 };
             });
         },
+        setProjectUser: (principal: string) => {
+            update((state) => {
+                if (state.project) state.project.userData.user[0] = principal;
+                return state;
+            });
+        },
         setFileId: (fileId?: bigint) => {
             if (!fileId) return;
             update((state) => {
@@ -77,6 +84,7 @@ const initProjectStore = (): ProjectStore => {
                 return state;
             });
         },
+
         set3DVisible: (is3DVisible: boolean) => {
             update((state) => {
                 if (state.project) state.project.is3DVisible = is3DVisible;

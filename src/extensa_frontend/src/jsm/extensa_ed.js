@@ -584,7 +584,7 @@ const createEditor = () => {
 
 			console.log(" OK principal ");
 
-			if (principal == p.obj.parent.userData.user?.[0]?.toString()) {
+			if (principal === (p.obj.parent.userData.user?.[0]?.toString() || p.obj.parent.userData?.user?.toString())) {
 
 				console.log(" OK principal bis ");
 

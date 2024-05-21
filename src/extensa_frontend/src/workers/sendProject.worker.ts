@@ -40,9 +40,9 @@ const syncSendProjects = async (params: BaseWorkerUtilsJobData<PostMessageDataRe
 
         // mocked for now
         const projectType = "3D";
-        const projectPosition = fileObj.position;
-        const projectOrientation = fileObj.rotation;
-        const projectSize = fileObj.scale;
+        const projectPosition = fileObj.position || fileObj.myPosition;
+        const projectOrientation = fileObj.rotation || fileObj.myOrientation;
+        const projectSize = fileObj.scale || fileObj.mySize;
         const projectName = fileObj.name;
 
         const { addProjectResult, geoareaId } = await createGeoareaAndLoadProjectInside(

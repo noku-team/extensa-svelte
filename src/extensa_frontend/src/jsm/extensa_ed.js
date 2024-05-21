@@ -1022,6 +1022,9 @@ const createEditor = () => {
 
 
 	EDITOR.f.SAVE_GEOAREA = function () {
+		const { project: _selectedProject } = get(projectStore); // leggi dato
+
+		console.log(_selectedProject);
 		if (PLY.p.selectedArea !== undefined) {
 			let projectsList = [];
 			for (var i = 0; i < PLY.p.selectedArea.OBJECTS.projects.children.length; i += 1) {
@@ -1074,19 +1077,13 @@ const createEditor = () => {
 			// const textData = JSON.stringify(geoAreaInfo);
 			// const nameFile = 'USER_DB/' + PLY.p.selectedArea.userData.user + '/' + PLY.p.selectedArea.userData.geoAreaName + ".json";
 			// TODO EDIT PROJECT HERE AND SEND TO BLOCKCHAIN
-			projectStore.setGeoAreaToEdit(geoAreaInfo);
-
-
+			if (_selectedProject.userData.id) projectStore.setGeoAreaToEdit(geoAreaInfo);
 		};
 
 
 		// UI.p.menu_optimizer.f.button_save_gltf();
 
-		const { project: _selectedProject } = get(projectStore); // leggi dato
-
-		console.log(_selectedProject);
-
-		if (_selectedProject !== null && _selectedProject !== undefined) {
+		if (_selectedProject !== null && _selectedProject !== undefined && !_selectedProject.userData.id) {
 			UI.p.menu_optimizer.f.button_save_gltf();
 		}
 		// const { project: _selectedProject } = get(projectStore); // leggi dato

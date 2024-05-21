@@ -87,10 +87,9 @@
 		class="
 		fixed
 		top-20
-		left-1/2
-		transform
-		-translate-x-1/2
+		right-2
 		bg-base-100
+		bg-opacity-80
 		z-10
 		rounded-xl
 		min-w-44

@@ -750,6 +750,7 @@ const createEditor = () => {
 							if (child.material !== undefined) {
 
 								child.castShadow = true;
+								child.material.transparent = true;
 
 							}
 						});
@@ -1368,6 +1369,7 @@ const createEditor = () => {
 							if (child.material !== undefined) {
 
 								child.castShadow = true;
+								child.material.transparent = true;
 
 							}
 
@@ -2383,6 +2385,7 @@ const createEditor = () => {
 						"type": "MeshBasicMaterial",
 						"parameters": {
 							"textures": { "map": PROJECTOBJ.name },
+							"transparent" : true,
 							"side": "THREE.DoubleSide"
 						}
 					}

@@ -1,329 +1,260 @@
 {
-	"name" : "menu_optimizer",
-	
-	"parameters" : {
-		
-		"textureList" : [
+	"name": "menu_optimizer",
+
+	"parameters": {
+		"textureList": [
 			{
-				"name" : "button_textures",
-				"url" : "images/UI/button_textures.png"
+				"name": "button_textures",
+				"url": "images/UI/button_textures.png"
 			},
 			{
-				"name" : "button_geometry",
-				"url" : "images/UI/button_geometry.png"
+				"name": "button_geometry",
+				"url": "images/UI/button_geometry.png"
 			},
-			
+
 			{
-				"name" : "button_drawCalls",
-				"url" : "images/UI/button_drawcalls.png"
-			},
-			{
-				"name" : "button_save_gltf",
-				"url" : "images/UI/button_save_prj.png"
+				"name": "button_drawCalls",
+				"url": "images/UI/button_drawcalls.png"
 			},
 			{
-				"name" : "button_save_glb",
-				"url" : "images/UI/button_save_glb.png"
+				"name": "button_save_gltf",
+				"url": "images/UI/button_save_prj.png"
 			},
 			{
-				"name" : "button_save_area",
-				"url" : "images/UI/button_save_all.png"
+				"name": "button_save_glb",
+				"url": "images/UI/button_save_glb.png"
 			},
 			{
-				"name" : "button_optimizer",
-				"url" : "images/UI/button_optimizer.png"
+				"name": "button_save_area",
+				"url": "images/UI/button_save_all.png"
 			},
 			{
-				"name" : "button_close",
-				"url" : "images/UI/button_close.png"
+				"name": "button_optimizer",
+				"url": "images/UI/button_optimizer.png"
 			}
-			
-			
 		],
-		
-		"materialList" : [
-			
+
+		"materialList": [
 			{
-				"name" : "button_textures",
-				"type" : "MeshBasicMaterial",
-				"parameters" : {
-					"color" : {
-						"r" : 1.0,
-						"g" : 1.0,
-						"b" : 1.0
+				"name": "button_textures",
+				"type": "MeshBasicMaterial",
+				"parameters": {
+					"color": {
+						"r": 1.0,
+						"g": 1.0,
+						"b": 1.0
 					},
-					"transparent" : true,
-					"textures" : {
-						"map" : "button_textures"
+					"transparent": true,
+					"textures": {
+						"map": "button_textures"
 					}
 				}
 			},
 			{
-				"name" : "button_geometry",
-				"type" : "MeshBasicMaterial",
-				"parameters" : {
-					"color" : {
-						"r" : 1.0,
-						"g" : 1.0,
-						"b" : 1.0
+				"name": "button_geometry",
+				"type": "MeshBasicMaterial",
+				"parameters": {
+					"color": {
+						"r": 1.0,
+						"g": 1.0,
+						"b": 1.0
 					},
-					"transparent" : true,
-					"textures" : {
-						"map" : "button_geometry"
+					"transparent": true,
+					"textures": {
+						"map": "button_geometry"
 					}
 				}
 			},
 			{
-				"name" : "button_drawCalls",
-				"type" : "MeshBasicMaterial",
-				"parameters" : {
-					"color" : {
-						"r" : 1.0,
-						"g" : 1.0,
-						"b" : 1.0
+				"name": "button_drawCalls",
+				"type": "MeshBasicMaterial",
+				"parameters": {
+					"color": {
+						"r": 1.0,
+						"g": 1.0,
+						"b": 1.0
 					},
-					"transparent" : true,
-					"textures" : {
-						"map" : "button_drawCalls"
+					"transparent": true,
+					"textures": {
+						"map": "button_drawCalls"
 					}
 				}
 			},
 			{
-				"name" : "button_save_gltf",
-				"type" : "MeshBasicMaterial",
-				"parameters" : {
-					"color" : {
-						"r" : 1.0,
-						"g" : 1.0,
-						"b" : 1.0
+				"name": "button_save_gltf",
+				"type": "MeshBasicMaterial",
+				"parameters": {
+					"color": {
+						"r": 1.0,
+						"g": 1.0,
+						"b": 1.0
 					},
-					"transparent" : true,
-					"textures" : {
-						"map" : "button_save_gltf"
+					"transparent": true,
+					"textures": {
+						"map": "button_save_gltf"
 					}
 				}
 			},
 			{
-				"name" : "button_save_glb",
-				"type" : "MeshBasicMaterial",
-				"parameters" : {
-					"color" : {
-						"r" : 1.0,
-						"g" : 1.0,
-						"b" : 1.0
+				"name": "button_save_glb",
+				"type": "MeshBasicMaterial",
+				"parameters": {
+					"color": {
+						"r": 1.0,
+						"g": 1.0,
+						"b": 1.0
 					},
-					"transparent" : true,
-					"textures" : {
-						"map" : "button_save_glb"
+					"transparent": true,
+					"textures": {
+						"map": "button_save_glb"
 					}
 				}
 			},
 			{
-				"name" : "button_save_area",
-				"type" : "MeshBasicMaterial",
-				"parameters" : {
-					"color" : {
-						"r" : 1.0,
-						"g" : 1.0,
-						"b" : 1.0
+				"name": "button_save_area",
+				"type": "MeshBasicMaterial",
+				"parameters": {
+					"color": {
+						"r": 1.0,
+						"g": 1.0,
+						"b": 1.0
 					},
-					"transparent" : true,
-					"textures" : {
-						"map" : "button_save_area"
+					"transparent": true,
+					"textures": {
+						"map": "button_save_area"
 					}
 				}
 			},
 			{
-				"name" : "button_optimizer",
-				"type" : "MeshBasicMaterial",
-				"parameters" : {
-					"color" : {
-						"r" : 1.0,
-						"g" : 1.0,
-						"b" : 1.0
+				"name": "button_optimizer",
+				"type": "MeshBasicMaterial",
+				"parameters": {
+					"color": {
+						"r": 1.0,
+						"g": 1.0,
+						"b": 1.0
 					},
-					"transparent" : true,
-					"textures" : {
-						"map" : "button_optimizer"
-					}
-				}
-			},
-			{
-				"name" : "button_close",
-				"type" : "MeshBasicMaterial",
-				"parameters" : {
-					"color" : {
-						"r" : 1.0,
-						"g" : 1.0,
-						"b" : 1.0
-					},
-					"transparent" : true,
-					"textures" : {
-						"map" : "button_close"
+					"transparent": true,
+					"textures": {
+						"map": "button_optimizer"
 					}
 				}
 			}
-			
 		],
-		
-		"elementList" : [
-			
+
+		"elementList": [
 			{
-				"type" : "addMesh", 
-				"prop" : {
-					"type" : "PlaneGeometry",
-					"name" : "button_textures",
-					"visible" : true,
-					"materialList" : [ "button_textures" ],
-					"parameters" : {
-						"width" : 128,
-						"height" : 64
+				"type": "addMesh",
+				"prop": {
+					"type": "PlaneGeometry",
+					"name": "button_textures",
+					"visible": true,
+					"materialList": ["button_textures"],
+					"parameters": {
+						"width": 128,
+						"height": 64
 					},
-					"position" : {
-						"x" : 0.0,
-						"y" : 0.0,
-						"z" : 0.0
+					"position": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
 					},
-					"MM3D" : {
-						
-						"events" : {
-							
-							"mousedown" : {
-								"scriptList" : [
+					"MM3D": {
+						"events": {
+							"mousedown": {
+								"scriptList": [
 									{
-										"functionName" : "UI.p.menu_optimizer.f.button_textures",
-										"functionProp" : {}
+										"functionName": "UI.p.menu_optimizer.f.button_textures",
+										"functionProp": {}
 									}
 								]
 							},
-							
-							"touchstart" : {
-								"scriptList" : [
+
+							"touchstart": {
+								"scriptList": [
 									{
-										"functionName" : "UI.p.menu_optimizer.f.button_textures",
-										"functionProp" : {}
+										"functionName": "UI.p.menu_optimizer.f.button_textures",
+										"functionProp": {}
 									}
 								]
 							}
-							
 						}
-						
 					}
 				}
 			},
-			
+
 			{
-				"type" : "addMesh", 
-				"prop" : {
-					"type" : "PlaneGeometry",
-					"name" : "button_geometry",
-					"visible" : true,
-					"materialList" : [ "button_geometry" ],
-					"parameters" : {
-						"width" : 128,
-						"height" : 64
+				"type": "addMesh",
+				"prop": {
+					"type": "PlaneGeometry",
+					"name": "button_geometry",
+					"visible": true,
+					"materialList": ["button_geometry"],
+					"parameters": {
+						"width": 128,
+						"height": 64
 					},
-					"position" : {
-						"x" : 0.0,
-						"y" : -70.0,
-						"z" : 0.0
+					"position": {
+						"x": 0.0,
+						"y": -70.0,
+						"z": 0.0
 					},
-					"MM3D" : {
-						
-						"events" : {
-							
-							"mousedown" : {
-								"scriptList" : [
+					"MM3D": {
+						"events": {
+							"mousedown": {
+								"scriptList": [
 									{
-										"functionName" : "UI.p.menu_optimizer.f.button_geometry",
-										"functionProp" : {}
+										"functionName": "UI.p.menu_optimizer.f.button_geometry",
+										"functionProp": {}
 									}
 								]
 							},
-							
-							"touchstart" : {
-								"scriptList" : [
+
+							"touchstart": {
+								"scriptList": [
 									{
-										"functionName" : "UI.p.menu_optimizer.f.button_geometry",
-										"functionProp" : {}
+										"functionName": "UI.p.menu_optimizer.f.button_geometry",
+										"functionProp": {}
 									}
 								]
 							}
-							
 						}
-						
 					}
 				}
 			},
-			
+
 			{
-				"type" : "addMesh", 
-				"prop" : {
-					"type" : "PlaneGeometry",
-					"name" : "button_drawCalls",
-					"visible" : true,
-					"materialList" : [ "button_drawCalls" ],
-					"parameters" : {
-						"width" : 128,
-						"height" : 64
+				"type": "addMesh",
+				"prop": {
+					"type": "PlaneGeometry",
+					"name": "button_drawCalls",
+					"visible": true,
+					"materialList": ["button_drawCalls"],
+					"parameters": {
+						"width": 128,
+						"height": 64
 					},
-					"position" : {
-						"x" : 0.0,
-						"y" : -140.0,
-						"z" : 0.0
+					"position": {
+						"x": 0.0,
+						"y": -140.0,
+						"z": 0.0
 					},
-					"MM3D" : {
-						
-						"events" : {
-							
-							"mousedown" : {
-								"scriptList" : [
+					"MM3D": {
+						"events": {
+							"mousedown": {
+								"scriptList": [
 									{
-										"functionName" : "UI.p.menu_optimizer.f.button_drawCalls",
-										"functionProp" : {}
+										"functionName": "UI.p.menu_optimizer.f.button_drawCalls",
+										"functionProp": {}
 									}
 								]
 							},
-							
-							"touchstart" : {
-								"scriptList" : [
+
+							"touchstart": {
+								"scriptList": [
 									{
-										"functionName" : "UI.p.menu_optimizer.f.button_drawCalls",
-										"functionProp" : {}
-									}
-								]
-							}
-							
-						}
-						
-					}
-				}
-			},
-			
-			{
-				"type" : "addMesh", 
-				"prop" : {
-					"type" : "PlaneGeometry",
-					"name" : "button_optimizer",
-					"visible" : false,
-					"materialList" : [ "button_optimizer" ],
-					"parameters" : {
-						"width" : 128,
-						"height" : 64
-					},
-					"position" : {
-						"x" : 150.0,
-						"y" : -240.0,
-						"z" : 0.0
-					},
-					
-					"MM3D" : {
-						"events" : {
-							"mouseup" : {
-								"scriptList" : [
-									{
-										"functionName" : "UI.p.menu_optimizer.f.button_optimizer",
-										"functionProp" : {}
+										"functionName": "UI.p.menu_optimizer.f.button_drawCalls",
+										"functionProp": {}
 									}
 								]
 							}
@@ -331,31 +262,31 @@
 					}
 				}
 			},
-			
+
 			{
-				"type" : "addMesh", 
-				"prop" : {
-					"type" : "PlaneGeometry",
-					"name" : "button_save_glb",
-					"visible" : false,
-					"materialList" : [ "button_save_glb" ],
-					"parameters" : {
-						"width" : 128,
-						"height" : 64
+				"type": "addMesh",
+				"prop": {
+					"type": "PlaneGeometry",
+					"name": "button_optimizer",
+					"visible": false,
+					"materialList": ["button_optimizer"],
+					"parameters": {
+						"width": 128,
+						"height": 64
 					},
-					"position" : {
-						"x" : 0.0,
-						"y" : -240.0,
-						"z" : 0.0
+					"position": {
+						"x": 150.0,
+						"y": -240.0,
+						"z": 0.0
 					},
-					
-					"MM3D" : {
-						"events" : {
-							"mouseup" : {
-								"scriptList" : [
+
+					"MM3D": {
+						"events": {
+							"mouseup": {
+								"scriptList": [
 									{
-										"functionName" : "UI.p.menu_optimizer.f.button_save_glb",
-										"functionProp" : {}
+										"functionName": "UI.p.menu_optimizer.f.button_optimizer",
+										"functionProp": {}
 									}
 								]
 							}
@@ -363,31 +294,31 @@
 					}
 				}
 			},
-			
+
 			{
-				"type" : "addMesh", 
-				"prop" : {
-					"type" : "PlaneGeometry",
-					"name" : "button_save_gltf",
-					"visible" : true,
-					"materialList" : [ "button_save_gltf" ],
-					"parameters" : {
-						"width" : 128,
-						"height" : 64
+				"type": "addMesh",
+				"prop": {
+					"type": "PlaneGeometry",
+					"name": "button_save_glb",
+					"visible": false,
+					"materialList": ["button_save_glb"],
+					"parameters": {
+						"width": 128,
+						"height": 64
 					},
-					"position" : {
-						"x" : 0.0,
-						"y" : -310.0,
-						"z" : 0.0
+					"position": {
+						"x": 0.0,
+						"y": -240.0,
+						"z": 0.0
 					},
-					
-					"MM3D" : {
-						"events" : {
-							"mouseup" : {
-								"scriptList" : [
+
+					"MM3D": {
+						"events": {
+							"mouseup": {
+								"scriptList": [
 									{
-										"functionName" : "UI.p.menu_optimizer.f.button_save_gltf",
-										"functionProp" : {}
+										"functionName": "UI.p.menu_optimizer.f.button_save_glb",
+										"functionProp": {}
 									}
 								]
 							}
@@ -395,31 +326,31 @@
 					}
 				}
 			},
-			
+
 			{
-				"type" : "addMesh", 
-				"prop" : {
-					"type" : "PlaneGeometry",
-					"name" : "button_save_area",
-					"visible" : true,
-					"materialList" : [ "button_save_area" ],
-					"parameters" : {
-						"width" : 128,
-						"height" : 64
+				"type": "addMesh",
+				"prop": {
+					"type": "PlaneGeometry",
+					"name": "button_save_gltf",
+					"visible": true,
+					"materialList": ["button_save_gltf"],
+					"parameters": {
+						"width": 128,
+						"height": 64
 					},
-					"position" : {
-						"x" : 0.0,
-						"y" : -380.0,
-						"z" : 0.0
+					"position": {
+						"x": 0.0,
+						"y": -310.0,
+						"z": 0.0
 					},
-					
-					"MM3D" : {
-						"events" : {
-							"mouseup" : {
-								"scriptList" : [
+
+					"MM3D": {
+						"events": {
+							"mouseup": {
+								"scriptList": [
 									{
-										"functionName" : "UI.p.menu_optimizer.f.button_save_area",
-										"functionProp" : {}
+										"functionName": "UI.p.menu_optimizer.f.button_save_gltf",
+										"functionProp": {}
 									}
 								]
 							}
@@ -427,31 +358,31 @@
 					}
 				}
 			},
-			
+
 			{
-				"type" : "addMesh", 
-				"prop" : {
-					"type" : "PlaneGeometry",
-					"name" : "button_close",
-					"visible" : true,
-					"materialList" : [ "button_close" ],
-					"parameters" : {
-						"width" : 128,
-						"height" : 64
+				"type": "addMesh",
+				"prop": {
+					"type": "PlaneGeometry",
+					"name": "button_save_area",
+					"visible": true,
+					"materialList": ["button_save_area"],
+					"parameters": {
+						"width": 128,
+						"height": 64
 					},
-					"position" : {
-						"x" : 150.0,
-						"y" : -380.0,
-						"z" : 0.0
+					"position": {
+						"x": 0.0,
+						"y": -380.0,
+						"z": 0.0
 					},
-					
-					"MM3D" : {
-						"events" : {
-							"mouseup" : {
-								"scriptList" : [
+
+					"MM3D": {
+						"events": {
+							"mouseup": {
+								"scriptList": [
 									{
-										"functionName" : "UI.p.menu_optimizer.f.close",
-										"functionProp" : {}
+										"functionName": "UI.p.menu_optimizer.f.button_save_area",
+										"functionProp": {}
 									}
 								]
 							}
@@ -459,100 +390,99 @@
 					}
 				}
 			},
-			
-			
+
 			{
-				"type" : "addComplex", 
-				"prop" : {
-					"type" : "PlaneGeometry",
-					"name" : "slider_textures",
-					"visible" : true,
-					"parameters" : {
-						"textureList" : [
+				"type": "addComplex",
+				"prop": {
+					"type": "PlaneGeometry",
+					"name": "slider_textures",
+					"visible": true,
+					"parameters": {
+						"textureList": [
 							{
-								"name" : "slider_marker",
-								"url" : "images/UI/slider_marker.png"
+								"name": "slider_marker",
+								"url": "images/UI/slider_marker.png"
 							}
 						],
-						"materialList" : [
+						"materialList": [
 							{
-								"name" : "slider_marker",
-								"type" : "MeshBasicMaterial",
-								"parameters" : {
-									"color" : {
-										"r" : 1.0,
-										"g" : 1.0,
-										"b" : 1.0
+								"name": "slider_marker",
+								"type": "MeshBasicMaterial",
+								"parameters": {
+									"color": {
+										"r": 1.0,
+										"g": 1.0,
+										"b": 1.0
 									},
-									"transparent" : true,
-									"textures" : {
-										"map" : "slider_marker"
+									"transparent": true,
+									"textures": {
+										"map": "slider_marker"
 									}
 								}
 							},
 							{
-								"name" : "slider_line",
-								"type" : "MeshBasicMaterial",
-								"parameters" : {
-									"color" : {
-										"r" : 0.0,
-										"g" : 0.0,
-										"b" : 0.0
+								"name": "slider_line",
+								"type": "MeshBasicMaterial",
+								"parameters": {
+									"color": {
+										"r": 0.0,
+										"g": 0.0,
+										"b": 0.0
 									}
 								}
 							}
 						],
-						"elementList" : [
+						"elementList": [
 							{
-								"type" : "addMesh", 
-								"prop" : {
-									"type" : "PlaneGeometry",
-									"name" : "slider_marker",
-									"visible" : true,
-									"materialList" : [ "slider_marker" ],
-									"parameters" : {
-										"width" : 32,
-										"height" : 32
+								"type": "addMesh",
+								"prop": {
+									"type": "PlaneGeometry",
+									"name": "slider_marker",
+									"visible": true,
+									"materialList": ["slider_marker"],
+									"parameters": {
+										"width": 32,
+										"height": 32
 									},
-									"position" : {
-										"x" : 100.0,
-										"y" : 1.0,
-										"z" : 0.0
+									"position": {
+										"x": 100.0,
+										"y": 1.0,
+										"z": 0.0
 									}
 								}
 							},
 							{
-								"type" : "addMesh", 
-								"prop" : {
-									"type" : "PlaneGeometry",
-									"name" : "slider_line",
-									"visible" : true,
-									"materialList" : [ "slider_line" ],
-									"parameters" : {
-										"width" : 200,
-										"height" : 20
+								"type": "addMesh",
+								"prop": {
+									"type": "PlaneGeometry",
+									"name": "slider_line",
+									"visible": true,
+									"materialList": ["slider_line"],
+									"parameters": {
+										"width": 200,
+										"height": 20
 									},
-									"position" : {
-										"x" : 0.0,
-										"y" : 0.0,
-										"z" : 0.0
+									"position": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 0.0
 									},
-					
-									"MM3D" : {
-										"events" : {
-											"mousedown" : {
-												"scriptList" : [
+
+									"MM3D": {
+										"events": {
+											"mousedown": {
+												"scriptList": [
 													{
-														"functionName" : "UI.p.menu_optimizer.f.slider_texture_down",
-														"functionProp" : {}
+														"functionName": "UI.p.menu_optimizer.f.slider_texture_down",
+														"functionProp": {}
 													}
 												]
 											},
-											"mousemove" : {
-												"scriptList" : [
+											"mousemove": {
+												"scriptList": [
 													{
-														"functionName" : "UI.p.menu_optimizer.f.slider_texture_move",
-														"functionProp" : {}
+														"functionName": "UI.p.menu_optimizer.f.slider_texture_move",
+														"functionProp": {}
 													}
 												]
 											}
@@ -562,108 +492,107 @@
 							}
 						]
 					},
-					
-					"position" : {
-						"x" : 200.0,
-						"y" : 0.0,
-						"z" : 0.0
+
+					"position": {
+						"x": 200.0,
+						"y": 0.0,
+						"z": 0.0
 					}
 				}
 			},
-			
-			
+
 			{
-				"type" : "addComplex", 
-				"prop" : {
-					"type" : "PlaneGeometry",
-					"name" : "slider_geometry",
-					"visible" : true,
-					"parameters" : {
-						"textureList" : [
+				"type": "addComplex",
+				"prop": {
+					"type": "PlaneGeometry",
+					"name": "slider_geometry",
+					"visible": true,
+					"parameters": {
+						"textureList": [
 							{
-								"name" : "slider_marker",
-								"url" : "images/UI/slider_marker.png"
+								"name": "slider_marker",
+								"url": "images/UI/slider_marker.png"
 							}
 						],
-						"materialList" : [
+						"materialList": [
 							{
-								"name" : "slider_marker",
-								"type" : "MeshBasicMaterial",
-								"parameters" : {
-									"color" : {
-										"r" : 1.0,
-										"g" : 1.0,
-										"b" : 1.0
+								"name": "slider_marker",
+								"type": "MeshBasicMaterial",
+								"parameters": {
+									"color": {
+										"r": 1.0,
+										"g": 1.0,
+										"b": 1.0
 									},
-									"transparent" : true,
-									"textures" : {
-										"map" : "slider_marker"
+									"transparent": true,
+									"textures": {
+										"map": "slider_marker"
 									}
 								}
 							},
 							{
-								"name" : "slider_line",
-								"type" : "MeshBasicMaterial",
-								"parameters" : {
-									"color" : {
-										"r" : 0.0,
-										"g" : 0.0,
-										"b" : 0.0
+								"name": "slider_line",
+								"type": "MeshBasicMaterial",
+								"parameters": {
+									"color": {
+										"r": 0.0,
+										"g": 0.0,
+										"b": 0.0
 									}
 								}
 							}
 						],
-						"elementList" : [
+						"elementList": [
 							{
-								"type" : "addMesh", 
-								"prop" : {
-									"type" : "PlaneGeometry",
-									"name" : "slider_marker",
-									"visible" : true,
-									"materialList" : [ "slider_marker" ],
-									"parameters" : {
-										"width" : 32,
-										"height" : 32
+								"type": "addMesh",
+								"prop": {
+									"type": "PlaneGeometry",
+									"name": "slider_marker",
+									"visible": true,
+									"materialList": ["slider_marker"],
+									"parameters": {
+										"width": 32,
+										"height": 32
 									},
-									"position" : {
-										"x" : 100.0,
-										"y" : 1.0,
-										"z" : 0.0
+									"position": {
+										"x": 100.0,
+										"y": 1.0,
+										"z": 0.0
 									}
 								}
 							},
 							{
-								"type" : "addMesh", 
-								"prop" : {
-									"type" : "PlaneGeometry",
-									"name" : "slider_line",
-									"visible" : true,
-									"materialList" : [ "slider_line" ],
-									"parameters" : {
-										"width" : 200,
-										"height" : 20
+								"type": "addMesh",
+								"prop": {
+									"type": "PlaneGeometry",
+									"name": "slider_line",
+									"visible": true,
+									"materialList": ["slider_line"],
+									"parameters": {
+										"width": 200,
+										"height": 20
 									},
-									"position" : {
-										"x" : 0.0,
-										"y" : 0.0,
-										"z" : 0.0
+									"position": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 0.0
 									},
-					
-									"MM3D" : {
-										"events" : {
-											"mousedown" : {
-												"scriptList" : [
+
+									"MM3D": {
+										"events": {
+											"mousedown": {
+												"scriptList": [
 													{
-														"functionName" : "UI.p.menu_optimizer.f.slider_geometry_down",
-														"functionProp" : {}
+														"functionName": "UI.p.menu_optimizer.f.slider_geometry_down",
+														"functionProp": {}
 													}
 												]
 											},
-											"mousemove" : {
-												"scriptList" : [
+											"mousemove": {
+												"scriptList": [
 													{
-														"functionName" : "UI.p.menu_optimizer.f.slider_geometry_move",
-														"functionProp" : {}
+														"functionName": "UI.p.menu_optimizer.f.slider_geometry_move",
+														"functionProp": {}
 													}
 												]
 											}
@@ -673,108 +602,107 @@
 							}
 						]
 					},
-					
-					"position" : {
-						"x" : 200.0,
-						"y" : -70.0,
-						"z" : 0.0
+
+					"position": {
+						"x": 200.0,
+						"y": -70.0,
+						"z": 0.0
 					}
 				}
 			},
-			
-			
+
 			{
-				"type" : "addComplex", 
-				"prop" : {
-					"type" : "PlaneGeometry",
-					"name" : "slider_drawCalls",
-					"visible" : true,
-					"parameters" : {
-						"textureList" : [
+				"type": "addComplex",
+				"prop": {
+					"type": "PlaneGeometry",
+					"name": "slider_drawCalls",
+					"visible": true,
+					"parameters": {
+						"textureList": [
 							{
-								"name" : "slider_marker",
-								"url" : "images/UI/slider_marker.png"
+								"name": "slider_marker",
+								"url": "images/UI/slider_marker.png"
 							}
 						],
-						"materialList" : [
+						"materialList": [
 							{
-								"name" : "slider_marker",
-								"type" : "MeshBasicMaterial",
-								"parameters" : {
-									"color" : {
-										"r" : 1.0,
-										"g" : 1.0,
-										"b" : 1.0
+								"name": "slider_marker",
+								"type": "MeshBasicMaterial",
+								"parameters": {
+									"color": {
+										"r": 1.0,
+										"g": 1.0,
+										"b": 1.0
 									},
-									"transparent" : true,
-									"textures" : {
-										"map" : "slider_marker"
+									"transparent": true,
+									"textures": {
+										"map": "slider_marker"
 									}
 								}
 							},
 							{
-								"name" : "slider_line",
-								"type" : "MeshBasicMaterial",
-								"parameters" : {
-									"color" : {
-										"r" : 0.0,
-										"g" : 0.0,
-										"b" : 0.0
+								"name": "slider_line",
+								"type": "MeshBasicMaterial",
+								"parameters": {
+									"color": {
+										"r": 0.0,
+										"g": 0.0,
+										"b": 0.0
 									}
 								}
 							}
 						],
-						"elementList" : [
+						"elementList": [
 							{
-								"type" : "addMesh", 
-								"prop" : {
-									"type" : "PlaneGeometry",
-									"name" : "slider_marker",
-									"visible" : true,
-									"materialList" : [ "slider_marker" ],
-									"parameters" : {
-										"width" : 32,
-										"height" : 32
+								"type": "addMesh",
+								"prop": {
+									"type": "PlaneGeometry",
+									"name": "slider_marker",
+									"visible": true,
+									"materialList": ["slider_marker"],
+									"parameters": {
+										"width": 32,
+										"height": 32
 									},
-									"position" : {
-										"x" : 100.0,
-										"y" : 1.0,
-										"z" : 0.0
+									"position": {
+										"x": 100.0,
+										"y": 1.0,
+										"z": 0.0
 									}
 								}
 							},
 							{
-								"type" : "addMesh", 
-								"prop" : {
-									"type" : "PlaneGeometry",
-									"name" : "slider_line",
-									"visible" : true,
-									"materialList" : [ "slider_line" ],
-									"parameters" : {
-										"width" : 200,
-										"height" : 20
+								"type": "addMesh",
+								"prop": {
+									"type": "PlaneGeometry",
+									"name": "slider_line",
+									"visible": true,
+									"materialList": ["slider_line"],
+									"parameters": {
+										"width": 200,
+										"height": 20
 									},
-									"position" : {
-										"x" : 0.0,
-										"y" : 0.0,
-										"z" : 0.0
+									"position": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 0.0
 									},
-					
-									"MM3D" : {
-										"events" : {
-											"mousedown" : {
-												"scriptList" : [
+
+									"MM3D": {
+										"events": {
+											"mousedown": {
+												"scriptList": [
 													{
-														"functionName" : "UI.p.menu_optimizer.f.slider_drawCalls_down",
-														"functionProp" : {}
+														"functionName": "UI.p.menu_optimizer.f.slider_drawCalls_down",
+														"functionProp": {}
 													}
 												]
 											},
-											"mousemove" : {
-												"scriptList" : [
+											"mousemove": {
+												"scriptList": [
 													{
-														"functionName" : "UI.p.menu_optimizer.f.slider_drawCalls_move",
-														"functionProp" : {}
+														"functionName": "UI.p.menu_optimizer.f.slider_drawCalls_move",
+														"functionProp": {}
 													}
 												]
 											}
@@ -784,64 +712,59 @@
 							}
 						]
 					},
-					
-					"position" : {
-						"x" : 200.0,
-						"y" : -140.0,
-						"z" : 0.0
+
+					"position": {
+						"x": 200.0,
+						"y": -140.0,
+						"z": 0.0
 					}
 				}
 			}
-			
 		]
-		
 	},
-	
-	"MM3D" : {
-		
-		"coordSystem" : "percent",
-		
-		"scriptList" : [
+
+	"MM3D": {
+		"coordSystem": "percent",
+
+		"scriptList": [
 			{
-				"loop" : true,
-				"functionName" : "UI.p.menu_optimizer.f.feedback",
-				"functionProp" : {}
+				"loop": true,
+				"functionName": "UI.p.menu_optimizer.f.feedback",
+				"functionProp": {}
 			}
 		],
-		
+
 		"adaptive": {
-			"posH" : {
-				"x" : 0.0,
-				"y" : 0.5,
-				"z" : 0.0
+			"posH": {
+				"x": 0.0,
+				"y": 0.5,
+				"z": 0.0
 			},
-			"sizH" : {
-				"x" : 0.75,
-				"y" : 0.75,
-				"z" : 0.75
+			"sizH": {
+				"x": 0.75,
+				"y": 0.75,
+				"z": 0.75
 			},
-			"offsetH" : {
-				"x" : 200.0,
-				"y" : 170.0,
-				"z" : 0.0
+			"offsetH": {
+				"x": 200.0,
+				"y": 170.0,
+				"z": 0.0
 			},
-			"posV" : {
-				"x" : 0.0,
-				"y" : 0.5,
-				"z" : 0
+			"posV": {
+				"x": 0.0,
+				"y": 0.5,
+				"z": 0
 			},
-			"sizV" : {
-				"x" : 0.6,
-				"y" : 0.6,
-				"z" : 0.6
+			"sizV": {
+				"x": 0.6,
+				"y": 0.6,
+				"z": 0.6
 			},
-			"offsetV" : {
-				"x" : 200.0,
-				"y" : 170.0,
-				"z" : 0.0
+			"offsetV": {
+				"x": 200.0,
+				"y": 170.0,
+				"z": 0.0
 			}
 		}
-		
 	}
-	
 }

@@ -47,6 +47,11 @@
 	const toggleActive = (id: ActiveId) => {
 		activeId = activeId === id ? null : id;
 
+		if (id !== "Settings") {
+			if (UI.p.scene.OBJECTS.menu_optimizer !== undefined) {
+				UI.p.menu_optimizer.f.close();
+			}
+		}
 		switch (id) {
 			case "Drop":
 				UI.p.menu_editor.f.button_import();
@@ -64,7 +69,9 @@
 				UI.p.menu_editor.f.DRAG();
 				break;
 			case "Settings":
-				UI.p.menu_editor.f.TOOLS();
+				if (UI.p.scene.OBJECTS.menu_optimizer !== undefined) {
+					UI.p.menu_optimizer.f.close();
+				} else UI.p.menu_editor.f.TOOLS();
 				break;
 		}
 	};

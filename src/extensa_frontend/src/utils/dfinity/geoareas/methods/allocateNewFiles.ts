@@ -1,4 +1,5 @@
 import type { Identity } from '@dfinity/agent';
+import CustomError, { ErrorType } from '../../../../errors/CustomError';
 import mapCanisterId from '../../mapCanisterId';
 import { createCanister } from '../geoareas';
 
@@ -20,23 +21,27 @@ export const executeAllocateNewFile = async ({
     fileSize,
     // File Id, Number of Chunks, Max Chunk Length
 }: FetchGeoareasParams): Promise<AllocateNewFileResponse | undefined> => {
-    const {
-        canister: { allocate_new_file },
-    } = await createCanister({ identity, canisterId: mapCanisterId(canisterId) })
+    try {
+        const {
+            canister: { allocate_new_file },
+        } = await createCanister({ identity, canisterId: mapCanisterId(canisterId) })
 
-    const receipt = await allocate_new_file(
-        fileSize,
-    );
+        const receipt = await allocate_new_file(
+            fileSize,
+        );
 
-    if ('Ok' in receipt) {
-        const [fileId, numberOfChunks, maxChunkLength] = receipt.Ok;
-        return {
-            fileId,
-            numberOfChunks,
-            maxChunkLength,
-        };
+        if ('Ok' in receipt) {
+            const [fileId, numberOfChunks, maxChunkLength] = receipt.Ok;
+            return {
+                fileId,
+                numberOfChunks,
+                maxChunkLength,
+            };
+        }
+        else if ('Err' in receipt) throw new CustomError(Object.keys(receipt.Err).join(','), ErrorType.ALLOCATE_NEW_FILE);
+    } catch (e: any) {
+        throw new CustomError((e as Error).message, ErrorType.ALLOCATE_NEW_FILE);
     }
-    else if ('Err' in receipt) throw new Error(Object.keys(receipt.Err).join(','));
 }
 
 export default executeAllocateNewFile;

@@ -12,27 +12,33 @@ const downloadFileChunks = async (
     fileId: bigint,
     numChunks: number,
     options: DownloadFileChunksOptions): Promise<string> => {
-    const promises = Array.from({ length: numChunks }, (_, index) =>
-        () => executeGetChunkByIndex({
-            fileId,
-            index: BigInt(index),
-            identity,
-            canisterId
-        })
-    );
+    try {
+        const promises = Array.from({ length: numChunks }, (_, index) =>
+            () => executeGetChunkByIndex({
+                fileId,
+                index: BigInt(index),
+                identity,
+                canisterId
+            })
+        );
 
-    const { callbackForProgress } = options;
+        const { callbackForProgress } = options;
 
-    const results = await promiseAllWithErrorsRetry(promises, {
-        progress: {
-            useProgress: true,
-            callbackForProgress,
-            totalPromises: numChunks
-        }
-    });
+        const results = await promiseAllWithErrorsRetry(promises, {
+            progress: {
+                useProgress: true,
+                callbackForProgress,
+                totalPromises: numChunks
+            },
+            retry: 2,
+        });
 
-    const finalFile = (results ?? []).reduce((acc, result) => acc + result, '');
-    return finalFile;
+        const finalFile = (results ?? []).reduce((acc, result) => acc + result, '');
+        return finalFile;
+    } catch (e) {
+        console.error(e);
+        throw e;
+    }
 };
 
 export default downloadFileChunks;

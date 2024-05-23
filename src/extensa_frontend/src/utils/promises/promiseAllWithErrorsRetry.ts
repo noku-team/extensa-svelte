@@ -7,46 +7,61 @@ type PromiseAllWithErrorsRetryOptions = {
         totalPromises: number
     },
     retry?: number,
-    chunksSize?: number
+    concurrency?: number
 };
 
 async function promiseAllWithErrorsRetry<T>(
     promiseFunctions: (() => Promise<T>)[],
     options: PromiseAllWithErrorsRetryOptions
 ): Promise<T[]> {
-    const { progress, retry = 2, chunksSize = 5 } = options ?? {};
+    const { progress, retry = 2, concurrency = 5 } = options ?? {};
     const { useProgress, callbackForProgress, totalPromises = promiseFunctions.length } = progress ?? {};
 
     const resolvedPromisesCounter = [0];
     let errors: { error: any; index: number }[] = [];
     let result: T[] = new Array(promiseFunctions.length);
 
-    const executeChunk = async (chunk: (() => Promise<T>)[], startIndex: number) => {
-        let promises = chunk.map(func => func());
+    const executeConcurrently = async (startIndex: number) => {
+        let index = startIndex;
+        let inProgress = 0;
 
-        if (useProgress && callbackForProgress) {
-            promises = promises.map(promise => promiseWithProgress(promise, callbackForProgress, totalPromises, resolvedPromisesCounter));
-        }
+        return new Promise<void>((resolve) => {
+            const executeNext = () => {
+                if (index === promiseFunctions.length && inProgress === 0) {
+                    resolve();
+                    return;
+                }
 
-        const responses = await Promise.allSettled(promises);
-        responses.forEach((response, index) => {
-            if (response.status === 'fulfilled') {
-                result[startIndex + index] = response.value;
-            } else {
-                errors.push({ error: response.reason, index: startIndex + index });
-            }
+                while (inProgress < concurrency && index < promiseFunctions.length) {
+                    const currentIndex = index;
+                    inProgress++;
+
+                    let promise = promiseFunctions[currentIndex]();
+                    if (useProgress && callbackForProgress) {
+                        promise = promiseWithProgress(promise, callbackForProgress, totalPromises, resolvedPromisesCounter);
+                    }
+
+                    promise
+                        .then((value) => {
+                            result[currentIndex] = value;
+                        })
+                        .catch((error) => {
+                            errors.push({ error, index: currentIndex });
+                        })
+                        .finally(() => {
+                            inProgress--;
+                            executeNext();
+                        });
+
+                    index++;
+                }
+            };
+
+            executeNext();
         });
     };
 
-    // Handle chunking
-    if (chunksSize) {
-        for (let i = 0; i < promiseFunctions.length; i += chunksSize) {
-            const chunk = promiseFunctions.slice(i, i + chunksSize);
-            await executeChunk(chunk, i);
-        }
-    } else {
-        await executeChunk(promiseFunctions, 0);
-    }
+    await executeConcurrently(0);
 
     // Retry logic for errors
     if (errors.length > 0 && retry > 0) {

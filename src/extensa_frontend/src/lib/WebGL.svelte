@@ -14,12 +14,14 @@
 	import { useSendProjectWorker } from "../actions/sendProject.action.js";
 	import { EDITOR, MAP, PLY, UI } from "../jsm/index.js";
 	import getDOMHeight from "../utils/dom/getDOMHeight.js";
+	import { cleanupExpiredProjects } from "../utils/indexedDB/getSaveEmpty.js";
 	import EditProject from "./EditProject.svelte";
 	import MapButtons from "./MapButtons/MapButtons.svelte";
 	import Progress from "./Progress.svelte";
 	import SelectedProject from "./SelectedProject.svelte";
 
 	let renderer: any = null;
+	let indexedDBInterval: NodeJS.Timeout | null = null;
 	useSendProjectWorker();
 	useLoadProjectWorker();
 	onMount(() => {
@@ -143,6 +145,8 @@
 		const render = () => PLY.f.UPDATE(renderer);
 
 		animate();
+
+		indexedDBInterval = setInterval(cleanupExpiredProjects, 30 * 60 * 1000); // 30 minutes
 	});
 
 	onDestroy(() => {
@@ -162,6 +166,8 @@
 		VARCO.f.removeMouseEvents();
 		// @ts-ignore
 		VARCO.f.removeTouchEvents();
+
+		if (indexedDBInterval) clearInterval(indexedDBInterval);
 	});
 </script>
 

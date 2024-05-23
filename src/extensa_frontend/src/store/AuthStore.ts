@@ -6,7 +6,6 @@ import { AUTH_SESSION_DURATION } from "../constants/ttl";
 import { PLY, UI } from "../jsm";
 import getIdentityProviderUrl from "../utils/dfinity/getIdentityProvider";
 import isTestnet from "../utils/dfinity/isTestnet";
-import { clearProjects } from "../utils/indexedDB/getSaveEmpty";
 import loadWebGLUserData from "../utils/loadWebGLUserData";
 
 export interface AuthStoreData {
@@ -47,10 +46,6 @@ const initAuthStore = (): AuthStore => {
             }
 
             const identity = isAuthenticated ? authClient?.getIdentity() : null;
-            if (!identity) {
-                // Clear all cached projects from the indexedDB.
-                await clearProjects();
-            }
 
             set({ identity });
         },
@@ -95,10 +90,6 @@ const initAuthStore = (): AuthStore => {
 
         signOut: async () => {
             const client: AuthClient = authClient ?? (await createAuthClient());
-
-            // Clear all cached projects from the indexedDB.
-            await clearProjects();
-
             await client.logout();
 
             UI.p.popup_account.f.button_logout();

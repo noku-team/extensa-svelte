@@ -1,6 +1,7 @@
 interface Project {
     id: string;
     data: string;
+    expiresAt: number;
 }
 
 const DB_NAME = 'ExtensaProjectsDB';
@@ -34,17 +35,21 @@ function openDatabase(): Promise<IDBDatabase> {
  * Saves a project to the indexedDB.
  * 
  * @param projectId - The ID of the project.
- * @param projectData - The data of the project to be saved.
- * @returns A promise that resolves when the project is successfully saved, or rejects with an error if the save operation fails.
+ * @param projectData - The data of the project.
+ * @param expirationHours - The number of hours until the project expires.
+ * @returns A promise that resolves when the project is saved successfully, or rejects with an error if saving fails.
  */
-export async function saveProject(projectId: string, projectData: string): Promise<void> {
+export const saveProject = async (projectId: string, projectData: string, expirationHours: number): Promise<void> => {
     const db = await openDatabase();
     const transaction = db.transaction(STORE_NAME, 'readwrite');
     const store = transaction.objectStore(STORE_NAME);
 
+    const expiresAt = Date.now() + expirationHours * 60 * 60 * 1000;
+
     const project: Project = {
         id: projectId,
         data: projectData,
+        expiresAt,
     };
 
     store.put(project);
@@ -105,4 +110,26 @@ export async function clearProjects(): Promise<void> {
             reject(new Error('Failed to clear projects.'));
         };
     });
+}
+
+/**
+ * Cleans up expired projects from the indexedDB.
+ * Deletes projects from the object store if their expiration date has passed.
+ * @returns A promise that resolves when the cleanup is complete.
+ */
+export const cleanupExpiredProjects = async (): Promise<void> => {
+    const db = await openDatabase();
+    const transaction = db.transaction(STORE_NAME, 'readwrite');
+    const store = transaction.objectStore(STORE_NAME);
+
+    const request = store.openCursor();
+
+    request.onsuccess = (event) => {
+        const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result;
+        if (cursor) {
+            const project = cursor.value as Project;
+            if (project.expiresAt < Date.now()) cursor.delete();
+            cursor.continue();
+        }
+    };
 }

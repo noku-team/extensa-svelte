@@ -16,13 +16,6 @@ type BaseWorkerUtilsJobData<T> = {
 
 const worker = new BaseWorker();
 
-// const startToFetch = () => {
-//     worker.postMsg({
-//         msg: 'startLoadProject',
-//         data: {},
-//     })
-// };
-
 const emitResponse = (postMessageResponse: PostMessageDataResponseLoadProject) => {
     const data: PostMessageDataResponseLoadProject = { ...postMessageResponse }
 

@@ -13,7 +13,7 @@ export const loadProjectWorker = new Worker(new URL('../workers/loadProject.work
 
 const loadProjectCallback = async (data: PostMessageDataResponseLoadProject): Promise<void> => {
   const { file = "", fileId } = data ?? {};
-  await saveProject(`project-${fileId.toString()}`, file);
+  await saveProject(`project-${fileId.toString()}`, file, 2);
 
   await EDITOR.f.loadProjectData(file);
   projectStore.setLoadProjectProgress(0);

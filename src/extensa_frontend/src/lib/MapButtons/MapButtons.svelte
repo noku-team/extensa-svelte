@@ -29,19 +29,38 @@
 		Settings = "Settings",
 	}
 
-	const buttons = [
+	$: buttons = [
 		{
 			src: Drop,
 			alt: "Drop",
 			id: ButtonType.Drop,
-			enabled: true,
-			forceEnabling: true,
+			enabled: !$projectStore.project,
 		},
 		{ src: Folder, alt: "Folder", id: ButtonType.Folder, enabled: false },
-		{ src: Rotate, alt: "Rotate", id: ButtonType.Rotate },
-		{ src: Move, alt: "Move", id: ButtonType.Move },
-		{ src: Enlarge, alt: "Enlarge", id: ButtonType.Enlarge },
-		{ src: Settings, alt: "Settings", id: ButtonType.Settings },
+		{
+			src: Rotate,
+			alt: "Rotate",
+			id: ButtonType.Rotate,
+			enabled: !!$projectStore.project || !!PLY.p.selectedArea,
+		},
+		{
+			src: Move,
+			alt: "Move",
+			id: ButtonType.Move,
+			enabled: !!$projectStore.project || !!PLY.p.selectedArea,
+		},
+		{
+			src: Enlarge,
+			alt: "Enlarge",
+			id: ButtonType.Enlarge,
+			enabled: !!$projectStore.project || !!PLY.p.selectedArea,
+		},
+		{
+			src: Settings,
+			alt: "Settings",
+			id: ButtonType.Settings,
+			enabled: !!$projectStore.project || !!PLY.p.selectedArea,
+		},
 	];
 
 	const toggleActive = (id: ActiveId) => {
@@ -81,16 +100,14 @@
 	<div
 		class="fixed left-2 top-1/2 transform -translate-y-1/2 z-[1000] flex flex-col gap-1"
 	>
-		{#each buttons as { src, alt, id, enabled = true, forceEnabling = false }}
+		{#each buttons as { src, alt, id, enabled = true }}
 			<Button
 				{src}
 				{alt}
 				active={activeId === id}
 				toggleActive={() => toggleActive(id)}
 				deselectBtn={() => (activeId = null)}
-				disabled={forceEnabling
-					? false
-					: !enabled || (!$projectStore.project && !PLY.p.selectedArea)}
+				disabled={!enabled}
 			/>
 		{/each}
 	</div>

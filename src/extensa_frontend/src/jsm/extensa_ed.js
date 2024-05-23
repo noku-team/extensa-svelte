@@ -1289,7 +1289,6 @@ const createEditor = () => {
 
 	EDITOR.f.DROP_FILE = function (p) {
 		try {
-			spinnerStore.setLoading(true);
 			function objectReady(PROJECTOBJ, projectName, type, infoJson) {
 
 				try {
@@ -1494,7 +1493,6 @@ const createEditor = () => {
 
 										projectStore.setProject({ ...w.obj, notYetSaved: true, is3DVisible: true }); // scrivi dato
 
-										spinnerStore.setLoading(false);
 										if (PROJECTOBJ) {
 											w.obj.userData.isLoaded = true;
 											w.obj.OBJECTS.myProject.add(PROJECTOBJ);
@@ -1524,7 +1522,6 @@ const createEditor = () => {
 				} catch (e) {
 					console.error(e);
 					messageStore.setMessage('The uploaded file format is not supported. Please choose a valid file format.', 'error');
-					spinnerStore.setLoading(false);
 				}
 			};
 
@@ -1814,6 +1811,7 @@ const createEditor = () => {
 
 
 				};
+				spinnerStore.setLoading(false);
 
 			};
 		} catch (e) {
@@ -2385,7 +2383,7 @@ const createEditor = () => {
 						"type": "MeshBasicMaterial",
 						"parameters": {
 							"textures": { "map": PROJECTOBJ.name },
-							"transparent" : true,
+							"transparent": true,
 							"side": "THREE.DoubleSide"
 						}
 					}

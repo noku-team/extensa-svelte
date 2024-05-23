@@ -26,7 +26,7 @@ async function promiseAllWithErrorsRetry<T>(
         let inProgress = 0;
 
         return new Promise<void>((resolve) => {
-            const executeNext = () => {
+            const executeNext = async () => {
                 if (index === promiseFunctions.length && inProgress === 0) {
                     resolve();
                     return;
@@ -41,17 +41,15 @@ async function promiseAllWithErrorsRetry<T>(
                         promise = promiseWithProgress(promise, callbackForProgress, totalPromises, resolvedPromisesCounter);
                     }
 
-                    promise
-                        .then((value) => {
-                            result[currentIndex] = value;
-                        })
-                        .catch((error) => {
-                            errors.push({ error, index: currentIndex });
-                        })
-                        .finally(() => {
-                            inProgress--;
-                            executeNext();
-                        });
+                    try {
+                        const value = await promise;
+                        result[currentIndex] = value;
+                    } catch (error) {
+                        errors.push({ error, index: currentIndex });
+                    } finally {
+                        inProgress--;
+                        executeNext();
+                    }
 
                     index++;
                 }

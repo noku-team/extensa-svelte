@@ -1811,9 +1811,10 @@ const createEditor = () => {
 
 
 				};
-				spinnerStore.setLoading(false);
 
-			};
+			}
+
+			spinnerStore.setLoading(false);
 		} catch (e) {
 			console.error(e);
 			messageStore.setMessage('The uploaded file format is not supported. Please choose a valid file format.', 'error');

@@ -2825,164 +2825,169 @@ const createPLY = () => {
 
 	PLY.f.MAP_mouseTouchMove = function (p) {
 
-		PLY.p.STREETVIEW_MARKER.position.x = p.results.point.x;
+		try {
+			PLY.p.STREETVIEW_MARKER.position.x = p.results.point.x;
 
-		PLY.p.STREETVIEW_MARKER.position.y = p.results.point.y + 0.05;
-
-		PLY.p.STREETVIEW_MARKER.position.z = p.results.point.z;
-
-		const { project: _selectedProject } = get(projectStore); // leggi dato
-		const auth = get(authStore);
-		const { identity = null } = auth ?? {};
-
-		if (!!identity) {
-
-			let wPos;
-
-			switch (EDITOR.p.action) {
-
-				case 'DRAG_project':
-
-					if (VARCO.p.DEVICES.mouse.clickDown && _selectedProject !== null) {
-
-						if (VARCO.p.DEVICES.mouse.buttonNum == 1) {
-
+			PLY.p.STREETVIEW_MARKER.position.y = p.results.point.y + 0.05;
+	
+			PLY.p.STREETVIEW_MARKER.position.z = p.results.point.z;
+	
+			const { project: _selectedProject } = get(projectStore); // leggi dato
+			const auth = get(authStore);
+			const { identity = null } = auth ?? {};
+	
+			if (!!identity) {
+	
+				let wPos;
+	
+				switch (EDITOR.p.action) {
+	
+					case 'DRAG_project':
+	
+						if (VARCO.p.DEVICES.mouse.clickDown && _selectedProject !== null) {
+	
+							if (VARCO.p.DEVICES.mouse.buttonNum == 1) {
+	
+								if (EDITOR.p.mousePivotPoint == undefined) {
+	
+									EDITOR.p.mousePivotPoint = p.results.point;
+	
+									EDITOR.p.mousePivotOffset = new THREE.Vector3();
+	
+									wPos = new THREE.Vector3();
+	
+									_selectedProject.getWorldPosition(wPos);
+	
+									EDITOR.p.mousePivotOffset.x = wPos.x - EDITOR.p.mousePivotPoint.x;
+	
+									EDITOR.p.mousePivotOffset.z = wPos.z - EDITOR.p.mousePivotPoint.z;
+	
+								};
+								
+								if ( PLY.p.selectedArea !== undefined ){
+	
+									_selectedProject.position.x = (p.results.point.x - PLY.p.selectedArea.position.x) + EDITOR.p.mousePivotOffset.x;
+	
+									_selectedProject.position.z = (p.results.point.z - PLY.p.selectedArea.position.z) + EDITOR.p.mousePivotOffset.z;
+	
+								};
+								
+							};
+	
+							if (VARCO.p.DEVICES.mouse.buttonNum == 2) {
+	
+								_selectedProject.position.y += VARCO.p.DEVICES.mouse.diffV * 0.1 * -1
+	
+							};
+	
+						} else {
+	
+							EDITOR.p.mousePivotPoint = undefined;
+	
+							EDITOR.p.mousePivotOffset = undefined;
+	
+						}
+	
+						break;
+	
+					case 'ROTATE_project':
+	
+						if (VARCO.p.DEVICES.mouse.clickDown && _selectedProject !== null) {
+	
+							_selectedProject.rotation.y += VARCO.f.deg2rad(VARCO.p.DEVICES.mouse.diffH * 0.1);
+	
+						};
+	
+						break;
+	
+					case 'SCALE_project':
+	
+						if (VARCO.p.DEVICES.mouse.clickDown && _selectedProject !== null) {
+	
 							if (EDITOR.p.mousePivotPoint == undefined) {
-
+	
 								EDITOR.p.mousePivotPoint = p.results.point;
-
+	
+							};
+	
+							wPos = new THREE.Vector3();
+	
+							_selectedProject.getWorldPosition(wPos);
+	
+							let distanceArea;
+	
+							distanceArea = wPos.distanceTo(EDITOR.p.mousePivotPoint);
+	
+							let distanceMouse = wPos.distanceTo(p.results.point);
+	
+	
+							_selectedProject.scale.x = (distanceMouse / distanceArea);
+	
+							_selectedProject.scale.y = (distanceMouse / distanceArea);
+	
+							_selectedProject.scale.z = (distanceMouse / distanceArea);
+	
+						} else {
+	
+							EDITOR.p.mousePivotPoint = undefined;
+	
+						};
+	
+						break;
+	
+	
+					case 'DRAG_area':
+	
+						if (VARCO.p.DEVICES.mouse.clickDown) {
+	
+							if (EDITOR.p.mousePivotPoint == undefined) {
+	
+								EDITOR.p.mousePivotPoint = p.results.point;
+	
 								EDITOR.p.mousePivotOffset = new THREE.Vector3();
-
-								wPos = new THREE.Vector3();
-
-								_selectedProject.getWorldPosition(wPos);
-
-								EDITOR.p.mousePivotOffset.x = wPos.x - EDITOR.p.mousePivotPoint.x;
-
-								EDITOR.p.mousePivotOffset.z = wPos.z - EDITOR.p.mousePivotPoint.z;
-
+	
+								EDITOR.p.mousePivotOffset.x = PLY.p.selectedArea.position.x - EDITOR.p.mousePivotPoint.x;
+	
+								EDITOR.p.mousePivotOffset.z = PLY.p.selectedArea.position.z - EDITOR.p.mousePivotPoint.z;
+	
 							};
-							
-							if ( PLY.p.selectedArea !== undefined ){
-
-								_selectedProject.position.x = (p.results.point.x - PLY.p.selectedArea.position.x) + EDITOR.p.mousePivotOffset.x;
-
-								_selectedProject.position.z = (p.results.point.z - PLY.p.selectedArea.position.z) + EDITOR.p.mousePivotOffset.z;
-
-							};
-							
-						};
-
-						if (VARCO.p.DEVICES.mouse.buttonNum == 2) {
-
-							_selectedProject.position.y += VARCO.p.DEVICES.mouse.diffV * 0.1 * -1
-
-						};
-
-					} else {
-
-						EDITOR.p.mousePivotPoint = undefined;
-
-						EDITOR.p.mousePivotOffset = undefined;
-
-					}
-
-					break;
-
-				case 'ROTATE_project':
-
-					if (VARCO.p.DEVICES.mouse.clickDown && _selectedProject !== null) {
-
-						_selectedProject.rotation.y += VARCO.f.deg2rad(VARCO.p.DEVICES.mouse.diffH * 0.1);
-
-					};
-
-					break;
-
-				case 'SCALE_project':
-
-					if (VARCO.p.DEVICES.mouse.clickDown && _selectedProject !== null) {
-
-						if (EDITOR.p.mousePivotPoint == undefined) {
-
-							EDITOR.p.mousePivotPoint = p.results.point;
-
-						};
-
-						wPos = new THREE.Vector3();
-
-						_selectedProject.getWorldPosition(wPos);
-
-						let distanceArea;
-
-						distanceArea = wPos.distanceTo(EDITOR.p.mousePivotPoint);
-
-						let distanceMouse = wPos.distanceTo(p.results.point);
-
-
-						_selectedProject.scale.x = (distanceMouse / distanceArea);
-
-						_selectedProject.scale.y = (distanceMouse / distanceArea);
-
-						_selectedProject.scale.z = (distanceMouse / distanceArea);
-
-					} else {
-
-						EDITOR.p.mousePivotPoint = undefined;
-
-					};
-
-					break;
-
-
-				case 'DRAG_area':
-
-					if (VARCO.p.DEVICES.mouse.clickDown) {
-
-						if (EDITOR.p.mousePivotPoint == undefined) {
-
-							EDITOR.p.mousePivotPoint = p.results.point;
-
-							EDITOR.p.mousePivotOffset = new THREE.Vector3();
-
-							EDITOR.p.mousePivotOffset.x = PLY.p.selectedArea.position.x - EDITOR.p.mousePivotPoint.x;
-
-							EDITOR.p.mousePivotOffset.z = PLY.p.selectedArea.position.z - EDITOR.p.mousePivotPoint.z;
-
-						};
-
-
-						PLY.p.selectedArea.position.x = p.results.point.x + EDITOR.p.mousePivotOffset.x;
-
-						PLY.p.selectedArea.position.z = p.results.point.z + EDITOR.p.mousePivotOffset.z;
-
-						console.log(PLY.p.selectedArea.position)
-
-						// update coords //
-
-						let altitude = 0.0;
-
-						let myCoords = MAP.f.getMapCoords(MAP.p.width, MAP.p.height, PLY.p.selectedArea.position, altitude)
-
-						PLY.p.selectedArea.userData.myCoords.lng = myCoords.lng;
-
-						PLY.p.selectedArea.userData.myCoords.lat = myCoords.lat;
-
-						PLY.p.selectedArea.userData.myCoords.alt = altitude;
-
-					} else {
-
-						EDITOR.p.mousePivotPoint = undefined;
-
-						EDITOR.p.mousePivotOffset = undefined;
-
-					}
-
-					break;
-
+	
+	
+							PLY.p.selectedArea.position.x = p.results.point.x + EDITOR.p.mousePivotOffset.x;
+	
+							PLY.p.selectedArea.position.z = p.results.point.z + EDITOR.p.mousePivotOffset.z;
+	
+							console.log(PLY.p.selectedArea.position)
+	
+							// update coords //
+	
+							let altitude = 0.0;
+	
+							let myCoords = MAP.f.getMapCoords(MAP.p.width, MAP.p.height, PLY.p.selectedArea.position, altitude)
+	
+							PLY.p.selectedArea.userData.myCoords.lng = myCoords.lng;
+	
+							PLY.p.selectedArea.userData.myCoords.lat = myCoords.lat;
+	
+							PLY.p.selectedArea.userData.myCoords.alt = altitude;
+	
+						} else {
+	
+							EDITOR.p.mousePivotPoint = undefined;
+	
+							EDITOR.p.mousePivotOffset = undefined;
+	
+						}
+	
+						break;
+	
+				};
+	
 			};
-
-		};
+		} catch (e) {
+			console.error(e)
+		}
+		
 
 	};
 

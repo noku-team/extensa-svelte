@@ -15,8 +15,10 @@
 	import { EDITOR, MAP, PLY, UI } from "../jsm/index.js";
 	import getDOMHeight from "../utils/dom/getDOMHeight.js";
 	import { cleanupExpiredProjects } from "../utils/indexedDB/getSaveEmpty.js";
+	import ControlButtons from "./ControlButtons.svelte";
 	import EditProject from "./EditProject.svelte";
 	import MapButtons from "./MapButtons/MapButtons.svelte";
+	import MouseButtons from "./MouseButtons.svelte";
 	import Progress from "./Progress.svelte";
 	import SelectedProject from "./SelectedProject.svelte";
 
@@ -176,6 +178,8 @@
 	<Progress />
 	<SelectedProject />
 	<MapButtons />
+	<ControlButtons />
+	<MouseButtons />
 	<EditProject />
 </div>
 

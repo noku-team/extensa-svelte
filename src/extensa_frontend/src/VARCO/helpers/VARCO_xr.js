@@ -79,6 +79,8 @@ VARCO.f.clickButton_AR = function () {
 		} else {
 			// alert( "device non AR" );
 
+			console.warn("device non AR");
+
 			VARCO.p.DEVICES.XR.enabled = false;
 
 			VARCO.p.DEVICES.XR.isPlaying = false;

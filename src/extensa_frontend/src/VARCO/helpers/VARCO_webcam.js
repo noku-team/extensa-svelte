@@ -24,7 +24,7 @@ VARCO.f.webcamStreamingStop = function () {
 
 	video.src = "";
 
-	video.srcObject.getTracks()[0].stop();
+	video.srcObject?.getTracks?.()?.[0]?.stop?.();
 
 };
 

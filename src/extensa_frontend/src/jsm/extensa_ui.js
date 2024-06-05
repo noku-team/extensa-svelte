@@ -1115,7 +1115,7 @@ const createUI = () => {
 
 			PLY.p.sfondoBKG.MATERIALS.sfondo_mat.visible = false;
 
-			UI.p.menu_bottom_OBJ.OBJECTS.button_AR.visible = true;
+			// UI.p.menu_bottom_OBJ.OBJECTS.button_AR.visible = true;
 
 			MAP.p.OBJ.OBJECTS.tilesList.visible = false;
 
@@ -1155,7 +1155,7 @@ const createUI = () => {
 
 			VARCO.f.webcamStreamingStop();
 
-			UI.p.menu_bottom_OBJ.OBJECTS.button_AR.visible = false;
+			// UI.p.menu_bottom_OBJ.OBJECTS.button_AR.visible = false;
 
 			PLY.p.camera3DAxis.userData.angY = 0.0;
 
@@ -1165,7 +1165,7 @@ const createUI = () => {
 
 			PLY.p.sfondoBKG.MATERIALS.sfondo_mat.visible = true;
 
-			UI.p.menu_bottom_OBJ.OBJECTS.button_AR.visible = false;
+			// UI.p.menu_bottom_OBJ.OBJECTS.button_AR.visible = false;
 
 			MAP.p.OBJ.OBJECTS.tilesList.visible = true;
 
@@ -1316,7 +1316,7 @@ const createUI = () => {
 
 											PLY.p.sfondoBKG.MATERIALS.sfondo_mat.visible = true;
 
-											UI.p.menu_bottom_OBJ.OBJECTS.button_AR.visible = true;
+											// UI.p.menu_bottom_OBJ.OBJECTS.button_AR.visible = true;
 
 
 											PLY.p.flag3D = true;
@@ -1346,7 +1346,7 @@ const createUI = () => {
 
 		} else {
 
-			UI.p.menu_bottom_OBJ.OBJECTS.button_AR.visible = false;
+			// UI.p.menu_bottom_OBJ.OBJECTS.button_AR.visible = false;
 
 			PLY.p.camera3DAxis.MM3D.states = {
 				"start": [
@@ -1380,7 +1380,7 @@ const createUI = () => {
 
 											PLY.p.sfondoBKG.MATERIALS.sfondo_mat.visible = true;
 
-											UI.p.menu_bottom_OBJ.OBJECTS.button_AR.visible = false;
+											// UI.p.menu_bottom_OBJ.OBJECTS.button_AR.visible = false;
 
 											PLY.p.camera3DAxis.userData.minAngX = 1.0;
 

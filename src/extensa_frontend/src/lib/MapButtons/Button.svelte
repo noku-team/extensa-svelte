@@ -2,12 +2,13 @@
 	import cx from "classnames";
 	import { beforeUpdate } from "svelte";
 
+	export let id: string | undefined = undefined;
 	export let src: string;
 	export let alt: string;
 	export let active: boolean;
 	export let disabled = false;
 	export let toggleActive: () => void;
-	export let deselectBtn: () => void = () => null;
+	export let deselectBtn: (_id?: string) => void = () => null;
 	export let className = "";
 	export let imgClassName = "";
 
@@ -15,7 +16,7 @@
 
 	beforeUpdate(() => {
 		if (wasDisabled !== disabled) {
-			deselectBtn();
+			deselectBtn(id);
 			wasDisabled = disabled;
 		}
 	});
@@ -25,7 +26,7 @@
 	on:click={toggleActive}
 	{disabled}
 	class={cx(
-		"btn btn-square hover:bg-primary hover:border-primary",
+		"btn btn-square hover:bg-tertiary hover:border-tertiary hover:scale-105",
 		{
 			"btn-primary": active,
 			"btn-neutral": !active,

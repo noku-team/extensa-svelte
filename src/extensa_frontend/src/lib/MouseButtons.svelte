@@ -56,7 +56,7 @@
 	};
 </script>
 
-<div class="fixed right-2 bottom-2 z-[1000] flex gap-3">
+<div class="fixed right-2 bottom-0 z-[1000] flex gap-1">
 	{#each buttons as { src, alt, id, enabled = true }}
 		<Button
 			{src}

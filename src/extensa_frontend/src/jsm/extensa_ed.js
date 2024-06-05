@@ -242,9 +242,9 @@ const createEditor = () => {
 				},
 
 				"scale": {
-					"x": 1,
-					"y": 1,
-					"z": 1,
+					"x": prop.mySize.x,
+					"y": prop.mySize.y,
+					"z": prop.mySize.z
 				}
 			},
 

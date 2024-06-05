@@ -116,7 +116,7 @@ const createEditor = () => {
 								"name": "Kernel_Mesh",
 								"type": "CircleGeometry",
 								"parameters": {
-									"radius": 1.0
+									"radius": 5.0
 								},
 								"materialList": ["Kernel_Mesh_mat"],
 								"position": { "x": 0, "y": 0.1, "z": 0.0 },

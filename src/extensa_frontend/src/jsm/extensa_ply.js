@@ -2432,8 +2432,8 @@ const createPLY = () => {
 				parameters: {
 					actualCoords: { lng: MAP.p.actualCoords.lng, lat: MAP.p.actualCoords.lat, alt: 0 },
 					mapType: type,
-					mapNumH: 8,
-					mapNumV: 8,
+					mapNumH: 10,
+					mapNumV: 10,
 					width: 40075016.686,
 					height: 40075016.686,
 					events: {

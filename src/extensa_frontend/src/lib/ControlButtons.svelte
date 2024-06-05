@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { UI } from "../jsm";
 	import Button from "./MapButtons/Button.svelte";
-	import GIS from "/images/UI/button_GIS.png";
-	import MAP from "/images/UI/button_GM.png";
-	import SATELLITE from "/images/UI/button_OSM.png";
-	import THREESIXTY from "/images/UI/button_stv.png";
+	import THREESIXTY from "/images/UI/icons/360.png";
+	import GIS from "/images/UI/icons/gis.png";
+	import MAP from "/images/UI/icons/map.png";
+	import SATELLITE from "/images/UI/icons/tree.png";
 
 	type ActiveId = "GIS" | "satellite" | "map" | "threesixty";
 
@@ -78,6 +78,7 @@
 			active={activeId.includes(id)}
 			toggleActive={() => toggleActive(id)}
 			disabled={!enabled}
+			imgClassName="w-8 h-8"
 		/>
 	{/each}
 </div>

@@ -10,7 +10,7 @@
 	// tasto_rotazione
 	type ActiveId = "tasto_updown" | "tasto_drag" | "tasto_rotazione";
 
-	let activeId: ActiveId | null = null;
+	let activeId: ActiveId | null = "tasto_drag";
 
 	enum ButtonType {
 		tasto_updown = "tasto_updown",
@@ -31,7 +31,7 @@
 			id: ButtonType.tasto_rotazione,
 			enabled: true,
 		},
-        {
+		{
 			src: MouseUpDown,
 			alt: "Drop",
 			id: ButtonType.tasto_updown,
@@ -40,7 +40,7 @@
 	];
 
 	const toggleActive = (id: ActiveId) => {
-		activeId = activeId === id ? null : id;
+		activeId = id;
 
 		switch (id) {
 			case "tasto_updown":
@@ -65,8 +65,8 @@
 			toggleActive={() => toggleActive(id)}
 			deselectBtn={() => (activeId = null)}
 			disabled={!enabled}
-            className="bg-transparent border-0 w-auto h-16 hover:bg-transparent"
-            imgClassName="h-16 w-auto"
+			className="bg-transparent border-0 w-auto h-16 hover:bg-transparent"
+			imgClassName="h-16 w-auto"
 		/>
 	{/each}
 </div>

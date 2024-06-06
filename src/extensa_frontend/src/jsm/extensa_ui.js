@@ -146,7 +146,7 @@ const createUI = () => {
 		// open title menu
 
 		// open bottom main menu
-		UI.p.menu_bottom.f.open();
+		// UI.p.menu_bottom.f.open();
 
 	};
 
@@ -965,19 +965,19 @@ const createUI = () => {
 	};
 
 
-	UI.p.menu_bottom.f.open = function () {
+	// UI.p.menu_bottom.f.open = function () {
 
-		VARCO.f.loadComplex(
-			UI.p.scene,
-			'json/menu_bottom.json',
-			undefined,
-			function init_menu_bottom(p) {
-				UI.p.menu_bottom_OBJ = p.obj;
-				PLY.f.resizeScreen();
-			}
-		);
+	// 	VARCO.f.loadComplex(
+	// 		UI.p.scene,
+	// 		'json/menu_bottom.json',
+	// 		undefined,
+	// 		function init_menu_bottom(p) {
+	// 			UI.p.menu_bottom_OBJ = p.obj;
+	// 			PLY.f.resizeScreen();
+	// 		}
+	// 	);
 
-	};
+	// };
 
 
 	UI.p.menu_bottom.f.loop = function (p) {

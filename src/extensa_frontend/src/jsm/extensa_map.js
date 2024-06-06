@@ -33,8 +33,16 @@ const createMAP = () => {
 
 	};
 
+	const url = new URL(window.location.href);
+	const params = new URLSearchParams(url.search);
 
-	// ----------------------------------------------------------- //
+	const lat = params.get('lat');
+	const lng = params.get('lng');
+
+	if (lat !== null && !isNaN(lat) && lng !== null && !isNaN(lng)) {
+		MAP.p.actualCoords.lat = Number(lat);
+		MAP.p.actualCoords.lng = Number(lng);
+	}
 
 	MAP.f.clickOnMap = function (p) {
 
@@ -546,8 +554,8 @@ const createMAP = () => {
 
 					if (MAP.p.actualMapSectorName !== MAP.p.newMapSectorName) {
 						// delay before to change tiles ( to reduce tiles map downloads )
-						if ( VARCO.p.DEVICES.mouse.zoom == 0 || VARCO.p.DEVICES.touch.zoom == 0 ){
-							if ( VARCO.p.DEVICES.mouse.clickDown == false || VARCO.p.DEVICES.touch.clickDown == false ){
+						if (VARCO.p.DEVICES.mouse.zoom == 0 || VARCO.p.DEVICES.touch.zoom == 0) {
+							if (VARCO.p.DEVICES.mouse.clickDown == false || VARCO.p.DEVICES.touch.clickDown == false) {
 								if ((MAP.p.timer - MAP.p.startTimer) > (MAP.p.timerStep * 0.2)) {
 									MAP.p.actualMapSectorName = MAP.p.newMapSectorName;
 									MAP.p.startTimer = MAP.p.timer;

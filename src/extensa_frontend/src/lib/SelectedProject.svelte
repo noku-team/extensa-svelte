@@ -10,6 +10,7 @@
 	import executeDeleteProject from "../utils/dfinity/geoareas/methods/deleteProject";
 	import EyeOffIcon from "/images/UI/eye-off.png";
 	import EyeIcon from "/images/UI/eye.png";
+	import ShareIcon from "/images/UI/icons/share.png";
 
 	const onEyeClick = async () => {
 		EDITOR.f.loadProjectData();
@@ -79,6 +80,28 @@
 		PLY.p.selectedProjectName = "";
 		projectStore.setProject(null);
 		PLY.p.selectedGeoAreaName = "";
+	};
+
+	const onShare = async () => {
+		if (
+			PLY &&
+			PLY.p &&
+			PLY.p.selectedArea &&
+			PLY.p.selectedArea.userData &&
+			PLY.p.selectedArea.userData.myCoords
+		) {
+			const { lat, lng } = PLY.p.selectedArea.userData.myCoords;
+
+			const url = `${window.location.origin}?lat=${lat}&lng=${lng}`;
+
+			await navigator.clipboard.writeText(url);
+			messageStore.setMessage("Project link copied successfully", "success");
+		} else {
+			messageStore.setMessage(
+				"Oops! There was a problem sharing the project. Please try again.",
+				"error"
+			);
+		}
 	};
 </script>
 
@@ -163,6 +186,12 @@
 							</svg>
 						</button>
 					{/if}
+					<button
+						class="btn btn-warning btn-circle cursor-pointer btn-sm"
+						on:click={onShare}
+					>
+						<img src={ShareIcon} alt="share" />
+					</button>
 					<button
 						class="btn btn-primary btn-circle cursor-pointer btn-sm"
 						on:click={onClose}

@@ -128,8 +128,19 @@
 
 		const canvas = document.querySelector("canvas");
 
+		let resizeTime: any;
+
+		const resizeFunction = () => {
+			if(resizeTime) {
+				clearTimeout(resizeTime)
+			}
+			resizeTime = setTimeout(() => {
+				PLY.f.resizeScreen();
+			}, 100)
+		}
+
 		if (canvas) {
-			canvas.addEventListener("resize", PLY.f.resizeScreen, false);
+			window.addEventListener("resize", resizeFunction, false);
 
 			canvas.addEventListener("mousedown", UI.f.clicked, false);
 			canvas.addEventListener("mouseup", UI.f.clickedEnd, false);

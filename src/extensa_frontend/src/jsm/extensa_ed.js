@@ -93,6 +93,7 @@ const createEditor = () => {
 					"materialList": [
 
 						{
+							// project circle
 							"type": "MeshBasicMaterial",
 							"name": "Kernel_Mesh_mat",
 							"parameters": {
@@ -102,7 +103,7 @@ const createEditor = () => {
 								"alphaTest": 0.5,
 								"visible": true,
 								"depthTest": false,
-								"depthWrite": false
+								"depthWrite": false,
 							}
 						}
 
@@ -111,12 +112,13 @@ const createEditor = () => {
 					"elementList": [
 
 						{
+						 // area circle
 							"type": "addMesh",
 							"prop": {
 								"name": "Kernel_Mesh",
 								"type": "CircleGeometry",
 								"parameters": {
-									"radius": 5.0
+									"radius": 1.0
 								},
 								"materialList": ["Kernel_Mesh_mat"],
 								"position": { "x": 0, "y": 0.1, "z": 0.0 },
@@ -167,50 +169,51 @@ const createEditor = () => {
 							}
 						},
 
-						{
-							"type": "addMesh",
-							"prop": {
-								"name": "boxAltitude",
-								"type": "BoxGeometry",
-								"parameters": { "width": 0.2, "height": 1.0, "depth": 0.2 },
+						// {
+						// // height bar
+						// 	"type": "addMesh",
+						// 	"prop": {
+						// 		"name": "boxAltitude",
+						// 		"type": "BoxGeometry",
+						// 		"parameters": { "width": 0.2, "height": 1.0, "depth": 0.2 },
 
-								"MM3D": {
+						// 		"MM3D": {
 
-									"helper": {
-										"edges": {
-											"color": { "r": 0.0, "g": 0.0, "b": 0.0 }
-										}
-									},
+						// 			"helper": {
+						// 				"edges": {
+						// 					"color": { "r": 0.0, "g": 0.0, "b": 0.0 }
+						// 				}
+						// 			},
 
-									"scriptList": [
-										{
-											"loop": true,
-											"function": function helper_altitude(p) {
+						// 			"scriptList": [
+						// 				{
+						// 					"loop": true,
+						// 					"function": function helper_altitude(p) {
 
-												if (p.obj.parent.position.y > 0.0) {
+						// 						if (p.obj.parent.position.y > 0.0) {
 
-													p.obj.position.y = (p.obj.parent.position.y * 0.5 * -1) + 0.1;
+						// 							p.obj.position.y = (p.obj.parent.position.y * 0.5 * -1) + 0.1;
 
-													p.obj.scale.y = p.obj.parent.position.y;
+						// 							p.obj.scale.y = p.obj.parent.position.y;
 
-												} else {
+						// 						} else {
 
-													p.obj.position.x = 0;
+						// 							p.obj.position.x = 0;
 
-													p.obj.position.y = 0;
+						// 							p.obj.position.y = 0;
 
-													p.obj.position.z = 0;
+						// 							p.obj.position.z = 0;
 
-													p.obj.scale.y = 0.01;
+						// 							p.obj.scale.y = 0.01;
 
-												}
-											},
-											"functionProp": {}
-										}
-									]
-								}
-							}
-						},
+						// 						}
+						// 					},
+						// 					"functionProp": {}
+						// 				}
+						// 			]
+						// 		}
+						// 	}
+						// },
 
 						{
 							"type": "addComplex",
@@ -302,13 +305,14 @@ const createEditor = () => {
 					"materialList": [
 
 						{
+							// area
 							"type": "MeshBasicMaterial",
 							"name": "geoAreaKernel_mat",
 							"parameters": {
 								"color": { "r": 0.5, "g": 0.5, "b": 0.5 },
 								"transparent": true,
 								"opacity": 0.8,
-								"alphaTest": 0.5,
+								"alphaTest": 1, // fully transparent = 1
 								"visible": true,
 								"depthTest": false,
 								"depthWrite": false
@@ -504,9 +508,7 @@ const createEditor = () => {
 
 				const { project: _selectedProject } = get(projectStore); // leggi dato
 
-				console.log(_selectedProject.name);
-
-				console.log('SELEZIONATO');
+				console.log(`SELEZIONATO: ${_selectedProject.name}`);
 
 				// EDITOR.p.alreadySelected = true;
 

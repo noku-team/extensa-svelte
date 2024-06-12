@@ -1896,12 +1896,12 @@ const createPLY = () => {
 							"type": "MeshBasicMaterial",
 							"name": "compass_mat",
 							"parameters": {
-								"color": { "r": 0.0, "g": 0.0, "b": 1.0 },
+								"color": { "r": 0, "g": 0.0, "b": 0 },
 								"transparent": true,
 								// "alphaTest": 0.5,
 								"depthTest": false,
 								"depthWrite": false,
-								"opacity": 0.6,
+								"opacity": 0.2,
 								"textures": { "map": "compass_txt" }
 							}
 						},

@@ -41,25 +41,25 @@
 			src: Rotate,
 			alt: "Rotate",
 			id: ButtonType.Rotate,
-			enabled: !!$projectStore.project || !!PLY.p.selectedArea,
+			enabled: !!$projectStore.project// || !!PLY.p.selectedArea,
 		},
 		{
 			src: Move,
 			alt: "Move",
 			id: ButtonType.Move,
-			enabled: !!$projectStore.project || !!PLY.p.selectedArea,
+			enabled: !!$projectStore.project// || !!PLY.p.selectedArea,
 		},
 		{
 			src: Enlarge,
 			alt: "Enlarge",
 			id: ButtonType.Enlarge,
-			enabled: !!$projectStore.project || !!PLY.p.selectedArea,
+			enabled: !!$projectStore.project// || !!PLY.p.selectedArea,
 		},
 		{
 			src: Settings,
 			alt: "Settings",
 			id: ButtonType.Settings,
-			enabled: !!$projectStore.project || !!PLY.p.selectedArea,
+			enabled: !!$projectStore.project// || !!PLY.p.selectedArea,
 		},
 	];
 

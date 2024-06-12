@@ -771,8 +771,6 @@ const createUI = () => {
 	UI.p.menu_editor.f.SCALE = function () { /////// JJ
 		const { project: _selectedProject } = get(projectStore); // leggi dato
 
-		console.log('UI.p.menu_editor.f.SCALE')
-
 		if (EDITOR.p.action == 'SCALE_project' || EDITOR.p.action == 'SCALE_area') {
 			EDITOR.p.action = '';
 		} else {
@@ -783,6 +781,8 @@ const createUI = () => {
 				EDITOR.p.action = 'SCALE_project';
 			};
 		};
+
+		console.log(`UI.p.menu_editor.f.SCALE: ${EDITOR.p.action}`);
 		PLY.p.flagPlayerOn = false;
 
 	};

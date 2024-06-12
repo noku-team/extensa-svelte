@@ -1352,13 +1352,22 @@ const createPLY = () => {
 						let speedZ;
 
 						if (VARCO.p.DEVICES.mouse.clickDown) {
+
 							speedX = VARCO.p.DEVICES.mouse.diffH * (PLY.p.camera3DAxis.userData.orbitRadius + 15.0) * 0.001 * -1;
 
 							speedZ = VARCO.p.DEVICES.mouse.diffV * (PLY.p.camera3DAxis.userData.orbitRadius + 15.0) * 0.001 * -1;
 
-							PLY.p.camera3DAxis.translateX(speedX);
+							if(speedX != 0) {
+								PLY.p.camera3DAxis.translateX(speedX);
+							}
 
-							PLY.p.camera3DAxis.translateZ(speedZ);
+							if(speedZ != 0) {
+								PLY.p.camera3DAxis.translateZ(speedZ);
+							}
+
+							// if(speedX != 0 || speedZ != 0) {
+							// 	console.log(`drag x: ${speedX} z: ${speedZ}`)
+							// }
 
 						}
 
@@ -1370,9 +1379,13 @@ const createPLY = () => {
 
 								speedZ = VARCO.p.DEVICES.touch.diffV * (PLY.p.camera3DAxis.userData.orbitRadius + 15.0) * 0.001 * -1;
 
-								PLY.p.camera3DAxis.translateX(speedX);
+								if(speedX != 0) {
+									PLY.p.camera3DAxis.translateX(speedX);
+								}
 
-								PLY.p.camera3DAxis.translateZ(speedZ);
+								if(speedZ != 0) {
+									PLY.p.camera3DAxis.translateZ(speedZ);
+								}
 
 							}
 

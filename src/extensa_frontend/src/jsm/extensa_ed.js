@@ -231,7 +231,7 @@ const createEditor = () => {
 
 				"position": {
 					"x": prop.myPosition.x,
-					"y": 0.025,
+					"y": prop.myPosition.y || 0.025,
 					"z": prop.myPosition.z
 				},
 

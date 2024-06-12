@@ -727,8 +727,6 @@ const createUI = () => {
 
 	UI.p.menu_editor.f.DRAG = function () { /////// JJ
 
-		console.log('UI.p.menu_editor.f.DRAG')
-
 		const { project: _selectedProject } = get(projectStore); // leggi dato
 
 		if (EDITOR.p.action == 'DRAG_project' || EDITOR.p.action == 'DRAG_area') {
@@ -742,6 +740,7 @@ const createUI = () => {
 			};
 		};
 
+		console.log(`UI.p.menu_editor.f.DRAG: ${EDITOR.p.action}`)
 
 		PLY.p.flagPlayerOn = false;
 

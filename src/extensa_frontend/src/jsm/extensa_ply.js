@@ -2876,7 +2876,13 @@ const createPLY = () => {
 	
 							if (VARCO.p.DEVICES.mouse.buttonNum == 2) {
 	
-								_selectedProject.position.y += VARCO.p.DEVICES.mouse.diffV * 0.1 * -1
+								let newH = _selectedProject.position.y + (VARCO.p.DEVICES.mouse.diffV * 0.1 * -1);
+
+								if( newH < 0 && newH > -0.5) { // ancoro l'altezza per settare il minimo, per impostare l'altezza più bassa basta andare più veloce con il cursore
+									newH = 0.025;
+								}
+								console.log(`new height: ${newH}`);
+								_selectedProject.position.y = newH;
 	
 							};
 	

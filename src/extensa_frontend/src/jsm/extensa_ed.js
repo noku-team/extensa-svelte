@@ -100,7 +100,7 @@ const createEditor = () => {
 								"color": { "r": 0.0, "g": 0.0, "b": 0.5 },
 								"transparent": true,
 								"opacity": 0.8,
-								"alphaTest": 0.5,
+								"alphaTest": 1, //fully transparent
 								"visible": true,
 								"depthTest": false,
 								"depthWrite": false,

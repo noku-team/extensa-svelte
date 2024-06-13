@@ -131,13 +131,13 @@
 		let resizeTime: any;
 
 		const resizeFunction = () => {
-			if(resizeTime) {
-				clearTimeout(resizeTime)
+			if (resizeTime) {
+				clearTimeout(resizeTime);
 			}
 			resizeTime = setTimeout(() => {
 				PLY.f.resizeScreen();
-			}, 100)
-		}
+			}, 100);
+		};
 
 		if (canvas) {
 			window.addEventListener("resize", resizeFunction, false);
@@ -162,6 +162,14 @@
 		animate();
 
 		indexedDBInterval = setInterval(cleanupExpiredProjects, 30 * 60 * 1000); // 30 minutes
+
+		// init 3d is visible
+		const url = new URL(window.location.href);
+		const params = new URLSearchParams(url.search);
+
+		const isARActive = params.get("ar");
+		const project = params.get("project");
+		isARBtnVisible = isARActive === "true" && !!project;
 	});
 
 	onDestroy(() => {
@@ -185,7 +193,7 @@
 		if (indexedDBInterval) clearInterval(indexedDBInterval);
 	});
 
-	let isARBtnVisible = false;
+	$: isARBtnVisible = false;
 	const toggleGpsView = () => (isARBtnVisible = !isARBtnVisible);
 </script>
 

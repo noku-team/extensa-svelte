@@ -10,6 +10,15 @@
 	// EYE
 	type ActiveId = "GPS" | "EYE";
 
+	// init 3d is visible
+	const url = new URL(window.location.href);
+	const params = new URLSearchParams(url.search);
+
+	const isARActive = params.get("ar");
+	const project = params.get("project");
+
+	const isARBtnVisible = isARActive === "true" && !!project;
+
 	let activeId: ActiveId[] = [];
 
 	let iconColor: string = "#222222";
@@ -34,7 +43,7 @@
 		},
 	];
 
-	const toggleActive = (id: ActiveId) => {
+	const toggleActive = (id: ActiveId, toggleGps = true) => {
 		if (activeId.includes(id)) {
 			activeId = activeId.filter((activeId) => activeId !== id);
 		} else activeId = activeId.concat(id);
@@ -46,11 +55,17 @@
 				else iconColor = "#222222";
 				break;
 			case "EYE":
-				toggleGpsView();
+				if (toggleGps) toggleGpsView();
 				UI.p.menu_bottom.f.button_gpsView();
 				break;
 		}
 	};
+
+	if (isARBtnVisible) {
+		setTimeout(() => {
+			toggleActive("EYE", false);
+		}, 500);
+	}
 </script>
 
 <div class="fixed left-2 bottom-3 z-[1000] flex flex-col gap-2">

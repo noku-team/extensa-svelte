@@ -78,183 +78,192 @@ const createEditor = () => {
 		console.log("createProject");
 
 		prop.linkedGeoArea = GEOAREAOBJ;
+		const _OBJ = {
+			"name": prop.name,
 
-		VARCO.f.addComplex(
+			"userData": prop,
 
-			GEOAREAOBJ.OBJECTS.projects,
+			"parameters": {
 
-			{
-				"name": prop.name,
+				"materialList": [
 
-				"userData": prop,
-
-				"parameters": {
-
-					"materialList": [
-
-						{
-							// project circle
-							"type": "MeshBasicMaterial",
-							"name": "Kernel_Mesh_mat",
-							"parameters": {
-								"color": { "r": 0.0, "g": 0.0, "b": 0.5 },
-								"transparent": true,
-								"opacity": 0.8,
-								"alphaTest": 1, //fully transparent
-								"visible": true,
-								"depthTest": false,
-								"depthWrite": false,
-							}
+					{
+						// project circle
+						"type": "MeshBasicMaterial",
+						"name": "Kernel_Mesh_mat",
+						"parameters": {
+							"color": { "r": 0.0, "g": 0.0, "b": 0.5 },
+							"transparent": true,
+							"opacity": 0.8,
+							"alphaTest": 1, //fully transparent
+							"visible": true,
+							"depthTest": false,
+							"depthWrite": false,
 						}
+					}
 
-					],
+				],
 
-					"elementList": [
+				"elementList": [
 
-						{
-						 // area circle
-							"type": "addMesh",
-							"prop": {
-								"name": "Kernel_Mesh",
-								"type": "CircleGeometry",
-								"parameters": {
-									"radius": 1.0
+					{
+						// area circle
+						"type": "addMesh",
+						"prop": {
+							"name": "Kernel_Mesh",
+							"type": "CircleGeometry",
+							"parameters": {
+								"radius": 1.0
+							},
+							"materialList": ["Kernel_Mesh_mat"],
+							"position": { "x": 0, "y": 0.1, "z": 0.0 },
+							"rotation": { "x": -90, "y": 0.0, "z": 0.0 },
+
+							"MM3D": {
+								"helper": {
+									"edges": {
+										"color": { "r": 0.0, "g": 0.0, "b": 0.0 }
+									}
 								},
-								"materialList": ["Kernel_Mesh_mat"],
-								"position": { "x": 0, "y": 0.1, "z": 0.0 },
-								"rotation": { "x": -90, "y": 0.0, "z": 0.0 },
 
-								"MM3D": {
-									"helper": {
-										"edges": {
-											"color": { "r": 0.0, "g": 0.0, "b": 0.0 }
-										}
+								"events": {
+									"mousedown": {
+										"scriptList": [
+											{
+												"functionName": "EDITOR.f.selectProjectDown",
+												"functionProp": {}
+											}
+										]
 									},
-
-									"events": {
-										"mousedown": {
-											"scriptList": [
-												{
-													"functionName": "EDITOR.f.selectProjectDown",
-													"functionProp": {}
-												}
-											]
-										},
-										"touchstart": {
-											"scriptList": [
-												{
-													"functionName": "EDITOR.f.selectProjectDown",
-													"functionProp": {}
-												}
-											]
-										},
-										"mouseup": {
-											"scriptList": [
-												{
-													"functionName": "EDITOR.f.selectProject",
-													"functionProp": {}
-												}
-											]
-										},
-										"touchend": {
-											"scriptList": [
-												{
-													"functionName": "EDITOR.f.selectProject",
-													"functionProp": {}
-												}
-											]
-										}
+									"touchstart": {
+										"scriptList": [
+											{
+												"functionName": "EDITOR.f.selectProjectDown",
+												"functionProp": {}
+											}
+										]
+									},
+									"mouseup": {
+										"scriptList": [
+											{
+												"functionName": "EDITOR.f.selectProject",
+												"functionProp": {}
+											}
+										]
+									},
+									"touchend": {
+										"scriptList": [
+											{
+												"functionName": "EDITOR.f.selectProject",
+												"functionProp": {}
+											}
+										]
 									}
 								}
 							}
-						},
-
-						// {
-						// // height bar
-						// 	"type": "addMesh",
-						// 	"prop": {
-						// 		"name": "boxAltitude",
-						// 		"type": "BoxGeometry",
-						// 		"parameters": { "width": 0.2, "height": 1.0, "depth": 0.2 },
-
-						// 		"MM3D": {
-
-						// 			"helper": {
-						// 				"edges": {
-						// 					"color": { "r": 0.0, "g": 0.0, "b": 0.0 }
-						// 				}
-						// 			},
-
-						// 			"scriptList": [
-						// 				{
-						// 					"loop": true,
-						// 					"function": function helper_altitude(p) {
-
-						// 						if (p.obj.parent.position.y > 0.0) {
-
-						// 							p.obj.position.y = (p.obj.parent.position.y * 0.5 * -1) + 0.1;
-
-						// 							p.obj.scale.y = p.obj.parent.position.y;
-
-						// 						} else {
-
-						// 							p.obj.position.x = 0;
-
-						// 							p.obj.position.y = 0;
-
-						// 							p.obj.position.z = 0;
-
-						// 							p.obj.scale.y = 0.01;
-
-						// 						}
-						// 					},
-						// 					"functionProp": {}
-						// 				}
-						// 			]
-						// 		}
-						// 	}
-						// },
-
-						{
-							"type": "addComplex",
-							"prop": {
-								"name": "myProject"
-							}
-						},
-
-						{
-							"type": "addComplex",
-							"prop": {
-								"name": "myProjectCloned"
-							}
 						}
+					},
 
-					]
-				},
+					// {
+					// // height bar
+					// 	"type": "addMesh",
+					// 	"prop": {
+					// 		"name": "boxAltitude",
+					// 		"type": "BoxGeometry",
+					// 		"parameters": { "width": 0.2, "height": 1.0, "depth": 0.2 },
 
-				"position": {
-					"x": prop.myPosition.x,
-					"y": prop.myPosition.y || 0.025,
-					"z": prop.myPosition.z
-				},
+					// 		"MM3D": {
 
-				"rotation": {
-					"x": prop.myOrientation.x,
-					"y": prop.myOrientation.y,
-					"z": prop.myOrientation.z,
-				},
+					// 			"helper": {
+					// 				"edges": {
+					// 					"color": { "r": 0.0, "g": 0.0, "b": 0.0 }
+					// 				}
+					// 			},
 
-				"scale": {
-					"x": prop.mySize.x,
-					"y": prop.mySize.y,
-					"z": prop.mySize.z
-				}
+					// 			"scriptList": [
+					// 				{
+					// 					"loop": true,
+					// 					"function": function helper_altitude(p) {
+
+					// 						if (p.obj.parent.position.y > 0.0) {
+
+					// 							p.obj.position.y = (p.obj.parent.position.y * 0.5 * -1) + 0.1;
+
+					// 							p.obj.scale.y = p.obj.parent.position.y;
+
+					// 						} else {
+
+					// 							p.obj.position.x = 0;
+
+					// 							p.obj.position.y = 0;
+
+					// 							p.obj.position.z = 0;
+
+					// 							p.obj.scale.y = 0.01;
+
+					// 						}
+					// 					},
+					// 					"functionProp": {}
+					// 				}
+					// 			]
+					// 		}
+					// 	}
+					// },
+
+					{
+						"type": "addComplex",
+						"prop": {
+							"name": "myProject"
+						}
+					},
+
+					{
+						"type": "addComplex",
+						"prop": {
+							"name": "myProjectCloned"
+						}
+					}
+
+				]
 			},
 
+			"position": {
+				"x": prop.myPosition.x,
+				"y": prop.myPosition.y || 0.025,
+				"z": prop.myPosition.z
+			},
+
+			"rotation": {
+				"x": prop.myOrientation.x,
+				"y": prop.myOrientation.y,
+				"z": prop.myOrientation.z,
+			},
+
+			"scale": {
+				"x": prop.mySize.x,
+				"y": prop.mySize.y,
+				"z": prop.mySize.z
+			}
+		};
+
+		VARCO.f.addComplex(
+			GEOAREAOBJ.OBJECTS.projects,
+			_OBJ,
+
 			function (p) {
+				const url = new URL(window.location.href);
+				const params = new URLSearchParams(url.search);
+
+				const projectId = params.get('project');
 
 				// check name
 				let OBJ = p.obj;
+
+				if (!!projectId) {
+					projectStore.setProject(OBJ);
+					EDITOR.f.loadProjectData();
+					projectStore.set3DVisible(true);
+				}
 
 
 				if (callback !== undefined) {

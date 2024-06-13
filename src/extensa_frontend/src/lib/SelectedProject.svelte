@@ -104,6 +104,8 @@
 			let url = `${window.location.origin}?lat=${lat}&lng=${lng}`;
 			if (angX && angY) url += `&angX=${angX}&angY=${angY}`;
 			if (zoomMap) url += `&zoom=${zoomMap}`;
+			// add show project 
+			url += `&project=${$projectStore.project.uuid}`;
 
 			await navigator.clipboard.writeText(url);
 			messageStore.setMessage("Project link copied successfully", "success");

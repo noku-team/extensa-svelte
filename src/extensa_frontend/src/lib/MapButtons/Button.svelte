@@ -5,6 +5,7 @@
 	export let id: string | undefined = undefined;
 	export let src: string;
 	export let alt: string;
+	export let isSquare = true;
 	export let active: boolean;
 	export let disabled = false;
 	export let toggleActive: () => void;
@@ -26,21 +27,26 @@
 	on:click={toggleActive}
 	{disabled}
 	class={cx(
-		"btn btn-square hover:bg-tertiary hover:border-tertiary hover:scale-105",
+		"btn hover:bg-tertiary hover:border-tertiary hover:scale-105",
 		{
 			"btn-primary": active,
 			"btn-neutral": !active,
+			"btn-square": isSquare,
 		},
 		className
 	)}
 >
-	<img
-		{src}
-		{alt}
-		class={cx("w-1/2 h-1/2", imgClassName)}
-		class:inverted-image={!active}
-		class:disabled-image={disabled}
-	/>
+	{#if src}
+		<img
+			{src}
+			{alt}
+			class={cx("w-1/2 h-1/2", imgClassName)}
+			class:inverted-image={!active}
+			class:disabled-image={disabled}
+		/>
+	{:else}
+		<slot />
+	{/if}
 </button>
 
 <style>

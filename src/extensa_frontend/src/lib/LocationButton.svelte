@@ -5,10 +5,19 @@
 	import EYE from "/images/UI/icons/eye.png";
 	import GPS from "/images/UI/icons/pin.png";
 
-	export let isARBtnVisible;
 	export let toggleGpsView: () => void;
-
+	// GPS
+	// EYE
 	type ActiveId = "GPS" | "EYE";
+
+	// init 3d is visible
+	const url = new URL(window.location.href);
+	const params = new URLSearchParams(url.search);
+
+	const isARActive = params.get("ar");
+	const project = params.get("project");
+
+	const isARBtnVisible = isARActive === "true" && !!project;
 
 	let activeId: ActiveId[] = [];
 
@@ -52,12 +61,10 @@
 		}
 	};
 
-	$: {
-		if (isARBtnVisible) {
-			setTimeout(() => {
-				toggleActive("EYE", false);
-			}, 500);
-		}
+	if (isARBtnVisible) {
+		setTimeout(() => {
+			toggleActive("EYE", false);
+		}, 500);
 	}
 </script>
 

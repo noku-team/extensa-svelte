@@ -259,10 +259,12 @@ const createEditor = () => {
 				// check name
 				let OBJ = p.obj;
 
-				if (!!projectId) {
-					projectStore.setProject(OBJ);
-					EDITOR.f.loadProjectData();
-					projectStore.set3DVisible(true);
+				if (!!projectId && OBJ?.userData?.file_id) {
+					if (parseInt(OBJ.userData.file_id) === parseInt(projectId)) {
+						projectStore.setProject(OBJ);
+						EDITOR.f.loadProjectData();
+						projectStore.set3DVisible(true);
+					}
 				}
 
 

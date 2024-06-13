@@ -104,8 +104,10 @@
 			let url = `${window.location.origin}?lat=${lat}&lng=${lng}`;
 			if (angX && angY) url += `&angX=${angX}&angY=${angY}`;
 			if (zoomMap) url += `&zoom=${zoomMap}`;
-			// add show project 
-			url += `&project=${$projectStore.project.uuid}`;
+			// add show project
+			if ($projectStore?.project?.userData?.file_id) {
+				url += `&project=${parseInt($projectStore.project.userData.file_id)}`;
+			}
 
 			await navigator.clipboard.writeText(url);
 			messageStore.setMessage("Project link copied successfully", "success");

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import cx from "classnames";
 	import { VARCO } from "../VARCO/helpers/VARCO";
-	import { EDITOR, PLY, UI } from "../jsm";
+	import { EDITOR, MAP, PLY, UI } from "../jsm";
 	import { authStore } from "../store/AuthStore";
 	import { messageStore } from "../store/MessageStore";
 	import { projectStore } from "../store/ProjectStore";
@@ -98,8 +98,12 @@
 		) {
 			const { lat, lng } =
 				$projectStore.project?.userData?.linkedGeoArea?.userData.myCoords ?? {};
+			const { angX, angY } = PLY.p.camera3DAxis.userData ?? {};
+			const { zoomMap } = MAP.p ?? {};
 
-			const url = `${window.location.origin}?lat=${lat}&lng=${lng}`;
+			let url = `${window.location.origin}?lat=${lat}&lng=${lng}`;
+			if (angX && angY) url += `&angX=${angX}&angY=${angY}`;
+			if (zoomMap) url += `&zoom=${zoomMap}`;
 
 			await navigator.clipboard.writeText(url);
 			messageStore.setMessage("Project link copied successfully", "success");

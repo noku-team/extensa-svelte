@@ -4,6 +4,7 @@
 
 import * as THREE from 'three';
 import { VARCO } from "../VARCO/helpers/VARCO.js";
+
 const MAPSingleton = (function () {
 	let instance;
 	function createInstance() {
@@ -38,12 +39,13 @@ const createMAP = () => {
 
 	const lat = params.get('lat');
 	const lng = params.get('lng');
-
+	
 	if (lat !== null && !isNaN(lat) && lng !== null && !isNaN(lng)) {
 		MAP.p.actualCoords.lat = Number(lat);
 		MAP.p.actualCoords.lng = Number(lng);
 	}
 
+	
 	MAP.f.clickOnMap = function (p) {
 
 		console.log("clickOnMap");
@@ -493,7 +495,6 @@ const createMAP = () => {
 
 
 	MAP.f.loopMap = function (lng, lat) {
-
 		// init main variables
 		// let DATA = MAP.p.OBJ.userData.map;
 		let U;
@@ -570,6 +571,7 @@ const createMAP = () => {
 							if (MAP.p.actualZoomMap !== MAP.p.zoomMap) {
 
 								// console.log( "DELETE DIFFERENT ZOOMLEVEL"  );
+								console.warn(222)
 								MAP.p.actualZoomMap = MAP.p.zoomMap;
 								MAP.f.cleanMap();
 							}

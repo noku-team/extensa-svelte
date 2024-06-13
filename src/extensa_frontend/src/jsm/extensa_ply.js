@@ -1750,6 +1750,21 @@ const createPLY = () => {
 
 	PLY.f.initScene3D = function (p) {
 
+		const url = new URL(window.location.href);
+		const params = new URLSearchParams(url.search);
+
+		let angX = 90.0;
+		let angY = 0.0;
+
+		const angXParams = params.get('angX');
+		const angYParams = params.get('angY');
+
+		if (angXParams && angYParams) {
+			console.warn('angXParams', angXParams);
+			console.warn('angYParams', angYParams);
+			angX = parseFloat(angXParams);
+			angY = parseFloat(angYParams);
+		}
 		// pano
 
 		VARCO.f.addScene(
@@ -1797,9 +1812,9 @@ const createPLY = () => {
 			{
 				"name": "camera3DAxis",
 				"userData": {
-					"angX": 90.0,
+					"angX": angX,
 					"angXInt": 90.0,
-					"angY": 0.0,
+					"angY": angY,
 					"angYInt": 0.0,
 					"orbitRadius": 2000.0,
 					"orbitRadiusInt": 2000.0,

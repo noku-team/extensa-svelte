@@ -1531,7 +1531,7 @@ const createEditor = () => {
 
 					};
 
-					UI.p.menu_optimizer.f.open();
+					// UI.p.menu_optimizer.f.open();
 				} catch (e) {
 					console.error(e);
 					messageStore.setMessage('The uploaded file format is not supported. Please choose a valid file format.', 'error');
@@ -1560,6 +1560,7 @@ const createEditor = () => {
 
 			if (EDITOR.p.dragAndDrop) {
 
+				console.warn("dragAndDrop");
 				switch (extension) {
 
 					case "gltf":

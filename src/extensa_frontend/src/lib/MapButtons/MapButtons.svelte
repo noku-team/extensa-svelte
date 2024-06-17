@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PLY, UI } from "../../jsm";
+	import { UI } from "../../jsm";
 	import { authStore } from "../../store/AuthStore";
 	import { projectStore } from "../../store/ProjectStore";
 	import Button from "./Button.svelte";
@@ -41,25 +41,25 @@
 			src: Rotate,
 			alt: "Rotate",
 			id: ButtonType.Rotate,
-			enabled: !!$projectStore.project// || !!PLY.p.selectedArea,
+			enabled: !!$projectStore.project, // || !!PLY.p.selectedArea,
 		},
 		{
 			src: Move,
 			alt: "Move",
 			id: ButtonType.Move,
-			enabled: !!$projectStore.project// || !!PLY.p.selectedArea,
+			enabled: !!$projectStore.project, // || !!PLY.p.selectedArea,
 		},
 		{
 			src: Enlarge,
 			alt: "Enlarge",
 			id: ButtonType.Enlarge,
-			enabled: !!$projectStore.project// || !!PLY.p.selectedArea,
+			enabled: !!$projectStore.project, // || !!PLY.p.selectedArea,
 		},
 		{
 			src: Settings,
 			alt: "Settings",
 			id: ButtonType.Settings,
-			enabled: !!$projectStore.project// || !!PLY.p.selectedArea,
+			enabled: !!$projectStore.project, // || !!PLY.p.selectedArea,
 		},
 	];
 
@@ -88,6 +88,7 @@
 				UI.p.menu_editor.f.DRAG();
 				break;
 			case "Settings":
+				console.warn('settings');
 				if (UI.p.scene.OBJECTS.menu_optimizer !== undefined) {
 					UI.p.menu_optimizer.f.close();
 				} else UI.p.menu_editor.f.TOOLS();

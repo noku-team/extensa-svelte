@@ -4,6 +4,7 @@
 import { get } from 'svelte/store';
 import * as THREE from 'three';
 import { VARCO } from "../VARCO/helpers/VARCO.js";
+import { controlStore } from '../store/ControlStore';
 import { projectStore } from '../store/ProjectStore';
 import { EDITOR, MAP, PLY } from "./index.js";
 
@@ -714,12 +715,7 @@ const createUI = () => {
 
 
 	UI.p.menu_editor.f.button_import = function () {
-
-		if (EDITOR.p.dragAndDrop) {
-			EDITOR.p.dragAndDrop = false;
-		} else {
-			EDITOR.p.dragAndDrop = true;
-		}
+		controlStore.toggleDragAndDropActive();
 
 	};
 
@@ -806,8 +802,9 @@ const createUI = () => {
 
 
 	UI.p.menu_editor.f.feedback = function (p) {  // JJ
-
-		if (EDITOR.p.dragAndDrop) {
+		const { isDragAndDropActive } = get(controlStore);
+		
+		if (isDragAndDropActive) {
 
 			p.obj.OBJECTS.button_import.material.color.r = 1.0;
 			p.obj.OBJECTS.button_import.material.color.g = 1.0;
@@ -1739,10 +1736,10 @@ const createUI = () => {
 
 		if (UI.p.scene.OBJECTS.menu_area.OBJECTS.dragAndDrop.visible) {
 			UI.p.scene.OBJECTS.menu_area.OBJECTS.dragAndDrop.visible = false;
-			EDITOR.p.dragAndDrop = false;
+			controlStore.setIsDragAndDropActive(false)
 		} else {
 			UI.p.scene.OBJECTS.menu_area.OBJECTS.dragAndDrop.visible = true;
-			EDITOR.p.dragAndDrop = true;
+			controlStore.setIsDragAndDropActive(true)
 		}
 
 	};

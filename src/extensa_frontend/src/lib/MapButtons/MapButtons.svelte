@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { UI } from "../../jsm";
 	import { authStore } from "../../store/AuthStore";
+	import { controlStore } from "../../store/ControlStore";
 	import { projectStore } from "../../store/ProjectStore";
 	import Button from "./Button.svelte";
 	import Drop from "/images/UI/buttons/Arhive_load.png";
@@ -30,12 +31,6 @@
 	}
 
 	$: buttons = [
-		{
-			src: Drop,
-			alt: "Drop",
-			id: ButtonType.Drop,
-			enabled: !$projectStore.project,
-		},
 		{ src: Folder, alt: "Folder", id: ButtonType.Folder, enabled: false },
 		{
 			src: Rotate,
@@ -72,9 +67,6 @@
 			}
 		}
 		switch (id) {
-			case "Drop":
-				UI.p.menu_editor.f.button_import();
-				break;
 			case "Folder":
 				console.warn("Not implemented yet!");
 				break;
@@ -88,12 +80,16 @@
 				UI.p.menu_editor.f.DRAG();
 				break;
 			case "Settings":
-				console.warn('settings');
+				console.warn("settings");
 				if (UI.p.scene.OBJECTS.menu_optimizer !== undefined) {
 					UI.p.menu_optimizer.f.close();
 				} else UI.p.menu_editor.f.TOOLS();
 				break;
 		}
+	};
+
+	const onDragAndDrop = () => {
+		UI.p.menu_editor.f.button_import();
 	};
 </script>
 
@@ -101,6 +97,14 @@
 	<div
 		class="fixed left-2 top-1/2 transform -translate-y-1/2 z-[1000] flex flex-col gap-1"
 	>
+		<Button
+			src={Drop}
+			alt="Drop"
+			active={$controlStore.isDragAndDropActive}
+			toggleActive={onDragAndDrop}
+			deselectBtn={() => (activeId = null)}
+			disabled={!!$projectStore.project}
+		/>
 		{#each buttons as { src, alt, id, enabled = true }}
 			<Button
 				{src}

@@ -28,7 +28,7 @@
 		EYE = "EYE",
 	}
 
-	$: buttons = [
+	const buttons = [
 		{
 			src: GPS,
 			alt: "Gps",

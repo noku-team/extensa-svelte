@@ -803,7 +803,7 @@ const createUI = () => {
 
 	UI.p.menu_editor.f.feedback = function (p) {  // JJ
 		const { isDragAndDropActive } = get(controlStore);
-		
+
 		if (isDragAndDropActive) {
 
 			p.obj.OBJECTS.button_import.material.color.r = 1.0;

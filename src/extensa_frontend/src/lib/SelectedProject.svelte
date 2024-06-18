@@ -118,6 +118,15 @@
 			);
 		}
 	};
+
+	const isOwner = () => {
+		return (
+			$authStore.identity &&
+			$projectStore.project &&
+			$authStore.identity.getPrincipal().toString() ===
+				$projectStore.project?.userData?.linkedGeoArea?.userData?.user?.[0]?.toString()
+		);
+	};
 </script>
 
 {#if !!$projectStore.project}
@@ -146,7 +155,7 @@
 			)}
 		>
 			<div class="w-full flex gap-2 justify-end">
-				{#if $authStore.identity}
+				{#if $authStore.identity && isOwner()}
 					<button
 						class="btn btn-error btn-circle cursor-pointer btn-sm ml-auto"
 						on:click={onDelete}

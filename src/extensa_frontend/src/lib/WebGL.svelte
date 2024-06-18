@@ -204,7 +204,7 @@
 	<MapButtons />
 	<ControlButtons />
 	<MouseButtons />
-	<LocationButton {toggleGpsView} {isARBtnVisible} />
+	<LocationButton {toggleGpsView} />
 	{#if isARBtnVisible}
 		<ArButton />
 	{/if}

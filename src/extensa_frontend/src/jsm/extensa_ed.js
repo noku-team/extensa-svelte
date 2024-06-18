@@ -511,45 +511,46 @@ const createEditor = () => {
 
 			const _user = p.obj.parent.userData.linkedGeoArea.userData.user?.[0]?.toString() || p.obj.parent.userData.linkedGeoArea.userData.user?.toString();
 
-			if (principal == _user) {
+			// if (principal == _user) {
 
-				EDITOR.f.deselectProjects();
-
-				projectStore.setProject(p.obj.parent); // scrivi dato
-
-				const { project: _selectedProject } = get(projectStore); // leggi dato
-
-				console.log(`SELEZIONATO: ${_selectedProject.name}`);
-
-				// EDITOR.p.alreadySelected = true;
-
-				if (PLY.p.selectedArea == undefined || PLY.p.selectedArea.uuid !== p.obj.parent.userData.linkedGeoArea.uuid) {
-
-					EDITOR.f.deselectGeoArea();
-
-					PLY.p.selectedArea = p.obj.parent.userData.linkedGeoArea;
-
-					PLY.p.selectedArea.MATERIALS.geoAreaKernel_mat.color.r = 1.0;
-
-					PLY.p.selectedArea.MATERIALS.geoAreaKernel_mat.color.g = 1.0;
-
-					PLY.p.selectedArea.MATERIALS.geoAreaKernel_mat.color.b = 0.0;
-
-					projectStore.setSelectedGeoarea(PLY.p.selectedArea);
-
-				}
+			EDITOR.f.deselectProjects();
 
 
-				p.obj.parent.MATERIALS.Kernel_Mesh_mat.color.r = 1.0;
+			projectStore.setProject(p.obj.parent); // scrivi dato
 
-				p.obj.parent.MATERIALS.Kernel_Mesh_mat.color.g = 1.0;
+			const { project: _selectedProject } = get(projectStore); // leggi dato
 
-				p.obj.parent.MATERIALS.Kernel_Mesh_mat.color.b = 0.0;
+			console.log(`SELEZIONATO: ${_selectedProject.name}`);
 
+			// EDITOR.p.alreadySelected = true;
 
-				PLY.p.flagPlayerOn = false;
+			if (PLY.p.selectedArea == undefined || PLY.p.selectedArea.uuid !== p.obj.parent.userData.linkedGeoArea.uuid) {
+
+				EDITOR.f.deselectGeoArea();
+
+				PLY.p.selectedArea = p.obj.parent.userData.linkedGeoArea;
+
+				PLY.p.selectedArea.MATERIALS.geoAreaKernel_mat.color.r = 1.0;
+
+				PLY.p.selectedArea.MATERIALS.geoAreaKernel_mat.color.g = 1.0;
+
+				PLY.p.selectedArea.MATERIALS.geoAreaKernel_mat.color.b = 0.0;
+
+				projectStore.setSelectedGeoarea(PLY.p.selectedArea);
 
 			}
+
+
+			p.obj.parent.MATERIALS.Kernel_Mesh_mat.color.r = 1.0;
+
+			p.obj.parent.MATERIALS.Kernel_Mesh_mat.color.g = 1.0;
+
+			p.obj.parent.MATERIALS.Kernel_Mesh_mat.color.b = 0.0;
+
+
+			PLY.p.flagPlayerOn = false;
+
+			// }
 
 		}
 
@@ -1502,8 +1503,6 @@ const createEditor = () => {
 									function (w) {
 
 										// SHOW PROJECT //
-
-										// PLY.p.selectedProject = w.obj;
 
 										projectStore.setProject({ ...w.obj, notYetSaved: true, is3DVisible: true }); // scrivi dato
 

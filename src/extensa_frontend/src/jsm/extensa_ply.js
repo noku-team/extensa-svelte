@@ -1759,8 +1759,6 @@ const createPLY = () => {
 		const angYParams = params.get('angY');
 
 		if (angXParams && angYParams) {
-			console.warn('angXParams', angXParams);
-			console.warn('angYParams', angYParams);
 			angX = parseFloat(angXParams);
 			angY = parseFloat(angYParams);
 		}

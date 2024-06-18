@@ -569,9 +569,6 @@ const createMAP = () => {
 						// clean the map when user stop to move to refresh the memory
 						if ((MAP.p.timer - MAP.p.startTimer) > MAP.p.timerStep) {
 							if (MAP.p.actualZoomMap !== MAP.p.zoomMap) {
-
-								// console.log( "DELETE DIFFERENT ZOOMLEVEL"  );
-								console.warn(222)
 								MAP.p.actualZoomMap = MAP.p.zoomMap;
 								MAP.f.cleanMap();
 							}

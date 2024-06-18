@@ -80,7 +80,6 @@
 				UI.p.menu_editor.f.DRAG();
 				break;
 			case "Settings":
-				console.warn("settings");
 				if (UI.p.scene.OBJECTS.menu_optimizer !== undefined) {
 					UI.p.menu_optimizer.f.close();
 				} else UI.p.menu_editor.f.TOOLS();

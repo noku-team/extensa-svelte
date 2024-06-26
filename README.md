@@ -71,4 +71,4 @@ This will take you to our fantastic application!
 
 ## License
 
-Extensa is licensed under the [CC BY-NC-ND 4.0 License](LICENSE).
+Extensa is licensed under the [CC BY-NC-ND 4.0 License](LICENSE.md).

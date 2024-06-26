@@ -1,55 +1,74 @@
 # Extensa
 
-Progetto Extensa
+## Overview
 
-## Descrizione
+Extensa is a revolutionary platform built with Svelte, designed specifically for architects, public institutions, and creators. It provides a dynamic way to showcase buildings in real dimensions at their exact construction locations. Extensa also facilitates sharing information with citizens and tourists and enables selling products to the public, all without requiring any coding skills.
 
-Benvenuto nel nostro fantastico progetto! Questo progetto è stato creato per... (aggiungere una breve descrizione del progetto e il suo scopo).
+## Key Features
 
-## Come Iniziare
+- **Drag and Drop Functionality**: Easily create and manage content with a simple drag and drop interface.
+- **Augmented Reality Marketplace**: Create a new marketplace for assets in Augmented Reality, certified by the blockchain.
+- **Blockchain Integration**: 100% fully on the ICP blockchain, ensuring security and transparency.
+- **Dynamic Information Sharing**: Share detailed information with citizens and tourists in an interactive manner.
+- **Sales Platform**: Sell your manufactured products directly to the public.
 
-Segui i passaggi qui sotto per far partire il progetto sul tuo computer:
+## Target Users
 
-Installazione delle Dipendenze: Apri il terminale e esegui il comando:
+- **Architects**: Display building projects in real dimensions at their exact construction sites.
+- **Public Institutions**: Share valuable information dynamically with citizens and tourists.
+- **Creators**: Sell your creative products and assets in an innovative AR marketplace.
+
+## Getting Started
+
+To get started with Extensa, follow these steps:
+
+1. **Clone the Repository**:
+
+   ```sh
+   git clone https://github.com/yourusername/extensa.git
+   ```
+
+2. **Install Dependencies**:
+   Navigate to the project directory and install the required dependencies:
+
+   ```sh
+   cd extensa
+   npm install
+   ```
+
+3. **Run the Development Server**:
+   Start the development server to see your project in action:
+
+   ```sh
+   npm run dev
+   ```
+
+### Opening in the Browser
+
+Once the server is running, open your favorite browser and go to:
 
 ```bash
-npm install
+http://localhost:5173/
 ```
 
-Avvio del Server di Sviluppo: Dopo aver installato le dipendenze, avvia il server di sviluppo con il comando:
+This will take you to our fantastic application!
 
-```bash
-npm run dev
-```
+4. **Build for Production**:
+   When you're ready to deploy your project, build it for production:
 
-Apertura nel Browser: Una volta avviato il server, apri il tuo browser preferito e vai all'indirizzo:
-
-```bash
-<http://localhost:5173/>
-```
-
-Questo ti porterà alla nostra fantastica applicazione!
+   ```sh
+   npm run build
+   ```
 
 ## DFX
 
-1. Installare dfxvm: <https://github.com/dfinity/dfxvm/tree/main>
+1. **Install dfxvm**: Follow the instructions to install dfxvm from [here](https://github.com/dfinity/dfxvm/tree/main).
+2. **Use dfx Version 0.19.0**:
 
-2. usare la versione di dfx 0.19.0
+   ```bash
+   dfxvm install 0.19.0
+   ```
 
-  ```bash
-  dfxvm install 0.19.0 
-  ```
+## License
 
-## Contribuire
-
-Se vuoi contribuire a questo progetto, ecco cosa puoi fare:
-
-Fork il repository su GitHub.
-Fai le tue modifiche.
-Invia una pull request!
-
-## Segnalazione di Bug
-
-Se trovi dei bug o hai delle idee su come migliorare il progetto, ti invitiamo ad aprire una issue su GitHub. Saremo felici di ascoltare le tue opinioni e lavorare insieme per rendere questo progetto ancora migliore!
-
-Grazie per aver scelto di utilizzare il nostro progetto! Speriamo che ti diverta lavorare con esso tanto quanto è stato divertente per noi crearlo. Buon coding! 🚀
+Extensa is licensed under the [CC BY-NC-ND 4.0 License](LICENSE).

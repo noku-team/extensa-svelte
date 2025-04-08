@@ -80,6 +80,7 @@ const createEditor = () => {
 		prop.linkedGeoArea = GEOAREAOBJ;
 		const _OBJ = {
 			"name": prop.name,
+			"animations": prop.animations,
 
 			"userData": prop,
 
@@ -2723,6 +2724,7 @@ const createEditor = () => {
 
 				const projectData = {
 					"name": PROJECTOBJ.name,
+					"animations": PROJECTOBJ.animations,
 					"userData": { "type": "3d", "extension": "gltf" },
 					"parameters": {
 						"elementList": [

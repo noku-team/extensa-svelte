@@ -1,3 +1,102 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: 76, 175, 80;
+    --color-secondary: 33, 150, 243;
+    --color-background: 26, 26, 26;
+    --color-surface: 42, 42, 42;
+    --color-text: 255, 255, 255;
+    --color-text-secondary: 255, 255, 255, 0.7;
+  }
+
+  body {
+    background-color: rgb(var(--color-background));
+    color: rgb(var(--color-text));
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply bg-surface/95 backdrop-blur-md border border-white/10 rounded-lg shadow-lg;
+  }
+
+  .tool-button {
+    @apply flex items-center gap-2 px-3 py-2 rounded-lg transition-colors duration-200;
+  }
+
+  .tool-button:hover {
+    @apply bg-white/10;
+  }
+
+  .tool-button.active {
+    @apply bg-primary/20 text-primary;
+  }
+
+  .control-panel {
+    @apply fixed top-0 right-0 w-96 h-screen overflow-y-auto bg-white/95 backdrop-blur-md border-l border-black/10 transition-all duration-300 z-50;
+  }
+
+  .three-container {
+    @apply w-full h-full relative;
+    background: linear-gradient(135deg, rgb(var(--color-background)) 0%, rgb(var(--color-surface)) 100%);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Loading spinner */
+.loading-spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 4px solid rgba(var(--color-primary), 0.2);
+  border-top-color: rgb(var(--color-primary));
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Transitions */
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 200ms ease-in;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 200ms ease-out;
+}

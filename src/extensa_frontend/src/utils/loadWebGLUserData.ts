@@ -1,5 +1,8 @@
-import { VARCO } from "../VARCO/helpers/VARCO";
-import { PLY, UI } from "../jsm";
+import { VARCOClass } from "../VARCO/helpers/VARCO";
+import { MAP, PLY, UI } from "../jsm/index.js";
+
+// Creazione dell'istanza singleton di VARCO
+const VARCO = VARCOClass.getInstance();
 
 const loadWebGLUserData = (principal?: string) => {
     if (principal) {

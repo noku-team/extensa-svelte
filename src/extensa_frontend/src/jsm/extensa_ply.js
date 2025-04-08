@@ -8,7 +8,8 @@ import { get } from 'svelte/store';
 import * as THREE from 'three';
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import Stats from "three/addons/libs/stats.module.js";
-import { VARCO } from "../VARCO/helpers/VARCO";
+// Importiamo direttamente l'istanza singleton di VARCO
+import { VARCOClass } from "../VARCO/helpers/VARCO";
 import RENDERERSingleton from '../functions/renderer.js';
 import { authStore } from '../store/AuthStore';
 import { projectStore } from '../store/ProjectStore';
@@ -17,6 +18,8 @@ import { getAnonymousIdentity } from '../utils/dfinity/identityAgent';
 import getDOMHeight from '../utils/dom/getDOMHeight.js';
 import { EDITOR, MAP, UI } from "./index.js";
 
+// Creazione dell'istanza singleton di VARCO
+const VARCO = VARCOClass.getInstance();
 
 const renderer = RENDERERSingleton.getInstance();
 
@@ -1764,32 +1767,25 @@ const createPLY = () => {
 		}
 		// pano
 
-		VARCO.f.addScene(
+		const scene3D = VARCO.f.addScene(
 			{
 				"name": "scene3D"
-			},
-			function initScene(p) {
-				PLY.p.scene3D = p.obj;
-
-				// environment textures //
-
-				VARCO.f.addTexture(
-					PLY.p.scene3D,
-					{
-						"name": "environment",
-						"url": "images/reflection.jpeg"
-					},
-					function (t) {
-						PLY.p.scene3D.environment = t.obj;
-						PLY.p.scene3D.environment.mapping = THREE.EquirectangularReflectionMapping;
-					}
-				)
-
-				// equirectangular
-
 			}
-
 		);
+
+		PLY.p.scene3D = scene3D.scene;
+
+		VARCO.f.addTexture(
+			PLY.p.scene3D,
+			{
+				"name": "environment",
+				"url": "images/reflection.jpeg"
+			},
+			function (t) {
+				PLY.p.scene3D.environment = t.obj;
+				PLY.p.scene3D.environment.mapping = THREE.EquirectangularReflectionMapping;
+			}
+		)
 
 		VARCO.f.addComplex(
 
@@ -2382,24 +2378,23 @@ const createPLY = () => {
 
 		// pano
 
-		VARCO.f.addScene(
+		const sceneMAP = VARCO.f.addScene(
 			{
 				"name": "sceneMAP"
-			},
-			function initScene(p) {
-				PLY.p.sceneMAP = p.obj;
-				VARCO.f.addTexture(PLY.p.sceneMAP,
-					{
-						"name": "sky",
-						"url": "images/sky.png"
-					},
-					function (t) {
-						PLY.p.sceneMAP.background = t.obj;
-						PLY.p.sceneMAP.background.mapping = THREE.EquirectangularReflectionMapping;
-					}
-				);
 			}
+		);
 
+		PLY.p.sceneMAP = sceneMAP.scene;
+
+		VARCO.f.addTexture(PLY.p.sceneMAP,
+			{
+				"name": "sky",
+				"url": "images/sky.png"
+			},
+			function (t) {
+				PLY.p.sceneMAP.background = t.obj;
+				PLY.p.sceneMAP.background.mapping = THREE.EquirectangularReflectionMapping;
+			}
 		);
 
 
@@ -2564,14 +2559,13 @@ const createPLY = () => {
 
 		// sfondo BKG webcam
 
-		VARCO.f.addScene(
+		const sceneBKG = VARCO.f.addScene(
 			{
 				"name": "sceneBKG"
-			},
-			function initScene(p) {
-				PLY.p.sceneBKG = p.obj;
 			}
 		);
+
+		PLY.p.sceneBKG = sceneBKG.scene;
 
 
 		VARCO.f.addCamera(

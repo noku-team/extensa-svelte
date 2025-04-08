@@ -1,5 +1,8 @@
 import * as THREE from 'three';
-import { VARCO } from "./VARCO";
+import { VARCOClass } from "./VARCO";
+
+// Creazione dell'istanza singleton di VARCO
+const VARCO = VARCOClass.getInstance();
 
 interface GeoPosition {
   coords: {

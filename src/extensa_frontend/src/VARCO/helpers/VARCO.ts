@@ -131,32 +131,39 @@ interface ComplexObject {
 }
 
 interface ComplexObjectProperties {
-  parameters?: Record<string, any>;
-  textureList?: Array<{
-    name: string;
-    url: string;
-    type?: string;
-  }>;
-  materialList?: Array<{
-    name: string;
-    type: string;
-    parameters?: Record<string, any>;
-  }>;
-  elementList?: Array<{
-    name: string;
-    type: string;
-    parameters?: Record<string, any>;
-  }>;
-  physicConstraintsList?: Array<{
-    name: string;
-    type: string;
-    parameters?: Record<string, any>;
-  }>;
-  physicMaterialsList?: Array<{
-    name: string;
-    type: string;
-    parameters?: Record<string, any>;
-  }>;
+  name?: string;
+  parameters?: {
+    textureList?: Array<{
+      name: string;
+      url: string;
+      type?: string;
+    }>;
+    materialList?: Array<{
+      name: string;
+      type: string;
+      parameters?: Record<string, any>;
+      prop?: Record<string, any>;
+    }>;
+    elementList?: Array<{
+      name: string;
+      type: string;
+      parameters?: Record<string, any>;
+      prop?: Record<string, any>;
+    }>;
+    physicConstraintsList?: Array<{
+      name: string;
+      type: string;
+      parameters?: Record<string, any>;
+      prop?: Record<string, any>;
+    }>;
+    physicMaterialsList?: Array<{
+      name: string;
+      type: string;
+      parameters?: Record<string, any>;
+      prop?: Record<string, any>;
+    }>;
+    [key: string]: any;
+  };
 }
 
 interface ComplexObjectGroup extends THREE.Group {
@@ -168,34 +175,38 @@ interface ComplexObjectGroup extends THREE.Group {
 }
 
 export class VARCOClass {
-  public p: VarcoProperties;
-  public f: Record<string, any>;
-  public button: Record<string, any>;
+  private static _instance: VARCOClass | null = null;
+  private static _initialized: boolean = false;
+
+  public p: VarcoProperties = {
+    DEVICES: {
+      gamepad: null,
+      mouse: null,
+      touch: null,
+      keyboard: null,
+      eventType: null,
+      isIOS: false,
+      isSafari: false,
+      isMobile: false
+    },
+    SOUNDS: {},
+    RAYCAST: new THREE.Raycaster(),
+    CLOCK: new THREE.Clock(),
+    DELTAT: 0,
+    DELTA_STARTTIME: new Date().getTime(),
+    isVISIBLE: true,
+    zipList: []
+  };
+  public f: Record<string, any> = {};
+  public button: Record<string, any> = {};
   public scene?: THREE.Scene;
-
-  constructor() {
-    this.p = {
-      DEVICES: {
-        gamepad: null,
-        mouse: null,
-        touch: null,
-        keyboard: null,
-        eventType: null,
-        isIOS: false,
-        isSafari: false,
-        isMobile: false
-      },
-      SOUNDS: {},
-      RAYCAST: new THREE.Raycaster(),
-      CLOCK: new THREE.Clock(),
-      DELTAT: 0,
-      DELTA_STARTTIME: new Date().getTime(),
-      isVISIBLE: true,
-      zipList: []
-    };
-    this.f = {};
-    this.button = {};
-
+  
+  private constructor() {
+    if (VARCOClass._initialized) {
+      throw new Error("Use VARCOClass.getInstance() instead of new.");
+    }
+    VARCOClass._initialized = true;
+    
     // Inizializzazione dei metodi
     this.initMethods();
     
@@ -203,6 +214,14 @@ export class VARCOClass {
     this.f.checkDevice();
     this.initializeComplexObjectMethods();
     this.initializeViewportMethods();
+    this.initializeAdditionalMethods();
+  }
+
+  public static getInstance(): VARCOClass {
+    if (!VARCOClass._instance) {
+      VARCOClass._instance = new VARCOClass();
+    }
+    return VARCOClass._instance;
   }
 
   private initMethods(): void {
@@ -409,127 +428,145 @@ export class VARCOClass {
 
   private initializeRendererMethods(): void {
     // Metodo per aggiungere una scena
-    this.f.addScene = (container: HTMLElement | string | null, options: {
-      backgroundColor?: THREE.ColorRepresentation,
-      fogColor?: THREE.ColorRepresentation,
-      fogNear?: number,
-      fogFar?: number,
-      cameraFOV?: number,
-      cameraNear?: number,
-      cameraFar?: number,
-      cameraPosition?: THREE.Vector3,
-      rendererPixelRatio?: number,
-      rendererClearColor?: THREE.ColorRepresentation,
-      rendererSize?: { width: number, height: number }
-    } = {}): { 
-      scene: THREE.Scene, 
-      camera: THREE.PerspectiveCamera, 
-      renderer: THREE.WebGLRenderer,
-      domElement: HTMLCanvasElement
+    this.f.addScene = (properties: {
+      name: string;
+      // container?: string | HTMLElement;
+      backgroundColor?: THREE.ColorRepresentation;
+      fogColor?: THREE.ColorRepresentation;
+      fogNear?: number;
+      fogFar?: number;
+      cameraFOV?: number;
+      cameraNear?: number;
+      cameraFar?: number;
+      rendererPixelRatio?: number;
+      rendererClearColor?: THREE.ColorRepresentation;
+      rendererSize?: { width: number; height: number };
+    }, 
+    // callback?: (result: { obj: THREE.Scene }) => void,
+    // callbackProp?: any
+    ): { 
+      scene: THREE.Scene; 
+      // camera: THREE.PerspectiveCamera; 
+      // renderer: THREE.WebGLRenderer;
+      // domElement: HTMLCanvasElement;
     } => {
-      // Gestione del container
-      let containerElement: HTMLElement | null = null;
-      
-      if (typeof container === 'string') {
-        // Se è una stringa, lo consideriamo come selector
-        containerElement = document.querySelector(container);
-      } else if (container instanceof HTMLElement) {
-        // Se è già un elemento HTML
-        containerElement = container;
-      }
-      
-      if (!containerElement) {
-        console.warn('VARCO.addScene: Container not found, creating a new div element');
-        containerElement = document.createElement('div');
-        containerElement.style.width = '100%';
-        containerElement.style.height = '100%';
-        document.body.appendChild(containerElement);
-      }
-      
-      // Crea una nuova scena
+      // Create scene
       const scene = new THREE.Scene();
       this.scene = scene;
-      
-      // Imposta background e fog se specificati
-      if (options.backgroundColor) {
-        scene.background = new THREE.Color(options.backgroundColor);
+
+      if (properties.name) {
+        this.scene.name = properties.name;
       }
       
-      if (options.fogColor) {
+      // Setup background and fog if specified
+      if (properties.backgroundColor) {
+        scene.background = new THREE.Color(properties.backgroundColor);
+      }
+      
+      if (properties.fogColor) {
         scene.fog = new THREE.Fog(
-          options.fogColor, 
-          options.fogNear || 1, 
-          options.fogFar || 1000
+          properties.fogColor, 
+          properties.fogNear || 1, 
+          properties.fogFar || 1000
         );
       }
       
-      // Determina le dimensioni del contenitore
-      const containerWidth = options.rendererSize ? 
-        options.rendererSize.width : 
-        containerElement.clientWidth || window.innerWidth;
+      // Handle container
+      // let container: HTMLElement | null = null;
+      
+      // if (properties.container) {
+      //   if (typeof properties.container === 'string') {
+      //     container = document.querySelector(properties.container);
+      //   } else if (properties.container instanceof HTMLElement) {
+      //     container = properties.container;
+      //   }
+      // }
+      
+      // if (!container) {
+      //   container = document.createElement('div');
+      //   container.style.width = '100%';
+      //   container.style.height = '100%';
+      //   document.body.appendChild(container);
+      // }
+      
+      // // Get container dimensions
+      // const width = properties.rendererSize ? 
+      //   properties.rendererSize.width : 
+      //   container.clientWidth || window.innerWidth;
         
-      const containerHeight = options.rendererSize ? 
-        options.rendererSize.height : 
-        containerElement.clientHeight || getDOMHeight(containerElement) || window.innerHeight;
+      // const height = properties.rendererSize ? 
+      //   properties.rendererSize.height : 
+      //   container.clientHeight || getDOMHeight(container) || window.innerHeight;
       
-      // Crea la camera
-      const aspectRatio = containerWidth / containerHeight;
+      // Create camera
+      // const camera = new THREE.PerspectiveCamera(
+      //   properties.cameraFOV || 75,
+      //   width / height,
+      //   properties.cameraNear || 0.1,
+      //   properties.cameraFar || 1000
+      // );
       
-      const camera = new THREE.PerspectiveCamera(
-        options.cameraFOV || 75,
-        aspectRatio,
-        options.cameraNear || 0.1,
-        options.cameraFar || 1000
-      );
+      // // Position camera at default position
+      // camera.position.set(0, 1.6, 3);
       
-      // Posiziona la camera
-      if (options.cameraPosition) {
-        camera.position.copy(options.cameraPosition);
-      } else {
-        camera.position.set(0, 1.6, 3);
-      }
+      // // Add ambient light
+      // const ambientLight = new THREE.AmbientLight(0x404040);
+      // scene.add(ambientLight);
       
-      // Crea il renderer
-      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      // // Create renderer
+      // const renderer = new THREE.WebGLRenderer({ antialias: true });
       
-      if (options.rendererPixelRatio) {
-        renderer.setPixelRatio(options.rendererPixelRatio);
-      } else {
-        renderer.setPixelRatio(window.devicePixelRatio);
-      }
+      // if (properties.rendererPixelRatio) {
+      //   renderer.setPixelRatio(properties.rendererPixelRatio);
+      // } else {
+      //   renderer.setPixelRatio(window.devicePixelRatio);
+      // }
       
-      if (options.rendererClearColor) {
-        renderer.setClearColor(options.rendererClearColor);
-      }
+      // if (properties.rendererClearColor) {
+      //   renderer.setClearColor(properties.rendererClearColor);
+      // }
       
-      renderer.setSize(containerWidth, containerHeight);
+      // renderer.setSize(width, height);
+      // renderer.shadowMap.enabled = true;
       
-      // Prepara il canvas per Svelte
-      const domElement = renderer.domElement;
+      // // Get canvas
+      // const domElement = renderer.domElement;
       
-      // Aggiungi il canvas al container solo se il container esiste nel DOM
-      try {
-        containerElement.appendChild(domElement);
-      } catch (error) {
-        console.warn('VARCO.addScene: Could not append canvas to container', error);
-      }
+      // // Add canvas to container
+      // container.appendChild(domElement);
       
-      // Aggiunta gestione del resize della finestra
-      const handleResize = () => {
-        if (!options.rendererSize) {
-          const width = containerElement?.clientWidth || window.innerWidth;
-          const height = containerElement?.clientHeight || getDOMHeight(containerElement) || window.innerHeight;
+      // // Disable context menu
+      // this.f.disableContextMenu(domElement);
+      
+      // // Handle window resize
+      // const handleResize = () => {
+      //   if (!properties.rendererSize) {
+      //     const newWidth = container?.clientWidth || window.innerWidth;
+      //     const newHeight = container?.clientHeight || getDOMHeight(container) || window.innerHeight;
           
-          camera.aspect = width / height;
-          camera.updateProjectionMatrix();
+      //     camera.aspect = newWidth / newHeight;
+      //     camera.updateProjectionMatrix();
           
-          renderer.setSize(width, height);
-        }
+      //     renderer.setSize(newWidth, newHeight);
+      //   }
+      // };
+      
+      // window.addEventListener('resize', handleResize);
+      
+      // Execute callback if provided
+      // if (callback) {
+      //   callback({
+      //     obj: scene
+      //   });
+      // }
+      
+      // Return result
+      return { 
+        scene, 
+        // camera, 
+        // renderer, 
+        // domElement
       };
-      
-      window.addEventListener('resize', handleResize);
-      
-      return { scene, camera, renderer, domElement };
     };
     
     // Aggiunge una camera alla scena
@@ -829,6 +866,144 @@ export class VARCOClass {
       }
     };
     
+    // Add texture method - missing from TypeScript version
+    this.f.addTexture = (
+      target: THREE.Scene | THREE.Object3D, 
+      prop: {
+        name: string;
+        url: string;
+        type?: string;
+        parameters?: Record<string, any>;
+      },
+      callBack?: (result: { obj: THREE.Texture; info: any }) => void,
+      callBackProp?: any
+    ): void => {
+      let loader;
+      
+      // Default type is 'standard' if not specified
+      const textureType = prop.type || 'standard';
+      
+      switch (textureType) {
+        case 'standard':
+          this.f.loadStandardTexture(
+            prop.url,
+            (texture: THREE.Texture) => {
+              // Set texture name if provided
+              texture.name = prop.name;
+              
+              // Apply parameters if provided
+              if (prop.parameters) {
+                this.f.setPropAndParameters(texture, prop.parameters);
+              }
+              
+              // Add to target's textures if it's a complex object
+              if ((target as any).TEXTURES) {
+                (target as any).TEXTURES[prop.name] = texture;
+              }
+              
+              // Execute callback if provided
+              if (callBack) {
+                callBack({
+                  obj: texture,
+                  info: callBackProp
+                });
+              }
+            },
+            (error: Error) => {
+              console.error('Error loading texture:', error);
+              if (callBack) {
+                callBack({ obj: new THREE.Texture(), info: null });
+              }
+            }
+          );
+          break;
+          
+        case 'base64':
+          this.f.createBase64Texture(
+            prop.url,
+            (texture: THREE.Texture) => {
+              // Set texture name if provided
+              texture.name = prop.name;
+              
+              // Apply parameters if provided
+              if (prop.parameters) {
+                this.f.setPropAndParameters(texture, prop.parameters);
+              }
+              
+              // Add to target's textures if it's a complex object
+              if ((target as any).TEXTURES) {
+                (target as any).TEXTURES[prop.name] = texture;
+              }
+              
+              // Execute callback if provided
+              if (callBack) {
+                callBack({
+                  obj: texture,
+                  info: callBackProp
+                });
+              }
+            }
+          );
+          break;
+          
+        case 'video':
+          this.f.createVideoTexture(
+            prop.url as unknown as HTMLVideoElement, // Type cast as the method expects an HTML element
+            (texture: THREE.VideoTexture) => {
+              // Set texture name if provided
+              texture.name = prop.name;
+              
+              // Apply parameters if provided
+              if (prop.parameters) {
+                this.f.setPropAndParameters(texture, prop.parameters);
+              }
+              
+              // Add to target's textures if it's a complex object
+              if ((target as any).TEXTURES) {
+                (target as any).TEXTURES[prop.name] = texture;
+              }
+              
+              // Execute callback if provided
+              if (callBack) {
+                callBack({
+                  obj: texture,
+                  info: callBackProp
+                });
+              }
+            }
+          );
+          break;
+          
+        case 'string':
+          this.f.createStringTexture(
+            prop.url,
+            prop.parameters,
+            (texture: THREE.CanvasTexture) => {
+              // Set texture name if provided
+              texture.name = prop.name;
+              
+              // Add to target's textures if it's a complex object
+              if ((target as any).TEXTURES) {
+                (target as any).TEXTURES[prop.name] = texture;
+              }
+              
+              // Execute callback if provided
+              if (callBack) {
+                callBack({
+                  obj: texture,
+                  info: callBackProp
+                });
+              }
+            }
+          );
+          break;
+          
+        default:
+          console.error('Unsupported texture type:', textureType);
+          return;
+      }
+    };
+    
     // Configurazione dei parametri della texture
     this.f.setupTextureParameter = (texture: THREE.Texture): THREE.Texture => {
       texture.wrapS = THREE.RepeatWrapping;
@@ -1116,6 +1291,7 @@ export class VARCOClass {
       let counter = 0;
       let totCounter = 0;
       let step = "textureList";
+      const _this = this;
 
       COMPLEX.OBJECTS = {};
       COMPLEX.MATERIALS = {};
@@ -1126,10 +1302,17 @@ export class VARCOClass {
       if (prop.parameters === undefined) {
         prop.parameters = {};
       }
-
-      this.f.setPropAndParameters(COMPLEX, prop.parameters);
-
+      
       const complexObjectDone = () => {
+        // Ensure all properties are set before proceeding
+        this.f.setPropAndParameters(COMPLEX, prop.parameters, scene);
+
+        // Add the complex object to the scene if provided
+        if (scene) {
+          scene.add(COMPLEX);
+        }
+
+        // Execute callback after all initialization is complete
         if (callBack !== undefined) {
           if (callBackProp !== undefined) {
             callBackProp.obj = COMPLEX;
@@ -1138,6 +1321,9 @@ export class VARCOClass {
             callBack({ obj: COMPLEX });
           }
         }
+
+        // Ensure the object is fully initialized before returning
+        return COMPLEX;
       };
 
       const checkCounter = (p: number) => {
@@ -1150,10 +1336,14 @@ export class VARCOClass {
       };
 
       const createTextures = () => {
-        if (prop.textureList !== undefined) {
-          totCounter = prop.textureList.length;
-          prop.textureList.forEach((textureItem) => {
-            if (textureItem.type === "standard") {
+        if (prop.parameters?.textureList !== undefined) {
+          totCounter = prop.parameters.textureList.length;
+          prop.parameters.textureList.forEach((textureItem: {
+            name: string;
+            url: string;
+            type?: string;
+          }) => {
+            if (textureItem.type === "standard" || !textureItem.type) {
               this.f.loadStandardTexture(
                 textureItem.url,
                 (texture: THREE.Texture) => {
@@ -1162,7 +1352,7 @@ export class VARCOClass {
                     createMaterials();
                   }
                 },
-                (error: Error) => {
+                (error: any) => {
                   console.error("Error loading texture:", error);
                   if (checkCounter(totCounter)) {
                     createMaterials();
@@ -1181,7 +1371,7 @@ export class VARCOClass {
               );
             } else if (textureItem.type === "video") {
               this.f.createVideoTexture(
-                textureItem.url,
+                textureItem.url as unknown as HTMLVideoElement,
                 (texture: THREE.VideoTexture) => {
                   COMPLEX.TEXTURES[textureItem.name] = texture;
                   if (checkCounter(totCounter)) {
@@ -1197,12 +1387,27 @@ export class VARCOClass {
       };
 
       const createMaterials = () => {
-        if (prop.materialList !== undefined) {
-          totCounter = prop.materialList.length;
-          prop.materialList.forEach((materialItem) => {
+        if (prop.parameters?.materialList !== undefined) {
+          totCounter = prop.parameters.materialList.length;
+          prop.parameters.materialList.forEach((materialItem: {
+            name: string;
+            type: string;
+            parameters?: Record<string, any>;
+          }) => {
             const material = new (THREE as any)[materialItem.type]();
             if (materialItem.parameters !== undefined) {
               this.f.setPropAndParameters(material, materialItem.parameters);
+              
+              // Apply textures to material if specified
+              if (materialItem.parameters.textures) {
+                for (const textureKey in materialItem.parameters.textures) {
+                  const textureName = materialItem.parameters.textures[textureKey];
+                  if (COMPLEX.TEXTURES[textureName]) {
+                    (material as any)[textureKey] = COMPLEX.TEXTURES[textureName];
+                  }
+                }
+                material.needsUpdate = true;
+              }
             }
             COMPLEX.MATERIALS[materialItem.name] = material;
             if (checkCounter(totCounter)) {
@@ -1214,31 +1419,47 @@ export class VARCOClass {
         }
       };
 
-      const createElements = () => {
-        if (prop.elementList !== undefined) {
-          totCounter = prop.elementList.length;
-          prop.elementList.forEach((elementItem) => {
-            const element = new (THREE as any)[elementItem.type]();
-            if (elementItem.parameters !== undefined) {
-              this.f.setPropAndParameters(element, elementItem.parameters);
+      function createElements() {
+
+        if (prop.parameters?.elementList !== undefined) {
+    
+          step = "elementList"
+          counter = 0;
+          totCounter = prop.parameters.elementList.length;
+    
+          if (totCounter > 0) {
+            //COMPLEX.OBJECTS = {};
+    
+            for (var i = 0; i < prop.parameters.elementList.length; i++) {
+              _this.f[prop.parameters.elementList[i].type](
+                COMPLEX,
+                prop.parameters.elementList[i]?.prop,
+                checkCounter,
+                {}
+              );
             }
-            COMPLEX.OBJECTS[elementItem.name] = element;
-            if (checkCounter(totCounter)) {
-              createPhysicContraints();
-            }
-          });
+    
+          }
+    
         } else {
+    
           createPhysicContraints();
+    
         }
-      };
+    
+      }
 
       const createPhysicContraints = () => {
-        if (prop.physicConstraintsList !== undefined) {
-          totCounter = prop.physicConstraintsList.length;
-          prop.physicConstraintsList.forEach((constraintItem) => {
+        if (prop.parameters?.physicConstraintsList !== undefined) {
+          totCounter = prop.parameters.physicConstraintsList.length;
+          prop.parameters.physicConstraintsList.forEach((constraintItem: {
+            name: string;
+            type: string;
+            parameters?: Record<string, any>;
+          }) => {
             const constraint = new (THREE as any)[constraintItem.type]();
             if (constraintItem.parameters !== undefined) {
-              this.f.setPropAndParameters(constraint, constraintItem.parameters);
+              this.f.setPropAndParameters(constraint, constraintItem.parameters, scene);
             }
             COMPLEX.PHXCONSTRAINTS[constraintItem.name] = constraint;
             if (checkCounter(totCounter)) {
@@ -1251,12 +1472,16 @@ export class VARCOClass {
       };
 
       const createPhysicMaterials = () => {
-        if (prop.physicMaterialsList !== undefined) {
-          totCounter = prop.physicMaterialsList.length;
-          prop.physicMaterialsList.forEach((materialItem) => {
+        if (prop.parameters?.physicMaterialsList !== undefined) {
+          totCounter = prop.parameters.physicMaterialsList.length;
+          prop.parameters.physicMaterialsList.forEach((materialItem: {
+            name: string;
+            type: string;
+            parameters?: Record<string, any>;
+          }) => {
             const material = new (THREE as any)[materialItem.type]();
             if (materialItem.parameters !== undefined) {
-              this.f.setPropAndParameters(material, materialItem.parameters);
+              this.f.setPropAndParameters(material, materialItem.parameters, scene);
             }
             COMPLEX.PHXMATERIALS[materialItem.name] = material;
             if (checkCounter(totCounter)) {
@@ -1268,41 +1493,7 @@ export class VARCOClass {
         }
       };
 
-      const deleteNodeToRemove = (node: THREE.Object3D) => {
-        if (node.parent) {
-          node.parent.remove(node);
-        }
-        if (node instanceof THREE.Mesh) {
-          if (node.geometry) {
-            node.geometry.dispose();
-          }
-          if (node.material) {
-            if (Array.isArray(node.material)) {
-              node.material.forEach(material => material.dispose());
-            } else {
-              node.material.dispose();
-            }
-          }
-        }
-      };
-
-      const updateAllNodeTraverse = (node: THREE.Object3D) => {
-        if (node instanceof THREE.Mesh) {
-          if (node.material) {
-            if (Array.isArray(node.material)) {
-              node.material.forEach(material => {
-                if (material.needsUpdate) {
-                  material.needsUpdate = false;
-                }
-              });
-            } else if (node.material.needsUpdate) {
-              node.material.needsUpdate = false;
-            }
-          }
-        }
-        node.children.forEach(child => updateAllNodeTraverse(child));
-      };
-
+      // Start the initialization process
       createTextures();
       return COMPLEX;
     };
@@ -1727,7 +1918,1033 @@ export class VARCOClass {
       }
     });
   }
-}
 
-// Esportazione di un'istanza singleton per mantenere la compatibilità
-export const VARCO = new VARCOClass(); 
+  private handleAddMesh(complex: ComplexObjectGroup, elementItem: any, scene: THREE.Scene, callback: () => void): void {
+    const geometry = new (THREE as any)[elementItem.type](
+      ...(elementItem.parameters.geometry.parameters || [])
+    );
+    
+    const material = complex.MATERIALS[elementItem.parameters.material] || 
+                    new THREE.MeshBasicMaterial();
+    
+    const mesh = new THREE.Mesh(geometry, material);
+    
+    if (elementItem.parameters) {
+      this.f.setPropAndParameters(mesh, elementItem.parameters, scene);
+    }
+    
+    complex.OBJECTS[elementItem.name] = mesh;
+    complex.add(mesh);
+    callback();
+  }
+
+  private handleAddLight(complex: ComplexObjectGroup, elementItem: any, scene: THREE.Scene, callback: () => void): void {
+    const light = new (THREE as any)[elementItem.type](
+      elementItem.parameters.color,
+      elementItem.parameters.intensity,
+      elementItem.parameters.distance,
+      elementItem.parameters.angle,
+      elementItem.parameters.penumbra,
+      elementItem.parameters.decay
+    );
+    
+    if (elementItem.parameters) {
+      this.f.setPropAndParameters(light, elementItem.parameters, scene);
+    }
+    
+    complex.OBJECTS[elementItem.name] = light;
+    complex.add(light);
+    callback();
+  }
+
+  private handleAddCamera(complex: ComplexObjectGroup, elementItem: any, scene: THREE.Scene, callback: () => void): void {
+    const camera = new (THREE as any)[elementItem.type](
+      elementItem.parameters.fov,
+      elementItem.parameters.aspect,
+      elementItem.parameters.near,
+      elementItem.parameters.far
+    );
+    
+    if (elementItem.parameters) {
+      this.f.setPropAndParameters(camera, elementItem.parameters, scene);
+    }
+    
+    complex.OBJECTS[elementItem.name] = camera;
+    complex.add(camera);
+    callback();
+  }
+
+  // Additional functions from VARCO.js
+  
+  public addLight(SCENE: THREE.Scene, prop: {
+    name?: string;
+    type: string;
+    parameters?: Record<string, any>;
+    position?: { x?: number; y?: number; z?: number };
+    rotation?: { x?: number; y?: number; z?: number };
+    [key: string]: any;
+  }, callBack?: (params: { obj: THREE.Light; info: any }) => void, callBackProp?: any): THREE.Light {
+    const LIGHT = new (THREE as any)[prop.type]();
+
+    // parameters: // -----------------------------------------------------
+    if (prop.parameters !== undefined) {
+      this.f.setPropAndParameters(LIGHT, prop.parameters);
+
+      if (prop.parameters.shadow !== undefined) {
+        //Set up shadow properties for the light
+        if (prop.parameters.shadow.bias !== undefined) {
+          LIGHT.shadow.bias = prop.parameters.shadow.bias;
+        }
+
+        if (prop.parameters.shadow.mapSize !== undefined) {
+          LIGHT.shadow.mapSize.width = prop.parameters.shadow.mapSize.width; // default
+          LIGHT.shadow.mapSize.height = prop.parameters.shadow.mapSize.height; // default
+        }
+
+        if (prop.parameters.shadow.camera !== undefined) {
+          LIGHT.shadow.camera.near = prop.parameters.shadow.camera.near; // default
+          LIGHT.shadow.camera.far = prop.parameters.shadow.camera.far; // default
+          LIGHT.shadow.camera.top = prop.parameters.shadow.camera.top; // default
+          LIGHT.shadow.camera.bottom = prop.parameters.shadow.camera.bottom; // default
+          LIGHT.shadow.camera.left = prop.parameters.shadow.camera.left; // default
+          LIGHT.shadow.camera.right = prop.parameters.shadow.camera.right; // default
+          LIGHT.shadow.camera.updateProjectionMatrix();
+        }
+      }
+    }
+
+    // property: // 
+    this.f.setPropAndParameters(LIGHT, prop, SCENE);
+
+    if (SCENE !== undefined) {
+      if ((SCENE as any).OBJECTS === undefined) {
+        (SCENE as any).OBJECTS = {};
+      }
+
+      (SCENE as any).OBJECTS[LIGHT.name] = LIGHT;
+      SCENE.add(LIGHT);
+    }
+
+    if (callBack !== undefined) {
+      if (callBackProp !== undefined) {
+        callBackProp.obj = LIGHT;
+        callBack(callBackProp);
+      } else {
+        callBack({ obj: LIGHT, info: null });
+      }
+    }
+
+    return LIGHT;
+  }
+
+  public addGroup(SCENE: THREE.Scene, prop: {
+    name?: string;
+    parameters?: Record<string, any>;
+    position?: { x?: number; y?: number; z?: number };
+    rotation?: { x?: number; y?: number; z?: number };
+    [key: string]: any;
+  }, callBack?: (params: { obj: THREE.Group; info: any }) => void, callBackProp?: any): THREE.Group {
+    const GROUP = new THREE.Group();
+
+    // parameters: // -----------------------------------------------------
+    if (prop.parameters !== undefined) {
+      this.f.setPropAndParameters(GROUP, prop.parameters);
+    }
+
+    // property: // 
+    this.f.setPropAndParameters(GROUP, prop, SCENE);
+
+    if (SCENE !== undefined) {
+      if ((SCENE as any).OBJECTS === undefined) {
+        (SCENE as any).OBJECTS = {};
+      }
+
+      (SCENE as any).OBJECTS[GROUP.name] = GROUP;
+      SCENE.add(GROUP);
+    }
+
+    if (callBack !== undefined) {
+      if (callBackProp !== undefined) {
+        callBackProp.obj = GROUP;
+        callBack(callBackProp);
+      } else {
+        callBack({ obj: GROUP, info: null });
+      }
+    }
+
+    return GROUP;
+  }
+
+  public addHelper(SCENE: THREE.Scene, prop: {
+    name?: string;
+    type?: string;
+    obj?: THREE.Object3D;
+    parameters?: Record<string, any>;
+    position?: { x?: number; y?: number; z?: number };
+    rotation?: { x?: number; y?: number; z?: number };
+    [key: string]: any;
+  }, callBack?: (params: { obj: THREE.Object3D; info: any }) => void, callBackProp?: any): THREE.Object3D {
+    let HELPER: THREE.Object3D;
+
+    if (prop.obj !== undefined) {
+      switch (prop.obj.type) {
+        case "Group":
+          let axisSize = 1.0;
+
+          if (prop.parameters !== undefined && prop.parameters.size !== undefined) {
+            axisSize = prop.parameters.size;
+          }
+
+          HELPER = new THREE.AxesHelper(axisSize);
+          if (prop.parameters !== undefined && prop.parameters.color !== undefined) {
+            const color = new THREE.Color(prop.parameters.color.r, prop.parameters.color.g, prop.parameters.color.b);
+            (HELPER as THREE.AxesHelper).setColors(
+              color, // x-axis
+              new THREE.Color(0, 1, 0), // y-axis (default green)
+              new THREE.Color(0, 0, 1)  // z-axis (default blue)
+            );
+          }
+          break;
+
+        case "PerspectiveCamera":
+        case "OrthographicCamera":
+          HELPER = new THREE.CameraHelper(prop.obj as THREE.Camera);
+          break;
+
+        case "DirectionalLight":
+          HELPER = new THREE.DirectionalLightHelper(prop.obj as THREE.DirectionalLight);
+
+          if (prop.parameters !== undefined && prop.parameters.color !== undefined) {
+            // DirectionalLightHelper doesn't have a direct material property
+            // Update the helper with a new color
+            (HELPER as THREE.DirectionalLightHelper).color = new THREE.Color(
+              prop.parameters.color.r,
+              prop.parameters.color.g,
+              prop.parameters.color.b
+            );
+            // Need to call update() to apply the color change
+            (HELPER as THREE.DirectionalLightHelper).update();
+          }
+          break;
+
+        case "SpotLight":
+          HELPER = new THREE.SpotLightHelper(prop.obj as THREE.SpotLight);
+          if (prop.parameters !== undefined && prop.parameters.color !== undefined) {
+            if (typeof prop.parameters.color === 'object' && 
+                'r' in prop.parameters.color && 
+                'g' in prop.parameters.color && 
+                'b' in prop.parameters.color) {
+              (HELPER as THREE.SpotLightHelper).color = new THREE.Color(
+                prop.parameters.color.r,
+                prop.parameters.color.g,
+                prop.parameters.color.b
+              );
+            }
+          }
+          break;
+
+        case "PointLight":
+          let pointSphereSize = 1.0;
+
+          if (prop.parameters !== undefined && prop.parameters.sphereSize !== undefined) {
+            pointSphereSize = prop.parameters.sphereSize;
+          }
+
+          HELPER = new THREE.PointLightHelper(prop.obj as THREE.PointLight, pointSphereSize);
+
+          if (prop.parameters !== undefined && prop.parameters.color !== undefined) {
+            if (typeof prop.parameters.color === 'object' && 
+                'r' in prop.parameters.color && 
+                'g' in prop.parameters.color && 
+                'b' in prop.parameters.color) {
+              (HELPER as THREE.PointLightHelper).color = new THREE.Color(
+                prop.parameters.color.r,
+                prop.parameters.color.g,
+                prop.parameters.color.b
+              );
+            }
+          }
+          break;
+
+        default:
+          HELPER = new THREE.Object3D();
+          break;
+      }
+    } else if (prop.type !== undefined) {
+      // Create helper directly from type
+      switch (prop.type) {
+        case "AxesHelper":
+          let axisSize = 1.0;
+          if (prop.parameters !== undefined && prop.parameters.size !== undefined) {
+            axisSize = prop.parameters.size;
+          }
+          HELPER = new THREE.AxesHelper(axisSize);
+          break;
+
+        case "GridHelper":
+          let gridSize = 10;
+          let gridDivisions = 10;
+          let gridColorCenterLine = 0x444444;
+          let gridColorGrid = 0x888888;
+
+          if (prop.parameters !== undefined) {
+            if (prop.parameters.size !== undefined) gridSize = prop.parameters.size;
+            if (prop.parameters.divisions !== undefined) gridDivisions = prop.parameters.divisions;
+            if (prop.parameters.colorCenterLine !== undefined) gridColorCenterLine = prop.parameters.colorCenterLine;
+            if (prop.parameters.colorGrid !== undefined) gridColorGrid = prop.parameters.colorGrid;
+          }
+
+          HELPER = new THREE.GridHelper(gridSize, gridDivisions, gridColorCenterLine, gridColorGrid);
+          break;
+
+        default:
+          HELPER = new THREE.Object3D();
+          break;
+      }
+    } else {
+      HELPER = new THREE.Object3D();
+    }
+
+    // Set name
+    if (prop.name !== undefined) {
+      HELPER.name = prop.name;
+    }
+
+    // Set properties
+    this.f.setPropAndParameters(HELPER, prop, SCENE);
+
+    // Add to scene if provided
+    if (SCENE !== undefined) {
+      if ((SCENE as any).OBJECTS === undefined) {
+        (SCENE as any).OBJECTS = {};
+      }
+      (SCENE as any).OBJECTS[HELPER.name] = HELPER;
+      SCENE.add(HELPER);
+    }
+
+    // Execute callback if provided
+    if (callBack !== undefined) {
+      if (callBackProp !== undefined) {
+        callBackProp.obj = HELPER;
+        callBack(callBackProp);
+      } else {
+        callBack({ obj: HELPER, info: null });
+      }
+    }
+
+    return HELPER;
+  }
+
+  public addFromFile(SCENE: THREE.Scene, prop: {
+    name?: string;
+    type?: string;
+    url: string;
+    parameters?: Record<string, any>;
+    position?: { x?: number; y?: number; z?: number };
+    rotation?: { x?: number; y?: number; z?: number };
+    scale?: { x?: number; y?: number; z?: number };
+    [key: string]: any;
+  }, callBack?: (params: { obj: THREE.Object3D; info: any }) => void, callBackProp?: any): void {
+    // Load the object
+    this.f.objectLoader(
+      prop.url,
+      (result: { obj: THREE.Object3D; info: any }) => {
+        const obj = result.obj;
+        
+        // Set name if provided
+        if (prop.name) {
+          obj.name = prop.name;
+        }
+        
+        // Apply parameters if provided
+        if (prop.parameters) {
+          this.f.setPropAndParameters(obj, prop.parameters);
+        }
+        
+        // Apply other properties
+        this.f.setPropAndParameters(obj, prop, SCENE);
+        
+        // Add to scene if provided
+        if (SCENE !== undefined) {
+          if ((SCENE as any).OBJECTS === undefined) {
+            (SCENE as any).OBJECTS = {};
+          }
+          (SCENE as any).OBJECTS[obj.name] = obj;
+          SCENE.add(obj);
+        }
+        
+        // Execute callback if provided
+        if (callBack !== undefined) {
+          if (callBackProp !== undefined) {
+            callBackProp.obj = obj;
+            callBack(callBackProp);
+          } else {
+            callBack({ obj, info: null });
+          }
+        }
+      }
+    );
+  }
+
+  // Add these methods to f object in the initialization
+  private initializeAdditionalMethods(): void {
+    // Add the methods to the f object
+    this.f.addLight = this.addLight.bind(this);
+    this.f.addGroup = this.addGroup.bind(this);
+    this.f.addHelper = this.addHelper.bind(this);
+    this.f.addFromFile = this.addFromFile.bind(this);
+  }
+
+  public addMesh(SCENE: THREE.Scene, prop: {
+    name?: string;
+    type: string;
+    material?: string | THREE.Material;
+    parameters?: Record<string, any>;
+    position?: { x?: number; y?: number; z?: number };
+    rotation?: { x?: number; y?: number; z?: number };
+    scale?: { x?: number; y?: number; z?: number };
+    [key: string]: any;
+  }, callBack?: (params: { obj: THREE.Mesh; info: any }) => void, callBackProp?: any): THREE.Mesh {
+    // Create geometry based on type
+    const geometry = new (THREE as any)[prop.type](
+      ...(prop.parameters?.geometry?.parameters || [])
+    );
+    
+    // Get material
+    let material: THREE.Material;
+    
+    if (typeof prop.material === 'string') {
+      // If material is a string, try to find it in scene materials
+      material = (SCENE as any)?.MATERIALS?.[prop.material] || new THREE.MeshBasicMaterial();
+    } else if (prop.material instanceof THREE.Material) {
+      // If material is already a THREE.Material instance
+      material = prop.material;
+    } else {
+      // Default material
+      material = new THREE.MeshBasicMaterial();
+    }
+    
+    // Create mesh
+    const mesh = new THREE.Mesh(geometry, material);
+    
+    // Set name if provided
+    if (prop.name) {
+      mesh.name = prop.name;
+    }
+    
+    // Apply parameters
+    if (prop.parameters) {
+      this.f.setPropAndParameters(mesh, prop.parameters);
+    }
+    
+    // Apply other properties
+    this.f.setPropAndParameters(mesh, prop, SCENE);
+    
+    // Add to scene if provided
+    if (SCENE !== undefined) {
+      if ((SCENE as any).OBJECTS === undefined) {
+        (SCENE as any).OBJECTS = {};
+      }
+      (SCENE as any).OBJECTS[mesh.name] = mesh;
+      SCENE.add(mesh);
+    }
+    
+    // Execute callback if provided
+    if (callBack !== undefined) {
+      if (callBackProp !== undefined) {
+        callBackProp.obj = mesh;
+        callBack(callBackProp);
+      } else {
+        callBack({ obj: mesh, info: null });
+      }
+    }
+    
+    return mesh;
+  };
+
+  public addLine = (SCENE: THREE.Scene, prop: {
+    name?: string;
+    type: string;
+    points?: THREE.Vector3[];
+    material?: string | THREE.Material;
+    parameters?: Record<string, any>;
+    position?: { x?: number; y?: number; z?: number };
+    rotation?: { x?: number; y?: number; z?: number };
+    scale?: { x?: number; y?: number; z?: number };
+    [key: string]: any;
+  }, callBack?: (params: { obj: THREE.Line; info: any }) => void, callBackProp?: any): THREE.Line => {
+    // Create points if not provided
+    const points = prop.points || [
+      new THREE.Vector3(0, 0, 0),
+      new THREE.Vector3(0, 1, 0)
+    ];
+    
+    // Create geometry
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    
+    // Get material
+    let material: THREE.Material;
+    
+    if (typeof prop.material === 'string') {
+      // If material is a string, try to find it in scene materials
+      material = (SCENE as any)?.MATERIALS?.[prop.material] || new THREE.LineBasicMaterial();
+    } else if (prop.material instanceof THREE.Material) {
+      // If material is already a THREE.Material instance
+      material = prop.material;
+    } else {
+      // Default material
+      material = new THREE.LineBasicMaterial();
+    }
+    
+    // Create line based on type
+    const line = new (THREE as any)[prop.type](geometry, material);
+    
+    // Set name if provided
+    if (prop.name) {
+      line.name = prop.name;
+    }
+    
+    // Apply parameters
+    if (prop.parameters) {
+      this.f.setPropAndParameters(line, prop.parameters);
+    }
+    
+    // Apply other properties
+    this.f.setPropAndParameters(line, prop, SCENE);
+    
+    // Add to scene if provided
+    if (SCENE !== undefined) {
+      if ((SCENE as any).OBJECTS === undefined) {
+        (SCENE as any).OBJECTS = {};
+      }
+      (SCENE as any).OBJECTS[line.name] = line;
+      SCENE.add(line);
+    }
+    
+    // Execute callback if provided
+    if (callBack !== undefined) {
+      if (callBackProp !== undefined) {
+        callBackProp.obj = line;
+        callBack(callBackProp);
+      } else {
+        callBack({ obj: line, info: null });
+      }
+    }
+    
+    return line;
+  };
+
+  public addSprite = (SCENE: THREE.Scene, prop: {
+    name?: string;
+    material?: string | THREE.SpriteMaterial;
+    parameters?: Record<string, any>;
+    position?: { x?: number; y?: number; z?: number };
+    scale?: { x?: number; y?: number; z?: number };
+    [key: string]: any;
+  }, callBack?: (params: { obj: THREE.Sprite; info: any }) => void, callBackProp?: any): THREE.Sprite => {
+    // Get material
+    let material: THREE.SpriteMaterial;
+    
+    if (typeof prop.material === 'string') {
+      // If material is a string, try to find it in scene materials
+      material = (SCENE as any)?.MATERIALS?.[prop.material] as THREE.SpriteMaterial || new THREE.SpriteMaterial();
+    } else if (prop.material instanceof THREE.SpriteMaterial) {
+      // If material is already a THREE.SpriteMaterial instance
+      material = prop.material;
+    } else {
+      // Default material
+      material = new THREE.SpriteMaterial();
+    }
+    
+    // Create sprite
+    const sprite = new THREE.Sprite(material);
+    
+    // Set name if provided
+    if (prop.name) {
+      sprite.name = prop.name;
+    }
+    
+    // Apply parameters
+    if (prop.parameters) {
+      this.f.setPropAndParameters(sprite, prop.parameters);
+    }
+    
+    // Apply other properties
+    this.f.setPropAndParameters(sprite, prop, SCENE);
+    
+    // Add to scene if provided
+    if (SCENE !== undefined) {
+      if ((SCENE as any).OBJECTS === undefined) {
+        (SCENE as any).OBJECTS = {};
+      }
+      (SCENE as any).OBJECTS[sprite.name] = sprite;
+      SCENE.add(sprite);
+    }
+    
+    // Execute callback if provided
+    if (callBack !== undefined) {
+      if (callBackProp !== undefined) {
+        callBackProp.obj = sprite;
+        callBack(callBackProp);
+      } else {
+        callBack({ obj: sprite, info: null });
+      }
+    }
+    
+    return sprite;
+  };
+
+  public addClone = (sourceOBJ: THREE.Object3D, targetScene?: THREE.Scene, callBack?: (params: { obj: THREE.Object3D; info: any }) => void, callBackProp?: any): THREE.Object3D => {
+    // Clone the source object
+    const clonedObj = sourceOBJ.clone();
+    
+    // Add to scene if provided
+    if (targetScene !== undefined) {
+      if ((targetScene as any).OBJECTS === undefined) {
+        (targetScene as any).OBJECTS = {};
+      }
+      (targetScene as any).OBJECTS[clonedObj.name] = clonedObj;
+      targetScene.add(clonedObj);
+    }
+    
+    // Execute callback if provided
+    if (callBack !== undefined) {
+      if (callBackProp !== undefined) {
+        callBackProp.obj = clonedObj;
+        callBack(callBackProp);
+      } else {
+        callBack({ obj: clonedObj, info: null });
+      }
+    }
+    
+    return clonedObj;
+  };
+
+  public addFog = (SCENE: THREE.Scene, fog: {
+    type: string;
+    color?: THREE.ColorRepresentation;
+    near?: number;
+    far?: number;
+    density?: number;
+  }): void => {
+    if (fog.type === 'Fog') {
+      SCENE.fog = new THREE.Fog(
+        fog.color !== undefined ? fog.color : 0xffffff, 
+        fog.near !== undefined ? fog.near : 1, 
+        fog.far !== undefined ? fog.far : 1000
+      );
+    } else if (fog.type === 'FogExp2') {
+      SCENE.fog = new THREE.FogExp2(
+        fog.color !== undefined ? fog.color : 0xffffff, 
+        fog.density !== undefined ? fog.density : 0.00025
+      );
+    }
+  };
+
+  public addMaterial = (SCENE: THREE.Scene, prop: {
+    name: string;
+    type: string;
+    parameters?: Record<string, any>;
+    [key: string]: any;
+  }, callBack?: (params: { obj: THREE.Material; info: any }) => void, callBackProp?: any): THREE.Material => {
+    // Create material
+    const material = new (THREE as any)[prop.type]();
+    
+    // Apply parameters
+    if (prop.parameters !== undefined) {
+      this.f.setPropAndParameters(material, prop.parameters);
+      
+      // Handle textures if defined in parameters
+      if (prop.parameters.map && typeof prop.parameters.map === 'string') {
+        material.map = (SCENE as any)?.TEXTURES?.[prop.parameters.map];
+      }
+      
+      if (prop.parameters.normalMap && typeof prop.parameters.normalMap === 'string') {
+        material.normalMap = (SCENE as any)?.TEXTURES?.[prop.parameters.normalMap];
+      }
+
+      if (prop.parameters.bumpMap && typeof prop.parameters.bumpMap === 'string') {
+        material.bumpMap = (SCENE as any)?.TEXTURES?.[prop.parameters.bumpMap];
+      }
+
+      if (prop.parameters.displacementMap && typeof prop.parameters.displacementMap === 'string') {
+        material.displacementMap = (SCENE as any)?.TEXTURES?.[prop.parameters.displacementMap];
+      }
+
+      if (prop.parameters.roughnessMap && typeof prop.parameters.roughnessMap === 'string') {
+        material.roughnessMap = (SCENE as any)?.TEXTURES?.[prop.parameters.roughnessMap];
+      }
+
+      if (prop.parameters.metalnessMap && typeof prop.parameters.metalnessMap === 'string') {
+        material.metalnessMap = (SCENE as any)?.TEXTURES?.[prop.parameters.metalnessMap];
+      }
+
+      if (prop.parameters.alphaMap && typeof prop.parameters.alphaMap === 'string') {
+        material.alphaMap = (SCENE as any)?.TEXTURES?.[prop.parameters.alphaMap];
+      }
+
+      if (prop.parameters.emissiveMap && typeof prop.parameters.emissiveMap === 'string') {
+        material.emissiveMap = (SCENE as any)?.TEXTURES?.[prop.parameters.emissiveMap];
+      }
+
+      if (prop.parameters.specularMap && typeof prop.parameters.specularMap === 'string') {
+        material.specularMap = (SCENE as any)?.TEXTURES?.[prop.parameters.specularMap];
+      }
+
+      if (prop.parameters.lightMap && typeof prop.parameters.lightMap === 'string') {
+        material.lightMap = (SCENE as any)?.TEXTURES?.[prop.parameters.lightMap];
+      }
+      
+      material.needsUpdate = true;
+    }
+    
+    // Set name
+    material.name = prop.name;
+    
+    // Add to scene materials if scene is provided
+    if (SCENE !== undefined) {
+      if ((SCENE as any).MATERIALS === undefined) {
+        (SCENE as any).MATERIALS = {};
+      }
+      (SCENE as any).MATERIALS[prop.name] = material;
+    }
+    
+    // Execute callback if provided
+    if (callBack !== undefined) {
+      if (callBackProp !== undefined) {
+        callBackProp.obj = material;
+        callBack(callBackProp);
+      } else {
+        callBack({ obj: material, info: null });
+      }
+    }
+    
+    return material;
+  };
+
+  public deleteMaterial = (
+    scene: THREE.Scene,
+    material: THREE.Material | string,
+    callBack?: Function,
+    callBackProp?: any
+  ): void => {
+    if (!material) {
+      return;
+    }
+    
+    let materialName: string;
+    
+    if (typeof material === 'string') {
+      materialName = material;
+      material = (scene as any)?.MATERIALS?.[materialName];
+    } else {
+      materialName = material.name;
+    }
+    
+    // First remove the material from any meshes using it
+    if (scene) {
+      scene.traverse((node: THREE.Object3D) => {
+        if (node instanceof THREE.Mesh) {
+          if (node.material) {
+            // Handle array of materials
+            if (Array.isArray(node.material)) {
+              const materialIndex = node.material.findIndex(m => m === material || m.name === materialName);
+              if (materialIndex !== -1) {
+                // Replace with default material
+                node.material[materialIndex] = new THREE.MeshBasicMaterial();
+              }
+            } else if (node.material === material || node.material.name === materialName) {
+              // Replace with default material
+              node.material = new THREE.MeshBasicMaterial();
+            }
+          }
+        }
+      });
+    }
+    
+    // Dispose the material
+    if (material instanceof THREE.Material) {
+      material.dispose();
+    }
+    
+    // Remove from scene materials
+    if (scene && (scene as any).MATERIALS && (scene as any).MATERIALS[materialName]) {
+      delete (scene as any).MATERIALS[materialName];
+    }
+    
+    // Execute callback if provided
+    if (callBack) {
+      if (callBackProp) {
+        callBack(callBackProp);
+      } else {
+        callBack();
+      }
+    }
+  };
+
+  public deleteElement = (
+    scene: THREE.Scene,
+    obj: THREE.Object3D | string,
+    prop?: any,
+    callBack?: Function,
+    callBackProp?: any
+  ): void => {
+    if (!obj) {
+      return;
+    }
+    
+    let objName: string;
+    let objToRemove: THREE.Object3D | null = null;
+    
+    if (typeof obj === 'string') {
+      objName = obj;
+      objToRemove = scene.getObjectByName(objName) || null;
+    } else {
+      objName = obj.name;
+      objToRemove = obj;
+    }
+    
+    if (objToRemove) {
+      // Function to recursively remove a node and its children
+      const deleteNodeToRemove = (node: THREE.Object3D) => {
+        // Remove children first
+        while (node.children.length > 0) {
+          deleteNodeToRemove(node.children[0]);
+        }
+        
+        // Dispose geometries and materials
+        if (node instanceof THREE.Mesh) {
+          if (node.geometry) {
+            node.geometry.dispose();
+          }
+          
+          if (node.material) {
+            if (Array.isArray(node.material)) {
+              node.material.forEach(material => material.dispose());
+            } else {
+              node.material.dispose();
+            }
+          }
+        }
+        
+        // Remove from parent
+        if (node.parent) {
+          node.parent.remove(node);
+        }
+      };
+      
+      // Remove the object from scene
+      deleteNodeToRemove(objToRemove);
+      
+      // Remove from scene objects
+      if (scene && (scene as any).OBJECTS && (scene as any).OBJECTS[objName]) {
+        delete (scene as any).OBJECTS[objName];
+      }
+    }
+    
+    // Execute callback if provided
+    if (callBack) {
+      if (callBackProp) {
+        callBack(callBackProp);
+      } else {
+        callBack();
+      }
+    }
+  };
+
+  public playMotions = (
+    node: THREE.Object3D,
+    playMotionList: string[]
+  ): void => {
+    if (!(node as any).MM3D || !(node as any).MM3D.MOTIONS) {
+      return;
+    }
+    
+    const motions = (node as any).MM3D.MOTIONS;
+    
+    playMotionList.forEach(motionName => {
+      if (motions.list && motions.list[motionName] && motions.list[motionName].clipAction) {
+        motions.list[motionName].clipAction.play();
+      }
+    });
+  };
+
+  public updateEvent = (
+    scene: THREE.Scene,
+    camera: THREE.Camera,
+    view: { width: number; height: number }
+  ): void => {
+    // Screen normalized mouse
+    if (this.p.DEVICES.mouse && this.p.DEVICES.mouse.position) {
+      const normalizedScreenVector = this.f.getScreenNormalizedMouse(
+        camera,
+        this.p.DEVICES.mouse.position.x,
+        this.p.DEVICES.mouse.position.y,
+        view
+      );
+      
+      // Create list of clickable objects
+      const clickableNodes: THREE.Object3D[] = [];
+      
+      scene.traverse((node: THREE.Object3D) => {
+        if ((node as any).clickable) {
+          clickableNodes.push(node);
+        }
+      });
+      
+      // Raycast
+      if (clickableNodes.length > 0) {
+        this.p.RAYCAST.setFromCamera(normalizedScreenVector, camera);
+        const intersects = this.p.RAYCAST.intersectObjects(clickableNodes, true);
+        
+        // Process intersections
+        // Additional event handling logic would go here
+      }
+    }
+  };
+
+  public updateAll = (
+    renderer: THREE.WebGLRenderer,
+    scene: THREE.Scene,
+    camera: THREE.Camera,
+    viewport?: { width?: number; height?: number }
+  ): void => {
+    // Calculate delta time
+    this.p.DELTAT = this.p.CLOCK.getDelta();
+    
+    // Update all nodes in the scene
+    const updateAllNodeTraverse = (node: THREE.Object3D) => {
+      // Update node scripts if any
+      if ((node as any).MM3D && (node as any).MM3D.scriptList) {
+        (node as any).MM3D.scriptList.forEach((script: any) => {
+          if (script.function) {
+            script.function(script.functionProp);
+          }
+        });
+      }
+      
+      // Update node states if any
+      if ((node as any).MM3D && (node as any).MM3D.STATES && (node as any).MM3D.STATES.current) {
+        const current = (node as any).MM3D.STATES.current;
+        
+        // Execute state update function if available
+        if (current.update) {
+          current.update(this.p.DELTAT);
+        }
+        
+        // Check transitions
+        if (current.transitions) {
+          for (const transition of current.transitions) {
+            if (transition.condition()) {
+              // Perform transition to target state
+              const targetState = (node as any).MM3D.STATES.statesList[transition.target];
+              
+              // Execute exit function of current state
+              if (current.onExit) {
+                current.onExit(targetState);
+              }
+              
+              // Execute transition function if available
+              if (transition.onTransition) {
+                transition.onTransition();
+              }
+              
+              // Execute enter function of target state
+              if (targetState.onEnter) {
+                targetState.onEnter(current);
+              }
+              
+              // Update current state
+              (node as any).MM3D.STATES.previous = current;
+              (node as any).MM3D.STATES.current = targetState;
+              
+              break;
+            }
+          }
+        }
+      }
+      
+      // Update motions if any
+      if ((node as any).MM3D && (node as any).MM3D.MOTIONS && (node as any).MM3D.MOTIONS.mixer) {
+        (node as any).MM3D.MOTIONS.mixer.update(this.p.DELTAT);
+      }
+      
+      // Process children
+      for (let i = 0; i < node.children.length; i++) {
+        updateAllNodeTraverse(node.children[i]);
+      }
+    };
+    
+    // Start traversal from the scene
+    updateAllNodeTraverse(scene);
+    
+    // Update events (mouse, touch, etc.)
+    this.f.updateEvent(scene, camera, {
+      width: viewport?.width || window.innerWidth,
+      height: viewport?.height || window.innerHeight
+    });
+    
+    // Render the scene
+    renderer.render(scene, camera);
+  };
+
+  public setParameters = (
+    defaultParameters: Record<string, any>,
+    newParameters: Record<string, any>
+  ): Record<string, any> => {
+    const result = { ...defaultParameters };
+    
+    if (newParameters) {
+      Object.keys(newParameters).forEach(key => {
+        result[key] = newParameters[key];
+      });
+    }
+    
+    return result;
+  };
+
+  public checkIsInViewPort = (p: {
+    position: THREE.Vector3;
+    camera: THREE.Camera;
+    padding?: number;
+  }): boolean => {
+    // Default padding
+    const padding = p.padding !== undefined ? p.padding : 0;
+    
+    // Convert 3D position to screen position
+    const vector = p.position.clone();
+    vector.project(p.camera);
+    
+    // Check if the point is inside the viewport (with padding)
+    return (
+      vector.x >= -1 - padding && 
+      vector.x <= 1 + padding && 
+      vector.y >= -1 - padding && 
+      vector.y <= 1 + padding && 
+      vector.z >= -1 && 
+      vector.z <= 1
+    );
+  };
+
+  public updateRefreshDevices = (): void => {
+    // Update gamepad state
+    if (this.p.DEVICES.gamepad) {
+      const gamepads = navigator.getGamepads();
+      if (gamepads) {
+        this.p.DEVICES.gamepad = gamepads[0]; // Update with current gamepad state
+      }
+    }
+  };
+
+  public render = (layerList: Array<{
+    renderer: THREE.WebGLRenderer;
+    scene: THREE.Scene;
+    camera: THREE.Camera;
+    clear?: boolean;
+  }>): void => {
+    // Render each layer in sequence
+    layerList.forEach(layer => {
+      this.f.renderLayer(layer);
+    });
+  };
+} 

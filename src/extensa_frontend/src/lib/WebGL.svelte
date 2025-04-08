@@ -2,7 +2,8 @@
 	import * as THREE from "three";
 
 	import { onDestroy, onMount } from "svelte";
-	import { VARCO } from "../VARCO/helpers/VARCO";
+	// Importiamo direttamente l'istanza singleton di VARCO
+	import { VARCOClass } from "../VARCO/helpers/VARCO";
 	import "../VARCO/helpers/VARCO_UI";
 	import "../VARCO/helpers/VARCO_fileIO";
 	import "../VARCO/helpers/VARCO_gps_compass";
@@ -23,6 +24,9 @@
 	import MouseButtons from "./MouseButtons.svelte";
 	import Progress from "./Progress.svelte";
 	import SelectedProject from "./SelectedProject.svelte";
+
+	// Creazione dell'istanza singleton di VARCO
+	const VARCO = VARCOClass.getInstance();
 
 	let renderer: any = null;
 	let indexedDBInterval: NodeJS.Timeout | null = null;

@@ -1,8 +1,11 @@
 import * as THREE from 'three';
-import { VARCO } from "./VARCO";
+import { VARCOClass } from "./VARCO";
 import { XRControllerModelFactory } from 'three/addons/webxr/XRControllerModelFactory.js';
 import { VRButton } from 'three/addons/webxr/VRButton.js';
 import { ARButton } from 'three/addons/webxr/ARButton.js';
+
+// Creazione dell'istanza singleton di VARCO
+const VARCO = VARCOClass.getInstance();
 
 interface XRDevice {
   enabled: boolean;

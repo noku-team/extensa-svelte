@@ -1,12 +1,21 @@
 /* eslint-disable no-unused-vars */
+// @ts-nocheck
+
 // UI MODULE
 
 import { get } from 'svelte/store';
 import * as THREE from 'three';
-import { VARCO } from "../VARCO/helpers/VARCO";
+// Importiamo direttamente l'istanza singleton di VARCO
+import { VARCOClass } from "../VARCO/helpers/VARCO";
 import { controlStore } from '../store/ControlStore';
 import { projectStore } from '../store/ProjectStore';
 import { EDITOR, MAP, PLY } from "./index.js";
+import RENDERERSingleton from '../functions/renderer.js';
+
+const renderer = RENDERERSingleton.getInstance();
+
+// Creazione dell'istanza singleton di VARCO
+const VARCO = VARCOClass.getInstance();
 
 const UISingleton = (function () {
 	let instance;
@@ -41,51 +50,45 @@ const createUI = () => {
 
 		// pano
 
-		VARCO.f.addScene(
+		const scene = VARCO.f.addScene(
 
 			{
 				"name": "scene"
+			}
+		);
+
+		UI.p.scene = scene.scene;
+
+		// environment textures //
+
+		VARCO.f.addTexture(
+			UI.p.scene,
+			{
+				"name": "environment",
+				"url": "images/reflection.jpeg"
 			},
+			function ui_texture_scene_ready(t) {
+				UI.p.scene.environment = t.obj;
+				UI.p.scene.environment.mapping = THREE.EquirectangularReflectionMapping;
+			}
+		)
 
-			function ui_scene_ready(p) {
-				UI.p.scene = p.obj;
+		// equirectangular
 
-				// environment textures //
+		VARCO.f.loadComplex(
+			UI.p.scene,
+			'json/menu_player_3d.json',
+			undefined,
+			function init_menu_player_3d(p) {
 
-				VARCO.f.addTexture(
-					UI.p.scene,
-					{
-						"name": "environment",
-						"url": "images/reflection.jpeg"
-					},
-					function ui_texture_scene_ready(t) {
-						UI.p.scene.environment = t.obj;
-						UI.p.scene.environment.mapping = THREE.EquirectangularReflectionMapping;
-					}
-				)
+				p.obj.scale.x = 0.5;
 
-				// equirectangular
+				p.obj.scale.y = 0.5;
 
-				VARCO.f.loadComplex(
-					UI.p.scene,
-					'json/menu_player_3d.json',
-					undefined,
-					function init_menu_player_3d(p) {
+				p.obj.scale.z = 0.5;
 
-						p.obj.scale.x = 0.5;
-
-						p.obj.scale.y = 0.5;
-
-						p.obj.scale.z = 0.5;
-
-						PLY.f.resizeScreen();
-					}
-				);
-
-			},
-
-			{}
-
+				PLY.f.resizeScreen();
+			}
 		);
 
 

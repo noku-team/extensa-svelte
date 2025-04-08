@@ -5,16 +5,20 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-duplicate-case */
 
-// UI MODULE
+// @ts-nocheck
+
+// EDITOR MODULE
 import { get } from 'svelte/store';
 import * as THREE from 'three';
-import { VARCO } from "../VARCO/helpers/VARCO";
+// Importiamo direttamente l'istanza singleton di VARCO
+import { VARCOClass } from "../VARCO/helpers/VARCO";
 import { authStore } from '../store/AuthStore';
 import { projectStore } from '../store/ProjectStore';
 import UISingleton from './extensa_ui.js';
 import { MAP, PLY } from "./index.js";
 
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { SimplifyModifier } from 'three/addons/modifiers/SimplifyModifier.js';
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
 import { loadProjectWorker } from '../actions/loadProject.action';
@@ -22,8 +26,14 @@ import { controlStore } from '../store/ControlStore';
 import { messageStore } from '../store/MessageStore';
 import { spinnerStore } from '../store/SpinnerStore';
 import { getProject } from '../utils/indexedDB/getSaveEmpty';
+import RENDERERSingleton from '../functions/renderer.js';
 
 let UI = UISingleton.getInstance();
+
+const renderer = RENDERERSingleton.getInstance();
+
+// Creazione dell'istanza singleton di VARCO
+const VARCO = VARCOClass.getInstance();
 
 function createEditor() {
 	let EDITOR = null;

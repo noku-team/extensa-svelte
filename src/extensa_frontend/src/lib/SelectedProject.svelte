@@ -1,6 +1,7 @@
 <script lang="ts">
 	import cx from "classnames";
-	import { VARCO } from "../VARCO/helpers/VARCO";
+	// Importiamo direttamente l'istanza singleton di VARCO
+	import { VARCOClass } from "../VARCO/helpers/VARCO";
 	import { EDITOR, MAP, PLY, UI } from "../jsm";
 	import { authStore } from "../store/AuthStore";
 	import { messageStore } from "../store/MessageStore";
@@ -11,6 +12,9 @@
 	import EyeOffIcon from "/images/UI/eye-off.png";
 	import EyeIcon from "/images/UI/eye.png";
 	import ShareIcon from "/images/UI/icons/share.png";
+
+	// Creazione dell'istanza singleton di VARCO
+	const VARCO = VARCOClass.getInstance();
 
 	let isMinimized = false;
 
@@ -320,7 +324,7 @@
 		background-position: 0 0;
 		background-image: conic-gradient(
 			transparent,
-			theme(colors.primary),
+			var(--color-primary),
 			transparent 30%
 		);
 		animation: rotate 3s linear infinite;
@@ -334,7 +338,7 @@
 		top: 8px;
 		width: calc(100% - 16px);
 		height: calc(100% - 16px);
-		background: theme(colors.base-100);
+		background: var(--color-base-100);
 		border-radius: 10px;
 	}
 

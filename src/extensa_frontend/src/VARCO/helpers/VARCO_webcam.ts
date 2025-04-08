@@ -1,4 +1,7 @@
-import { VARCO } from "./VARCO";
+import { VARCOClass } from "./VARCO";
+
+// Creazione dell'istanza singleton di VARCO
+const VARCO = VARCOClass.getInstance();
 
 export class VARCOWebcam {
   constructor() {

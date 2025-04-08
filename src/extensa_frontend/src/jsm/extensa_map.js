@@ -2,11 +2,19 @@
 /* eslint-disable no-loss-of-precision */
 // MAP MODULE
 
+import { get } from 'svelte/store';
 import * as THREE from 'three';
 // import * as topojson from "topojson-client";
 // import * as pako from "pako";
 
-import { VARCO } from "../VARCO/helpers/VARCO";
+// Importiamo direttamente l'istanza singleton di VARCO
+import { VARCOClass } from "../VARCO/helpers/VARCO";
+import RENDERERSingleton from '../functions/renderer.js';
+
+const renderer = RENDERERSingleton.getInstance();
+
+// Creazione dell'istanza singleton di VARCO
+const VARCO = VARCOClass.getInstance();
 
 const MAPSingleton = (function () {
 	let instance;

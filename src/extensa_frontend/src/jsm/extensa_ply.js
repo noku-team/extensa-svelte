@@ -6,7 +6,9 @@
 // UI MODULE
 import { get } from 'svelte/store';
 import * as THREE from 'three';
-import { VARCO } from "../VARCO/helpers/VARCO.js";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import Stats from "three/addons/libs/stats.module.js";
+import { VARCO } from "../VARCO/helpers/VARCO";
 import RENDERERSingleton from '../functions/renderer.js';
 import { authStore } from '../store/AuthStore';
 import { projectStore } from '../store/ProjectStore';

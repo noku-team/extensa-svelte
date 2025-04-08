@@ -3,7 +3,7 @@
 
 import { get } from 'svelte/store';
 import * as THREE from 'three';
-import { VARCO } from "../VARCO/helpers/VARCO.js";
+import { VARCO } from "../VARCO/helpers/VARCO";
 import { controlStore } from '../store/ControlStore';
 import { projectStore } from '../store/ProjectStore';
 import { EDITOR, MAP, PLY } from "./index.js";

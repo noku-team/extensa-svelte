@@ -2,13 +2,13 @@
 	import * as THREE from "three";
 
 	import { onDestroy, onMount } from "svelte";
-	import { VARCO } from "../VARCO/helpers/VARCO.js";
-	import "../VARCO/helpers/VARCO_UI.js";
-	import "../VARCO/helpers/VARCO_fileIO.js";
-	import "../VARCO/helpers/VARCO_gps_compass.js";
-	import "../VARCO/helpers/VARCO_states_motions.js";
-	import "../VARCO/helpers/VARCO_webcam.js";
-	import "../VARCO/helpers/VARCO_xr.js";
+	import { VARCO } from "../VARCO/helpers/VARCO";
+	import "../VARCO/helpers/VARCO_UI";
+	import "../VARCO/helpers/VARCO_fileIO";
+	import "../VARCO/helpers/VARCO_gps_compass";
+	import "../VARCO/helpers/VARCO_states_motions";
+	import "../VARCO/helpers/VARCO_webcam";
+	import "../VARCO/helpers/VARCO_xr";
 
 	import { useLoadProjectWorker } from "../actions/loadProject.action.js";
 	import { useSendProjectWorker } from "../actions/sendProject.action.js";

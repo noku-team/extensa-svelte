@@ -3,7 +3,10 @@
 // MAP MODULE
 
 import * as THREE from 'three';
-import { VARCO } from "../VARCO/helpers/VARCO.js";
+// import * as topojson from "topojson-client";
+// import * as pako from "pako";
+
+import { VARCO } from "../VARCO/helpers/VARCO";
 
 const MAPSingleton = (function () {
 	let instance;

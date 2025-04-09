@@ -4,9 +4,9 @@
 	import { authStore } from "../../store/AuthStore";
 	import { controlStore } from "../../store/ControlStore";
 	import { projectStore } from "../../store/ProjectStore";
+	import { uiControlStore } from "../../store/UIControlStore";
 	import Button from "./Button.svelte";
 	import ButtonSection from "./ButtonSection.svelte";
-	import StatusIndicator from "./StatusIndicator.svelte";
 	import WelcomeModal from "./WelcomeModal.svelte";
 	import ImportModal from "./ImportModal.svelte";
 	import Drop from "/images/UI/buttons/Arhive_load.png";
@@ -25,8 +25,6 @@
 		| "Folder"
 		| "Settings";
 
-	let activeId: ActiveId | null = null;
-	let activeToolName: string | null = null;
 	let showWelcomeModal = true;
 	let showImportModal = false;
 
@@ -111,8 +109,12 @@
 	];
 
 	const toggleActive = (id: ActiveId) => {
-		activeId = activeId === id ? null : id;
-		activeToolName = activeId ? toolNames[activeId] : null;
+		// Aggiorniamo lo stato attraverso lo store per coordinare con altri componenti
+		const currentActiveId = $uiControlStore.activeToolId;
+		const newActiveId = currentActiveId === id ? null : id;
+		const newActiveToolName = newActiveId ? toolNames[newActiveId] : null;
+		
+		uiControlStore.setActiveTool(newActiveId, newActiveToolName);
 
 		if (id !== "Settings") {
 			if (UI.p.scene.OBJECTS.menu_optimizer !== undefined) {
@@ -154,7 +156,7 @@
 	const handleImport = (file: File) => {
 		controlStore.setIsDragAndDropActive(true);
 		EDITOR.f.DROP_FILE(file);
-		activeToolName = toolNames[ButtonType.Drop];
+		uiControlStore.setActiveTool(ButtonType.Drop, toolNames[ButtonType.Drop]);
 		showImportModal = false;
 	};
 
@@ -217,6 +219,18 @@
 		document.removeEventListener('mouseup', stopDrag);
 		document.removeEventListener('touchend', stopDrag);
 	}
+
+	function toggleMinimized() {
+		uiControlStore.toggleToolbarMinimized();
+	}
+
+	// Cleanup function
+	onDestroy(() => {
+		document.removeEventListener('mousemove', onDrag);
+		document.removeEventListener('touchmove', onDrag);
+		document.removeEventListener('mouseup', stopDrag);
+		document.removeEventListener('touchend', stopDrag);
+	});
 </script>
 
 {#if $authStore.identity}
@@ -233,46 +247,40 @@
 	<!-- Main toolbar on the left side -->
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div
-		class="file-manager fixed left-6 top-1/2 transform -translate-y-1/2 z-[1000] bg-black/70 backdrop-blur-sm rounded-lg p-3 shadow-lg border border-white/10 cursor-move"
+		class="file-manager fixed left-6 top-1/2 transform -translate-y-1/2 z-[1000] bg-black/70 backdrop-blur-sm rounded-lg p-3 shadow-lg border border-white/10 cursor-move {$uiControlStore.isToolbarMinimized ? 'minimized' : ''}"
 		style="touch-action: none;"
 		on:mousedown={startDrag}
 		on:touchstart={startDrag}
 	>
 		<!-- Toolbar header with drag handle -->
-		<div class="text-white text-xs font-semibold uppercase tracking-wider border-b border-white/20 pb-2 mb-3 text-center flex items-center justify-center gap-2">
+		<div class="toolbar-header text-white text-xs font-semibold uppercase tracking-wider border-b border-white/20 pb-2 mb-3 text-center flex items-center justify-center gap-2">
 			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
 				<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
 			</svg>
-			Gestione File
-		</div>
-
-		<!-- Status Indicator -->
-		<div class="mb-3 pb-3 border-b border-white/20">
-			<div class="flex items-center gap-3">
-				{#if $projectStore.project}
-					<div class="w-2 h-2 rounded-full bg-green-400"></div>
-					<div class="text-white text-xs">
-						{#if activeToolName}
-							<span class="font-semibold">{activeToolName}</span>
-						{:else}
-							Progetto caricato
-						{/if}
-					</div>
+			<span class="toolbar-title">Gestione File</span>
+			
+			<button 
+				class="minimize-button ml-auto text-white/80 hover:text-white"
+				on:click={toggleMinimized}
+			>
+				{#if $uiControlStore.isToolbarMinimized}
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+					</svg>
 				{:else}
-					<div class="w-2 h-2 rounded-full bg-blue-400"></div>
-					<div class="text-white text-xs">
-						Seleziona un file da importare
-					</div>
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
+					</svg>
 				{/if}
-			</div>
+			</button>
 		</div>
 
-		<!-- File operations section -->
-		<div class="flex flex-col gap-2">
+			<!-- File operations section -->
+		<div class="file-operations flex flex-col gap-2">
 			{#each fileButtons as { src, alt, id, enabled = true, tooltip }}
 				<button 
 					on:click={() => toggleActive(id)}
-					class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors {activeId === id ? 'bg-white/20 text-white' : 'text-white/80'}"
+					class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors {$uiControlStore.activeToolId === id ? 'bg-white/20 text-white' : 'text-white/80'}"
 					disabled={!enabled}
 				>
 					<img src={src} alt={alt} class="w-5 h-5" />
@@ -283,7 +291,7 @@
 
 		<!-- Transform tools section (visible when project is loaded) -->
 		{#if $projectStore.project}
-			<div class="mt-4 pt-2 border-t border-white/20">
+			<div class="transform-tools mt-4 pt-2 border-t border-white/20">
 				<div class="text-white text-xs font-semibold mb-2">
 					Trasforma
 				</div>
@@ -291,7 +299,7 @@
 					{#each transformButtons as { src, alt, id, enabled = true, tooltip }}
 						<button 
 							on:click={() => toggleActive(id)}
-							class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors {activeId === id ? 'bg-white/20 text-white' : 'text-white/80'}"
+							class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors {$uiControlStore.activeToolId === id ? 'bg-white/20 text-white' : 'text-white/80'}"
 							disabled={!enabled}
 						>
 							<img src={src} alt={alt} class="w-5 h-5" />
@@ -303,7 +311,7 @@
 		{/if}
 		
 		<!-- Settings section -->
-		<div class="mt-4 pt-2 border-t border-white/20">
+		<div class="settings mt-4 pt-2 border-t border-white/20">
 			<div class="text-white text-xs font-semibold mb-2">
 				Impostazioni
 			</div>
@@ -311,7 +319,7 @@
 				{#each settingsButtons as { src, alt, id, enabled = true, tooltip }}
 					<button 
 						on:click={() => toggleActive(id)}
-						class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors {activeId === id ? 'bg-white/20 text-white' : 'text-white/80'}"
+						class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors {$uiControlStore.activeToolId === id ? 'bg-white/20 text-white' : 'text-white/80'}"
 						disabled={!enabled}
 					>
 						<img src={src} alt={alt} class="w-5 h-5" />
@@ -321,6 +329,18 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- Only show the expand button when minimized -->
+	{#if $uiControlStore.isToolbarMinimized}
+		<button
+			class="fixed left-6 top-1/2 transform -translate-y-1/2 z-[1001] bg-black/70 backdrop-blur-sm rounded-full p-2 shadow-lg border border-white/10 text-white"
+			on:click={toggleMinimized}
+		>
+			<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+			</svg>
+		</button>
+	{/if}
 {/if}
 
 <style>
@@ -344,5 +364,35 @@
 	
 	:global(.hover\:border-tertiary:hover) {
 		border-color: white;
+	}
+
+	/* Minimized toolbar styles */
+	.file-manager.minimized {
+		width: 42px;
+		padding: 8px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.file-manager.minimized .toolbar-title,
+	.file-manager.minimized .file-operations span,
+	.file-manager.minimized .transform-tools span,
+	.file-manager.minimized .settings span,
+	.file-manager.minimized .text-xs {
+		display: none;
+	}
+
+	.file-manager.minimized button {
+		padding: 8px;
+		width: auto;
+		justify-content: center;
+	}
+
+	.file-manager.minimized .toolbar-header {
+		border: none;
+		padding-bottom: 0;
+		margin-bottom: 8px;
+		justify-content: center;
 	}
 </style>

@@ -18,9 +18,7 @@
 	import ArButton from "./ArButton.svelte";
 	import ControlButtons from "./ControlButtons.svelte";
 	import EditProject from "./EditProject.svelte";
-	import LocationButton from "./LocationButton.svelte";
 	import MapButtons from "./MapButtons/MapButtons.svelte";
-	import MouseButtons from "./MouseButtons.svelte";
 	import Progress from "./Progress.svelte";
 	import SelectedProject from "./SelectedProject.svelte";
 
@@ -202,9 +200,7 @@
 	<Progress />
 	<SelectedProject />
 	<MapButtons />
-	<ControlButtons />
-	<MouseButtons />
-	<LocationButton {toggleGpsView} />
+	<ControlButtons {toggleGpsView} />
 	{#if isARBtnVisible}
 		<ArButton />
 	{/if}

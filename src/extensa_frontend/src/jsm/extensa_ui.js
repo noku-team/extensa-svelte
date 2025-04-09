@@ -714,10 +714,10 @@ const createUI = () => {
 	};
 
 
-	UI.p.menu_editor.f.button_import = function () {
-		controlStore.toggleDragAndDropActive();
+	// UI.p.menu_editor.f.button_import = function () {
+	// 	controlStore.toggleDragAndDropActive();
 
-	};
+	// };
 
 
 

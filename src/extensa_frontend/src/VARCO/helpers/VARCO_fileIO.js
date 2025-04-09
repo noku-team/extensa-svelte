@@ -5,23 +5,23 @@
 /* eslint-disable no-unused-vars */
 // VARCO EVENTS MODULE:
 
-import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+// import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
-import { spinnerStore } from '../../store/SpinnerStore';
+// import { spinnerStore } from '../../store/SpinnerStore';
 import { VARCO } from "./VARCO.js";
 
 // ///////////////////////////////////////////////
 // insert scripts for save and zip in the main document of the html page
-var new_script = document.createElement('script');
-new_script.setAttribute('src', '../libs/jszip/jszip.js');
+// var new_script = document.createElement('script');
+// new_script.setAttribute('src', '../libs/jszip/jszip.js');
 
-document.head.appendChild(new_script);
+// document.head.appendChild(new_script);
 
-var new_script = document.createElement('script');
-new_script.setAttribute('src', '../libs/filesaverjs/FileSaver.js');
+// var new_script = document.createElement('script');
+// new_script.setAttribute('src', '../libs/filesaverjs/FileSaver.js');
 
-document.head.appendChild(new_script);
+// document.head.appendChild(new_script);
 // ///////////////////////////////////////////////
 
 
@@ -31,439 +31,439 @@ document.head.appendChild(new_script);
 
 // VARCO.f.initDropZone( renderer.domElement );
 
-VARCO.f.initDropZone = function (DIV, callback, callbackprop) {
+// VARCO.f.initDropZone = function (DIV, callback, callbackprop) {
 
-	// Optional.   Show the copy icon when dragging over.  Seems to only work for chrome.
-	DIV.addEventListener('dragover', function (e) {
-		e.stopPropagation();
-		e.preventDefault();
-		e.dataTransfer.dropEffect = 'copy';
-	});
+// 	// Optional.   Show the copy icon when dragging over.  Seems to only work for chrome.
+// 	DIV.addEventListener('dragover', function (e) {
+// 		e.stopPropagation();
+// 		e.preventDefault();
+// 		e.dataTransfer.dropEffect = 'copy';
+// 	});
 
-	// Get file data on drop
-	DIV.addEventListener('drop', function (e) {
-		try {
-			spinnerStore.setLoading(true);
-			e.stopPropagation();
-			e.preventDefault();
-			var files = e.dataTransfer.files; // Array of all files
+// 	// Get file data on drop
+// 	DIV.addEventListener('drop', function (e) {
+// 		try {
+// 			spinnerStore.setLoading(true);
+// 			e.stopPropagation();
+// 			e.preventDefault();
+// 			var files = e.dataTransfer.files; // Array of all files
 
-			console.log(files);
+// 			console.log(files);
 
-			let fileType;
+// 			let fileType;
 
-			let fileInfo;
+// 			let fileInfo;
 
-			let loader;
+// 			let loader;
 
-			for (var i = 0, file; file = files[i]; i++) {
+// 			for (var i = 0, file; file = files[i]; i++) {
 
-				if (file.type.match(/image.*/)) {
-					fileType = "image"
-					if (file.name.includes(".png")) {
-						fileInfo = "image/png";
-					}
-					if (file.name.includes(".jpg")) {
-						fileInfo = "image/jpg";
-					}
-				}
+// 				if (file.type.match(/image.*/)) {
+// 					fileType = "image"
+// 					if (file.name.includes(".png")) {
+// 						fileInfo = "image/png";
+// 					}
+// 					if (file.name.includes(".jpg")) {
+// 						fileInfo = "image/jpg";
+// 					}
+// 				}
 
-				if (file.type.match(/text.*/)) {
-					fileType = "txt"
-				}
+// 				if (file.type.match(/text.*/)) {
+// 					fileType = "txt"
+// 				}
 
-				if (file.type.match(/json.*/)) {
-					fileType = "json"
-				}
+// 				if (file.type.match(/json.*/)) {
+// 					fileType = "json"
+// 				}
 
-				if (file.type.match(/audio.*/)) {
-					fileType = "audio"
-				}
+// 				if (file.type.match(/audio.*/)) {
+// 					fileType = "audio"
+// 				}
 
-				if (file.type.match(/video.*/)) {
-					fileType = "video"
-				}
+// 				if (file.type.match(/video.*/)) {
+// 					fileType = "video"
+// 				}
 
-				if (file.name.includes(".obj")) {
-					fileType = "obj"
-				}
+// 				if (file.name.includes(".obj")) {
+// 					fileType = "obj"
+// 				}
 
-				if (file.name.includes(".gltf")) {
-					fileType = "gltf"
-				};
+// 				if (file.name.includes(".gltf")) {
+// 					fileType = "gltf"
+// 				};
 
-				if (file.name.includes(".glb")) {
-					fileType = "glb"
-				};
+// 				if (file.name.includes(".glb")) {
+// 					fileType = "glb"
+// 				};
 
-				if (file.name.includes(".zip")) {
-					fileType = "zip"
-				};
+// 				if (file.name.includes(".zip")) {
+// 					fileType = "zip"
+// 				};
 
-				console.log(file.type);
-				console.log(fileType);
+// 				console.log(file.type);
+// 				console.log(fileType);
 
-				let name = file.name;
+// 				let name = file.name;
 
-				var reader = new FileReader();
+// 				var reader = new FileReader();
 
-				switch (fileType) {
+// 				switch (fileType) {
 
-					case "audio":
+// 					case "audio":
 
-						reader.onload = function (e2) {
+// 						reader.onload = function (e2) {
 
-							// finished reading file data.
-							var audio = document.createElement('audio');
-							audio.src = e2.target.result;
+// 							// finished reading file data.
+// 							var audio = document.createElement('audio');
+// 							audio.src = e2.target.result;
 
-							// audio.play();
+// 							// audio.play();
 
-							if (callback !== undefined) {
-								if (callbackprop == undefined) {
-									callbackprop = { obj: null, data: null }
-								}
-								callbackprop.obj = audio;
-								callbackprop.name = name;
-								callbackprop.info = fileInfo;
-								callbackprop.data = audio.src;
+// 							if (callback !== undefined) {
+// 								if (callbackprop == undefined) {
+// 									callbackprop = { obj: null, data: null }
+// 								}
+// 								callbackprop.obj = audio;
+// 								callbackprop.name = name;
+// 								callbackprop.info = fileInfo;
+// 								callbackprop.data = audio.src;
 
-								callback(callbackprop);
-							}
+// 								callback(callbackprop);
+// 							}
 
-						};
+// 						};
 
-						reader.readAsDataURL(file); // start reading the file data.
+// 						reader.readAsDataURL(file); // start reading the file data.
 
-						break;
+// 						break;
 
 
-					case "video":
+// 					case "video":
 
-						reader.onload = function (e2) {
+// 						reader.onload = function (e2) {
 
-							// finished reading file data.
-							var video = document.createElement('video');
-							video.src = e2.target.result;
+// 							// finished reading file data.
+// 							var video = document.createElement('video');
+// 							video.src = e2.target.result;
 
-							//video.onload = function(){
+// 							//video.onload = function(){
 
-							console.log("go go go ")
+// 							console.log("go go go ")
 
 
-							// let TEXTURE = new THREE.VideoTexture( video );
+// 							// let TEXTURE = new THREE.VideoTexture( video );
 
-							if (callback !== undefined) {
-								if (callbackprop == undefined) {
-									callbackprop = { obj: null }
-								}
-								callbackprop.obj = video;
-								callbackprop.name = name;
-								callbackprop.data = video.src;
+// 							if (callback !== undefined) {
+// 								if (callbackprop == undefined) {
+// 									callbackprop = { obj: null }
+// 								}
+// 								callbackprop.obj = video;
+// 								callbackprop.name = name;
+// 								callbackprop.data = video.src;
 
-								callback(callbackprop);
-							}
+// 								callback(callbackprop);
+// 							}
 
-							//};
-							// TEXTURE.image.play();
+// 							//};
+// 							// TEXTURE.image.play();
 
-						};
+// 						};
 
-						reader.readAsDataURL(file); // start reading the file data.
+// 						reader.readAsDataURL(file); // start reading the file data.
 
-						break;
+// 						break;
 
 
-					case "image":
+// 					case "image":
 
-						reader.onload = function (e2) {
+// 						reader.onload = function (e2) {
 
-							// finished reading file data.
-							var img = document.createElement('img');
-							img.src = e2.target.result;
+// 							// finished reading file data.
+// 							var img = document.createElement('img');
+// 							img.src = e2.target.result;
 
-							img.onload = function () {
+// 							img.onload = function () {
 
-								console.log("go go go ")
+// 								console.log("go go go ")
 
-								// let TEXTURE = new THREE.Texture();
+// 								// let TEXTURE = new THREE.Texture();
 
-								// TEXTURE.image = img;
-								// TEXTURE.needsUpdate = true;
-								// TEXTURE.name = name;
+// 								// TEXTURE.image = img;
+// 								// TEXTURE.needsUpdate = true;
+// 								// TEXTURE.name = name;
 
-								if (callback !== undefined) {
-									if (callbackprop == undefined) {
-										callbackprop = { obj: null }
-									}
-									callbackprop.obj = img;
-									callbackprop.name = name;
-									callbackprop.data = img.src;
+// 								if (callback !== undefined) {
+// 									if (callbackprop == undefined) {
+// 										callbackprop = { obj: null }
+// 									}
+// 									callbackprop.obj = img;
+// 									callbackprop.name = name;
+// 									callbackprop.data = img.src;
 
-									callback(callbackprop);
-								}
+// 									callback(callbackprop);
+// 								}
 
-							}
+// 							}
 
-						};
+// 						};
 
-						reader.readAsDataURL(file); // start reading the file data.
+// 						reader.readAsDataURL(file); // start reading the file data.
 
-						break;
+// 						break;
 
 
-					case "json":
+// 					case "json":
 
-						reader.onload = function (e2) {
+// 						reader.onload = function (e2) {
 
-							// finished reading file data.
-							var txt = document.createElement('text');
-							txt.innerText = event.target.result;
-							const obj = JSON.parse(txt.innerText);
+// 							// finished reading file data.
+// 							var txt = document.createElement('text');
+// 							txt.innerText = event.target.result;
+// 							const obj = JSON.parse(txt.innerText);
 
-							if (callback !== undefined) {
-								if (callbackprop == undefined) {
-									callbackprop = { obj: null }
-								}
-								callbackprop.obj = obj;
-								callbackprop.name = name;
-								callbackprop.data = txt.innerText;
+// 							if (callback !== undefined) {
+// 								if (callbackprop == undefined) {
+// 									callbackprop = { obj: null }
+// 								}
+// 								callbackprop.obj = obj;
+// 								callbackprop.name = name;
+// 								callbackprop.data = txt.innerText;
 
-								callback(callbackprop);
-							}
+// 								callback(callbackprop);
+// 							}
 
-						};
+// 						};
 
-						reader.readAsText(file);
+// 						reader.readAsText(file);
 
-						break;
+// 						break;
 
 
-					case "txt":
+// 					case "txt":
 
-						reader.onload = function (e2) {
+// 						reader.onload = function (e2) {
 
-							// finished reading file data.
-							var txt = document.createElement('text');
-							txt.innerText = event.target.result;
+// 							// finished reading file data.
+// 							var txt = document.createElement('text');
+// 							txt.innerText = event.target.result;
 
-							if (callback !== undefined) {
-								if (callbackprop == undefined) {
-									callbackprop = { obj: null }
-								}
-								callbackprop.obj = txt.innerText;
-								callbackprop.name = name;
-								callbackprop.data = txt.innerText;
+// 							if (callback !== undefined) {
+// 								if (callbackprop == undefined) {
+// 									callbackprop = { obj: null }
+// 								}
+// 								callbackprop.obj = txt.innerText;
+// 								callbackprop.name = name;
+// 								callbackprop.data = txt.innerText;
 
-								callback(callbackprop);
-							}
+// 								callback(callbackprop);
+// 							}
 
-						};
+// 						};
 
-						reader.readAsText(file);
+// 						reader.readAsText(file);
 
-						break;
+// 						break;
 
 
-					case "obj":
+// 					case "obj":
 
-						reader.addEventListener('load', async function (event) {
+// 						reader.addEventListener('load', async function (event) {
 
-							var contents = event.target.result;
-							var object = new OBJLoader().parse(contents);
+// 							var contents = event.target.result;
+// 							var object = new OBJLoader().parse(contents);
 
-							if (callback !== undefined) {
-								if (callbackprop == undefined) {
-									callbackprop = { obj: null }
-								}
-								callbackprop.obj = object;
-								callbackprop.name = name;
-								callbackprop.data = contents;
+// 							if (callback !== undefined) {
+// 								if (callbackprop == undefined) {
+// 									callbackprop = { obj: null }
+// 								}
+// 								callbackprop.obj = object;
+// 								callbackprop.name = name;
+// 								callbackprop.data = contents;
 
-								callback(callbackprop);
-							}
+// 								callback(callbackprop);
+// 							}
 
-						}, false);
+// 						}, false);
 
-						reader.readAsText(file);
+// 						reader.readAsText(file);
 
-						break;
+// 						break;
 
 
-					case "gltf":
+// 					case "gltf":
 
-						reader.addEventListener(
-							'load',
-							async function (event) {
+// 						reader.addEventListener(
+// 							'load',
+// 							async function (event) {
 
-								var contents = event.target.result;
-								var loader;
+// 								var contents = event.target.result;
+// 								var loader;
 
-								loader = new GLTFLoader();
+// 								loader = new GLTFLoader();
 
-								// console.log( '/////////////////////' );
-								// console.log( contents );
+// 								// console.log( '/////////////////////' );
+// 								// console.log( contents );
 
-								// let stringByte64 = VARCO.f.arrayBufferToBase64( contents );
+// 								// let stringByte64 = VARCO.f.arrayBufferToBase64( contents );
 
-								// console.log( stringByte64 );
-								// console.log( '/////////////////////' );
+// 								// console.log( stringByte64 );
+// 								// console.log( '/////////////////////' );
 
-								// let newContents = VARCO.f.base64ToArrayBuffer( stringByte64 );
+// 								// let newContents = VARCO.f.base64ToArrayBuffer( stringByte64 );
 
-								loader.parse(contents, '', function (result) {
+// 								loader.parse(contents, '', function (result) {
 
-									var scene = result.scene;
+// 									var scene = result.scene;
 
-									if (result.animations !== undefined) {
-										scene.animations.push(...result.animations);
-									}
+// 									if (result.animations !== undefined) {
+// 										scene.animations.push(...result.animations);
+// 									}
 
-									if (callback !== undefined) {
-										if (callbackprop == undefined) {
-											callbackprop = { obj: null }
-										}
-										callbackprop.obj = scene;
-										callbackprop.name = name;
-										callbackprop.data = contents;
+// 									if (callback !== undefined) {
+// 										if (callbackprop == undefined) {
+// 											callbackprop = { obj: null }
+// 										}
+// 										callbackprop.obj = scene;
+// 										callbackprop.name = name;
+// 										callbackprop.data = contents;
 
-										callback(callbackprop);
-									}
+// 										callback(callbackprop);
+// 									}
 
-								});
+// 								});
 
-							},
-							false
-						);
+// 							},
+// 							false
+// 						);
 
-						reader.readAsArrayBuffer(file);
+// 						reader.readAsArrayBuffer(file);
 
-						break;
+// 						break;
 
 
-					case "glb":
+// 					case "glb":
 
-						reader.addEventListener(
-							'load',
-							async function (event) {
+// 						reader.addEventListener(
+// 							'load',
+// 							async function (event) {
 
-								var contents = event.target.result;
+// 								var contents = event.target.result;
 
-								loader = new GLTFLoader();
+// 								loader = new GLTFLoader();
 
-								const dracoLoader = new DRACOLoader();
+// 								const dracoLoader = new DRACOLoader();
 
-								// if ( prop.parameters !== undefined ){
+// 								// if ( prop.parameters !== undefined ){
 
-								// if ( prop.parameters.setDecoderPath !== undefined ){
-								// dracoLoader.setDecoderPath( prop.parameters.setDecoderPath );
-								// };
+// 								// if ( prop.parameters.setDecoderPath !== undefined ){
+// 								// dracoLoader.setDecoderPath( prop.parameters.setDecoderPath );
+// 								// };
 
-								// if ( prop.parameters.setDecoderConfig !== undefined ){
-								// dracoLoader.setDecoderConfig( prop.parameters.setDecoderConfig );
-								// };
+// 								// if ( prop.parameters.setDecoderConfig !== undefined ){
+// 								// dracoLoader.setDecoderConfig( prop.parameters.setDecoderConfig );
+// 								// };
 
-								// loader.setDRACOLoader( dracoLoader );
+// 								// loader.setDRACOLoader( dracoLoader );
 
-								// };
+// 								// };
 
-								loader.setDRACOLoader(dracoLoader);
+// 								loader.setDRACOLoader(dracoLoader);
 
 
-								loader.parse(contents, '', function (result) {
+// 								loader.parse(contents, '', function (result) {
 
-									var scene = result.scene;
+// 									var scene = result.scene;
 
-									if (result.animations !== undefined) {
-										scene.animations.push(...result.animations);
-									}
+// 									if (result.animations !== undefined) {
+// 										scene.animations.push(...result.animations);
+// 									}
 
-									if (callback !== undefined) {
-										if (callbackprop == undefined) {
-											callbackprop = { obj: null }
-										};
-										callbackprop.obj = scene;
-										callbackprop.name = name;
-										callbackprop.data = contents;
+// 									if (callback !== undefined) {
+// 										if (callbackprop == undefined) {
+// 											callbackprop = { obj: null }
+// 										};
+// 										callbackprop.obj = scene;
+// 										callbackprop.name = name;
+// 										callbackprop.data = contents;
 
-										callback(callbackprop);
-									};
+// 										callback(callbackprop);
+// 									};
 
-								});
-							},
-							false
-						);
+// 								});
+// 							},
+// 							false
+// 						);
 
-						reader.readAsArrayBuffer(file);
+// 						reader.readAsArrayBuffer(file);
 
-						break;
+// 						break;
 
 
-					case "zip":
+// 					case "zip":
 
-						if (VARCO.p.zipData == undefined) {
+// 						if (VARCO.p.zipData == undefined) {
 
-							VARCO.f.initDataZIP();
+// 							VARCO.f.initDataZIP();
 
-						}
+// 						}
 
 
-						VARCO.p.zipData.loadAsync(file).then(
+// 						VARCO.p.zipData.loadAsync(file).then(
 
-							function (zip) {
+// 							function (zip) {
 
-								console.log(zip);
+// 								console.log(zip);
 
-								if (callback !== undefined) {
-									if (callbackprop == undefined) {
-										callbackprop = {}
-									}
+// 								if (callback !== undefined) {
+// 									if (callbackprop == undefined) {
+// 										callbackprop = {}
+// 									}
 
-									console.log(name);
+// 									console.log(name);
 
-									callbackprop.name = name;
-									callbackprop.data = zip;
-									callback(callbackprop);
+// 									callbackprop.name = name;
+// 									callbackprop.data = zip;
+// 									callback(callbackprop);
 
-								}
+// 								}
 
-							}
+// 							}
 
-						);
+// 						);
 
-						break;
+// 						break;
 
-				}
+// 				}
 
-			}
-		} catch (e) {
-			console.error(e);
-			spinnerStore.setLoading(false);
-		}
-	});
+// 			}
+// 		} catch (e) {
+// 			console.error(e);
+// 			spinnerStore.setLoading(false);
+// 		}
+// 	});
 
-};
+// };
 
 
 
-VARCO.f.removeDropZone = function (DIV, callback, callbackprop) { // TO TEST TO TEST TO TEST
+// VARCO.f.removeDropZone = function (DIV, callback, callbackprop) { // TO TEST TO TEST TO TEST
 
-	DIV.removeEventListener('dragover');
+// 	DIV.removeEventListener('dragover');
 
-	DIV.removeEventListener('drop');
+// 	DIV.removeEventListener('drop');
 
 
-	if (callback !== undefined) {
+// 	if (callback !== undefined) {
 
-		if (callbackprop == undefined) {
-			callbackprop = { obj: null }
-		}
+// 		if (callbackprop == undefined) {
+// 			callbackprop = { obj: null }
+// 		}
 
-		callback(callbackprop);
+// 		callback(callbackprop);
 
-	}
+// 	}
 
-};
+// };
 
 
 // ///////////////////////////////////////////////

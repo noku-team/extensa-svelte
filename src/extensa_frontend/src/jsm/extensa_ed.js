@@ -18,7 +18,7 @@ import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js'; // <<<<<<
 import { SimplifyModifier } from 'three/addons/modifiers/SimplifyModifier.js'; // <<<<<<<<<<<<<<<<
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js'; // <<<<<<<<<<<<<<<<
 import { loadProjectWorker } from '../actions/loadProject.action';
-import { controlStore } from '../store/ControlStore';
+// import { controlStore } from '../store/ControlStore';
 import { messageStore } from '../store/MessageStore';
 import { spinnerStore } from '../store/SpinnerStore';
 import { getProject } from '../utils/indexedDB/getSaveEmpty';
@@ -1558,8 +1558,8 @@ const createEditor = () => {
 			let type, stringByte64, PROJECTOBJ;
 
 
-			const { isDragAndDropActive } = get(controlStore);
-			if (isDragAndDropActive) {
+			// const { isDragAndDropActive } = get(controlStore);
+			// if (isDragAndDropActive) {
 
 				console.warn("dragAndDrop");
 				switch (extension) {
@@ -1827,7 +1827,7 @@ const createEditor = () => {
 
 				};
 
-			}
+			// }
 
 			spinnerStore.setLoading(false);
 		} catch (e) {

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { UI } from "../../jsm";
+	import { EDITOR } from "../../jsm";
 	import { authStore } from "../../store/AuthStore";
 	import { controlStore } from "../../store/ControlStore";
 	import { projectStore } from "../../store/ProjectStore";
@@ -7,6 +8,7 @@
 	import ButtonSection from "./ButtonSection.svelte";
 	import StatusIndicator from "./StatusIndicator.svelte";
 	import WelcomeModal from "./WelcomeModal.svelte";
+	import ImportModal from "./ImportModal.svelte";
 	import Drop from "/images/UI/buttons/Arhive_load.png";
 	import Enlarge from "/images/UI/buttons/Center_pick_alt.png";
 	import Folder from "/images/UI/buttons/Folder_alt.png";
@@ -26,6 +28,7 @@
 	let activeId: ActiveId | null = null;
 	let activeToolName: string | null = null;
 	let showWelcomeModal = true;
+	let showImportModal = false;
 
 	enum ButtonType {
 		Drop = "Drop",
@@ -117,6 +120,9 @@
 			}
 		}
 		switch (id) {
+			case "Drop":
+				showImportModal = true;
+				break;
 			case "Folder":
 				console.warn("Not implemented yet!");
 				break;
@@ -137,13 +143,19 @@
 		}
 	};
 
-	const onDragAndDrop = () => {
-		UI.p.menu_editor.f.button_import();
-		activeToolName = toolNames[ButtonType.Drop];
-	};
-
 	const handleCloseWelcomeModal = () => {
 		showWelcomeModal = false;
+	};
+
+	const handleCloseImportModal = () => {
+		showImportModal = false;
+	};
+
+	const handleImport = (file: File) => {
+		controlStore.setIsDragAndDropActive(true);
+		EDITOR.f.DROP_FILE(file);
+		activeToolName = toolNames[ButtonType.Drop];
+		showImportModal = false;
 	};
 
 	let isDragging = false;
@@ -213,6 +225,11 @@
 		<WelcomeModal onClose={handleCloseWelcomeModal} />
 	{/if}
 
+	<!-- Import modal -->
+	{#if showImportModal}
+		<ImportModal onClose={handleCloseImportModal} onImport={handleImport} />
+	{/if}
+
 	<!-- Main toolbar on the left side -->
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div
@@ -243,7 +260,9 @@
 					</div>
 				{:else}
 					<div class="w-2 h-2 rounded-full bg-blue-400"></div>
-					<div class="text-white text-xs">Pronto per importare</div>
+					<div class="text-white text-xs">
+						Seleziona un file da importare
+					</div>
 				{/if}
 			</div>
 		</div>

@@ -116,8 +116,6 @@
 		// VARCO.f.initWebCamera("environment", 640, 480);
 		// @ts-ignore
 		VARCO.f.init_AR(renderer, PLY.p.camera3D);
-		// @ts-ignore
-		VARCO.f.initDropZone(renderer.domElement, EDITOR.f.DROP_FILE, {});
 
 		//VARCO.f.initDataZIP();
 

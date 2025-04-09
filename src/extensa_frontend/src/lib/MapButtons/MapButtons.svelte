@@ -4,7 +4,6 @@
 	import { authStore } from "../../store/AuthStore";
 	import { controlStore } from "../../store/ControlStore";
 	import { projectStore } from "../../store/ProjectStore";
-	import { uiControlStore } from "../../store/UIControlStore";
 	import Button from "./Button.svelte";
 	import ButtonSection from "./ButtonSection.svelte";
 	import WelcomeModal from "./WelcomeModal.svelte";
@@ -27,6 +26,9 @@
 
 	let showWelcomeModal = true;
 	let showImportModal = false;
+	let isToolbarMinimized = false;
+	let activeToolId: ActiveId | null = null;
+	let activeToolName: string | null = null;
 
 	enum ButtonType {
 		Drop = "Drop",
@@ -109,12 +111,9 @@
 	];
 
 	const toggleActive = (id: ActiveId) => {
-		// Aggiorniamo lo stato attraverso lo store per coordinare con altri componenti
-		const currentActiveId = $uiControlStore.activeToolId;
-		const newActiveId = currentActiveId === id ? null : id;
-		const newActiveToolName = newActiveId ? toolNames[newActiveId] : null;
-		
-		uiControlStore.setActiveTool(newActiveId, newActiveToolName);
+		 // Update local active tool state
+		activeToolId = activeToolId === id ? null : id;
+		activeToolName = activeToolId ? toolNames[activeToolId] : null;
 
 		if (id !== "Settings") {
 			if (UI.p.scene.OBJECTS.menu_optimizer !== undefined) {
@@ -156,7 +155,8 @@
 	const handleImport = (file: File) => {
 		controlStore.setIsDragAndDropActive(true);
 		EDITOR.f.DROP_FILE(file);
-		uiControlStore.setActiveTool(ButtonType.Drop, toolNames[ButtonType.Drop]);
+		activeToolId = ButtonType.Drop;
+		activeToolName = toolNames[ButtonType.Drop];
 		showImportModal = false;
 	};
 
@@ -221,7 +221,7 @@
 	}
 
 	function toggleMinimized() {
-		uiControlStore.toggleToolbarMinimized();
+		isToolbarMinimized = !isToolbarMinimized;
 	}
 
 	// Cleanup function
@@ -247,7 +247,7 @@
 	<!-- Main toolbar on the left side -->
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div
-		class="file-manager fixed left-6 top-1/2 transform -translate-y-1/2 z-[1000] bg-black/70 backdrop-blur-sm rounded-lg p-3 shadow-lg border border-white/10 cursor-move {$uiControlStore.isToolbarMinimized ? 'minimized' : ''}"
+		class="file-manager fixed left-6 top-1/2 transform -translate-y-1/2 z-[1000] bg-black/70 backdrop-blur-sm rounded-lg p-3 shadow-lg border border-white/10 cursor-move {isToolbarMinimized ? 'minimized' : ''}"
 		style="touch-action: none;"
 		on:mousedown={startDrag}
 		on:touchstart={startDrag}
@@ -263,7 +263,7 @@
 				class="minimize-button ml-auto text-white/80 hover:text-white"
 				on:click={toggleMinimized}
 			>
-				{#if $uiControlStore.isToolbarMinimized}
+				{#if isToolbarMinimized}
 					<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
 					</svg>
@@ -280,7 +280,7 @@
 			{#each fileButtons as { src, alt, id, enabled = true, tooltip }}
 				<button 
 					on:click={() => toggleActive(id)}
-					class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors {$uiControlStore.activeToolId === id ? 'bg-white/20 text-white' : 'text-white/80'}"
+					class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors {activeToolId === id ? 'bg-white/20 text-white' : 'text-white/80'}"
 					disabled={!enabled}
 				>
 					<img src={src} alt={alt} class="w-5 h-5" />
@@ -299,7 +299,7 @@
 					{#each transformButtons as { src, alt, id, enabled = true, tooltip }}
 						<button 
 							on:click={() => toggleActive(id)}
-							class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors {$uiControlStore.activeToolId === id ? 'bg-white/20 text-white' : 'text-white/80'}"
+							class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors {activeToolId === id ? 'bg-white/20 text-white' : 'text-white/80'}"
 							disabled={!enabled}
 						>
 							<img src={src} alt={alt} class="w-5 h-5" />
@@ -319,7 +319,7 @@
 				{#each settingsButtons as { src, alt, id, enabled = true, tooltip }}
 					<button 
 						on:click={() => toggleActive(id)}
-						class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors {$uiControlStore.activeToolId === id ? 'bg-white/20 text-white' : 'text-white/80'}"
+						class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors {activeToolId === id ? 'bg-white/20 text-white' : 'text-white/80'}"
 						disabled={!enabled}
 					>
 						<img src={src} alt={alt} class="w-5 h-5" />
@@ -331,7 +331,7 @@
 	</div>
 
 	<!-- Only show the expand button when minimized -->
-	{#if $uiControlStore.isToolbarMinimized}
+	{#if isToolbarMinimized}
 		<button
 			class="fixed left-6 top-1/2 transform -translate-y-1/2 z-[1001] bg-black/70 backdrop-blur-sm rounded-full p-2 shadow-lg border border-white/10 text-white"
 			on:click={toggleMinimized}

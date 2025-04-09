@@ -5,7 +5,6 @@
 	import { messageStore } from "../store/MessageStore";
 	import { projectStore } from "../store/ProjectStore";
 	import { spinnerStore } from "../store/SpinnerStore";
-	import { uiControlStore } from "../store/UIControlStore";
 	import executeDeleteGeoarea from "../utils/dfinity/geoareas/methods/deleteGeoarea";
 	import executeDeleteProject from "../utils/dfinity/geoareas/methods/deleteProject";
 	import EyeOffIcon from "/images/UI/eye-off.png";
@@ -13,15 +12,8 @@
 	import ShareIcon from "/images/UI/icons/share.png";
 	import { onDestroy } from 'svelte';
 
-	// Reactions to UIControlStore
-	$: if ($uiControlStore.activeToolId === "Rotate" || 
-	       $uiControlStore.activeToolId === "Move" || 
-	       $uiControlStore.activeToolId === "Enlarge") {
-		// Ensure 3D is visible when using transformation tools
-		if ($projectStore.project && !$projectStore.project.is3DVisible) {
-			onEyeClick();
-		}
-	}
+	// Local state for minimization
+	let isMinimized = false;
 
 	const onEyeClick = async () => {
 		EDITOR.f.loadProjectData();
@@ -31,11 +23,6 @@
 	const onEyeOffClick = () => {
 		UI.p.previewProject.f.button_removeProject();
 		projectStore.set3DVisible(false);
-
-		// Clear any active tool when hiding the project
-		if ($uiControlStore.activeToolId) {
-			uiControlStore.setActiveTool(null, null);
-		}
 	};
 
 	const onDelete = async () => {
@@ -63,9 +50,6 @@
 
 					EDITOR.f.deleteProject($projectStore.project);
 					EDITOR.f.deleteGeoArea();
-					
-					// Reset UI controls when project is deleted
-					uiControlStore.reset();
 				} else {
 					throw new Error();
 				}
@@ -99,9 +83,6 @@
 		PLY.p.selectedProjectName = "";
 		projectStore.setProject(null);
 		PLY.p.selectedGeoAreaName = "";
-		
-		// Reset UI controls when project is closed
-		uiControlStore.reset();
 	};
 
 	const onShare = async () => {
@@ -145,12 +126,9 @@
 	};
 
 	function toggleMinimized() {
-		uiControlStore.toggleToolbarMinimized();
+		isMinimized = !isMinimized;
 	}
 	
-	// Use shared minimization state from UIControlStore
-	$: isMinimized = $uiControlStore.isToolbarMinimized;
-
 	// Drag functionality
 	let isDragging = false;
 	let startX = 0;

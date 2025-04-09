@@ -1880,7 +1880,7 @@ const createPLY = () => {
 
 		);
 
-
+		// load compass 3d
 		VARCO.f.addComplex(
 
 			PLY.p.scene3D,

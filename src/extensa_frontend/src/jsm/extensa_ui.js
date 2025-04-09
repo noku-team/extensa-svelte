@@ -66,21 +66,22 @@ const createUI = () => {
 
 				// equirectangular
 
-				VARCO.f.loadComplex(
-					UI.p.scene,
-					'json/menu_player_3d.json',
-					undefined,
-					function init_menu_player_3d(p) {
+				// load compass
+				// VARCO.f.loadComplex(
+				// 	UI.p.scene,
+				// 	'json/menu_player_3d.json',
+				// 	undefined,
+				// 	function init_menu_player_3d(p) {
 
-						p.obj.scale.x = 0.5;
+				// 		p.obj.scale.x = 0.5;
 
-						p.obj.scale.y = 0.5;
+				// 		p.obj.scale.y = 0.5;
 
-						p.obj.scale.z = 0.5;
+				// 		p.obj.scale.z = 0.5;
 
-						PLY.f.resizeScreen();
-					}
-				);
+				// 		PLY.f.resizeScreen();
+				// 	}
+				// );
 
 			},
 

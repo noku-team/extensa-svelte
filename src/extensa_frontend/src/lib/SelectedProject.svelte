@@ -14,7 +14,7 @@
 	import ShareIcon from "/images/UI/icons/share.png";
 
 	// Creazione dell'istanza singleton di VARCO
-	const VARCO = VARCOClass.getInstance();
+	const Varco = VARCOClass.getInstance();
 
 	let isMinimized = false;
 
@@ -82,7 +82,7 @@
 		EDITOR.f.deselectGeoArea();
 
 		if (UI.p.scene.OBJECTS.previewProject !== undefined)
-			(VARCO.f as any).deleteElement(
+			(Varco.f as any).deleteElement(
 				UI.p.scene,
 				UI.p.scene.OBJECTS.previewProject
 			);

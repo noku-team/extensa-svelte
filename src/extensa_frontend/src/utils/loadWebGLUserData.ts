@@ -6,7 +6,7 @@ const VARCO = VARCOClass.getInstance();
 
 const loadWebGLUserData = (principal?: string) => {
     if (principal) {
-        const _VARCO_F = VARCO.f as any;
+        const _VARCO_F = VARCOClass.f as any;
         if (UI.p.scene.OBJECTS.previewProject !== undefined) {
             _VARCO_F.deleteElement(UI.p.scene, UI.p.scene.OBJECTS.previewProject);
         }

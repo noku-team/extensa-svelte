@@ -26,7 +26,7 @@
 	import SelectedProject from "./SelectedProject.svelte";
 
 	// Creazione dell'istanza singleton di VARCO
-	const VARCO = VARCOClass.getInstance();
+	const Varco = VARCOClass.getInstance();
 
 	let renderer: any = null;
 	let indexedDBInterval: NodeJS.Timeout | null = null;
@@ -77,7 +77,7 @@
 		})();
 
 		// @ts-ignore
-		VARCO.f.checkDevice();
+		Varco.f.checkDevice();
 
 		// @ts-ignore
 		window.PLY = PLY;
@@ -111,21 +111,21 @@
 		// //////////////////////////////////////////////////////
 		// //////////////////////////////////////////////////////
 		// @ts-ignore
-		VARCO.f.initMouseEvents();
+		Varco.f.initMouseEvents();
 		// @ts-ignore
-		VARCO.f.initTouchEvents();
+		Varco.f.initTouchEvents();
 		// @ts-ignore
-		VARCO.f.initKeyboardEvents();
+		Varco.f.initKeyboardEvents();
 		// @ts-ignore
-		VARCO.f.initGpsLocation();
+		Varco.f.initGpsLocation();
 		// @ts-ignore
-		// VARCO.f.initWebCamera("environment", 640, 480);
+		// Varco.f.initWebCamera("environment", 640, 480);
 		// @ts-ignore
-		VARCO.f.init_AR(renderer, PLY.p.camera3D);
+		Varco.f.init_AR(renderer, PLY.p.camera3D);
 		// @ts-ignore
-		VARCO.f.initDropZone(renderer.domElement, EDITOR.f.DROP_FILE, {});
+		Varco.f.initDropZone(renderer.domElement, EDITOR.f.DROP_FILE, {});
 
-		//VARCO.f.initDataZIP();
+		//Varco.f.initDataZIP();
 
 		// //////////////////////////////////////////////////////
 		// //////////////////////////////////////////////////////
@@ -190,9 +190,9 @@
 		window.onpopstate = () => null;
 
 		// @ts-ignore
-		VARCO.f.removeMouseEvents();
+		Varco.f.removeMouseEvents();
 		// @ts-ignore
-		VARCO.f.removeTouchEvents();
+		Varco.f.removeTouchEvents();
 
 		if (indexedDBInterval) clearInterval(indexedDBInterval);
 	});

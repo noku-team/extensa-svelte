@@ -133,22 +133,41 @@
 	let isDragging = false;
 	let startX = 0;
 	let startY = 0;
-	let currentX = 0;
-	let currentY = 0;
+	
+	// Coordinate di posizionamento tramite transform
+	let translateX = 0;
+	let translateY = 0;
+	
+	// Posizione iniziale (può essere impostata da CSS)
+	let initialX = 0;
+	let initialY = 0;
+	let initialPositionSet = false;
 
 	function startDrag(event: MouseEvent | TouchEvent) {
 		isDragging = true;
 		const element = event.currentTarget as HTMLElement;
-		const rect = element.getBoundingClientRect();
 		
-		 // Ensure proper positioning before drag starts
-		if (element.style.right !== 'auto') {
+		// Se è la prima volta che iniziamo il drag, salviamo la posizione iniziale
+		if (!initialPositionSet) {
+			const rect = element.getBoundingClientRect();
+			initialX = rect.left;
+			initialY = rect.top;
+			translateX = initialX;
+			translateY = initialY;
+			initialPositionSet = true;
+			
+			// Impostiamo i valori iniziali solo la prima volta
 			element.style.right = 'auto';
-			element.style.transform = 'none';
-			element.style.left = `${rect.left}px`;
-			element.style.top = `${rect.top}px`;
+			element.style.left = '0';
+			element.style.top = '0';
+			element.style.transform = `translate3d(${translateX}px, ${translateY}px, 0)`;
 		}
 		
+		// Rimuoviamo qualsiasi transizione durante il drag
+		element.style.transition = 'none';
+		
+		// Calcoliamo l'offset del mouse rispetto all'elemento
+		const rect = element.getBoundingClientRect();
 		if (event instanceof MouseEvent) {
 			startX = event.clientX - rect.left;
 			startY = event.clientY - rect.top;
@@ -169,30 +188,34 @@
 		const element = document.querySelector('.project-details-panel') as HTMLElement;
 		if (!element) return;
 
+		let clientX, clientY;
 		if (event instanceof MouseEvent) {
-			currentX = event.clientX - startX;
-			currentY = event.clientY - startY;
+			clientX = event.clientX;
+			clientY = event.clientY;
 		} else {
-			currentX = event.touches[0].clientX - startX;
-			currentY = event.touches[0].clientY - startY;
+			clientX = event.touches[0].clientX;
+			clientY = event.touches[0].clientY;
 		}
-
+		
+		 // Calcola la nuova posizione
+		translateX = clientX - startX;
+		translateY = clientY - startY;
+		
 		// Limit movement to screen bounds
-		const rect = element.getBoundingClientRect();
-		const maxX = window.innerWidth - rect.width;
-		const maxY = window.innerHeight - rect.height;
-
-		currentX = Math.max(0, Math.min(currentX, maxX));
-		currentY = Math.max(0, Math.min(currentY, maxY));
-
-		// Apply position directly without requestAnimationFrame for immediate response
-		element.style.left = `${currentX}px`;
-		element.style.top = `${currentY}px`;
-		element.style.transform = 'none';
+		const maxX = window.innerWidth - element.offsetWidth;
+		const maxY = window.innerHeight - element.offsetHeight;
+		
+		translateX = Math.max(0, Math.min(translateX, maxX));
+		translateY = Math.max(0, Math.min(translateY, maxY));
+		
+		// Applica la trasformazione direttamente
+		element.style.transform = `translate3d(${translateX}px, ${translateY}px, 0)`;
 	}
 
 	function stopDrag() {
 		isDragging = false;
+		
+		// Non facciamo alcun cambiamento alla trasformazione - manteniamo le stesse coordinate
 		document.removeEventListener('mousemove', onDrag);
 		document.removeEventListener('touchmove', onDrag);
 		document.removeEventListener('mouseup', stopDrag);
@@ -240,103 +263,103 @@
 		</div>
 
 		<!-- Panel Content -->
-		<div class="panel-content flex flex-col gap-3">
-			<!-- Project info -->
-			<div class="project-info text-center mb-2">
-				<span class="text-white text-sm opacity-70">ID: {$projectStore.project.uuid}</span>
+		<!-- Project info -->
+		<div class="panel-section project-info mb-3">
+			<div class="section-header text-white text-xs font-semibold mb-2">
+				Informazioni
 			</div>
+			<div class="section-content {isMinimized ? 'hidden' : ''}">
+				<div class="text-center mb-2">
+					<span class="text-white text-sm opacity-70">ID: {$projectStore.project.uuid}</span>
+				</div>
+			</div>
+		</div>
 
-			<!-- Action buttons -->
-			<div class="action-buttons flex flex-col gap-2">
-				<button
-					disabled={$projectStore.project.notYetSaved}
-					on:click={!$projectStore.project.is3DVisible
-						? onEyeClick
-						: onEyeOffClick}
-					class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors text-white/80"
-				>
-					<img
-						src={!$projectStore.project.is3DVisible ? EyeIcon : EyeOffIcon}
-						alt="view/hide"
-						class="w-5 h-5"
-					/>
-					<span class="text-white text-sm ml-3 text-left">
-						{!$projectStore.project.is3DVisible ? "View project" : "Hide project"}
-					</span>
-				</button>
+		<!-- Action buttons -->
+		<div class="panel-section action-buttons">
+			<div class="section-header text-white text-xs font-semibold mb-2">
+				Azioni
+			</div>
+			<div class="section-content {isMinimized ? 'hidden' : ''}">
+				<div class="flex flex-col gap-2">
+					<button
+						disabled={$projectStore.project.notYetSaved}
+						on:click={!$projectStore.project.is3DVisible
+							? onEyeClick
+							: onEyeOffClick}
+						class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors text-white/80"
+					>
+						<img
+							src={!$projectStore.project.is3DVisible ? EyeIcon : EyeOffIcon}
+							alt="view/hide"
+							class="w-5 h-5"
+						/>
+						<span class="text-white text-sm ml-3 text-left">
+							{!$projectStore.project.is3DVisible ? "View project" : "Hide project"}
+						</span>
+					</button>
 
-				<button
-					class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors text-white/80"
-					on:click={onShare}
-				>
-					<img src={ShareIcon} alt="share" class="w-5 h-5" />
-					<span class="text-white text-sm ml-3 text-left">Condividi</span>
-				</button>
-				
-				{#if $authStore.identity && isOwner()}
 					<button
 						class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors text-white/80"
-						on:click={onDelete}
+						on:click={onShare}
+					>
+						<img src={ShareIcon} alt="share" class="w-5 h-5" />
+						<span class="text-white text-sm ml-3 text-left">Condividi</span>
+					</button>
+					
+					{#if $authStore.identity && isOwner()}
+						<button
+							class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors text-white/80"
+							on:click={onDelete}
+							disabled={$projectStore.sendProjectProgress > 0 ||
+								$projectStore.loadProjectProgress > 0 ||
+								!$projectStore.project?.userData?.id}
+						>
+							<svg
+								width="20"
+								height="20"
+								viewBox="0 0 24 24"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+								class="w-5 h-5"
+							>
+								<path
+									fill-rule="evenodd"
+									clip-rule="evenodd"
+									d="M10.8 2.39999C10.3455 2.39999 9.92997 2.6568 9.72669 3.06334L8.85837 4.79999H4.80001C4.13726 4.79999 3.60001 5.33725 3.60001 5.99999C3.60001 6.66274 4.13726 7.19999 4.80001 7.19999L4.80001 19.2C4.80001 20.5255 5.87452 21.6 7.20001 21.6H16.8C18.1255 21.6 19.2 20.5255 19.2 19.2V7.19999C19.8627 7.19999 20.4 6.66274 20.4 5.99999C20.4 5.33725 19.8627 4.79999 19.2 4.79999H15.1416L14.2733 3.06334C14.0701 2.6568 13.6545 2.39999 13.2 2.39999H10.8ZM8.40001 9.59999C8.40001 8.93725 8.93726 8.39999 9.60001 8.39999C10.2627 8.39999 10.8 8.93725 10.8 9.59999V16.8C10.8 17.4627 10.2627 18 9.60001 18C8.93726 18 8.40001 17.4627 8.40001 16.8V9.59999ZM14.4 8.39999C13.7373 8.39999 13.2 8.93725 13.2 9.59999V16.8C13.2 17.4627 13.7373 18 14.4 18C15.0627 18 15.6 17.4627 15.6 16.8V9.59999C15.6 8.93725 15.0627 8.39999 14.4 8.39999Z"
+									fill="currentColor"
+								/>
+							</svg>
+							<span class="text-white text-sm ml-3 text-left">Elimina</span>
+						</button>
+					{/if}
+					
+					<button
+						class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors text-white/80"
+						on:click={onClose}
 						disabled={$projectStore.sendProjectProgress > 0 ||
-							$projectStore.loadProjectProgress > 0 ||
-							!$projectStore.project?.userData?.id}
+							$projectStore.loadProjectProgress > 0}
 					>
 						<svg
-							width="20"
-							height="20"
-							viewBox="0 0 24 24"
-							fill="none"
 							xmlns="http://www.w3.org/2000/svg"
 							class="w-5 h-5"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
 						>
 							<path
-								fill-rule="evenodd"
-								clip-rule="evenodd"
-								d="M10.8 2.39999C10.3455 2.39999 9.92997 2.6568 9.72669 3.06334L8.85837 4.79999H4.80001C4.13726 4.79999 3.60001 5.33725 3.60001 5.99999C3.60001 6.66274 4.13726 7.19999 4.80001 7.19999L4.80001 19.2C4.80001 20.5255 5.87452 21.6 7.20001 21.6H16.8C18.1255 21.6 19.2 20.5255 19.2 19.2V7.19999C19.8627 7.19999 20.4 6.66274 20.4 5.99999C20.4 5.33725 19.8627 4.79999 19.2 4.79999H15.1416L14.2733 3.06334C14.0701 2.6568 13.6545 2.39999 13.2 2.39999H10.8ZM8.40001 9.59999C8.40001 8.93725 8.93726 8.39999 9.60001 8.39999C10.2627 8.39999 10.8 8.93725 10.8 9.59999V16.8C10.8 17.4627 10.2627 18 9.60001 18C8.93726 18 8.40001 17.4627 8.40001 16.8V9.59999ZM14.4 8.39999C13.7373 8.39999 13.2 8.93725 13.2 9.59999V16.8C13.2 17.4627 13.7373 18 14.4 18C15.0627 18 15.6 17.4627 15.6 16.8V9.59999C15.6 8.93725 15.0627 8.39999 14.4 8.39999Z"
-								fill="currentColor"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M6 18L18 6M6 6l12 12"
 							/>
 						</svg>
-						<span class="text-white text-sm ml-3 text-left">Elimina</span>
+						<span class="text-white text-sm ml-3 text-left">Chiudi</span>
 					</button>
-				{/if}
-				
-				<button
-					class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors text-white/80"
-					on:click={onClose}
-					disabled={$projectStore.sendProjectProgress > 0 ||
-						$projectStore.loadProjectProgress > 0}
-				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						class="w-5 h-5"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M6 18L18 6M6 6l12 12"
-						/>
-					</svg>
-					<span class="text-white text-sm ml-3 text-left">Chiudi</span>
-				</button>
+				</div>
 			</div>
 		</div>
 	</div>
-
-	<!-- Only show the expand button when minimized -->
-	{#if isMinimized}
-		<button
-			class="fixed right-6 top-20 z-[1001] bg-black/70 backdrop-blur-sm rounded-full p-2 shadow-lg border border-white/10 text-white"
-			on:click={toggleMinimized}
-		>
-			<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-			</svg>
-		</button>
-	{/if}
 {/if}
 
 <style>
@@ -344,36 +367,38 @@
 	.project-details-panel {
 		min-width: 250px;
 		max-width: 320px;
-		transition: all 0.3s ease;
-		will-change: transform, left, top;
+		width: 280px;
+		position: fixed;
+		/* Rimuoviamo right/top dalla posizione iniziale, useranno solo transform */
+		will-change: transform;
 	}
 	
-	/* Disable transitions during dragging for smoother movement */
-	.project-details-panel:active {
-		transition: none !important;
+	/* Transizioni solo per i contenuti, non per la posizione */
+	.panel-section {
+		margin-bottom: 8px;
+	}
+	
+	.section-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		transition: all 0.2s ease;
+	}
+	
+	.section-content {
+		transition: height 0.3s ease, opacity 0.3s ease, padding 0.3s ease, margin 0.3s ease;
 	}
 	
 	/* Minimized panel styles */
-	.project-details-panel.minimized {
-		width: 42px;
-		height: 42px;
-		min-width: unset;
-		padding: 8px;
-		border-radius: 50%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.project-details-panel.minimized .panel-content,
-	.project-details-panel.minimized .panel-title {
-		display: none;
-	}
-	
-	.project-details-panel.minimized .panel-header {
-		border: none;
+	.project-details-panel.minimized .section-content {
+		height: 0;
+		overflow: hidden;
 		padding: 0;
 		margin: 0;
+	}
+	
+	.project-details-panel.minimized .section-header {
+		margin-bottom: 0;
 	}
 	
 	.project-details-panel button:disabled {

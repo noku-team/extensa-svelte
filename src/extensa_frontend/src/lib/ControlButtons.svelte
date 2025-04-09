@@ -199,13 +199,12 @@
 		}
 	}
 
-	// Toggle map menu
-	function toggleMapMenu(event: MouseEvent) {
+	// Toggle settings menu
+	function toggleSettingsMenu(event: MouseEvent) {
 		event.stopPropagation();
-		isMapMenuOpen = !isMapMenuOpen;
-		if (isMapMenuOpen) {
+		isLocationMenuOpen = !isLocationMenuOpen;
+		if (isLocationMenuOpen) {
 			isMouseMenuOpen = false;
-			isLocationMenuOpen = false;
 		}
 	}
 
@@ -214,24 +213,12 @@
 		event.stopPropagation();
 		isMouseMenuOpen = !isMouseMenuOpen;
 		if (isMouseMenuOpen) {
-			isMapMenuOpen = false;
 			isLocationMenuOpen = false;
-		}
-	}
-
-	// Toggle location menu
-	function toggleLocationMenu(event: MouseEvent) {
-		event.stopPropagation();
-		isLocationMenuOpen = !isLocationMenuOpen;
-		if (isLocationMenuOpen) {
-			isMapMenuOpen = false;
-			isMouseMenuOpen = false;
 		}
 	}
 
 	// Close all menus when clicking outside
 	function closeMenus() {
-		isMapMenuOpen = false;
 		isMouseMenuOpen = false;
 		isLocationMenuOpen = false;
 	}
@@ -257,56 +244,6 @@
 
 <div class="fixed right-6 bottom-6 z-[1000]">
 	<div class="flex flex-col gap-3">
-		<!-- Map Type Control Button -->
-		<div class="relative">
-			<div class="bg-black/70 backdrop-blur-sm rounded-lg p-2 shadow-lg border border-white/10">
-				<button 
-					on:click={toggleMapMenu}
-					class="btn w-14 h-14 min-h-0 aspect-square bg-black text-white border-white/30 hover:border-white transition-all duration-200 group relative"
-					aria-label="Controlla Mappa"
-				>
-					{@html mapControlIcon}
-					<div class="absolute right-full mr-4 bg-black text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-						Selezione Mappa
-					</div>
-				</button>
-				
-				<!-- Map Type Dropdown Menu -->
-				{#if isMapMenuOpen}
-					<!-- svelte-ignore a11y-no-static-element-interactions -->
-					<!-- svelte-ignore a11y-click-events-have-key-events -->
-					<div 
-						on:click={preventClosing}
-						class="absolute bottom-full mb-2 right-0 bg-black/90 backdrop-blur-sm rounded-lg p-3 border border-white/20 shadow-lg w-48"
-					>
-						<div class="text-white text-xs font-semibold mb-3 text-center border-b border-white/20 pb-2">
-							Tipo di Mappa
-						</div>
-						<div class="flex flex-col gap-2">
-							{#each mapButtons as { src, alt, id, enabled = true, tooltip }}
-								<button 
-									on:click={() => toggleActive(id)}
-									class="relative group flex items-center w-full"
-									disabled={!enabled}
-								>
-									<Button
-										{src}
-										{alt}
-										active={activeId.includes(id)}
-										toggleActive={() => toggleActive(id)}
-										disabled={!enabled}
-										className="bg-black border-white/30 hover:border-white w-10 !h-10 min-h-0 aspect-square"
-										imgClassName="w-5 h-5"
-									/>
-									<span class="text-white text-sm ml-3 text-left">{tooltip}</span>
-								</button>
-							{/each}
-						</div>
-					</div>
-				{/if}
-			</div>
-		</div>
-
 		<!-- Camera Control Button -->
 		<div class="relative">
 			<div class="bg-black/70 backdrop-blur-sm rounded-lg p-2 shadow-lg border border-white/10">
@@ -349,24 +286,24 @@
 			</div>
 		</div>
 
-		<!-- Location Control Button -->
+		<!-- Settings Button -->
 		<div class="relative">
 			<div class="bg-black/70 backdrop-blur-sm rounded-lg p-2 shadow-lg border border-white/10">
 				<button 
-					on:click={toggleLocationMenu}
+					on:click={toggleSettingsMenu}
 					class="btn w-14 h-14 min-h-0 aspect-square bg-black text-white border-white/30 hover:border-white transition-all duration-200 group relative"
-					aria-label="Controllo Posizione"
+					aria-label="Impostazioni"
 				>
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.213-1.281z" />
 						<path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
 					</svg>
 					<div class="absolute right-full mr-4 bg-black text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-						Controllo Posizione
+						Impostazioni
 					</div>
 				</button>
 				
-				<!-- Location Control Dropdown Menu -->
+				<!-- Settings Dropdown Menu -->
 				{#if isLocationMenuOpen}
 					<!-- svelte-ignore a11y-no-static-element-interactions -->
 					<!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -375,9 +312,36 @@
 						class="absolute bottom-full mb-2 right-0 bg-black/90 backdrop-blur-sm rounded-lg p-3 border border-white/20 shadow-lg w-48"
 					>
 						<div class="text-white text-xs font-semibold mb-3 text-center border-b border-white/20 pb-2">
-							Controllo Posizione
+							Impostazioni
 						</div>
 						<div class="flex flex-col gap-2">
+							<!-- Map Type Selection -->
+							<div class="text-white text-xs font-semibold mb-2">
+								Tipo di Mappa
+							</div>
+							{#each mapButtons as { src, alt, id, enabled = true, tooltip }}
+								<button 
+									on:click={() => toggleActive(id)}
+									class="relative group flex items-center w-full"
+									disabled={!enabled}
+								>
+									<Button
+										{src}
+										{alt}
+										active={activeId.includes(id)}
+										toggleActive={() => toggleActive(id)}
+										disabled={!enabled}
+										className="bg-black border-white/30 hover:border-white w-10 !h-10 min-h-0 aspect-square"
+										imgClassName="w-5 h-5"
+									/>
+									<span class="text-white text-sm ml-3 text-left">{tooltip}</span>
+								</button>
+							{/each}
+							
+							<!-- Location Controls -->
+							<div class="text-white text-xs font-semibold mt-4 mb-2">
+								Controllo Posizione
+							</div>
 							{#each locationButtons as { src, alt, id, enabled = true, tooltip }}
 								<button 
 									on:click={() => toggleActive(id)}

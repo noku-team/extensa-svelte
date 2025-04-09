@@ -16,30 +16,43 @@
 		map = "map",
 		threesixty = "threesixty",
 	}
+	
+	// Tooltips for each button to make their function clear
+	const tooltips = {
+		[ButtonType.GIS]: "Vista GIS",
+		[ButtonType.satellite]: "Vista satellite",
+		[ButtonType.map]: "Vista mappa standard",
+		[ButtonType.threesixty]: "Vista 360°",
+	};
+	
 	$: buttons = [
 		{
 			src: GIS,
-			alt: "gis",
+			alt: "GIS",
 			id: ButtonType.GIS,
 			enabled: true,
+			tooltip: tooltips[ButtonType.GIS],
 		},
 		{
 			src: SATELLITE,
-			alt: "satellite",
+			alt: "Satellite",
 			id: ButtonType.satellite,
 			enabled: true,
+			tooltip: tooltips[ButtonType.satellite],
 		},
 		{
 			src: MAP,
-			alt: "map",
+			alt: "Mappa",
 			id: ButtonType.map,
 			enabled: true,
+			tooltip: tooltips[ButtonType.map],
 		},
 		{
 			src: THREESIXTY,
-			alt: "360",
+			alt: "Vista 360°",
 			id: ButtonType.threesixty,
 			enabled: true,
+			tooltip: tooltips[ButtonType.threesixty],
 		},
 	];
 
@@ -70,15 +83,48 @@
 	};
 </script>
 
-<div class="fixed right-2 top-[60%] z-[1000] flex flex-col gap-1">
-	{#each buttons as { src, alt, id, enabled = true }}
-		<Button
-			{src}
-			{alt}
-			active={activeId.includes(id)}
-			toggleActive={() => toggleActive(id)}
-			disabled={!enabled}
-			imgClassName="w-8 h-8"
-		/>
-	{/each}
+<div class="fixed right-6 bottom-36 z-[1000]">
+	<div class="bg-black/70 backdrop-blur-sm rounded-lg p-2 shadow-lg border border-white/10">
+		<div class="flex flex-col gap-2">
+			{#each buttons as { src, alt, id, enabled = true, tooltip }}
+				<div class="relative group">
+					<Button
+						{src}
+						{alt}
+						active={activeId.includes(id)}
+						toggleActive={() => toggleActive(id)}
+						disabled={!enabled}
+						className="bg-black border-white/30 hover:border-white w-10 !h-10 min-h-0 aspect-square"
+						imgClassName="w-5 h-5"
+					/>
+					<div class="absolute right-full top-1/2 -translate-y-1/2 mr-4 bg-black text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+						{tooltip}
+					</div>
+				</div>
+			{/each}
+		</div>
+	</div>
 </div>
+
+<style>
+	@keyframes pulse {
+		0%, 100% {
+			opacity: 0.5;
+		}
+		50% {
+			opacity: 1;
+		}
+	}
+	
+	:global(.animate-pulse) {
+		animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+	}
+	
+	:global(.btn-primary) {
+		@apply bg-white text-black border-white !important;
+	}
+	
+	:global(.btn-neutral) {
+		@apply bg-black text-white border-white/30 !important;
+	}
+</style>

@@ -1507,6 +1507,7 @@ VARCO.f.tellMouseDown = function (event) {
 	VARCO.p.DEVICES.mouse.startTimer = new Date().getTime();
 	VARCO.p.DEVICES.mouse.clickDuration = 0;
 
+	// console.log("PLY.p.action", PLY.p.action);
 	if (event.buttons == undefined) {
 		VARCO.p.DEVICES.mouse.buttonNum = event.which;
 	} else {

@@ -1010,77 +1010,82 @@ const createUI = () => {
 
 
 
-	UI.p.menu_bottom.f.button_posizione = function () {
+	// UI.p.menu_bottom.f.button_posizione = function () {
 
-		console.log("UI.p.menu_bottom.f.button_posizione");
+	// 	console.log("UI.p.menu_bottom.f.button_posizione");
 
-		if (PLY.p.flagCOMPASS) {
-			console.log();
-		} else {
+	// 	if (PLY.p.flagCOMPASS) {
+	// 		console.log();
+	// 	} else {
 
-			if (UI.p.slider_icon_OBJ !== undefined) {
+	// 		if (UI.p.slider_icon_OBJ !== undefined) {
 
-				VARCO.f.deleteElement(UI.p.scene, UI.p.slider_icon_OBJ);
+	// 			VARCO.f.deleteElement(UI.p.scene, UI.p.slider_icon_OBJ);
 
-				UI.p.slider_icon_OBJ = undefined;
+	// 			UI.p.slider_icon_OBJ = undefined;
 
-				PLY.p.action = '';
+	// 			PLY.p.action = '';
 
-			} else {
+	// 		} else {
 
-				PLY.p.action = 'position';
+	// 			PLY.p.forceAction = true;
+	// 			PLY.p.action = 'position';
 
-				VARCO.f.loadComplex(
-					UI.p.scene,
-					'json/slider_building.json',
-					undefined,
-					function init_slider_icon(p) {
-						UI.p.slider_icon_OBJ = p.obj;
-						PLY.f.resizeScreen();
-					}
-				);
+	// 			VARCO.f.loadComplex(
+	// 				UI.p.scene,
+	// 				'json/slider_building.json',
+	// 				undefined,
+	// 				function init_slider_icon(p) {
+	// 					UI.p.slider_icon_OBJ = p.obj;
+	// 					PLY.f.resizeScreen();
+	// 				}
+	// 			);
 
-			}
+	// 		}
 
-		}
+	// 	}
 
-	};
-
-
-	UI.p.menu_bottom.f.button_rotazione = function () {
-
-		console.log("UI.p.menu_bottom.f.button_rotazione");
-
-		if (UI.p.slider_icon_OBJ !== undefined) {
-
-			VARCO.f.deleteElement(UI.p.scene, UI.p.slider_icon_OBJ);
-
-			UI.p.slider_icon_OBJ = undefined;
-
-		}
-
-		PLY.p.action = 'rotation';
-
-	};
+	// };
 
 
-	UI.p.menu_bottom.f.button_drag = function () {
+	// UI.p.menu_bottom.f.button_rotazione = function () {
 
-		console.log("UI.p.menu_bottom.f.button_rotazione");
+	// 	console.log("UI.p.menu_bottom.f.button_rotazione");
 
-		if (UI.p.slider_icon_OBJ !== undefined) {
+	// 	if (UI.p.slider_icon_OBJ !== undefined) {
 
-			VARCO.f.deleteElement(UI.p.scene, UI.p.slider_icon_OBJ);
+	// 		VARCO.f.deleteElement(UI.p.scene, UI.p.slider_icon_OBJ);
 
-			UI.p.slider_icon_OBJ = undefined;
+	// 		UI.p.slider_icon_OBJ = undefined;
 
-		}
+	// 	}
 
-		PLY.p.flagGPS = false;
+	// 	PLY.p.forceAction = true;
 
-		PLY.p.action = 'drag';
+	// 	PLY.p.action = 'rotation';
 
-	};
+	// };
+
+
+	// UI.p.menu_bottom.f.button_drag = function () {
+
+	// 	console.log("UI.p.menu_bottom.f.button_drag");
+
+	// 	if (UI.p.slider_icon_OBJ !== undefined) {
+
+	// 		VARCO.f.deleteElement(UI.p.scene, UI.p.slider_icon_OBJ);
+
+	// 		UI.p.slider_icon_OBJ = undefined;
+
+	// 	}
+
+	// 	PLY.p.forceAction = true;
+
+	// 	PLY.p.flagGPS = false;
+
+	// 	PLY.p.action = 'drag';
+
+	// };
 
 
 

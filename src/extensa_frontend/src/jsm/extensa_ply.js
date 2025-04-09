@@ -1138,23 +1138,24 @@ const createPLY = () => {
 
 
 		// if (VARCO.p.DEVICES.keyboard.keyPressed == 18) {
-
-		if (VARCO.p.DEVICES.mouse.buttonNum == 1) {
-
-			PLY.p.action = 'drag';
-
-		}
-
-		if (VARCO.p.DEVICES.mouse.buttonNum == 2) {
-
-			PLY.p.action = 'rotation';
-
-		}
-
-		if (VARCO.p.DEVICES.mouse.buttonNum == 3) {
-
-			PLY.p.action = 'position';
-
+		if(!PLY.p.forceAction) {
+			if (VARCO.p.DEVICES.mouse.buttonNum == 1) {
+	
+				PLY.p.action = 'drag';
+	
+			}
+	
+			if (VARCO.p.DEVICES.mouse.buttonNum == 2) {
+	
+				PLY.p.action = 'rotation';
+	
+			}
+	
+			if (VARCO.p.DEVICES.mouse.buttonNum == 3) {
+	
+				PLY.p.action = 'position';
+	
+			}
 		}
 
 		// }

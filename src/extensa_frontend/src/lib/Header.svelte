@@ -5,7 +5,7 @@
 	import PositionSearch from "./PositionSearch.svelte";
 	import ProfilePicture from "/images/UI/profile.png";
 	import ICP from "/images/blockchain/ICP.png";
-	import ExtensaLogo from "/images/logo.png";
+	import ExtensaLogo from "/images/logo_white.png";
 
 	let currentRoute = "";
 

@@ -10,7 +10,7 @@
 	import ImportModal from "./ImportModal.svelte";
 	import Drop from "/images/UI/buttons/Arhive_load.png";
 	import Enlarge from "/images/UI/buttons/Center_pick_alt.png";
-	import Folder from "/images/UI/buttons/Folder_alt.png";
+	// import Folder from "/images/UI/buttons/Folder_alt.png";
 	import Move from "/images/UI/buttons/Move.png";
 	import Rotate from "/images/UI/buttons/circle_left.png";
 	import Settings from "/images/UI/buttons/settings.png";
@@ -21,7 +21,7 @@
 		| "Drop"
 		| "Enlarge"
 		| "Rotate"
-		| "Folder"
+		// | "Folder"
 		| "Settings";
 
 	let showWelcomeModal = true;
@@ -32,7 +32,7 @@
 
 	enum ButtonType {
 		Drop = "Drop",
-		Folder = "Folder",
+		// Folder = "Folder",
 		Rotate = "Rotate",
 		Move = "Move",
 		Enlarge = "Enlarge",
@@ -42,7 +42,7 @@
 	// Tooltips for each button to make their function clear
 	const tooltips = {
 		[ButtonType.Drop]: "Importa un modello 3D",
-		[ButtonType.Folder]: "Apri cartella",
+		// [ButtonType.Folder]: "Apri cartella",
 		[ButtonType.Rotate]: "Ruota modello",
 		[ButtonType.Move]: "Sposta modello",
 		[ButtonType.Enlarge]: "Ridimensiona modello",
@@ -52,7 +52,7 @@
 	// Human-readable names for status indicator
 	const toolNames = {
 		[ButtonType.Drop]: "Importazione",
-		[ButtonType.Folder]: "Browser file",
+		// [ButtonType.Folder]: "Browser file",
 		[ButtonType.Rotate]: "Rotazione",
 		[ButtonType.Move]: "Spostamento",
 		[ButtonType.Enlarge]: "Ridimensionamento",
@@ -67,13 +67,13 @@
 			enabled: !$projectStore.project,
 			tooltip: tooltips[ButtonType.Drop],
 		},
-		{
-			src: Folder,
-			alt: "Cartella",
-			id: ButtonType.Folder,
-			enabled: false,
-			tooltip: tooltips[ButtonType.Folder],
-		}
+		// {
+		// 	src: Folder,
+		// 	alt: "Cartella",
+		// 	id: ButtonType.Folder,
+		// 	enabled: false,
+		// 	tooltip: tooltips[ButtonType.Folder],
+		// }
 	];
 
 	$: transformButtons = [
@@ -124,9 +124,9 @@
 			case "Drop":
 				showImportModal = true;
 				break;
-			case "Folder":
-				console.warn("Not implemented yet!");
-				break;
+			// case "Folder":
+			// 	console.warn("Not implemented yet!");
+			// 	break;
 			case "Enlarge":
 				UI.p.menu_editor.f.SCALE();
 				break;
@@ -318,7 +318,7 @@
 						class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors {activeToolId === id ? 'bg-white/20 text-white' : 'text-white/80'}"
 						disabled={!enabled}
 					>
-						<img src={src} alt={alt} class="w-5 h-5" />
+						<img src={src} alt={alt} class="w-5 h-5 icon-white" />
 						<span class="text-white text-sm ml-3 text-left">{tooltip}</span>
 					</button>
 				{/each}
@@ -338,7 +338,7 @@
 							class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors {activeToolId === id ? 'bg-white/20 text-white' : 'text-white/80'}"
 							disabled={!enabled}
 						>
-							<img src={src} alt={alt} class="w-5 h-5" />
+							<img src={src} alt={alt} class="w-5 h-5 icon-white" />
 							<span class="text-white text-sm ml-3 text-left">{tooltip}</span>
 						</button>
 					{/each}
@@ -358,7 +358,7 @@
 						class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors {activeToolId === id ? 'bg-white/20 text-white' : 'text-white/80'}"
 						disabled={!enabled}
 					>
-						<img src={src} alt={alt} class="w-5 h-5" />
+						<img src={src} alt={alt} class="w-5 h-5 icon-white" />
 						<span class="text-white text-sm ml-3 text-left">{tooltip}</span>
 					</button>
 				{/each}
@@ -424,5 +424,18 @@
 	.file-manager.minimized .border-t {
 		margin-top: 8px;
 		padding-top: 8px;
+	}
+	
+	/* Make all icons and SVGs white */
+	:global(svg) {
+		color: white;
+	}
+	
+	.icon-white {
+		filter: brightness(0) invert(1);
+	}
+	
+	button:disabled .icon-white {
+		opacity: 0.5;
 	}
 </style>

@@ -13,7 +13,7 @@
 	// import Folder from "/images/UI/buttons/Folder_alt.png";
 	import Move from "/images/UI/buttons/Move.png";
 	import Rotate from "/images/UI/buttons/circle_left.png";
-	import Settings from "/images/UI/buttons/settings.png";
+	// Remove the Save image import
 	import { onMount, onDestroy } from 'svelte';
 
 	type ActiveId =
@@ -22,7 +22,7 @@
 		| "Enlarge"
 		| "Rotate"
 		// | "Folder"
-		| "Settings";
+		| "Save";
 
 	let showWelcomeModal = true;
 	let showImportModal = false;
@@ -36,7 +36,7 @@
 		Rotate = "Rotate",
 		Move = "Move",
 		Enlarge = "Enlarge",
-		Settings = "Settings",
+		Save = "Save",
 	}
 
 	// Tooltips for each button to make their function clear
@@ -46,7 +46,7 @@
 		[ButtonType.Rotate]: "Ruota modello",
 		[ButtonType.Move]: "Sposta modello",
 		[ButtonType.Enlarge]: "Ridimensiona modello",
-		[ButtonType.Settings]: "Impostazioni",
+		[ButtonType.Save]: "Salva e pubblica le modifiche",
 	};
 
 	// Human-readable names for status indicator
@@ -56,7 +56,7 @@
 		[ButtonType.Rotate]: "Rotazione",
 		[ButtonType.Move]: "Spostamento",
 		[ButtonType.Enlarge]: "Ridimensionamento",
-		[ButtonType.Settings]: "Impostazioni",
+		[ButtonType.Save]: "Salvataggio",
 	};
 
 	$: fileButtons = [
@@ -66,6 +66,7 @@
 			id: ButtonType.Drop,
 			enabled: !$projectStore.project,
 			tooltip: tooltips[ButtonType.Drop],
+			visible: !$projectStore.project  // Add this line to control visibility based on project state
 		},
 		// {
 		// 	src: Folder,
@@ -102,11 +103,11 @@
 
 	$: settingsButtons = [
 		{
-			src: Settings,
-			alt: "Impostazioni",
-			id: ButtonType.Settings,
+			// Instead of using an image, we'll use a DaisyUI icon in the template
+			alt: "Salva",
+			id: ButtonType.Save,
 			enabled: !!$projectStore.project,
-			tooltip: tooltips[ButtonType.Settings],
+			tooltip: tooltips[ButtonType.Save],
 		},
 	];
 
@@ -115,11 +116,6 @@
 		activeToolId = activeToolId === id ? null : id;
 		activeToolName = activeToolId ? toolNames[activeToolId] : null;
 
-		if (id !== "Settings") {
-			if (UI.p.scene.OBJECTS.menu_optimizer !== undefined) {
-				UI.p.menu_optimizer.f.close();
-			}
-		}
 		switch (id) {
 			case "Drop":
 				showImportModal = true;
@@ -136,10 +132,8 @@
 			case "Move":
 				UI.p.menu_editor.f.DRAG();
 				break;
-			case "Settings":
-				if (UI.p.scene.OBJECTS.menu_optimizer !== undefined) {
-					UI.p.menu_optimizer.f.close();
-				} else UI.p.menu_editor.f.TOOLS();
+			case "Save":
+				EDITOR.f.SAVE_GEOAREA();
 				break;
 		}
 	};
@@ -306,28 +300,32 @@
 			</button>
 		</div>
 
-		<!-- File operations section -->
-		<div class="file-operations flex flex-col gap-2">
-			<div class="section-header text-white text-xs font-semibold mb-2">
-				File
+		<!-- File operations section - only visible when NO project is loaded -->
+		{#if !$projectStore.project}
+			<div class="file-operations flex flex-col gap-2">
+				<div class="section-header text-white text-xs font-semibold mb-2">
+					File
+				</div>
+				<div class="section-content {isToolbarMinimized ? 'hidden' : ''}">
+					{#each fileButtons as { src, alt, id, enabled = true, tooltip, visible = true }}
+						{#if visible}
+							<button 
+								on:click={() => toggleActive(id)}
+								class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors {activeToolId === id ? 'bg-white/20 text-white' : 'text-white/80'}"
+								disabled={!enabled}
+							>
+								<img src={src} alt={alt} class="w-5 h-5 icon-white" />
+								<span class="text-white text-sm ml-3 text-left">{tooltip}</span>
+							</button>
+						 {/if}
+					{/each}
+				</div>
 			</div>
-			<div class="section-content {isToolbarMinimized ? 'hidden' : ''}">
-				{#each fileButtons as { src, alt, id, enabled = true, tooltip }}
-					<button 
-						on:click={() => toggleActive(id)}
-						class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors {activeToolId === id ? 'bg-white/20 text-white' : 'text-white/80'}"
-						disabled={!enabled}
-					>
-						<img src={src} alt={alt} class="w-5 h-5 icon-white" />
-						<span class="text-white text-sm ml-3 text-left">{tooltip}</span>
-					</button>
-				{/each}
-			</div>
-		</div>
+		{/if}
 
 		<!-- Transform tools section (visible when project is loaded) -->
 		{#if $projectStore.project}
-			<div class="transform-tools mt-4 pt-2 border-t border-white/20">
+			<div class="transform-tools mt-0 pt-0 border-t-0">
 				<div class="section-header text-white text-xs font-semibold mb-2">
 					Trasforma
 				</div>
@@ -346,24 +344,29 @@
 			</div>
 		{/if}
 		
-		<!-- Settings section -->
-		<div class="settings mt-4 pt-2 border-t border-white/20">
-			<div class="section-header text-white text-xs font-semibold mb-2">
-				Impostazioni
+			<!-- Save section - only visible when a project is loaded -->
+		{#if $projectStore.project}
+			<div class="settings mt-4 pt-2 border-t border-white/20">
+				<div class="section-header text-white text-xs font-semibold mb-2">
+					Salva
+				</div>
+				<div class="section-content {isToolbarMinimized ? 'hidden' : ''}">
+					{#each settingsButtons as { src, alt, id, enabled = true, tooltip }}
+						<button 
+							on:click={() => toggleActive(id)}
+							class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors {activeToolId === id ? 'bg-white/20 text-white' : 'text-white/80'}"
+							disabled={!enabled}
+						>
+							<!-- Replace the img with a DaisyUI icon -->
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+							</svg>
+							<span class="text-white text-sm ml-3 text-left">{tooltip}</span>
+						</button>
+					{/each}
+				</div>
 			</div>
-			<div class="section-content {isToolbarMinimized ? 'hidden' : ''}">
-				{#each settingsButtons as { src, alt, id, enabled = true, tooltip }}
-					<button 
-						on:click={() => toggleActive(id)}
-						class="relative group flex items-center w-full p-2 rounded hover:bg-white/10 transition-colors {activeToolId === id ? 'bg-white/20 text-white' : 'text-white/80'}"
-						disabled={!enabled}
-					>
-						<img src={src} alt={alt} class="w-5 h-5 icon-white" />
-						<span class="text-white text-sm ml-3 text-left">{tooltip}</span>
-					</button>
-				{/each}
-			</div>
-		</div>
+		{/if}
 	</div>
 {/if}
 

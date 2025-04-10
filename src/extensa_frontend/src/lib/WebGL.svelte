@@ -26,6 +26,14 @@
 	let indexedDBInterval: NodeJS.Timeout | null = null;
 	useSendProjectWorker();
 	useLoadProjectWorker();
+	let isARBtnVisible = true;
+
+	// Function to explicitly set AR button visibility
+	const setARButtonVisibility = (visible: boolean) => {
+		isARBtnVisible = visible;
+		console.log("AR button visibility set to:", isARBtnVisible);
+	};
+
 	onMount(() => {
 		renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 
@@ -188,9 +196,6 @@
 
 		if (indexedDBInterval) clearInterval(indexedDBInterval);
 	});
-
-	$: isARBtnVisible = false;
-	const toggleGpsView = () => (isARBtnVisible = !isARBtnVisible);
 </script>
 
 <div>
@@ -198,7 +203,7 @@
 	<Progress />
 	<SelectedProject />
 	<MapButtons />
-	<ControlButtons {toggleGpsView} />
+	<ControlButtons {setARButtonVisibility} {isARBtnVisible} />
 	{#if isARBtnVisible}
 		<ArButton />
 	{/if}

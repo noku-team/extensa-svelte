@@ -91,7 +91,7 @@
 				<div class="p-5">
 					{#if $authStore.identity}
 						<div class="space-y-1 mb-5">
-							<span class="text-white/60 text-sm uppercase tracking-wider">Il tuo principal:</span>
+							<span class="text-white/60 text-sm uppercase tracking-wider">Your principal:</span>
 							<div class="bg-white/5 p-2 rounded border border-white/10 text-white text-sm font-mono overflow-hidden overflow-ellipsis">
 								{$authStore.identity?.getPrincipal()?.toString()}
 							</div>
@@ -105,14 +105,14 @@
 								on:click={signIn}
 							>
 								<img src={ICP} alt="ICP" width="24" height="24" />
-								<span class="font-medium">Accedi</span>
+								<span class="font-medium">Sign In</span>
 							</button>
 						{:else}
 							<button 
 								class="bg-black hover:bg-white/10 text-white border border-white/30 py-2 px-4 rounded w-full transition-colors"
 								on:click={logout}
 							>
-								Disconnetti
+								Sign Out
 							</button>
 						{/if}
 					</div>

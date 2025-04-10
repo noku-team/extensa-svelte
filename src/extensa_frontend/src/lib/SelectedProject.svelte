@@ -244,7 +244,7 @@
 			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
 				<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
 			</svg>
-			<span class="panel-title">Progetto: {$projectStore.project?.name?.toUpperCase()}</span>
+			<span class="panel-title">Project: {$projectStore.project?.name?.toUpperCase()}</span>
 			
 			<button 
 				class="minimize-button ml-auto text-white/80 hover:text-white"
@@ -266,7 +266,7 @@
 		<!-- Project info -->
 		<div class="panel-section project-info mb-3">
 			<div class="section-header text-white text-xs font-semibold mb-2">
-				Informazioni
+				Information
 			</div>
 			<div class="section-content {isMinimized ? 'hidden' : ''}">
 				<div class="text-center mb-2">
@@ -278,7 +278,7 @@
 		<!-- Action buttons -->
 		<div class="panel-section action-buttons">
 			<div class="section-header text-white text-xs font-semibold mb-2">
-				Azioni
+				Actions
 			</div>
 			<div class="section-content {isMinimized ? 'hidden' : ''}">
 				<div class="flex flex-col gap-2">
@@ -304,7 +304,7 @@
 						on:click={onShare}
 					>
 						<img src={ShareIcon} alt="share" class="w-5 h-5" />
-						<span class="text-white text-sm ml-3 text-left">Condividi</span>
+						<span class="text-white text-sm ml-3 text-left">Share</span>
 					</button>
 					
 					{#if $authStore.identity && isOwner()}
@@ -330,7 +330,7 @@
 									fill="currentColor"
 								/>
 							</svg>
-							<span class="text-white text-sm ml-3 text-left">Elimina</span>
+							<span class="text-white text-sm ml-3 text-left">Delete</span>
 						</button>
 					{/if}
 					
@@ -354,7 +354,7 @@
 								d="M6 18L18 6M6 6l12 12"
 							/>
 						</svg>
-						<span class="text-white text-sm ml-3 text-left">Chiudi</span>
+						<span class="text-white text-sm ml-3 text-left">Close</span>
 					</button>
 				</div>
 			</div>

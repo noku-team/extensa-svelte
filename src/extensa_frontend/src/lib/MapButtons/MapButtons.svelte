@@ -41,28 +41,28 @@
 
 	// Tooltips for each button to make their function clear
 	const tooltips = {
-		[ButtonType.Drop]: "Importa un modello 3D",
-		// [ButtonType.Folder]: "Apri cartella",
-		[ButtonType.Rotate]: "Ruota modello",
-		[ButtonType.Move]: "Sposta modello",
-		[ButtonType.Enlarge]: "Ridimensiona modello",
-		[ButtonType.Save]: "Salva e pubblica le modifiche",
+		[ButtonType.Drop]: "Import a 3D model",
+		// [ButtonType.Folder]: "Open folder",
+		[ButtonType.Rotate]: "Rotate model",
+		[ButtonType.Move]: "Move model",
+		[ButtonType.Enlarge]: "Resize model",
+		[ButtonType.Save]: "Save and publish changes",
 	};
 
 	// Human-readable names for status indicator
 	const toolNames = {
-		[ButtonType.Drop]: "Importazione",
-		// [ButtonType.Folder]: "Browser file",
-		[ButtonType.Rotate]: "Rotazione",
-		[ButtonType.Move]: "Spostamento",
-		[ButtonType.Enlarge]: "Ridimensionamento",
-		[ButtonType.Save]: "Salvataggio",
+		[ButtonType.Drop]: "Import",
+		// [ButtonType.Folder]: "File Browser",
+		[ButtonType.Rotate]: "Rotation",
+		[ButtonType.Move]: "Movement",
+		[ButtonType.Enlarge]: "Resize",
+		[ButtonType.Save]: "Save",
 	};
 
 	$: fileButtons = [
 		{
 			src: Drop,
-			alt: "Importa modello",
+			alt: "Import model",
 			id: ButtonType.Drop,
 			enabled: !$projectStore.project,
 			tooltip: tooltips[ButtonType.Drop],
@@ -80,21 +80,21 @@
 	$: transformButtons = [
 		{
 			src: Rotate,
-			alt: "Ruota",
+			alt: "Rotate",
 			id: ButtonType.Rotate,
 			enabled: !!$projectStore.project,
 			tooltip: tooltips[ButtonType.Rotate],
 		},
 		{
 			src: Move,
-			alt: "Sposta",
+			alt: "Move",
 			id: ButtonType.Move,
 			enabled: !!$projectStore.project,
 			tooltip: tooltips[ButtonType.Move],
 		},
 		{
 			src: Enlarge,
-			alt: "Ridimensiona",
+			alt: "Resize",
 			id: ButtonType.Enlarge,
 			enabled: !!$projectStore.project,
 			tooltip: tooltips[ButtonType.Enlarge],
@@ -104,7 +104,7 @@
 	$: settingsButtons = [
 		{
 			// Instead of using an image, we'll use a DaisyUI icon in the template
-			alt: "Salva",
+			alt: "Save",
 			id: ButtonType.Save,
 			enabled: !!$projectStore.project,
 			tooltip: tooltips[ButtonType.Save],
@@ -282,7 +282,7 @@
 			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
 				<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
 			</svg>
-			<span class="toolbar-title">Gestione File</span>
+			<span class="toolbar-title">File Management</span>
 			
 			<button 
 				class="minimize-button ml-auto text-white/80 hover:text-white"
@@ -327,7 +327,7 @@
 		{#if $projectStore.project}
 			<div class="transform-tools mt-0 pt-0 border-t-0">
 				<div class="section-header text-white text-xs font-semibold mb-2">
-					Trasforma
+					Transform
 				</div>
 				<div class="section-content {isToolbarMinimized ? 'hidden' : ''}">
 					{#each transformButtons as { src, alt, id, enabled = true, tooltip }}
@@ -348,7 +348,7 @@
 		{#if $projectStore.project}
 			<div class="settings mt-4 pt-2 border-t border-white/20">
 				<div class="section-header text-white text-xs font-semibold mb-2">
-					Salva
+					Save
 				</div>
 				<div class="section-content {isToolbarMinimized ? 'hidden' : ''}">
 					{#each settingsButtons as { src, alt, id, enabled = true, tooltip }}

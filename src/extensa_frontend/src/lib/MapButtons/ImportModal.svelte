@@ -86,7 +86,7 @@
             }
 
             if (!fileType) {
-                messageStore.setMessage('Formato file non supportato', 'error');
+                messageStore.setMessage('File format not supported', 'error');
                 spinnerStore.setLoading(false);
                 return;
             }
@@ -166,13 +166,13 @@
                     break;
 
                 default:
-                    messageStore.setMessage('Formato file non supportato', 'error');
+                    messageStore.setMessage('File format not supported', 'error');
                     spinnerStore.setLoading(false);
                     break;
             }
         } catch (error) {
-            console.error('Errore durante il caricamento del file:', error);
-            messageStore.setMessage('Errore durante il caricamento del file', 'error');
+            console.error('Error while loading file:', error);
+            messageStore.setMessage('Error while loading file', 'error');
             spinnerStore.setLoading(false);
         }
     }
@@ -181,7 +181,7 @@
 <div class="fixed inset-0 z-[2000] flex items-center justify-center bg-black/80 backdrop-blur-sm">
     <div class="bg-black border border-white/30 rounded-lg shadow-2xl w-full max-w-lg p-6 animate-fadeIn">
         <div class="flex justify-between items-center mb-4 border-b border-white/20 pb-3">
-            <h2 class="text-white text-xl font-bold">Importa un modello 3D</h2>
+            <h2 class="text-white text-xl font-bold">Import a 3D Model</h2>
             <button on:click={onClose} class="text-white/60 hover:text-white transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -190,7 +190,7 @@
         </div>
         
         <div class="text-white/90 mb-6 space-y-4">
-            <p>Puoi importare i tuoi modelli 3D nei seguenti formati:</p>
+            <p>You can import your 3D models in the following formats:</p>
             
             <ul class="list-disc pl-5 space-y-1">
                 <li>OBJ (.obj)</li>
@@ -213,12 +213,12 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 text-white/70">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                     </svg>
-                    <p class="font-medium">Trascina qui i tuoi file o</p>
+                    <p class="font-medium">Drag your files here or</p>
                     <button 
                         on:click={handleFileSelect}
                         class="px-4 py-2 rounded-md bg-white/10 text-white hover:bg-white/20 transition-colors"
                     >
-                        Seleziona File
+                        Select File
                     </button>
                 </div>
             </div>
@@ -230,7 +230,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
                         </svg>
                     </span>
-                    Per risultati ottimali, assicurati che il tuo modello sia orientato correttamente e abbia una dimensione appropriata.
+                    For best results, make sure your model is properly oriented and has an appropriate size.
                 </p>
             </div>
         </div>
@@ -240,13 +240,13 @@
                 on:click={onClose}
                 class="px-4 py-2 rounded-md border border-white/20 text-white hover:bg-white/10 transition-colors"
             >
-                Annulla
+                Cancel
             </button>
         </div>
     </div>
 </div>
 
-<!-- Input file nascosto -->
+<!-- Hidden file input -->
 <input 
     type="file" 
     bind:this={fileInput}

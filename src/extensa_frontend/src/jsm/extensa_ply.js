@@ -1881,223 +1881,223 @@ const createPLY = () => {
 		);
 
 		// load compass 3d
-		VARCO.f.addComplex(
+		// VARCO.f.addComplex(
 
-			PLY.p.scene3D,
+		// 	PLY.p.scene3D,
 
-			{
-				"name": "COMPASS",
-				"visible": true,
+		// 	{
+		// 		"name": "COMPASS",
+		// 		"visible": true,
 
-				"parameters": {
+		// 		"parameters": {
 
-					"textureList": [
-						{
-							"name": "compass_txt",
-							"url": "images/object_target.png"
-						},
-						{
-							"name": "arrow_txt",
-							"url": "images/UI/compass_arrow.png"
-						}
-					],
+		// 			"textureList": [
+		// 				{
+		// 					"name": "compass_txt",
+		// 					"url": "images/object_target.png"
+		// 				},
+		// 				{
+		// 					"name": "arrow_txt",
+		// 					"url": "images/UI/compass_arrow.png"
+		// 				}
+		// 			],
 
-					"materialList": [
-						{
-							"type": "MeshBasicMaterial",
-							"name": "compass_mat",
-							"parameters": {
-								"color": { "r": 0, "g": 0.0, "b": 0 },
-								"transparent": true,
-								// "alphaTest": 0.5,
-								"depthTest": false,
-								"depthWrite": false,
-								"opacity": 0.2,
-								"textures": { "map": "compass_txt" }
-							}
-						},
+		// 			"materialList": [
+		// 				{
+		// 					"type": "MeshBasicMaterial",
+		// 					"name": "compass_mat",
+		// 					"parameters": {
+		// 						"color": { "r": 0, "g": 0.0, "b": 0 },
+		// 						"transparent": true,
+		// 						// "alphaTest": 0.5,
+		// 						"depthTest": false,
+		// 						"depthWrite": false,
+		// 						"opacity": 0.2,
+		// 						"textures": { "map": "compass_txt" }
+		// 					}
+		// 				},
 
-						{
-							"type": "MeshBasicMaterial",
-							"name": "arrow_mat",
-							"parameters": {
-								"color": { "r": 1.0, "g": 1.0, "b": 1.0 },
-								"transparent": true,
-								"alphaTest": 0.5,
-								"depthTest": false,
-								"depthWrite": false,
-								"opacity": 0.6,
-								"textures": { "map": "arrow_txt" },
-								"visible": false
-							}
-						}
-					],
+		// 				{
+		// 					"type": "MeshBasicMaterial",
+		// 					"name": "arrow_mat",
+		// 					"parameters": {
+		// 						"color": { "r": 1.0, "g": 1.0, "b": 1.0 },
+		// 						"transparent": true,
+		// 						"alphaTest": 0.5,
+		// 						"depthTest": false,
+		// 						"depthWrite": false,
+		// 						"opacity": 0.6,
+		// 						"textures": { "map": "arrow_txt" },
+		// 						"visible": false
+		// 					}
+		// 				}
+		// 			],
 
-					"elementList": [
-						{
-							"type": "addMesh",
-							"prop": {
-								"name": "compass",
-								"type": "CircleGeometry",
-								"materialList": ["compass_mat"],
-								"renderOrder": 40,
-								"rotation": {
-									"x": -90.0,
-									"y": 0.0,
-									"z": 0.0
-								},
-								"position": {
-									"x": 0,
-									"y": 0,
-									"z": 0
-								},
-								"parameters": {
-									"radius": 1,
-									"height": 15
-								}
-							}
-						},
+		// 			"elementList": [
+		// 				{
+		// 					"type": "addMesh",
+		// 					"prop": {
+		// 						"name": "compass",
+		// 						"type": "CircleGeometry",
+		// 						"materialList": ["compass_mat"],
+		// 						"renderOrder": 40,
+		// 						"rotation": {
+		// 							"x": -90.0,
+		// 							"y": 0.0,
+		// 							"z": 0.0
+		// 						},
+		// 						"position": {
+		// 							"x": 0,
+		// 							"y": 0,
+		// 							"z": 0
+		// 						},
+		// 						"parameters": {
+		// 							"radius": 1,
+		// 							"height": 15
+		// 						}
+		// 					}
+		// 				},
 
-						{
-							"type": "addMesh",
-							"prop": {
-								"name": "arrow",
-								"type": "PlaneGeometry",
-								"materialList": ["arrow_mat"],
-								"renderOrder": 50,
-								"rotation": {
-									"x": -90.0,
-									"y": 0.0,
-									"z": 0.0
-								},
-								"position": {
-									"x": 0,
-									"y": 0.1,
-									"z": 0.0
-								},
-								"parameters": {
-									"width": 5,
-									"height": 5
-								}
-							}
-						}
-					]
+		// 				{
+		// 					"type": "addMesh",
+		// 					"prop": {
+		// 						"name": "arrow",
+		// 						"type": "PlaneGeometry",
+		// 						"materialList": ["arrow_mat"],
+		// 						"renderOrder": 50,
+		// 						"rotation": {
+		// 							"x": -90.0,
+		// 							"y": 0.0,
+		// 							"z": 0.0
+		// 						},
+		// 						"position": {
+		// 							"x": 0,
+		// 							"y": 0.1,
+		// 							"z": 0.0
+		// 						},
+		// 						"parameters": {
+		// 							"width": 5,
+		// 							"height": 5
+		// 						}
+		// 					}
+		// 				}
+		// 			]
 
-				},
-				"position": {
-					"x": 0.0,
-					"y": 0.0,
-					"z": 0.0
-				},
+		// 		},
+		// 		"position": {
+		// 			"x": 0.0,
+		// 			"y": 0.0,
+		// 			"z": 0.0
+		// 		},
 
-				"MM3D": {
-					"hideWithCamera": "cameraSTV"
-				}
+		// 		"MM3D": {
+		// 			"hideWithCamera": "cameraSTV"
+		// 		}
 
-			},
+		// 	},
 
-			function (p) {
-				PLY.p.COMPASS = p.obj;
+		// 	function (p) {
+		// 		PLY.p.COMPASS = p.obj;
 
-				VARCO.f.addComplex(
+		// 		VARCO.f.addComplex(
 
-					PLY.p.scene3D,
+		// 			PLY.p.scene3D,
 
-					{
-						"name": "ALTITUDEBOX",
-						"visible": true,
+		// 			{
+		// 				"name": "ALTITUDEBOX",
+		// 				"visible": true,
 
-						"parameters": {
+		// 				"parameters": {
 
-							"elementList": [
+		// 					"elementList": [
 
-								{
-									"type": "addMesh",
-									"prop": {
-										"name": "boxAltitude",
-										"type": "BoxGeometry",
-										"parameters": { "width": 0.2, "height": 1.0, "depth": 0.2 },
+		// 						{
+		// 							"type": "addMesh",
+		// 							"prop": {
+		// 								"name": "boxAltitude",
+		// 								"type": "BoxGeometry",
+		// 								"parameters": { "width": 0.2, "height": 1.0, "depth": 0.2 },
 
-										"MM3D": {
+		// 								"MM3D": {
 
-											"helper": {
-												"edges": {
-													"color": { "r": 0.0, "g": 0.0, "b": 0.0 }
-												}
-											}
-										}
-									}
-								}
-							]
+		// 									"helper": {
+		// 										"edges": {
+		// 											"color": { "r": 0.0, "g": 0.0, "b": 0.0 }
+		// 										}
+		// 									}
+		// 								}
+		// 							}
+		// 						}
+		// 					]
 
-						},
-						"position": {
-							"x": 0.0,
-							"y": 0.5,
-							"z": 0.0
-						},
+		// 				},
+		// 				"position": {
+		// 					"x": 0.0,
+		// 					"y": 0.5,
+		// 					"z": 0.0
+		// 				},
 
-						"MM3D": {
+		// 				"MM3D": {
 
-							"hideWithCamera": "cameraSTV",
+		// 					"hideWithCamera": "cameraSTV",
 
-							"scriptList": [
+		// 					"scriptList": [
 
-								{
-									"loop": true,
-									"function": function boxAltitudeLoop(p) {
+		// 						{
+		// 							"loop": true,
+		// 							"function": function boxAltitudeLoop(p) {
 
-										if (PLY.p.flagCOMPASS || PLY.p.camera3DAxis.userData.orbitRadius < 3.0) {
+		// 								if (PLY.p.flagCOMPASS || PLY.p.camera3DAxis.userData.orbitRadius < 3.0) {
 
-											p.obj.position.x = 0;
+		// 									p.obj.position.x = 0;
 
-											p.obj.position.y = 0;
+		// 									p.obj.position.y = 0;
 
-											p.obj.position.z = 0;
+		// 									p.obj.position.z = 0;
 
-										} else {
+		// 								} else {
 
-											if (MAP.p.actualCoords.alt > 0.0) {
+		// 									if (MAP.p.actualCoords.alt > 0.0) {
 
-												p.obj.position.x = PLY.p.COMPASS.position.x;
+		// 										p.obj.position.x = PLY.p.COMPASS.position.x;
 
-												p.obj.position.y = (MAP.p.actualCoords.alt * 0.5) - 0.1;
+		// 										p.obj.position.y = (MAP.p.actualCoords.alt * 0.5) - 0.1;
 
-												p.obj.position.z = PLY.p.COMPASS.position.z;
+		// 										p.obj.position.z = PLY.p.COMPASS.position.z;
 
-												p.obj.scale.y = MAP.p.actualCoords.alt;
+		// 										p.obj.scale.y = MAP.p.actualCoords.alt;
 
-											} else {
+		// 									} else {
 
-												p.obj.position.x = 0;
+		// 										p.obj.position.x = 0;
 
-												p.obj.position.y = 0;
+		// 										p.obj.position.y = 0;
 
-												p.obj.position.z = 0;
+		// 										p.obj.position.z = 0;
 
-											}
+		// 									}
 
-										}
+		// 								}
 
-									},
-									"functionProp": {}
-								}
+		// 							},
+		// 							"functionProp": {}
+		// 						}
 
-							]
-						}
+		// 					]
+		// 				}
 
-					},
+		// 			},
 
-					function (p) {
-						PLY.p.ALTITUDEBOX = p.obj;
-					},
-					{}
+		// 			function (p) {
+		// 				PLY.p.ALTITUDEBOX = p.obj;
+		// 			},
+		// 			{}
 
-				);
-			},
-			{}
+		// 		);
+		// 	},
+		// 	{}
 
-		);
+		// );
 
 	};
 

@@ -8,6 +8,7 @@
 	import Sync from "./icons/Sync.svelte";
 	import EYE from "/images/UI/icons/eye.png";
 	import GPS from "/images/UI/icons/pin.png";
+	import AltitudeSlider from "./AltitudeSlider.svelte";
 
 	// Added props for AR button visibility control
 	export let setARButtonVisibility: (visible: boolean) => void;
@@ -92,7 +93,7 @@
 	];
 
 	// Mouse control types
-	type ModeId = "auto" | "tasto_updown" | "tasto_drag" | "tasto_rotazione";
+	type ModeId = "auto" | "tasto_drag" | "tasto_rotazione";
 	let mouseMode: ModeId = "auto";
 	
 	// Panel visibility states
@@ -111,7 +112,8 @@
 	isARBtnVisible = isARActive === "true" && !!project;
 
 	// Mouse control modes configuration
-	const mouseModes = {
+	type MouseModeConfig = { label: string; tooltip: string; icon: string };
+	const mouseModes: Record<ModeId, MouseModeConfig> = {
 		"auto": {
 			label: "Auto",
 			tooltip: "Automatic behavior",
@@ -133,13 +135,6 @@
 					<path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
 				</svg>`
 		},
-		"tasto_updown": {
-			label: "Up/Down",
-			tooltip: "Move up/down",
-			icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-					<path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5 7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
-				</svg>`
-		}
 	};
 
 	// Map control icon
@@ -198,10 +193,6 @@
 			case "auto":
 				PLY.p.forceAction = false;
 				break;
-			case "tasto_updown":
-				PLY.p.forceAction = true;
-				PLY.p.action = 'position';
-				break;
 			case "tasto_drag":
 				PLY.p.forceAction = true;
 				PLY.p.action = 'drag';
@@ -256,6 +247,11 @@
 
 <div class="fixed right-6 bottom-6 z-[1000]">
 	<div class="flex flex-col gap-3">
+		<!-- Altitude Slider Container -->
+		<div class="bg-black/70 backdrop-blur-sm rounded-lg p-2 shadow-lg border border-white/10 flex flex-col items-center">
+			<AltitudeSlider />
+		</div>
+
 		<!-- Camera Control Button -->
 		<div class="relative">
 			<div class="bg-black/70 backdrop-blur-sm rounded-lg p-2 shadow-lg border border-white/10">
